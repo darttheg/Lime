@@ -144,6 +144,9 @@
     <ClCompile Include="Vector4D.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
+    <ClCompile Include="SolConversions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DebugConsole.h">
@@ -295,6 +298,9 @@
     </ClInclude>
     <ClInclude Include="Vector4D.h">
       <Filter>Source Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="SolConversions.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

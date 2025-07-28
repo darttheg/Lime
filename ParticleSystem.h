@@ -11,6 +11,7 @@
 #include <vector>
 
 #include "Compatible3D.h"
+#include "SolConversions.h"
 
 class ParticleSystem : public Compatible3D {
 public:

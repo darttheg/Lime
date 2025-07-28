@@ -9,6 +9,7 @@
 #include <string>
 
 #include "Compatible3D.h"
+#include "SolConversions.h"
 
 class Water : public Compatible3D {
 public:

@@ -18,18 +18,18 @@ Water::Water(sol::table tbl) : Water() {
     if (tbl["length"]) length = tbl["length"];
 
     if (tbl["tileSize"]) {
-        tileSize.X = static_cast<Vector2D>(tbl["tileSize"]).x;
-        tileSize.Y = static_cast<Vector2D>(tbl["tileSize"]).y;
+        tileSize.X = TblFrom2D(tbl["tileSize"]).x;
+        tileSize.Y = TblFrom2D(tbl["tileSize"]).y;
     }
 
     if (tbl["tileCount"]) {
-        tileCount.X = static_cast<Vector2D>(tbl["tileCount"]).x;
-        tileCount.Y = static_cast<Vector2D>(tbl["tileCount"]).y;
+        tileCount.X = TblFrom2D(tbl["tileCount"]).x;
+        tileCount.Y = TblFrom2D(tbl["tileCount"]).y;
     }
 
     if (tbl["textureRepeat"]) {
-        texRepeat.X = static_cast<Vector2D>(tbl["textureRepeat"]).x;
-        texRepeat.Y = static_cast<Vector2D>(tbl["textureRepeat"]).y;
+        texRepeat.X = TblFrom2D(tbl["textureRepeat"]).x;
+        texRepeat.Y = TblFrom2D(tbl["textureRepeat"]).y;
     }
 
     if (tbl["material"]) material = tbl["material"];

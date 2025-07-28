@@ -1,62 +1,214 @@
-﻿  Camera3D.cpp
+﻿  LuaLime.cpp
 D:\Irrlicht\Lime\EffectHandler.h(212,21): warning C4305: 'initializing': truncation from 'double' to 'irr::f32'
-  (compiling source file 'Camera3D.cpp')
+  (compiling source file 'LuaLime.cpp')
   
 D:\Irrlicht\Lime\EffectHandler.h(311,21): warning C4018: '<': signed/unsigned mismatch
-  (compiling source file 'Camera3D.cpp')
+  (compiling source file 'LuaLime.cpp')
   
 D:\Irrlicht\Lime\DrawSphere.h(19,19): warning C4267: 'initializing': conversion from 'size_t' to 'u32', possible loss of data
-  (compiling source file 'Camera3D.cpp')
+  (compiling source file 'LuaLime.cpp')
   
 D:\Irrlicht\Lime\DrawSphere.h(24,19): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-  (compiling source file 'Camera3D.cpp')
+  (compiling source file 'LuaLime.cpp')
   
 D:\Irrlicht\Lime\DrawSphere.h(27,25): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-  (compiling source file 'Camera3D.cpp')
+  (compiling source file 'LuaLime.cpp')
   
 D:\Irrlicht\Lime\DrawSphere.h(39,23): warning C4267: 'initializing': conversion from 'size_t' to 'u32', possible loss of data
-  (compiling source file 'Camera3D.cpp')
+  (compiling source file 'LuaLime.cpp')
   
 D:\Irrlicht\Lime\DrawSphere.h(43,25): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-  (compiling source file 'Camera3D.cpp')
+  (compiling source file 'LuaLime.cpp')
   
 D:\Irrlicht\Lime\DrawSphere.h(53,21): warning C4267: 'initializing': conversion from 'size_t' to 'u32', possible loss of data
-  (compiling source file 'Camera3D.cpp')
+  (compiling source file 'LuaLime.cpp')
   
 D:\Irrlicht\Lime\DrawSphere.h(56,19): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-  (compiling source file 'Camera3D.cpp')
+  (compiling source file 'LuaLime.cpp')
   
 D:\Irrlicht\Lime\DrawSphere.h(59,25): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-  (compiling source file 'Camera3D.cpp')
+  (compiling source file 'LuaLime.cpp')
   
 D:\Irrlicht\Lime\DrawSphere.h(112,40): warning C4267: 'argument': conversion from 'size_t' to 'irr::u32', possible loss of data
-  (compiling source file 'Camera3D.cpp')
+  (compiling source file 'LuaLime.cpp')
   
 D:\Irrlicht\Lime\DrawSphere.h(111,67): warning C4267: 'argument': conversion from 'size_t' to 'irr::u32', possible loss of data
-  (compiling source file 'Camera3D.cpp')
+  (compiling source file 'LuaLime.cpp')
   
 D:\Irrlicht\Lime\DrawSphere.h(126,19): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-  (compiling source file 'Camera3D.cpp')
+  (compiling source file 'LuaLime.cpp')
   
 D:\Irrlicht\Lime\DrawSphere.h(128,25): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-  (compiling source file 'Camera3D.cpp')
+  (compiling source file 'LuaLime.cpp')
   
 D:\Irrlicht\Lime\DrawSphere.h(143,25): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-  (compiling source file 'Camera3D.cpp')
+  (compiling source file 'LuaLime.cpp')
   
 D:\Irrlicht\Lime\DrawSphere.h(154,19): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-  (compiling source file 'Camera3D.cpp')
+  (compiling source file 'LuaLime.cpp')
   
 D:\Irrlicht\Lime\DrawSphere.h(156,25): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-  (compiling source file 'Camera3D.cpp')
+  (compiling source file 'LuaLime.cpp')
   
 D:\Irrlicht\Lime\DebugVisual.h(128,27): warning C4305: 'initializing': truncation from 'double' to 'float'
-  (compiling source file 'Camera3D.cpp')
+  (compiling source file 'LuaLime.cpp')
   
+D:\Irrlicht\Lime\Warden.h(96,29): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  (compiling source file 'LuaLime.cpp')
+  
+D:\Irrlicht\Lime\Warden.h(97,30): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  (compiling source file 'LuaLime.cpp')
+  
+D:\Irrlicht\Lime\Warden.h(104,82): warning C4244: 'argument': conversion from 'const T' to 'float', possible loss of data
+D:\Irrlicht\Lime\Warden.h(104,82): warning C4244:         with
+D:\Irrlicht\Lime\Warden.h(104,82): warning C4244:         [
+D:\Irrlicht\Lime\Warden.h(104,82): warning C4244:             T=irr::u32
+D:\Irrlicht\Lime\Warden.h(104,82): warning C4244:         ]
+  (compiling source file 'LuaLime.cpp')
+  
+D:\Irrlicht\Lime\Warden.h(104,51): warning C4244: 'argument': conversion from 'const T' to 'float', possible loss of data
+D:\Irrlicht\Lime\Warden.h(104,51): warning C4244:         with
+D:\Irrlicht\Lime\Warden.h(104,51): warning C4244:         [
+D:\Irrlicht\Lime\Warden.h(104,51): warning C4244:             T=irr::u32
+D:\Irrlicht\Lime\Warden.h(104,51): warning C4244:         ]
+  (compiling source file 'LuaLime.cpp')
+  
+D:\Irrlicht\Lime\Warden.h(183,85): warning C4244: 'argument': conversion from 'float' to 'irr::u32', possible loss of data
+  (compiling source file 'LuaLime.cpp')
+  
+D:\Irrlicht\Lime\Warden.h(183,76): warning C4244: 'argument': conversion from 'float' to 'irr::u32', possible loss of data
+  (compiling source file 'LuaLime.cpp')
+  
+D:\Irrlicht\Lime\Warden.h(183,67): warning C4244: 'argument': conversion from 'float' to 'irr::u32', possible loss of data
+  (compiling source file 'LuaLime.cpp')
+  
+D:\Irrlicht\Lime\Warden.h(183,58): warning C4244: 'argument': conversion from 'float' to 'irr::u32', possible loss of data
+  (compiling source file 'LuaLime.cpp')
+  
+D:\Irrlicht\Lime\Warden.h(201,71): warning C4305: 'argument': truncation from 'double' to 'irr::f32'
+  (compiling source file 'LuaLime.cpp')
+  
+D:\Irrlicht\Lime\Warden.h(235,75): warning C4244: 'argument': conversion from 'float' to 'T', possible loss of data
+D:\Irrlicht\Lime\Warden.h(235,75): warning C4244:         with
+D:\Irrlicht\Lime\Warden.h(235,75): warning C4244:         [
+D:\Irrlicht\Lime\Warden.h(235,75): warning C4244:             T=irr::s32
+D:\Irrlicht\Lime\Warden.h(235,75): warning C4244:         ]
+  (compiling source file 'LuaLime.cpp')
+  
+D:\Irrlicht\Lime\Warden.h(235,68): warning C4244: 'argument': conversion from 'float' to 'T', possible loss of data
+D:\Irrlicht\Lime\Warden.h(235,68): warning C4244:         with
+D:\Irrlicht\Lime\Warden.h(235,68): warning C4244:         [
+D:\Irrlicht\Lime\Warden.h(235,68): warning C4244:             T=irr::s32
+D:\Irrlicht\Lime\Warden.h(235,68): warning C4244:         ]
+  (compiling source file 'LuaLime.cpp')
+  
+D:\Irrlicht\Lime\Warden.h(306,48): warning C4244: 'argument': conversion from 'float' to 'T', possible loss of data
+D:\Irrlicht\Lime\Warden.h(306,48): warning C4244:         with
+D:\Irrlicht\Lime\Warden.h(306,48): warning C4244:         [
+D:\Irrlicht\Lime\Warden.h(306,48): warning C4244:             T=irr::s32
+D:\Irrlicht\Lime\Warden.h(306,48): warning C4244:         ]
+  (compiling source file 'LuaLime.cpp')
+  
+D:\Irrlicht\Lime\Warden.h(306,33): warning C4244: 'argument': conversion from 'float' to 'T', possible loss of data
+D:\Irrlicht\Lime\Warden.h(306,33): warning C4244:         with
+D:\Irrlicht\Lime\Warden.h(306,33): warning C4244:         [
+D:\Irrlicht\Lime\Warden.h(306,33): warning C4244:             T=irr::s32
+D:\Irrlicht\Lime\Warden.h(306,33): warning C4244:         ]
+  (compiling source file 'LuaLime.cpp')
+  
+D:\Irrlicht\Lime\Warden.h(612,35): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+D:\Irrlicht\Lime\Warden.h(612,35): warning C4244:         with
+D:\Irrlicht\Lime\Warden.h(612,35): warning C4244:         [
+D:\Irrlicht\Lime\Warden.h(612,35): warning C4244:             T=irr::s32
+D:\Irrlicht\Lime\Warden.h(612,35): warning C4244:         ]
+  (compiling source file 'LuaLime.cpp')
+  
+D:\Irrlicht\Lime\Warden.h(612,25): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+D:\Irrlicht\Lime\Warden.h(612,25): warning C4244:         with
+D:\Irrlicht\Lime\Warden.h(612,25): warning C4244:         [
+D:\Irrlicht\Lime\Warden.h(612,25): warning C4244:             T=irr::s32
+D:\Irrlicht\Lime\Warden.h(612,25): warning C4244:         ]
+  (compiling source file 'LuaLime.cpp')
+  
+D:\Irrlicht\Lime\Warden.h(623,75): warning C4244: 'argument': conversion from 'const float' to 'const T', possible loss of data
+D:\Irrlicht\Lime\Warden.h(623,75): warning C4244:         with
+D:\Irrlicht\Lime\Warden.h(623,75): warning C4244:         [
+D:\Irrlicht\Lime\Warden.h(623,75): warning C4244:             T=irr::u32
+D:\Irrlicht\Lime\Warden.h(623,75): warning C4244:         ]
+  (compiling source file 'LuaLime.cpp')
+  
+D:\Irrlicht\Lime\Warden.h(623,67): warning C4244: 'argument': conversion from 'const float' to 'const T', possible loss of data
+D:\Irrlicht\Lime\Warden.h(623,67): warning C4244:         with
+D:\Irrlicht\Lime\Warden.h(623,67): warning C4244:         [
+D:\Irrlicht\Lime\Warden.h(623,67): warning C4244:             T=irr::u32
+D:\Irrlicht\Lime\Warden.h(623,67): warning C4244:         ]
+  (compiling source file 'LuaLime.cpp')
+  
+  ParticleSystem.cpp
+D:\Irrlicht\Lime\EffectHandler.h(212,21): warning C4305: 'initializing': truncation from 'double' to 'irr::f32'
+  (compiling source file 'ParticleSystem.cpp')
+  
+D:\Irrlicht\Lime\EffectHandler.h(311,21): warning C4018: '<': signed/unsigned mismatch
+  (compiling source file 'ParticleSystem.cpp')
+  
+D:\Irrlicht\Lime\ParticleSystem.cpp(116,42): warning C4244: 'argument': conversion from 'T' to 'irr::s32', possible loss of data
+D:\Irrlicht\Lime\ParticleSystem.cpp(116,42): warning C4244:         with
+D:\Irrlicht\Lime\ParticleSystem.cpp(116,42): warning C4244:         [
+D:\Irrlicht\Lime\ParticleSystem.cpp(116,42): warning C4244:             T=float
+D:\Irrlicht\Lime\ParticleSystem.cpp(116,42): warning C4244:         ]
+D:\Irrlicht\Lime\ParticleSystem.cpp(125,21): warning C4244: 'argument': conversion from 'float' to 'irr::u32', possible loss of data
+D:\Irrlicht\Lime\ParticleSystem.cpp(126,21): warning C4244: 'argument': conversion from 'float' to 'irr::u32', possible loss of data
+D:\Irrlicht\Lime\ParticleSystem.cpp(135,31): warning C4244: 'argument': conversion from 'float' to 'irr::u32', possible loss of data
+D:\Irrlicht\Lime\ParticleSystem.cpp(136,31): warning C4244: 'argument': conversion from 'float' to 'irr::u32', possible loss of data
+D:\Irrlicht\Lime\ParticleSystem.cpp(142,49): warning C4244: 'argument': conversion from 'float' to 'irr::u32', possible loss of data
+D:\Irrlicht\Lime\ParticleSystem.cpp(142,44): warning C4244: 'argument': conversion from 'float' to 'irr::u32', possible loss of data
+D:\Irrlicht\Lime\ParticleSystem.cpp(142,39): warning C4244: 'argument': conversion from 'float' to 'irr::u32', possible loss of data
+D:\Irrlicht\Lime\ParticleSystem.cpp(142,34): warning C4244: 'argument': conversion from 'float' to 'irr::u32', possible loss of data
+D:\Irrlicht\Lime\ParticleSystem.cpp(146,47): warning C4244: 'argument': conversion from 'float' to 'irr::u32', possible loss of data
+D:\Irrlicht\Lime\ParticleSystem.cpp(146,42): warning C4244: 'argument': conversion from 'float' to 'irr::u32', possible loss of data
+D:\Irrlicht\Lime\ParticleSystem.cpp(146,37): warning C4244: 'argument': conversion from 'float' to 'irr::u32', possible loss of data
+D:\Irrlicht\Lime\ParticleSystem.cpp(146,32): warning C4244: 'argument': conversion from 'float' to 'irr::u32', possible loss of data
+D:\Irrlicht\Lime\ParticleSystem.cpp(196,18): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+D:\Irrlicht\Lime\ParticleSystem.cpp(200,53): warning C4244: 'argument': conversion from 'float' to 'irr::u32', possible loss of data
+D:\Irrlicht\Lime\ParticleSystem.cpp(200,48): warning C4244: 'argument': conversion from 'float' to 'irr::u32', possible loss of data
+D:\Irrlicht\Lime\ParticleSystem.cpp(200,43): warning C4244: 'argument': conversion from 'float' to 'irr::u32', possible loss of data
+D:\Irrlicht\Lime\ParticleSystem.cpp(200,38): warning C4244: 'argument': conversion from 'float' to 'irr::u32', possible loss of data
+D:\Irrlicht\Lime\ParticleSystem.cpp(212,57): warning C4305: 'argument': truncation from 'double' to 'T'
+D:\Irrlicht\Lime\ParticleSystem.cpp(212,57): warning C4305:         with
+D:\Irrlicht\Lime\ParticleSystem.cpp(212,57): warning C4305:         [
+D:\Irrlicht\Lime\ParticleSystem.cpp(212,57): warning C4305:             T=irr::f32
+D:\Irrlicht\Lime\ParticleSystem.cpp(212,57): warning C4305:         ]
+D:\Irrlicht\Lime\ParticleSystem.cpp(213,9): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+  SolConversions.cpp
+  WaterMesh.cpp
+D:\Irrlicht\Lime\EffectHandler.h(212,21): warning C4305: 'initializing': truncation from 'double' to 'irr::f32'
+  (compiling source file 'WaterMesh.cpp')
+  
+D:\Irrlicht\Lime\EffectHandler.h(311,21): warning C4018: '<': signed/unsigned mismatch
+  (compiling source file 'WaterMesh.cpp')
+  
+D:\Irrlicht\Lime\WaterMesh.cpp(72,54): warning C4244: 'argument': conversion from 'T' to 'const T', possible loss of data
+D:\Irrlicht\Lime\WaterMesh.cpp(72,54): warning C4244:         with
+D:\Irrlicht\Lime\WaterMesh.cpp(72,54): warning C4244:         [
+D:\Irrlicht\Lime\WaterMesh.cpp(72,54): warning C4244:             T=irr::f32
+D:\Irrlicht\Lime\WaterMesh.cpp(72,54): warning C4244:         ]
+D:\Irrlicht\Lime\WaterMesh.cpp(72,54): warning C4244:         and
+D:\Irrlicht\Lime\WaterMesh.cpp(72,54): warning C4244:         [
+D:\Irrlicht\Lime\WaterMesh.cpp(72,54): warning C4244:             T=irr::u32
+D:\Irrlicht\Lime\WaterMesh.cpp(72,54): warning C4244:         ]
+D:\Irrlicht\Lime\WaterMesh.cpp(72,41): warning C4244: 'argument': conversion from 'T' to 'const T', possible loss of data
+D:\Irrlicht\Lime\WaterMesh.cpp(72,41): warning C4244:         with
+D:\Irrlicht\Lime\WaterMesh.cpp(72,41): warning C4244:         [
+D:\Irrlicht\Lime\WaterMesh.cpp(72,41): warning C4244:             T=irr::f32
+D:\Irrlicht\Lime\WaterMesh.cpp(72,41): warning C4244:         ]
+D:\Irrlicht\Lime\WaterMesh.cpp(72,41): warning C4244:         and
+D:\Irrlicht\Lime\WaterMesh.cpp(72,41): warning C4244:         [
+D:\Irrlicht\Lime\WaterMesh.cpp(72,41): warning C4244:             T=irr::u32
+D:\Irrlicht\Lime\WaterMesh.cpp(72,41): warning C4244:         ]
   Generating code
-  18 of 41317 functions (<0.1%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    16 functions had inline decision re-evaluated but remain unchanged
+  1428 of 41315 functions ( 3.5%) were compiled, the rest were copied from previous compilation.
+    78 functions were new in current compilation
+    400 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   Lime.vcxproj -> D:\Irrlicht\Lime\x64\Release\Lime.exe
   'pwsh.exe' is not recognized as an internal or external command,
