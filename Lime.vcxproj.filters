@@ -1,306 +1,331 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{3d90f094-eaf0-47c7-9c50-41e6f3d17d1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{953a345c-af05-4eae-b45a-fd92039d1e14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Core">
+      <UniqueIdentifier>{cb9e22cb-d620-469d-94a2-0afa29b68649}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Compatible3D">
+      <UniqueIdentifier>{bff6e593-7d25-4697-9025-570ff9e1a14c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Compatible2D">
+      <UniqueIdentifier>{583cd005-588e-4589-b485-9bc3f4724ae7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics">
+      <UniqueIdentifier>{2fb47bdc-07f5-483d-ac2f-c5bcaab2fa40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Core\Types">
+      <UniqueIdentifier>{b754f50d-6372-42ee-b51c-2ad4637e9195}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Core\Other">
+      <UniqueIdentifier>{059907cf-3aef-44e6-856c-243494bcbbdb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Core\Networking">
+      <UniqueIdentifier>{e35a2d00-dbf2-48f5-9959-ca213e415b2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Core\Debugging">
+      <UniqueIdentifier>{ce50342b-fbb8-416d-b564-71bfc908030d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics\xEffects">
+      <UniqueIdentifier>{9ac74168-5c6a-4c73-b7ba-eb1463455074}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics\Text">
+      <UniqueIdentifier>{db899204-35d0-4f7a-8042-a2ae23393372}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source Files\Core">
-      <UniqueIdentifier>{10cd8ede-29f5-4bce-8a6d-d60eb59cf4a3}</UniqueIdentifier>
+      <UniqueIdentifier>{0a7269cf-24d8-4711-9f7b-c8952bca0a77}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Scene2D">
-      <UniqueIdentifier>{4b43c050-4503-4523-976e-fddb8fe18b3b}</UniqueIdentifier>
+    <Filter Include="Source Files\Compatible3D">
+      <UniqueIdentifier>{b5d7327b-2103-4be0-b972-e9f538417f61}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Scene3D">
-      <UniqueIdentifier>{c6e25fbc-a86d-46ab-b7b7-a4c247aed64f}</UniqueIdentifier>
+    <Filter Include="Source Files\Compatible2D">
+      <UniqueIdentifier>{353eadf9-a636-422c-850e-9e57f45e5341}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Scene2D\Deprecated">
-      <UniqueIdentifier>{da41a675-e0ea-4d89-b44f-8e67032d4874}</UniqueIdentifier>
+    <Filter Include="Source Files\Graphics">
+      <UniqueIdentifier>{928bddcf-e975-4336-8c06-450a243c3b36}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Scene2D\Deprecated\TextArea">
-      <UniqueIdentifier>{6569ff38-9827-4012-a5c2-3888bf0bb9bf}</UniqueIdentifier>
+    <Filter Include="Source Files\Core\Networking">
+      <UniqueIdentifier>{0d0fdd2c-443a-465e-997c-cdc8185060b5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Externals">
-      <UniqueIdentifier>{f302c982-ccd8-4013-ab19-4250b4360a29}</UniqueIdentifier>
+    <Filter Include="Source Files\Core\Debugging">
+      <UniqueIdentifier>{5c29a72f-c87c-4626-a605-98f284196309}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Externals\GhostTrail">
-      <UniqueIdentifier>{5424e058-1cd1-4737-979a-c3dc58255197}</UniqueIdentifier>
+    <Filter Include="Source Files\Core\Other">
+      <UniqueIdentifier>{1de1ee2e-8550-4b13-bddc-8e21f3cce41c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Externals\xEffects">
-      <UniqueIdentifier>{1089de6d-5eb6-43d1-87f9-b08f566dd854}</UniqueIdentifier>
+    <Filter Include="Source Files\Core\Types">
+      <UniqueIdentifier>{b4969575-97dc-4344-822b-63f5828c338e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Text">
+      <UniqueIdentifier>{4a599349-7056-421a-9e8d-49ad933e3dc8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\xEffects">
+      <UniqueIdentifier>{63cb87da-e33f-431e-8b6f-781352a79e6c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Lime.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\Vector2D.cpp">
+      <Filter>Source Files\Core\Types</Filter>
     </ClCompile>
-    <ClCompile Include="DebugConsole.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\Vector3D.cpp">
+      <Filter>Source Files\Core\Types</Filter>
     </ClCompile>
-    <ClCompile Include="IrrHandling.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\Vector4D.cpp">
+      <Filter>Source Files\Core\Types</Filter>
     </ClCompile>
-    <ClCompile Include="LuaLime.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\CGUIFont.cpp">
+      <Filter>Source Files\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Sound.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\CShaderPre.cpp">
+      <Filter>Source Files\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Line.cpp">
-      <Filter>Source Files\Scene2D\Deprecated\TextArea</Filter>
+    <ClCompile Include="src\DebugConsole.cpp">
+      <Filter>Source Files\Core\Debugging</Filter>
     </ClCompile>
-    <ClCompile Include="TextArea.cpp">
-      <Filter>Source Files\Scene2D\Deprecated\TextArea</Filter>
+    <ClCompile Include="src\Billboard.cpp">
+      <Filter>Source Files\Compatible3D</Filter>
     </ClCompile>
-    <ClCompile Include="CGUIFont.cpp">
-      <Filter>Source Files\Scene2D\Deprecated\TextArea</Filter>
+    <ClCompile Include="src\Camera3D.cpp">
+      <Filter>Source Files\Compatible3D</Filter>
     </ClCompile>
-    <ClCompile Include="os.cpp">
-      <Filter>Source Files\Scene2D\Deprecated\TextArea</Filter>
+    <ClCompile Include="src\EditBox.cpp">
+      <Filter>Source Files\Compatible2D</Filter>
     </ClCompile>
-    <ClCompile Include="EffectHandler.cpp">
-      <Filter>Source Files\Externals\xEffects</Filter>
+    <ClCompile Include="src\Empty.cpp">
+      <Filter>Source Files\Compatible3D</Filter>
     </ClCompile>
-    <ClCompile Include="CShaderPre.cpp">
-      <Filter>Source Files\Externals\xEffects</Filter>
+    <ClCompile Include="src\Hitbox.cpp">
+      <Filter>Source Files\Compatible3D</Filter>
     </ClCompile>
-    <ClCompile Include="Vector2D.cpp">
+    <ClCompile Include="src\Image2D.cpp">
+      <Filter>Source Files\Compatible2D</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LegacyLight.cpp">
+      <Filter>Source Files\Compatible3D</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Light.cpp">
+      <Filter>Source Files\Compatible3D</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Line.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Material.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MeshBuffer.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NetworkHandler.cpp">
+      <Filter>Source Files\Core\Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Packet.cpp">
+      <Filter>Source Files\Core\Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="src\os.cpp">
+      <Filter>Source Files\Core\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ParticleSystem.cpp">
+      <Filter>Source Files\Compatible3D</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SolConversions.cpp">
+      <Filter>Source Files\Core\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="src\WaterMesh.cpp">
+      <Filter>Source Files\Compatible3D</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Trail.cpp">
+      <Filter>Source Files\Compatible3D</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Texture.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TextArea.cpp">
+      <Filter>Source Files\Compatible2D</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Text3D.cpp">
+      <Filter>Source Files\Compatible3D</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Text2D.cpp">
+      <Filter>Source Files\Compatible2D</Filter>
+    </ClCompile>
+    <ClCompile Include="src\StaticMesh.cpp">
+      <Filter>Source Files\Compatible3D</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Sound.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Vector3D.cpp">
+    <ClCompile Include="src\IrrHandling.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="StaticMesh.cpp">
-      <Filter>Source Files\Scene3D</Filter>
-    </ClCompile>
-    <ClCompile Include="WaterMesh.cpp">
-      <Filter>Source Files\Scene3D</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera3D.cpp">
-      <Filter>Source Files\Scene3D</Filter>
-    </ClCompile>
-    <ClCompile Include="Billboard.cpp">
-      <Filter>Source Files\Scene3D</Filter>
-    </ClCompile>
-    <ClCompile Include="Light.cpp">
-      <Filter>Source Files\Scene3D</Filter>
-    </ClCompile>
-    <ClCompile Include="Trail.cpp">
-      <Filter>Source Files\Scene3D</Filter>
-    </ClCompile>
-    <ClCompile Include="ParticleSystem.cpp">
-      <Filter>Source Files\Scene3D</Filter>
-    </ClCompile>
-    <ClCompile Include="EditBox.cpp">
-      <Filter>Source Files\Scene2D</Filter>
-    </ClCompile>
-    <ClCompile Include="Image2D.cpp">
-      <Filter>Source Files\Scene2D</Filter>
-    </ClCompile>
-    <ClCompile Include="Material.cpp">
-      <Filter>Source Files\Scene3D</Filter>
-    </ClCompile>
-    <ClCompile Include="Text2D.cpp">
-      <Filter>Source Files\Scene2D</Filter>
-    </ClCompile>
-    <ClCompile Include="Text3D.cpp">
-      <Filter>Source Files\Scene3D</Filter>
-    </ClCompile>
-    <ClCompile Include="Texture.cpp">
-      <Filter>Source Files\Scene3D</Filter>
-    </ClCompile>
-    <ClCompile Include="Empty.cpp">
-      <Filter>Source Files\Scene3D</Filter>
-    </ClCompile>
-    <ClCompile Include="LegacyLight.cpp">
-      <Filter>Source Files\Scene3D</Filter>
-    </ClCompile>
-    <ClCompile Include="GhostTrailSceneNode.cpp">
-      <Filter>Source Files\Externals\GhostTrail</Filter>
-    </ClCompile>
-    <ClCompile Include="Hitbox.cpp">
-      <Filter>Source Files\Scene3D</Filter>
-    </ClCompile>
-    <ClCompile Include="NetworkHandler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Packet.cpp">
+    <ClCompile Include="src\Lime.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="LimeReceiver.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MeshBuffer.cpp">
-      <Filter>Source Files\Scene3D</Filter>
-    </ClCompile>
-    <ClCompile Include="Vector4D.cpp">
+    <ClCompile Include="src\LimeReceiver.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="SolConversions.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\LuaLime.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EffectHandler.cpp">
+      <Filter>Source Files\Graphics\xEffects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GhostTrailSceneNode.cpp">
+      <Filter>Source Files\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DebugConsole.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="include\Billboard.h">
+      <Filter>Header Files\Compatible3D</Filter>
     </ClInclude>
-    <ClInclude Include="IrrHandling.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="include\Camera3D.h">
+      <Filter>Header Files\Compatible3D</Filter>
     </ClInclude>
-    <ClInclude Include="LuaLime.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="include\Compatible2D.h">
+      <Filter>Header Files\Compatible2D</Filter>
     </ClInclude>
-    <ClInclude Include="Vector2D.h">
-      <Filter>Source Files\Core</Filter>
+    <ClInclude Include="include\Compatible3D.h">
+      <Filter>Header Files\Compatible3D</Filter>
     </ClInclude>
-    <ClInclude Include="Vector3D.h">
-      <Filter>Source Files\Core</Filter>
+    <ClInclude Include="include\Empty.h">
+      <Filter>Header Files\Compatible3D</Filter>
     </ClInclude>
-    <ClInclude Include="Material.h">
-      <Filter>Source Files\Scene3D</Filter>
+    <ClInclude Include="include\EditBox.h">
+      <Filter>Header Files\Compatible2D</Filter>
     </ClInclude>
-    <ClInclude Include="Billboard.h">
-      <Filter>Source Files\Scene3D</Filter>
+    <ClInclude Include="include\Hitbox.h">
+      <Filter>Header Files\Compatible3D</Filter>
     </ClInclude>
-    <ClInclude Include="Texture.h">
-      <Filter>Source Files\Scene3D</Filter>
+    <ClInclude Include="include\Image2D.h">
+      <Filter>Header Files\Compatible2D</Filter>
     </ClInclude>
-    <ClInclude Include="IrrManagers.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="include\IrrHandling.h">
+      <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Camera3D.h">
-      <Filter>Source Files\Scene3D</Filter>
+    <ClInclude Include="include\IrrManagers.h">
+      <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="StaticMesh.h">
-      <Filter>Source Files\Scene3D</Filter>
+    <ClInclude Include="include\LegacyLight.h">
+      <Filter>Header Files\Compatible3D</Filter>
     </ClInclude>
-    <ClInclude Include="Warden.h">
-      <Filter>Source Files\Core</Filter>
+    <ClInclude Include="include\Light.h">
+      <Filter>Header Files\Compatible3D</Filter>
     </ClInclude>
-    <ClInclude Include="LimeReceiver.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="include\LimeReceiver.h">
+      <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Light.h">
-      <Filter>Source Files\Scene3D</Filter>
+    <ClInclude Include="include\LuaLime.h">
+      <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Sound.h">
-      <Filter>Source Files\Core</Filter>
+    <ClInclude Include="include\MeshBuffer.h">
+      <Filter>Header Files\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="TextArea.h">
-      <Filter>Source Files\Scene2D\Deprecated\TextArea</Filter>
+    <ClInclude Include="include\Material.h">
+      <Filter>Header Files\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Line.h">
-      <Filter>Source Files\Scene2D\Deprecated\TextArea</Filter>
+    <ClInclude Include="include\CGUIFont.h">
+      <Filter>Header Files\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="CGUIFont.h">
-      <Filter>Source Files\Scene2D\Deprecated\TextArea</Filter>
+    <ClInclude Include="include\GhostTrailSceneNode.h">
+      <Filter>Header Files\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="os.h">
-      <Filter>Source Files\Scene2D\Deprecated\TextArea</Filter>
+    <ClInclude Include="include\ParticleSystem.h">
+      <Filter>Header Files\Compatible3D</Filter>
     </ClInclude>
-    <ClInclude Include="TextLine.h">
-      <Filter>Source Files\Scene2D\Deprecated</Filter>
+    <ClInclude Include="include\StaticMesh.h">
+      <Filter>Header Files\Compatible3D</Filter>
     </ClInclude>
-    <ClInclude Include="TextElement.h">
-      <Filter>Source Files\Scene2D\Deprecated</Filter>
+    <ClInclude Include="include\Text2D.h">
+      <Filter>Header Files\Compatible2D</Filter>
     </ClInclude>
-    <ClInclude Include="Text3D.h">
-      <Filter>Source Files\Scene3D</Filter>
+    <ClInclude Include="include\Text3D.h">
+      <Filter>Header Files\Compatible3D</Filter>
     </ClInclude>
-    <ClInclude Include="WaterMesh.h">
-      <Filter>Source Files\Scene3D</Filter>
+    <ClInclude Include="include\TextElement.h">
+      <Filter>Header Files\Compatible2D</Filter>
     </ClInclude>
-    <ClInclude Include="Image2D.h">
-      <Filter>Source Files\Scene2D</Filter>
+    <ClInclude Include="include\Texture.h">
+      <Filter>Header Files\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Text2D.h">
-      <Filter>Source Files\Scene2D</Filter>
+    <ClInclude Include="include\Trail.h">
+      <Filter>Header Files\Compatible3D</Filter>
     </ClInclude>
-    <ClInclude Include="DebugVisual.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="include\Warden.h">
+      <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="EditBox.h">
-      <Filter>Source Files\Scene2D</Filter>
+    <ClInclude Include="include\WaterMesh.h">
+      <Filter>Header Files\Compatible3D</Filter>
     </ClInclude>
-    <ClInclude Include="XEffects.h">
-      <Filter>Source Files\Externals\xEffects</Filter>
+    <ClInclude Include="include\Vector2D.h">
+      <Filter>Header Files\Core\Types</Filter>
     </ClInclude>
-    <ClInclude Include="EffectShaders.h">
-      <Filter>Source Files\Externals\xEffects</Filter>
+    <ClInclude Include="include\Vector3D.h">
+      <Filter>Header Files\Core\Types</Filter>
     </ClInclude>
-    <ClInclude Include="EffectCB.h">
-      <Filter>Source Files\Externals\xEffects</Filter>
+    <ClInclude Include="include\Vector4D.h">
+      <Filter>Header Files\Core\Types</Filter>
     </ClInclude>
-    <ClInclude Include="EffectHandler.h">
-      <Filter>Source Files\Externals\xEffects</Filter>
+    <ClInclude Include="include\os.h">
+      <Filter>Header Files\Core\Other</Filter>
     </ClInclude>
-    <ClInclude Include="CScreenQuad.h">
-      <Filter>Source Files\Externals\xEffects</Filter>
+    <ClInclude Include="include\NetworkHandler.h">
+      <Filter>Header Files\Core\Networking</Filter>
     </ClInclude>
-    <ClInclude Include="CShaderPre.h">
-      <Filter>Source Files\Externals\xEffects</Filter>
+    <ClInclude Include="include\SolConversions.h">
+      <Filter>Header Files\Core\Types</Filter>
     </ClInclude>
-    <ClInclude Include="ParticleSystem.h">
-      <Filter>Source Files\Scene3D</Filter>
+    <ClInclude Include="include\Packet.h">
+      <Filter>Header Files\Core\Networking</Filter>
     </ClInclude>
-    <ClInclude Include="Trail.h">
-      <Filter>Source Files\Scene3D</Filter>
+    <ClInclude Include="include\DebugConsole.h">
+      <Filter>Header Files\Core\Debugging</Filter>
     </ClInclude>
-    <ClInclude Include="Empty.h">
-      <Filter>Source Files\Scene3D</Filter>
+    <ClInclude Include="include\DebugVisual.h">
+      <Filter>Header Files\Core\Debugging</Filter>
     </ClInclude>
-    <ClInclude Include="Compatible3D.h">
-      <Filter>Source Files\Core</Filter>
+    <ClInclude Include="include\Sound.h">
+      <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="LegacyLight.h">
-      <Filter>Source Files\Scene3D</Filter>
+    <ClInclude Include="include\LightManager.h">
+      <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="GhostTrailSceneNode.h">
-      <Filter>Source Files\Externals\GhostTrail</Filter>
+    <ClInclude Include="include\CScreenQuad.h">
+      <Filter>Header Files\Graphics\xEffects</Filter>
     </ClInclude>
-    <ClInclude Include="Hitbox.h">
-      <Filter>Source Files\Scene3D</Filter>
+    <ClInclude Include="include\CShaderPre.h">
+      <Filter>Header Files\Graphics\xEffects</Filter>
     </ClInclude>
-    <ClInclude Include="DrawSphere.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="include\EffectCB.h">
+      <Filter>Header Files\Graphics\xEffects</Filter>
     </ClInclude>
-    <ClInclude Include="LightManager.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="include\EffectHandler.h">
+      <Filter>Header Files\Graphics\xEffects</Filter>
     </ClInclude>
-    <ClInclude Include="NetworkHandler.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="include\EffectShaders.h">
+      <Filter>Header Files\Graphics\xEffects</Filter>
     </ClInclude>
-    <ClInclude Include="Packet.h">
-      <Filter>Source Files\Core</Filter>
+    <ClInclude Include="include\Line.h">
+      <Filter>Header Files\Graphics\Text</Filter>
     </ClInclude>
-    <ClInclude Include="Compatible2D.h">
-      <Filter>Source Files\Core</Filter>
+    <ClInclude Include="include\TextLine.h">
+      <Filter>Header Files\Graphics\Text</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="include\TextArea.h">
+      <Filter>Header Files\Graphics\Text</Filter>
     </ClInclude>
-    <ClInclude Include="resource1.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="include\XEffects.h">
+      <Filter>Header Files\Graphics\xEffects</Filter>
     </ClInclude>
-    <ClInclude Include="resource2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MeshBuffer.h">
-      <Filter>Source Files\Scene3D</Filter>
-    </ClInclude>
-    <ClInclude Include="Vector4D.h">
-      <Filter>Source Files\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="SolConversions.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="include\DrawSphere.h">
+      <Filter>Header Files\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

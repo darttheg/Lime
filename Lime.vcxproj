@@ -18,6 +18,94 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Billboard.cpp" />
+    <ClCompile Include="src\Camera3D.cpp" />
+    <ClCompile Include="src\CGUIFont.cpp" />
+    <ClCompile Include="src\CShaderPre.cpp" />
+    <ClCompile Include="src\DebugConsole.cpp" />
+    <ClCompile Include="src\EditBox.cpp" />
+    <ClCompile Include="src\EffectHandler.cpp" />
+    <ClCompile Include="src\Empty.cpp" />
+    <ClCompile Include="src\GhostTrailSceneNode.cpp" />
+    <ClCompile Include="src\Hitbox.cpp" />
+    <ClCompile Include="src\Image2D.cpp" />
+    <ClCompile Include="src\IrrHandling.cpp" />
+    <ClCompile Include="src\LegacyLight.cpp" />
+    <ClCompile Include="src\Light.cpp" />
+    <ClCompile Include="src\Lime.cpp" />
+    <ClCompile Include="src\LimeReceiver.cpp" />
+    <ClCompile Include="src\Line.cpp" />
+    <ClCompile Include="src\LuaLime.cpp" />
+    <ClCompile Include="src\Material.cpp" />
+    <ClCompile Include="src\MeshBuffer.cpp" />
+    <ClCompile Include="src\NetworkHandler.cpp" />
+    <ClCompile Include="src\os.cpp" />
+    <ClCompile Include="src\Packet.cpp" />
+    <ClCompile Include="src\ParticleSystem.cpp" />
+    <ClCompile Include="src\SolConversions.cpp" />
+    <ClCompile Include="src\Sound.cpp" />
+    <ClCompile Include="src\StaticMesh.cpp" />
+    <ClCompile Include="src\Text2D.cpp" />
+    <ClCompile Include="src\Text3D.cpp" />
+    <ClCompile Include="src\TextArea.cpp" />
+    <ClCompile Include="src\Texture.cpp" />
+    <ClCompile Include="src\Trail.cpp" />
+    <ClCompile Include="src\Vector2D.cpp" />
+    <ClCompile Include="src\Vector3D.cpp" />
+    <ClCompile Include="src\Vector4D.cpp" />
+    <ClCompile Include="src\WaterMesh.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\Billboard.h" />
+    <ClInclude Include="include\Camera3D.h" />
+    <ClInclude Include="include\CGUIFont.h" />
+    <ClInclude Include="include\Compatible2D.h" />
+    <ClInclude Include="include\Compatible3D.h" />
+    <ClInclude Include="include\CScreenQuad.h" />
+    <ClInclude Include="include\CShaderPre.h" />
+    <ClInclude Include="include\DebugConsole.h" />
+    <ClInclude Include="include\DebugVisual.h" />
+    <ClInclude Include="include\DrawSphere.h" />
+    <ClInclude Include="include\EditBox.h" />
+    <ClInclude Include="include\EffectCB.h" />
+    <ClInclude Include="include\EffectHandler.h" />
+    <ClInclude Include="include\EffectShaders.h" />
+    <ClInclude Include="include\Empty.h" />
+    <ClInclude Include="include\GhostTrailSceneNode.h" />
+    <ClInclude Include="include\Hitbox.h" />
+    <ClInclude Include="include\Image2D.h" />
+    <ClInclude Include="include\IrrHandling.h" />
+    <ClInclude Include="include\IrrManagers.h" />
+    <ClInclude Include="include\LegacyLight.h" />
+    <ClInclude Include="include\Light.h" />
+    <ClInclude Include="include\LightManager.h" />
+    <ClInclude Include="include\LimeReceiver.h" />
+    <ClInclude Include="include\Line.h" />
+    <ClInclude Include="include\LuaLime.h" />
+    <ClInclude Include="include\Material.h" />
+    <ClInclude Include="include\MeshBuffer.h" />
+    <ClInclude Include="include\NetworkHandler.h" />
+    <ClInclude Include="include\os.h" />
+    <ClInclude Include="include\Packet.h" />
+    <ClInclude Include="include\ParticleSystem.h" />
+    <ClInclude Include="include\SolConversions.h" />
+    <ClInclude Include="include\Sound.h" />
+    <ClInclude Include="include\StaticMesh.h" />
+    <ClInclude Include="include\Text2D.h" />
+    <ClInclude Include="include\Text3D.h" />
+    <ClInclude Include="include\TextArea.h" />
+    <ClInclude Include="include\TextElement.h" />
+    <ClInclude Include="include\TextLine.h" />
+    <ClInclude Include="include\Texture.h" />
+    <ClInclude Include="include\Trail.h" />
+    <ClInclude Include="include\Vector2D.h" />
+    <ClInclude Include="include\Vector3D.h" />
+    <ClInclude Include="include\Vector4D.h" />
+    <ClInclude Include="include\Warden.h" />
+    <ClInclude Include="include\WaterMesh.h" />
+    <ClInclude Include="include\XEffects.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -134,7 +222,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;LUAJIT_ENABLE_EXCEPTIONS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\irrlicht-1.8.5\include;..\luajit\src;..\sol2\include;..\irrKlang-1.6.0\include;..\enet-1.3.18\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\irrlicht-1.8.5\include;..\luajit\src;..\sol2\include;..\irrKlang-1.6.0\include;..\enet-1.3.18\include;..\bullet3-2.83\src;..\irrBullet-master\include;$(ProjectDir)include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
@@ -143,101 +231,10 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\irrlicht-1.8.5\lib\Win64-visualStudio;..\luajit\src;..\irrKlang-1.6.0\lib\Winx64-visualStudio;..\enet-1.3.18\build\Release</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\irrlicht-1.8.5\lib\Win64-visualStudio;..\luajit\src;..\irrKlang-1.6.0\lib\Winx64-visualStudio;..\enet-1.3.18\build\Release;..\bullet3-2.83\src</AdditionalLibraryDirectories>
       <AdditionalDependencies>$(CoreLibraryDependencies);winmm.lib;ws2_32.lib;enet.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="Billboard.cpp" />
-    <ClCompile Include="Camera3D.cpp" />
-    <ClCompile Include="CGUIFont.cpp" />
-    <ClCompile Include="CShaderPre.cpp" />
-    <ClCompile Include="DebugConsole.cpp" />
-    <ClCompile Include="EditBox.cpp" />
-    <ClCompile Include="EffectHandler.cpp" />
-    <ClCompile Include="Empty.cpp" />
-    <ClCompile Include="GhostTrailSceneNode.cpp" />
-    <ClCompile Include="Hitbox.cpp" />
-    <ClCompile Include="Image2D.cpp" />
-    <ClCompile Include="IrrHandling.cpp" />
-    <ClCompile Include="Light.cpp" />
-    <ClCompile Include="Lime.cpp" />
-    <ClCompile Include="LimeReceiver.cpp" />
-    <ClCompile Include="Line.cpp" />
-    <ClCompile Include="LuaLime.cpp" />
-    <ClCompile Include="Material.cpp" />
-    <ClCompile Include="MeshBuffer.cpp" />
-    <ClCompile Include="NetworkHandler.cpp" />
-    <ClCompile Include="os.cpp" />
-    <ClCompile Include="Packet.cpp" />
-    <ClCompile Include="ParticleSystem.cpp" />
-    <ClCompile Include="SolConversions.cpp" />
-    <ClCompile Include="Sound.cpp" />
-    <ClCompile Include="StaticMesh.cpp" />
-    <ClCompile Include="LegacyLight.cpp" />
-    <ClCompile Include="Text2D.cpp" />
-    <ClCompile Include="Text3D.cpp" />
-    <ClCompile Include="TextArea.cpp" />
-    <ClCompile Include="Texture.cpp" />
-    <ClCompile Include="Trail.cpp" />
-    <ClCompile Include="Vector2D.cpp" />
-    <ClCompile Include="Vector3D.cpp" />
-    <ClCompile Include="Vector4D.cpp" />
-    <ClCompile Include="WaterMesh.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Billboard.h" />
-    <ClInclude Include="Camera3D.h" />
-    <ClInclude Include="CGUIFont.h" />
-    <ClInclude Include="Compatible2D.h" />
-    <ClInclude Include="Compatible3D.h" />
-    <ClInclude Include="CScreenQuad.h" />
-    <ClInclude Include="CShaderPre.h" />
-    <ClInclude Include="DebugConsole.h" />
-    <ClInclude Include="DebugVisual.h" />
-    <ClInclude Include="DrawSphere.h" />
-    <ClInclude Include="EditBox.h" />
-    <ClInclude Include="EffectCB.h" />
-    <ClInclude Include="EffectHandler.h" />
-    <ClInclude Include="EffectShaders.h" />
-    <ClInclude Include="Empty.h" />
-    <ClInclude Include="GhostTrailSceneNode.h" />
-    <ClInclude Include="Hitbox.h" />
-    <ClInclude Include="Image2D.h" />
-    <ClInclude Include="IrrHandling.h" />
-    <ClInclude Include="IrrManagers.h" />
-    <ClInclude Include="Light.h" />
-    <ClInclude Include="LightManager.h" />
-    <ClInclude Include="LimeReceiver.h" />
-    <ClInclude Include="Line.h" />
-    <ClInclude Include="LuaLime.h" />
-    <ClInclude Include="Material.h" />
-    <ClInclude Include="MeshBuffer.h" />
-    <ClInclude Include="NetworkHandler.h" />
-    <ClInclude Include="os.h" />
-    <ClInclude Include="Packet.h" />
-    <ClInclude Include="ParticleSystem.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="resource1.h" />
-    <ClInclude Include="resource2.h" />
-    <ClInclude Include="SolConversions.h" />
-    <ClInclude Include="Sound.h" />
-    <ClInclude Include="StaticMesh.h" />
-    <ClInclude Include="LegacyLight.h" />
-    <ClInclude Include="Text2D.h" />
-    <ClInclude Include="Text3D.h" />
-    <ClInclude Include="TextArea.h" />
-    <ClInclude Include="TextElement.h" />
-    <ClInclude Include="TextLine.h" />
-    <ClInclude Include="Texture.h" />
-    <ClInclude Include="Trail.h" />
-    <ClInclude Include="Vector2D.h" />
-    <ClInclude Include="Vector3D.h" />
-    <ClInclude Include="Vector4D.h" />
-    <ClInclude Include="Warden.h" />
-    <ClInclude Include="WaterMesh.h" />
-    <ClInclude Include="XEffects.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

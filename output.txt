@@ -1,5 +1,0 @@
-[18:08:43] Lime started
-[18:08:43] ./content/classd.fbx
-[18:08:43] 0 frames
-[18:08:44] Ending application...
-
