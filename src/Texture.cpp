@@ -117,5 +117,5 @@ void bindTexture() {
 	bind_type["append"] = &Texture::append;
 	bind_type["appendFromFile"] = &Texture::appendFromFile;
 	bind_type["clear"] = &Texture::createEmpty;
-	bind_type["getPixel"] = &Texture::getPixel;
+	bind_type["getPixelColor"] = &Texture::getPixel;
 }
