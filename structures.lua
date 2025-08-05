@@ -1,6 +1,6 @@
-local irrlicht = {}
+local structures = {}
 
-irrlicht.DRIVER_TYPE = {
+structures.DRIVER_TYPE = {
     NULL = 0,
     SOFTWARE = 1,
     BURNINGSVIDEO = 2,
@@ -10,7 +10,7 @@ irrlicht.DRIVER_TYPE = {
     COUNT = 6
 }
 
-irrlicht.ANTI_ALIASING_MODE = {
+structures.ANTI_ALIASING_MODE = {
     OFF = 0,
     SIMPLE = 1,
     QUALITY = 2,
@@ -20,13 +20,13 @@ irrlicht.ANTI_ALIASING_MODE = {
     ALPHA_TO_COVERAGE = 6
 }
 
-irrlicht.TRANSFORM_TYPE = {
+structures.TRANSFORM_TYPE = {
     POSITION = 0,
     ROTATION = 1,
     SCALE = 2
 }
 
-irrlicht.BLEND_OPERATION = {
+structures.BLEND_OPERATION = {
     NONE = 0,
     ADD = 1,
     SUBTRACT = 2,
@@ -39,7 +39,7 @@ irrlicht.BLEND_OPERATION = {
     MAX_ALPHA = 9
 }
 
-irrlicht.COLOR_MATERIAL = {
+structures.COLOR_MATERIAL = {
     NONE = 0,
     DIFFUSE = 1,
     AMBIENT = 2,
@@ -48,7 +48,7 @@ irrlicht.COLOR_MATERIAL = {
     DIFFUSE_AND_AMBIENT = 5
 }
 
-irrlicht.COLOR_PLANE = {
+structures.COLOR_PLANE = {
     NONE = 0,
     ALPHA = 1,
     RED = 2,
@@ -58,21 +58,21 @@ irrlicht.COLOR_PLANE = {
     ALL = 6
 }
 
-irrlicht.MESSAGE_ICON = {
+structures.MESSAGE_ICON = {
     OK = 0,
     MESSAGE = 1,
     WARNING = 2,
     INFORMATION = 3
 }
 
-irrlicht.PARTICLE_EMITTER_TYPE = {
+structures.PARTICLE_EMITTER_TYPE = {
     POINT = 0,
     CUBE = 1,
     SPHERE = 2,
     RING = 3
 }
 
-irrlicht.PARTICLE_AFFECTOR_TYPE = {
+structures.PARTICLE_AFFECTOR_TYPE = {
     ATTRACT = 0,
     FADE_OUT = 1,
     GRAVITY = 2,
@@ -80,7 +80,7 @@ irrlicht.PARTICLE_AFFECTOR_TYPE = {
     SCALE = 4
 }
 
-irrlicht.TRAIL_ALIGNMENT_TYPE = {
+structures.TRAIL_ALIGNMENT_TYPE = {
     CAMERA_X_AXIS = 0,
     CAMERA_Y_AXIS = 1,
     GLOBAL_X_AXIS = 2,
@@ -91,19 +91,19 @@ irrlicht.TRAIL_ALIGNMENT_TYPE = {
     PARENT_Z_AXIS = 7
 }
 
-irrlicht.LEGACY_LIGHT_TYPE = {
+structures.LEGACY_LIGHT_TYPE = {
     POINT = 0,
     SPOT = 1,
     DIRECTIONAL = 2
 }
 
-irrlicht.LIGHT_MANAGEMENT_MODE = {
+structures.LIGHT_MANAGEMENT_MODE = {
     DISTANCE_TO_CAMERA = 0,
     NEAREST_TO_OBJECTS = 1,
     ZONE = 2
 }
 
-irrlicht.COMPARISON_FUNC = {
+structures.COMPARISON_FUNC = {
     NEVER = 0,
     LESSEQUAL = 1,
     EQUAL = 2,
@@ -113,19 +113,19 @@ irrlicht.COMPARISON_FUNC = {
     ALWAYS = 6
 }
 
-irrlicht.FOG_TYPE = {
+structures.FOG_TYPE = {
     EXP = 0,
     LINEAR = 1,
     EXP2 = 2
 }
 
-irrlicht.ALIGNMENT_TYPE = {
+structures.ALIGNMENT_TYPE = {
     LEFT = 0,
     RIGHT = 1,
     CENTER = 2
 }
 
-irrlicht.ANCHOR_TYPE = {
+structures.ANCHOR_TYPE = {
     TOP_LEFT = 0,
     TOP_CENTER = 1,
     TOP_RIGHT = 2,
@@ -137,7 +137,7 @@ irrlicht.ANCHOR_TYPE = {
     BOTTOM_RIGHT = 8
 }
 
-irrlicht.MATERIAL_TYPE = {
+structures.MATERIAL_TYPE = {
     SOLID = 0,
     SOLID_2_LAYER = 1,
     LIGHTMAP = 2,
@@ -165,7 +165,7 @@ irrlicht.MATERIAL_TYPE = {
     FORCE_32BIT = 24
 }
 
-irrlicht.MATERIAL_FLAG = {
+structures.MATERIAL_FLAG = {
     WIREFRAME = 0x1,
     POINTCLOUD = 0x2,
     GOURAUD_SHADING = 0x4,
@@ -188,26 +188,26 @@ irrlicht.MATERIAL_FLAG = {
     POLYGON_OFFSET = 0x80000
 }
 
-irrlicht.GUI_ALIGNMENT = {
+structures.GUI_ALIGNMENT = {
     UPPER_LEFT = 0,
     LOWER_RIGHT = 1,
     CENTER = 2,
     SCALE = 3
 }
 
-irrlicht.POLYGON_OFFSET = {
+structures.POLYGON_OFFSET = {
     BACK = 0,
     FRONT = 1
 }
 
-irrlicht.HARDWARE_MAPPING_HINT = {
+structures.HARDWARE_MAPPING_HINT = {
     NEVER = 0,
     STATIC = 1,
     DYNAMIC = 2,
     STREAM = 3
 }
 
-irrlicht.SHADOW_FILTER_SAMPLING = {
+structures.SHADOW_FILTER_SAMPLING = {
     NONE = 0,
     SAMPLING_4 = 1,
     SAMPLING_8 = 2,
@@ -216,7 +216,7 @@ irrlicht.SHADOW_FILTER_SAMPLING = {
     COUNT = 5 -- ?
 }
 
-irrlicht.SHADOW_RESOLUTION = {
+structures.SHADOW_RESOLUTION = {
     RES_256 = 0,
     RES_512 = 1,
     RES_1024 = 2,
@@ -224,7 +224,7 @@ irrlicht.SHADOW_RESOLUTION = {
     RES_4096 = 4
 }
 
-irrlicht.SHADOW_MODE = {
+structures.SHADOW_MODE = {
     RECEIVE = 0,
     CAST = 1,
     BOTH = 2,
@@ -232,7 +232,7 @@ irrlicht.SHADOW_MODE = {
     NONE = 4
 }
 
-irrlicht.RENDER_TARGET = {
+structures.RENDER_TARGET = {
     FRAME_BUFFER = 0,
     RENDER_TEXTURE = 1,
     MULTI_RENDER_TEXTURES = 2,
@@ -246,7 +246,7 @@ irrlicht.RENDER_TARGET = {
     AUX_BUFFER4 = 10
 }
 
-irrlicht.TEXTURE_CLAMP = {
+structures.TEXTURE_CLAMP = {
     REPEAT = 0,
     CLAMP = 1,
     CLAMP_TO_EDGE = 2,
@@ -257,7 +257,7 @@ irrlicht.TEXTURE_CLAMP = {
     MIRROR_CLAMP_TO_BORDER = 7
 }
 
-irrlicht.TEXTURE_CREATION_FLAG = {
+structures.TEXTURE_CREATION_FLAG = {
     ALWAYS_16_BIT = 0,
     ALWAYS_32_BIT = 1,
     OPTIMIZED_FOR_QUALITY = 2,
@@ -267,13 +267,13 @@ irrlicht.TEXTURE_CREATION_FLAG = {
     ALLOW_NON_POWER_2 = 6
 }
 
-irrlicht.MOUSE_CODE = {
+structures.MOUSE_CODE = {
     LEFT = 0,
     RIGHT = 1,
     MIDDLE = 2
 }
 
-irrlicht.KEY_CODE = {
+structures.KEY_CODE = {
     LBUTTON = 0,
     RBUTTON = 1,
     CANCEL = 2,
@@ -418,7 +418,7 @@ irrlicht.KEY_CODE = {
     CODES_COUNT = 255
 }
 
-irrlicht.PEER_STATE = {
+structures.PEER_STATE = {
     DISCONNECTED = 0,
     CONNECTING = 1,
     ACKNOWLEDGING_CONNECT = 2,
@@ -431,13 +431,13 @@ irrlicht.PEER_STATE = {
     ZOMBIE = 9
 }
 
-irrlicht.SOUND_EFFECT = {
+structures.SOUND_EFFECT = {
     DISTORTION = 0,
     ECHO = 1,
     REVERB = 2
 }
 
-irrlicht.DATA_TYPE = {
+structures.DATA_TYPE = {
     BYTE = 0,
     SHORT = 1,
     INTEGER = 2,
@@ -446,4 +446,4 @@ irrlicht.DATA_TYPE = {
     FILE = 5
 }
 
-return irrlicht
+return structures
