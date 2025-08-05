@@ -71,6 +71,12 @@
     <Filter Include="Source Files\Graphics\xEffects">
       <UniqueIdentifier>{63cb87da-e33f-431e-8b6f-781352a79e6c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Physics">
+      <UniqueIdentifier>{d7a440f8-cd14-44eb-b907-c696ea5bc482}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Physics">
+      <UniqueIdentifier>{a06ab6ed-b0a4-434d-83da-96d1346c2042}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Vector2D.cpp">
@@ -180,6 +186,9 @@
     </ClCompile>
     <ClCompile Include="src\GhostTrailSceneNode.cpp">
       <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsManager.cpp">
+      <Filter>Source Files\Physics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -326,6 +335,9 @@
     </ClInclude>
     <ClInclude Include="include\DrawSphere.h">
       <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsManager.h">
+      <Filter>Header Files\Physics</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

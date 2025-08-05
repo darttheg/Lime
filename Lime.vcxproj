@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="PhysicsManager.cpp" />
     <ClCompile Include="src\Billboard.cpp" />
     <ClCompile Include="src\Camera3D.cpp" />
     <ClCompile Include="src\CGUIFont.cpp" />
@@ -105,6 +106,7 @@
     <ClInclude Include="include\Warden.h" />
     <ClInclude Include="include\WaterMesh.h" />
     <ClInclude Include="include\XEffects.h" />
+    <ClInclude Include="PhysicsManager.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -204,13 +206,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\irrlicht-1.8.5\include;..\luajit\src;..\sol2\include;..\irrKlang-1.6.0\include;..\HarchIrrNetLite\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\irrlicht-1.8.5\include;..\luajit\src;..\sol2\include;..\irrKlang-1.6.0\include;..\enet-1.3.18\include;..\bullet3-2.83\src;..\irrBullet-master\include;$(ProjectDir)include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\irrlicht-1.8.5\lib\Win64-visualStudio;..\luajit\src;..\irrKlang-1.6.0\lib\Winx64-visualStudio;..\HarchIrrNetLite\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\irrlicht-1.8.5\lib\Win64-visualStudio;..\luajit\src;..\irrKlang-1.6.0\lib\Winx64-visualStudio;..\enet-1.3.18\build\Release;..\bullet3-2.83\src</AdditionalLibraryDirectories>
       <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
