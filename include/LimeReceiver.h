@@ -72,7 +72,15 @@ public:
 
     // Check if a key is currently pressed
     bool isKeyDown(irr::EKEY_CODE keyCode) const;
+    void updateDeltaMouse(GLFWwindow* win);
+    void updateLastMouse();
     irr::gui::IGUIButton* lastFocused = nullptr;
+
+    double mouseX, mouseY;
+    double lastMouseX, lastMouseY;
+    double deltaX, deltaY;
+    bool firstMouse = true;
+
 private:
     std::array<bool, KEY_KEY_CODES_COUNT> keys;
     std::array<bool, KEY_KEY_CODES_COUNT> keysRepeat;
@@ -97,5 +105,4 @@ private:
             //dConsole.sendMsg(out.c_str(), MESSAGE_TYPE::WARNING);
         }
     }
-
 };

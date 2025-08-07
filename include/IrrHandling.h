@@ -19,6 +19,10 @@
 #include <mutex>
 #include <enet\enet.h>
 
+#include <GLFW/glfw3.h>
+#define GLFW_EXPOSE_NATIVE_WIN32
+#include <GLFW/glfw3native.h>
+
 struct PacketToSend {
 public:
 	PacketToSend(ENetPacket* pack, int chID, int pID, bool t) : p(pack), channel(chID), peerID(pID), tcp(t) {}
@@ -54,6 +58,10 @@ private:
 	int lastTime = 0;
 	int frameCount = 0;
 public:
+	// Version
+	std::string version = "1.0.0-beta.1";
+	//
+
 	void setDriver(irr::video::E_DRIVER_TYPE type);
 	void initScene();
 	void capture();
@@ -114,6 +122,15 @@ public:
 
 	void addEventTask(bool, ENetEvent);
 	void runEventTasks();
+
+	void onMaximizeWindow();
+	void onRestoreWindow();
+
+	void updateIrrRenderRes();
+	bool matchResSize = true;
+
+	// Window
+	GLFWwindow* glfwWindow;
 
 	// XEffects
 	E_FILTER_TYPE defaultShadowFiltering = E_FILTER_TYPE::EFT_8PCF;

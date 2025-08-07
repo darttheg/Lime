@@ -169,3 +169,21 @@ bool LimeReceiver::isKeyDown(irr::EKEY_CODE keyCode) const
 {
     return keys[keyCode];
 }
+
+void LimeReceiver::updateDeltaMouse(GLFWwindow* win) {
+    glfwGetCursorPos(win, &mouseX, &mouseY);
+
+    if (firstMouse) {
+        lastMouseX = mouseX;
+        lastMouseY = mouseY;
+        firstMouse = false;
+    }
+
+    deltaX = mouseX - lastMouseX;
+    deltaY = mouseY - lastMouseY;
+}
+
+void LimeReceiver::updateLastMouse() {
+    lastMouseX = mouseX;
+    lastMouseY = mouseY;
+}

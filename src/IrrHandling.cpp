@@ -99,7 +99,62 @@ void IrrHandling::initScene()
 	sound = irrklang::createIrrKlangDevice();
 	soundManager = new SoundManager();
 
-	device = irr::createDevice(driverType, dimension2d<u32>(width, height), 16, false, stencil, vSync, receiver);
+	///////////////////////
+	// Create NEW device //
+	///////////////////////
+	
+	//device = irr::createDevice(driverType, dimension2d<u32>(width, height), 16, false, stencil, vSync, receiver);
+
+	glfwInit();
+	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+
+	glfwWindow = glfwCreateWindow(width, height, "Lime Application", nullptr, nullptr);
+
+	// Center
+	const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+	int screenWidth = mode->width;
+	int screenHeight = mode->height;
+
+	int windowX = (screenWidth - width) / 2;
+	int windowY = (screenHeight - height) / 2;
+
+	glfwSetWindowPos(glfwWindow, windowX, windowY);
+
+	// Set raw input mode to OFF
+	glfwSetInputMode(glfwWindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+
+	// Set automatically detect maximizing
+	glfwSetWindowMaximizeCallback(glfwWindow, [](GLFWwindow* win, int maximized) {
+		if (maximized) {
+			irrHandler->onMaximizeWindow();
+		}
+		else {
+			irrHandler->onRestoreWindow();
+		}
+	});
+
+	glfwSetFramebufferSizeCallback(glfwWindow, [](GLFWwindow* window, int width, int height) {
+		irrHandler->width = width;
+		irrHandler->height = height;
+
+		irrHandler->updateIrrRenderRes();
+	});
+
+	HWND hwnd = glfwGetWin32Window(glfwWindow);
+
+	SIrrlichtCreationParameters params;
+	params.DriverType = driverType;
+	params.WindowSize = dimension2d<u32>(width, height);
+	params.Bits = 16;
+	params.Fullscreen = false;
+	params.Stencilbuffer = stencil;
+	params.Vsync = vSync;
+	params.EventReceiver = receiver;
+	params.WindowId = hwnd;
+
+	device = createDeviceEx(params);
+
+	///////////////////////
 
 	device->setWindowCaption(L"Lime Application");
 
@@ -209,6 +264,8 @@ void IrrHandling::appLoop() {
 		dt = (now - then) / 16.667f;
 		then = now;
 
+		receiver->updateDeltaMouse(glfwWindow);
+
 		if (!ranHandlers) {
 			ranHandlers = true;
 			if (networkHandler)
@@ -242,6 +299,9 @@ void IrrHandling::appLoop() {
 			end();
 			return;
 		}
+
+		// Update lastMouse
+		receiver->updateLastMouse();
 
 		if (mainCamera) {
 			mainCamera->updateAbsolutePosition();
@@ -282,6 +342,10 @@ void IrrHandling::appLoop() {
 		irrHandler->runEventTasks();
 		irrHandler->runLuaTasks();
 		irrHandler->runPacketToSend();
+
+		if (glfwWindowShouldClose(glfwWindow)) {
+			device->closeDevice();
+		}
 	}
 
 	if (networkHandler)
@@ -743,4 +807,56 @@ void IrrHandling::runEventTasks() {
 	}
 
 	tlqLock.unlock();
+}
+
+void IrrHandling::onMaximizeWindow() {
+	HWND hwnd = glfwGetWin32Window(glfwWindow);
+	if (!hwnd) return;
+
+	LONG style = GetWindowLongPtr(hwnd, GWL_STYLE);
+	style &= ~(WS_CAPTION | WS_THICKFRAME | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_SYSMENU);
+	SetWindowLongPtr(hwnd, GWL_STYLE, style);
+
+	LONG exStyle = GetWindowLongPtr(hwnd, GWL_EXSTYLE);
+	exStyle &= ~(WS_EX_APPWINDOW);
+	exStyle |= WS_EX_TOPMOST | WS_EX_TOOLWINDOW;
+	SetWindowLongPtr(hwnd, GWL_EXSTYLE, exStyle);
+
+	HMONITOR hMonitor = MonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST);
+	MONITORINFO mi = { sizeof(mi) };
+	if (GetMonitorInfo(hMonitor, &mi)) {
+		int screenX = mi.rcMonitor.left;
+		int screenY = mi.rcMonitor.top;
+		int screenW = mi.rcMonitor.right - mi.rcMonitor.left;
+		int screenH = mi.rcMonitor.bottom - mi.rcMonitor.top;
+
+		SetWindowPos(hwnd, HWND_TOPMOST, screenX, screenY, screenW, screenH,
+			SWP_FRAMECHANGED | SWP_SHOWWINDOW);
+
+		irrHandler->width = screenW;
+		irrHandler->height = screenH;
+
+		updateIrrRenderRes();
+	}
+}
+
+void IrrHandling::onRestoreWindow() {
+	HWND hwnd = glfwGetWin32Window(glfwWindow);
+	if (!hwnd) return;
+
+	LONG style = GetWindowLongPtr(hwnd, GWL_STYLE);
+	style |= (WS_CAPTION | WS_THICKFRAME);
+	SetWindowLongPtr(hwnd, GWL_STYLE, style);
+
+	SetWindowPos(hwnd, nullptr, 0, 0, 0, 0,
+		SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
+
+	updateIrrRenderRes();
+}
+
+void IrrHandling::updateIrrRenderRes() {
+	if (matchResSize) {
+		dimension2d<u32> newSize(static_cast<u32>(irrHandler->width), static_cast<u32>(irrHandler->height));
+		driver->OnResize(newSize);
+	}
 }

@@ -90,31 +90,45 @@ namespace Warden {
 			irrHandler->stencil = enable;
 	}
 
-	// set window size
-	bool setWindowSize(Vector2D& sizes) {
-		if (sizes.x > 0 && sizes.y > 0) {
+	bool setWindowSize(const Vector2D& sizes) {
+		if (sizes.x > 0 && sizes.y > 0 && irrHandler->glfwWindow) {
+			int winX, winY;
+			glfwGetWindowPos(irrHandler->glfwWindow, &winX, &winY);
+
+			int oldW, oldH;
+			glfwGetWindowSize(irrHandler->glfwWindow, &oldW, &oldH);
+			glfwSetWindowSize(irrHandler->glfwWindow, static_cast<int>(sizes.x), static_cast<int>(sizes.y));
+
+			int deltaW = static_cast<int>(sizes.x) - oldW;
+			int deltaH = static_cast<int>(sizes.y) - oldH;
+			glfwSetWindowPos(irrHandler->glfwWindow, winX - deltaW / 2, winY - deltaH / 2);
+
 			irrHandler->width = sizes.x;
 			irrHandler->height = sizes.y;
+
+			irrHandler->updateIrrRenderRes();
+
 			return true;
 		}
 		return false;
 	}
 
-	Vector2D getWindowSize() {
-		return driver ? Vector2D(driver->getScreenSize().Width, driver->getScreenSize().Height) : Vector2D();
+	void setMatchResSize(bool enable) {
+		irrHandler->matchResSize = enable;
 	}
 
-	// set window position
-	void setWindowPosition(Vector2D& position, irr::IrrlichtDevice* device) {
-		if (device) {
+	Vector2D getWindowSize() {
+		if (!irrHandler->glfwWindow)
+			return Vector2D();
 
-#ifdef _WIN32
-			HWND hwnd = reinterpret_cast<HWND>(device->getVideoDriver()->getExposedVideoData().OpenGLWin32.HWnd);
-			if (hwnd) {
-				SetWindowPos(hwnd, nullptr, static_cast<int>(position.x), static_cast<int>(position.y), 0, 0,
-					SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE);
-			}
-#endif
+		int width, height;
+		glfwGetWindowSize(irrHandler->glfwWindow, &width, &height);
+		return Vector2D(static_cast<float>(width), static_cast<float>(height));
+	}
+
+	void setWindowPosition(const Vector2D& position) {
+		if (irrHandler->glfwWindow) {
+			glfwSetWindowPos(irrHandler->glfwWindow, static_cast<int>(position.x), static_cast<int>(position.y));
 		}
 	}
 
@@ -340,6 +354,10 @@ namespace Warden {
 		dConsole.doOutput = var;
 	}
 
+	std::string getVersion() {
+		return irrHandler->version;
+	}
+
 	// INPUT
 
 	// Input binds
@@ -367,6 +385,40 @@ namespace Warden {
 	void isControllerConnected() {
 		core::array<SJoystickInfo> joystickInfo;
 		device->activateJoysticks(joystickInfo);
+	}
+
+	Vector2D getCursorPosition() {
+		double currentMouseX, currentMouseY;
+		glfwGetCursorPos(irrHandler->glfwWindow, &currentMouseX, &currentMouseY);
+		if (receiver)
+			return Vector2D(currentMouseX, currentMouseY);
+		return Vector2D();
+	}
+
+	void setRawInputMode(bool enable) {
+		if (enable) {
+			glfwSetInputMode(irrHandler->glfwWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+			if (glfwRawMouseMotionSupported())
+				glfwSetInputMode(irrHandler->glfwWindow, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
+		}
+		else {
+			glfwSetInputMode(irrHandler->glfwWindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		}
+	}
+
+	void maintainAspectRatio(bool enable) {
+		if (enable)
+			glfwSetWindowAspectRatio(irrHandler->glfwWindow, irrHandler->width, irrHandler->height);
+		else
+			glfwSetWindowAspectRatio(irrHandler->glfwWindow, GLFW_DONT_CARE, GLFW_DONT_CARE);
+	}
+
+	Vector2D getMouseDelta() {
+		if (receiver->firstMouse) {
+			receiver->firstMouse = false;
+			return Vector2D(); //Vector2D(currentMouseX, currentMouseY);
+		}
+		return Vector2D(receiver->deltaX, receiver->deltaY);
 	}
 
 	// FOG
@@ -893,13 +945,16 @@ void bindWarden() {
 		application["RecreateDevice"] = &Warden::recreateDevice;
 		application["SetVSync"] = &Warden::setVerticalSync;
 		application["DisplayMessage"] = &Warden::displayMessage;
+		application["SetAutoAspectRatio"] = &Warden::maintainAspectRatio;
+		application["GetFrameRate"] = &Warden::getFrameRate;
+		application["SetFrameRate"] = &Warden::setFrameRate;
+		application["GetMemoryUsage"] = &Warden::getMemoryUsage;
+		application["GetVersion"] = &Warden::getVersion;
+		application["SetMatchResolutionToSize"] = &Warden::setMatchResSize;
 	}
 	
 	// world
 	if (true) {
-		world["GetFrameRate"] = &Warden::getFrameRate;
-		world["SetFrameRate"] = &Warden::setFrameRate;
-		world["GetMemoryUsage"] = &Warden::getMemoryUsage;
 		world["SetSkydome"] = &Warden::setSkydome;
 		world["SetSkydomeParameters"] = &Warden::setSkydomeParams;
 		world["SetBackgroundColor"] = &Warden::setBackgroundColor;
@@ -980,6 +1035,9 @@ void bindWarden() {
 		input["CheckControllers"] = &Warden::isControllerConnected;
 		input["SetMouseVisibility"] = &Warden::showCursor;
 		input["SetMousePosition"] = &Warden::setCursorPosition;
+		input["GetMousePosition"] = &Warden::getCursorPosition;
+		//input["SetRawInputMode"] = &Warden::setRawInputMode;
+		input["GetMouseDelta"] = &Warden::getMouseDelta;
 	}
 
 	// networkClient
