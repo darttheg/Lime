@@ -80,6 +80,7 @@ public:
     double lastMouseX, lastMouseY;
     double deltaX, deltaY;
     bool firstMouse = true;
+    bool skipDeltaOnResize = false;
 
 private:
     std::array<bool, KEY_KEY_CODES_COUNT> keys;
@@ -97,7 +98,7 @@ private:
             if (!result.valid()) {
                 sol::error err = result;
                 dConsole.sendMsg(std::string(err.what()).c_str(), MESSAGE_TYPE::WARNING);
-            }
+            } // Doesn't catch like SetWindowSize(x, y) instead of vector2D param
         }
         else {
             // Uncommenting this prints errors for things like Input.OnMouseMove etc.

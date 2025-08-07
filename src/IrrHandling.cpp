@@ -302,6 +302,7 @@ void IrrHandling::appLoop() {
 
 		// Update lastMouse
 		receiver->updateLastMouse();
+		receiver->skipDeltaOnResize = false;
 
 		if (mainCamera) {
 			mainCamera->updateAbsolutePosition();

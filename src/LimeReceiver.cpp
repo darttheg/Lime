@@ -170,20 +170,33 @@ bool LimeReceiver::isKeyDown(irr::EKEY_CODE keyCode) const
     return keys[keyCode];
 }
 
+/*
+Mouse is moved
+updateDeltaMouse
+Lua calls
+updateLastMouse
+*/
+
+// Called before Lua is run
 void LimeReceiver::updateDeltaMouse(GLFWwindow* win) {
+    if (skipDeltaOnResize)
+        return;
+
     glfwGetCursorPos(win, &mouseX, &mouseY);
 
     if (firstMouse) {
         lastMouseX = mouseX;
         lastMouseY = mouseY;
         firstMouse = false;
+    } else {
+        deltaX = mouseX - lastMouseX;
+        deltaY = mouseY - lastMouseY;
     }
-
-    deltaX = mouseX - lastMouseX;
-    deltaY = mouseY - lastMouseY;
 }
 
+// Called after Lua is run
 void LimeReceiver::updateLastMouse() {
+    // set mouse x in warden
     lastMouseX = mouseX;
     lastMouseY = mouseY;
 }

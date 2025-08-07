@@ -108,7 +108,16 @@ namespace Warden {
 
 			irrHandler->updateIrrRenderRes();
 
+			// Skip delta on ACTUAL resize
+			glfwGetWindowSize(irrHandler->glfwWindow, &winX, &winY);
+			if ((winX != oldW) && (winY != oldH))
+				receiver->skipDeltaOnResize = true;
+
 			return true;
+		}
+		else if (sizes.x > 0 && sizes.y > 0) {
+			irrHandler->width = sizes.x;
+			irrHandler->height = sizes.y;
 		}
 		return false;
 	}
@@ -245,8 +254,11 @@ namespace Warden {
 
 	// Move cursor
 	void setCursorPosition(Vector2D pos) {
-		if (device)
+		if (device) {
 			device->getCursorControl()->setPosition(irr::core::vector2di(pos.x, pos.y));
+			receiver->mouseX = pos.x - 1;
+			receiver->mouseY = pos.y - 1;
+		}
 	}
 
 	bool addArchive(const std::string& path) {
