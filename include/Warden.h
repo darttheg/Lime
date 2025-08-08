@@ -305,6 +305,8 @@ namespace Warden {
 
 		sol::table result = lua->create_table();
 
+		sol::object attr = irrHandler->comp3dmap[pickedNode];
+
 		if (pickedNode) {
 			Vector3D normal = Vector3D(hitTriangle.getNormal().X, hitTriangle.getNormal().Y, hitTriangle.getNormal().Z);
 			video::SMaterial material = pickedNode->getMaterial(0);
@@ -313,12 +315,14 @@ namespace Warden {
 			result["normal"] = normal;
 			result["materialID"] = material.ID;
 			result["hitPosition"] = hit;
+			result["hit"] = attr;
 		}
 		else {
 			result["ID"] = -1;
 			result["normal"] = Vector3D(0,1,0);
 			result["materialID"] = -1;
 			result["hitPosition"] = end;
+			result["hit"] = sol::nil;
 		}
 
 		if (debugLifetime > 0) {
@@ -347,6 +351,8 @@ namespace Warden {
 
 		sol::table result = lua->create_table();
 
+		sol::object attr = irrHandler->comp3dmap[pickedNode];
+
 		if (pickedNode) {
 			Vector3D normal = Vector3D(hitTriangle.getNormal().X, hitTriangle.getNormal().Y, hitTriangle.getNormal().Z);
 			video::SMaterial material = pickedNode->getMaterial(0);
@@ -355,12 +361,14 @@ namespace Warden {
 			result["normal"] = normal;
 			result["materialID"] = material.ID;
 			result["hitPosition"] = hit;
+			result["hit"] = attr;
 		}
 		else {
 			result["ID"] = -1;
 			result["normal"] = Vector3D(0, 1, 0);
 			result["materialID"] = -1;
 			result["hitPosition"] = end;
+			result["hit"] = sol::nil;
 		}
 
 		return result;
