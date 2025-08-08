@@ -19,7 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="PhysicsManager.cpp" />
     <ClCompile Include="src\Billboard.cpp" />
     <ClCompile Include="src\Camera3D.cpp" />
     <ClCompile Include="src\CGUIFont.cpp" />
@@ -89,6 +88,7 @@
     <ClInclude Include="include\NetworkHandler.h" />
     <ClInclude Include="include\os.h" />
     <ClInclude Include="include\Packet.h" />
+    <ClInclude Include="include\ParseCmd.h" />
     <ClInclude Include="include\ParticleSystem.h" />
     <ClInclude Include="include\SolConversions.h" />
     <ClInclude Include="include\Sound.h" />
@@ -106,7 +106,6 @@
     <ClInclude Include="include\Warden.h" />
     <ClInclude Include="include\WaterMesh.h" />
     <ClInclude Include="include\XEffects.h" />
-    <ClInclude Include="PhysicsManager.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

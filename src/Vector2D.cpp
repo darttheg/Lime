@@ -101,6 +101,23 @@ std::string Vector2D::toString() const {
     return "(" + std::to_string(x) + ", " + std::to_string(y) + ")";
 }
 
+// Get content
+float Vector2D::getX() const {
+	return x;
+}
+
+float Vector2D::getY() const {
+    return y;
+}
+
+void Vector2D::setX(float v) {
+    x = v;
+}
+
+void Vector2D::setY(float v) {
+    y = v;
+}
+
 // Lua binding
 void bindVector2D() {
     sol::usertype<Vector2D> bindType = lua->new_usertype<Vector2D>("Vector2D",
@@ -111,8 +128,8 @@ void bindVector2D() {
         sol::meta_function::division, &Vector2D::operator/,
         sol::meta_function::equal_to, &Vector2D::operator==,
 
-        "x", &Vector2D::x,
-        "y", &Vector2D::y);
+        "x", sol::property(&Vector2D::getX, &Vector2D::setX),
+        "y", sol::property(&Vector2D::getY, &Vector2D::setY));
 
     bindType["length"] = &Vector2D::length;
     bindType["normalize"] = &Vector2D::normalize;

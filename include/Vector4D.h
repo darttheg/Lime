@@ -19,6 +19,14 @@ public:
     bool operator!=(const Vector4D& other) const;
 
     std::string toString() const;
+    float getX() const;
+    float getY() const;
+    float getZ() const;
+    float getW() const;
+    void setX(float v);
+    void setY(float v);
+    void setZ(float v);
+    void setW(float v);
 };
 
 void bindVector4D();

@@ -29,6 +29,10 @@ public:
     bool operator!=(const Vector2D& other) const;
 
     std::string toString() const;
+    float getX() const;
+    float getY() const;
+    void setX(float v);
+    void setY(float v);
 };
 
 void bindVector2D();

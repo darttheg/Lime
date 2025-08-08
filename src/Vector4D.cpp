@@ -38,6 +38,39 @@ std::string Vector4D::toString() const {
     return "(" + std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(z) + ", " + std::to_string(w) + ")";
 }
 
+// Get content
+float Vector4D::getX() const {
+    return x;
+}
+
+float Vector4D::getY() const {
+    return y;
+}
+
+float Vector4D::getZ() const {
+    return z;
+}
+
+float Vector4D::getW() const {
+    return w;
+}
+
+void Vector4D::setX(float v) {
+    x = v;
+}
+
+void Vector4D::setY(float v) {
+    y = v;
+}
+
+void Vector4D::setZ(float v) {
+    z = v;
+}
+
+void Vector4D::setW(float v) {
+    w = v;
+}
+
 // Lua binding
 void bindVector4D() {
     sol::usertype<Vector4D> bindType = lua->new_usertype<Vector4D>("Vector4D",
@@ -48,9 +81,10 @@ void bindVector4D() {
         sol::meta_function::division, &Vector4D::operator/,
         sol::meta_function::equal_to, &Vector4D::operator==,
 
-        "x", &Vector4D::x,
-        "y", &Vector4D::y,
-        "z", &Vector4D::z,
-        "w", &Vector4D::w);
+        "x", sol::property(&Vector4D::getX, &Vector4D::setX),
+        "y", sol::property(&Vector4D::getY, &Vector4D::setY),
+        "z", sol::property(&Vector4D::getZ, &Vector4D::setZ),
+        "w", sol::property(&Vector4D::getW, &Vector4D::setW));
+
     bindType["toStr"] = &Vector4D::toString;
 }

@@ -31,6 +31,12 @@ public:
     bool operator!=(const Vector3D& other) const;
 
     std::string toString() const;
+    float getX() const;
+    float getY() const;
+    float getZ() const;
+    void setX(float v);
+    void setY(float v);
+    void setZ(float v);
 };
 
 void bindVector3D();

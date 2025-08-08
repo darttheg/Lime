@@ -19,9 +19,13 @@ using namespace gui;
 using namespace sol;
 using namespace std;
 
-int main()
-{
+#include "ParseCmd.h"
+
+int main(int argc, char** argv) {
 	IrrHandling i;
 	irrHandler = &i;
+
+	irrHandler->cmdline = parseArgs(argc, argv);
+
 	i.initScene(); // app loop
 }

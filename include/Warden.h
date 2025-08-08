@@ -155,6 +155,14 @@ namespace Warden {
 #endif
 	}
 
+	// Get commandline value
+	sol::object getCommandLineValue(const std::string& key) {
+		if (irrHandler && irrHandler->cmdline.find(key) != irrHandler->cmdline.end()) {
+			return sol::make_object((*lua), irrHandler->cmdline[key]);
+		}
+		return sol::nil;
+	}
+
 	// Get/set frame rate
 	int getFrameRate() {
 		if (device && irrHandler)
@@ -963,6 +971,7 @@ void bindWarden() {
 		application["GetMemoryUsage"] = &Warden::getMemoryUsage;
 		application["GetVersion"] = &Warden::getVersion;
 		application["SetMatchResolutionToSize"] = &Warden::setMatchResSize;
+		application["GetCommandLine"] = &Warden::getCommandLineValue;
 	}
 	
 	// world

@@ -135,6 +135,31 @@ std::string Vector3D::toString() const {
     return "(" + std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(z) + ")";
 }
 
+// Get content
+float Vector3D::getX() const {
+    return x;
+}
+
+float Vector3D::getY() const {
+    return y;
+}
+
+float Vector3D::getZ() const {
+    return z;
+}
+
+void Vector3D::setX(float v) {
+    x = v;
+}
+
+void Vector3D::setY(float v) {
+    y = v;
+}
+
+void Vector3D::setZ(float v) {
+    z = v;
+}
+
 // Lua binding
 void bindVector3D() {
     sol::usertype<Vector3D> bindType = lua->new_usertype<Vector3D>("Vector3D",
@@ -145,9 +170,9 @@ void bindVector3D() {
         sol::meta_function::division, &Vector3D::operator/,
         sol::meta_function::equal_to, &Vector3D::operator==,
 
-        "x", &Vector3D::x,
-        "y", &Vector3D::y,
-        "z", &Vector3D::z);
+        "x", sol::property(&Vector3D::getX, &Vector3D::setX),
+        "y", sol::property(&Vector3D::getY, &Vector3D::setY),
+        "z", sol::property(&Vector3D::getZ, &Vector3D::setZ));
 
     bindType["length"] = &Vector3D::length;
     bindType["normalize"] = &Vector3D::normalize;
