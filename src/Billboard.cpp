@@ -3,6 +3,8 @@
 Billboard::Billboard() {
     bb = smgr->addBillboardSceneNode();
     bb->grab();
+
+    createEntry();
 }
 
 Billboard::Billboard(const Billboard& other) {
@@ -17,6 +19,8 @@ Billboard::Billboard(const Material& material) {
     bb = smgr->addBillboardSceneNode();
     bb->grab();
     loadMaterial(material);
+
+    createEntry();
 }
 
 Vector3D Billboard::getPosition() {
@@ -69,6 +73,7 @@ void Billboard::setVisible(bool visible) {
 
 void Billboard::destroy() {
     if (bb) {
+        destroyEntry();
         bb->remove();
     }
 }

@@ -39,6 +39,10 @@ bool StaticMesh::loadMeshWithTangents(const std::string& filePath) {
 bool StaticMesh::fullLoadMesh(const std::string& filePath, bool doTangents) {
     irr::scene::IAnimatedMesh* mesh = nullptr;
 
+    sol::object temp = lua->create_table_with();
+    if (meshNode)
+	    temp = irrHandler->comp3dmap[meshNode];
+
     if (!doTangents) {
         mesh = smgr->getMesh(filePath.c_str());
     } else {
@@ -62,11 +66,16 @@ bool StaticMesh::fullLoadMesh(const std::string& filePath, bool doTangents) {
     if (irrHandler->defaultExclude)
         effects->excludeNodeFromLightingCalculations(meshNode);
 
+    createEntry();
+    irrHandler->comp3dmap[meshNode] = temp;
+
     return true;
 }
 
 void StaticMesh::deload() {
     if (meshNode) {
+        // Should entries be on pause if deloaded? Loading a new mesh when one is loaded does that.
+        destroyEntry();
         effects->removeShadowFromNode(meshNode);
         meshNode->remove();
         meshNode = nullptr;

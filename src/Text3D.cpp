@@ -16,6 +16,8 @@ Text3D::Text3D(const std::string& tx, const Vector3D& pos, const Vector4D& col, 
 	text->grab();
 
 	effects->excludeNodeFromLightingCalculations(text);
+
+	createEntry();
 }
 
 Text3D::Text3D() : Text3D("Text", Vector3D(), Vector4D(255, 255, 255, 2555), "") {}
@@ -25,6 +27,7 @@ Text3D::Text3D(const std::string& tx, const Vector3D& pos, const Vector4D& col) 
 Text3D::Text3D(const std::string& tx, const std::string& fontName) : Text3D(tx, Vector3D(), Vector4D(255, 255, 255, 255), fontName) {}
 
 void Text3D::destroy() {
+	destroyEntry();
 	text->remove();
 }
 

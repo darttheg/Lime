@@ -4,6 +4,8 @@ Water::Water(float h, float s, float l, const Vector2D& ts, const Vector2D& tc, 
     : height(h), speed(s), length(l), tileSize(ts.x, ts.y), tileCount(tc.x, tc.y), texRepeat(tr.x, tr.y), material(m.mat), water(nullptr), rawMesh(nullptr), shadow(E_SHADOW_MODE::ESM_BOTH), hadShadow(false) {
     createRaw();
     refreshMesh();
+
+    createEntry();
 }
 
 Water::Water() : Water(2, 300, 30, Vector2D(20, 20), Vector2D(40, 40), Vector2D(30, 30), Material()) {}
@@ -59,7 +61,7 @@ void Water::refreshMesh() {
     irr::core::vector3df rot = water ? water->getRotation() : irr::core::vector3df();
     irr::core::vector3df scale = water ? water->getScale() : irr::core::vector3df(1, 1, 1);
 
-    if (water) water->remove();
+    if (water) water->remove(); // Add createEntry();, copy over contents from pointer
 
     water = smgr->addWaterSurfaceSceneNode(rawMesh, height, speed, length, 0, 0, pos, rot, scale);
     water->getMaterial(0) = material;
@@ -79,7 +81,10 @@ void Water::createRaw() {
 
 void Water::destroy() {
     if (shadow) effects->removeShadowFromNode(water);
-    if (water) water->remove();
+    if (water) {
+        destroyEntry();
+        water->remove();
+    }
 }
 
 float Water::getHeight() {

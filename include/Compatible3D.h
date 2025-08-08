@@ -2,6 +2,8 @@
 
 #include <irrlicht.h>
 #include <sol/sol.hpp>
+#include "LuaLime.h"
+#include "IrrManagers.h"
 
 class Compatible3D {
 public:
@@ -45,10 +47,38 @@ public:
 
         getNode()->updateAbsolutePosition();
     }
+
+    sol::object getEntry() {
+        auto it = irrHandler->comp3dmap.find(getNode());
+        if (it != irrHandler->comp3dmap.end())
+            return it->second;
+        return sol::nil;
+    }
+
+	void setEntry(sol::object obj) {
+		if (obj.is<sol::nil_t>())
+			irrHandler->comp3dmap.erase(getNode());
+		else
+			irrHandler->comp3dmap[getNode()] = obj;
+	}
+
+    void destroyEntry() {
+        auto it = irrHandler->comp3dmap.find(getNode());
+        if (it != irrHandler->comp3dmap.end())
+            irrHandler->comp3dmap.erase(it);
+    }
+
+    void createEntry() {
+        if (irrHandler->comp3dmap.find(getNode()) == irrHandler->comp3dmap.end())
+            irrHandler->comp3dmap[getNode()] = lua->create_table_with();
+    }
 };
 
 inline void bindCompatible3D() {
-    sol::usertype<Compatible3D> bind_type = lua->new_usertype<Compatible3D>("Compatible3D");
+    sol::usertype<Compatible3D> bind_type = lua->new_usertype<Compatible3D>("Compatible3D",
+        "attributes", sol::property(&Compatible3D::getEntry, &Compatible3D::setEntry)
+    );
+
     bind_type["setParent"] = &Compatible3D::setParent;
     bind_type["getAbsolutePosition"] = &Compatible3D::getAbsPos;
     bind_type["getAbsoluteRotation"] = &Compatible3D::getAbsRot;

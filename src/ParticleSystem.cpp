@@ -4,6 +4,8 @@ ParticleSystem::ParticleSystem() {
 	ps = smgr->addParticleSystemSceneNode(false);
 
 	effects->excludeNodeFromLightingCalculations(ps);
+
+	createEntry();
 }
 
 Vector3D ParticleSystem::getPosition() {
@@ -311,8 +313,10 @@ void ParticleSystem::setVisible(bool enable) {
 }
 
 void ParticleSystem::destroy() {
-	if (ps)
+	if (ps) {
+		destroyEntry();
 		ps->remove();
+	}
 }
 
 void bindParticleSystem() {

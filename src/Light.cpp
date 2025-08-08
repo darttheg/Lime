@@ -6,6 +6,8 @@ void Light::createBase() {
 
 	holder->addChild(target);
 	target->setPosition(irr::core::vector3df(0, 0, 50));
+
+	// Does not support createEntry()
 }
 
 Light::Light() : Light(Vector3D(0, 0, 0), Vector3D(0, 0, 0), Vector4D(255, 255, 255, 255), Vector2D(0.1, 50.0), 90, false) {

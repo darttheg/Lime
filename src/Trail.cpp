@@ -7,6 +7,8 @@ Trail::Trail() {
 	mode = 3;
 
 	make();
+
+	createEntry();
 }
 
 void Trail::make() {
@@ -24,6 +26,7 @@ void Trail::make() {
 
 void Trail::destroy() {
 	if (t) {
+		destroyEntry();
 		t->remove();
 		empty->remove();
 	}

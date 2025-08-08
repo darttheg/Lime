@@ -5,6 +5,8 @@ Hitbox::Hitbox(float rad, float h) {
 	height = h;
 	lod = 1;
 	construct();
+
+	createEntry();
 }
 
 Hitbox::Hitbox() : Hitbox(1, 0) {}
@@ -102,6 +104,7 @@ void Hitbox::setActive(bool a) {
 }
 
 void Hitbox::destroy() {
+	if (node) destroyEntry();
 	if (node) node->remove();
 	if (holder) holder->remove();
 }
