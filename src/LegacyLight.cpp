@@ -7,8 +7,6 @@ LegacyLight::LegacyLight(int type, const Vector3D& pos, const Vector3D& rot, con
 	light = smgr->addLightSceneNode(0, p, col);
 	light->setLightType((E_LIGHT_TYPE)type);
 	light->setRotation(r);
-
-	createEntry();
 }
 
 LegacyLight::LegacyLight() : LegacyLight(0, Vector3D(), Vector3D(), Vector4D(255)) {}

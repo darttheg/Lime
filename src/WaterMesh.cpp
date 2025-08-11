@@ -4,8 +4,6 @@ Water::Water(float h, float s, float l, const Vector2D& ts, const Vector2D& tc, 
     : height(h), speed(s), length(l), tileSize(ts.x, ts.y), tileCount(tc.x, tc.y), texRepeat(tr.x, tr.y), material(m.mat), water(nullptr), rawMesh(nullptr), shadow(E_SHADOW_MODE::ESM_BOTH), hadShadow(false) {
     createRaw();
     refreshMesh();
-
-    createEntry();
 }
 
 Water::Water() : Water(2, 300, 30, Vector2D(20, 20), Vector2D(40, 40), Vector2D(30, 30), Material()) {}

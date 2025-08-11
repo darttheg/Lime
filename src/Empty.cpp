@@ -2,26 +2,18 @@
 
 Empty::Empty() {
 	emp = smgr->addEmptySceneNode();
-
-	createEntry();
 }
 
 Empty::Empty(const Vector3D& pos) : Empty() {
 	emp->setPosition(irr::core::vector3df(pos.x, pos.y, pos.z));
-
-	createEntry();
 }
 
 Empty::Empty(const Vector3D& pos, const Vector3D& rot) : Empty(pos) {
 	emp->setRotation(irr::core::vector3df(rot.x, rot.y, rot.z));
-
-	createEntry();
 }
 
 Empty::Empty(const Vector3D& pos, const Vector3D& rot, const Vector3D& scale) : Empty(pos, rot) {
 	emp->setScale(irr::core::vector3df(scale.x, scale.y, scale.z));
-
-	createEntry();
 }
 
 bool Empty::getVisibility() const {

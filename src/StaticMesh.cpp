@@ -39,7 +39,7 @@ bool StaticMesh::loadMeshWithTangents(const std::string& filePath) {
 bool StaticMesh::fullLoadMesh(const std::string& filePath, bool doTangents) {
     irr::scene::IAnimatedMesh* mesh = nullptr;
 
-    sol::object temp = lua->create_table_with();
+    sol::object temp = sol::nil;
     if (meshNode)
 	    temp = irrHandler->comp3dmap[meshNode];
 
@@ -66,8 +66,8 @@ bool StaticMesh::fullLoadMesh(const std::string& filePath, bool doTangents) {
     if (irrHandler->defaultExclude)
         effects->excludeNodeFromLightingCalculations(meshNode);
 
-    createEntry();
-    irrHandler->comp3dmap[meshNode] = temp;
+    if (irrHandler->comp3dmap.find(getNode()) == irrHandler->comp3dmap.end())
+        irrHandler->comp3dmap[meshNode] = temp;
 
     return true;
 }

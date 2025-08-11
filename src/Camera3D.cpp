@@ -9,8 +9,6 @@ Camera3D::Camera3D() {
         setActive();
 
     camera->grab();
-
-    createEntry();
 }
 
 Camera3D::Camera3D(const Camera3D& other) {
@@ -41,7 +39,6 @@ void Camera3D::destroy() {
     if (leftChild) leftChild->remove();
     // if (d) d->remove();
 
-    destroyEntry();
     if (camera) camera->remove();
     camera = nullptr;
 }

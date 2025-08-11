@@ -106,7 +106,7 @@ public:
 	std::unordered_map<std::string, std::string> cmdline;
 
 	// Compatible3D map
-	std::unordered_map<irr::scene::ISceneNode*, sol::object> comp3dmap;
+	std::unordered_map<irr::scene::ISceneNode*, sol::table> comp3dmap;
 
 	// Render queue
 	std::queue<CameraToQueue> cameraQueue;

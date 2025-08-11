@@ -7,8 +7,6 @@ Trail::Trail() {
 	mode = 3;
 
 	make();
-
-	createEntry();
 }
 
 void Trail::make() {

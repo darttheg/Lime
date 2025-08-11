@@ -5,8 +5,6 @@ Hitbox::Hitbox(float rad, float h) {
 	height = h;
 	lod = 1;
 	construct();
-
-	createEntry();
 }
 
 Hitbox::Hitbox() : Hitbox(1, 0) {}

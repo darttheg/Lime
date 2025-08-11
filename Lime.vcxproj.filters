@@ -187,6 +187,12 @@
     <ClCompile Include="src\GhostTrailSceneNode.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="Compatible2D.cpp">
+      <Filter>Source Files\Compatible2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Compatible3D.cpp">
+      <Filter>Source Files\Compatible3D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Billboard.h">

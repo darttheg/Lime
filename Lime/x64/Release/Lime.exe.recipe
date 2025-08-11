@@ -2,7 +2,7 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>D:\Irrlicht\Lime\x64\Release\Lime.exe</FullPath>
+      <FullPath>C:\LimeDir\Lime\x64\Release\Lime.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />
