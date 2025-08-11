@@ -1,0 +1,84 @@
+#include "Compatible2D.h"
+
+void Compatible2D::setParent(sol::optional<Compatible2D*> parent) {
+	irr::gui::IGUIElement* node = getNode();
+	if (!node || !(*parent)) return;
+
+	// add child etc.
+	(*parent)->getNode()->addChild(node);
+}
+
+bool Compatible2D::getClickable() {
+	return getNode() ? button != nullptr : false;
+}
+
+bool Compatible2D::getHovered() {
+	if (!getNode())
+		return false;
+
+	irr::core::position2di mousePos = device->getCursorControl()->getPosition();
+	irr::core::recti rect(
+		getNode()->getAbsoluteClippingRect().UpperLeftCorner,
+		getNode()->getAbsoluteClippingRect().LowerRightCorner
+	);
+	return rect.isPointInside(mousePos);
+}
+
+void Compatible2D::setHovered() {
+
+}
+
+void Compatible2D::setClickable(sol::function f) {
+	if (!getNode())
+		return;
+	if (f && !button) {
+		clickable = true;
+		updateButton();
+		receiver->buttonCallbackClick.push_back(ButtonCallbackPairClick(button, f));
+	}
+	else if (!f && button) {
+		receiver->removeImg(button);
+		button->remove();
+		clickable = false;
+	}
+}
+
+void Compatible2D::setHover(sol::function hov) {
+	if (!getNode()) return;
+
+	if (!clickable) {
+		bool cl = clickable;
+		clickable = true;
+		updateButton();
+		clickable = cl;
+	}
+
+	receiver->buttonCallbackHover.push_back(ButtonCallbackPairHover(button, hov));
+}
+
+bool Compatible2D::getPressed() {
+	if (!getNode()) return false;
+	return button ? button->isPressed() : false;
+}
+
+void Compatible2D::updateButton() {
+	if (!clickable)
+		return;
+
+	irr::core::recti r = getNode()->getRelativePosition();
+	if (button)
+		receiver->removeImg(button);
+	button = guienv->addButton(irr::core::recti(0, 0, r.LowerRightCorner.X - r.UpperLeftCorner.X, r.LowerRightCorner.Y - r.UpperLeftCorner.Y), getNode());
+	button->setDrawBorder(false);
+	button->setUseAlphaChannel(true);
+}
+
+void bindCompatible2D() {
+	sol::usertype<Compatible2D> bind_type = lua->new_usertype<Compatible2D>("Compatible2D",
+		"hovered", sol::property(&Compatible2D::getHovered, &Compatible2D::setHovered),
+		"pressed", sol::property(&Compatible2D::getPressed, &Compatible2D::setHovered));
+
+	bind_type["setParent"] = &Compatible2D::setParent;
+	bind_type["fireOnClick"] = &Compatible2D::setClickable;
+	bind_type["fireOnHover"] = &Compatible2D::setHover;
+}
