@@ -75,14 +75,14 @@ ENetPeer* NetworkHandler::getPeer() {
 
 int NetworkHandler::getPeerState(int peerID) {
 	if (!server) {
-		if (verbose) dConsole.sendMsg("Networking WARNING: Could not fetch peer state; server is not being hosted", MESSAGE_TYPE::NETWORK_VERBOSE);
+		if (verbose) dConsole.sendMsg("Networking WARNING: Could not fetch peer state; a server must first be hosted", MESSAGE_TYPE::NETWORK_VERBOSE);
 		return -1;
 	}
 
 	ENetPeer* p = peerMap[peerID];
 	if (!p) {
 		if (verbose) {
-			std::string msg = "Networking WARNING: Peer with ID ";
+			std::string msg = "Networking WARNING: State of peer with ID ";
 			msg += std::to_string(peerID);
 			msg += " could not be fetched";
 			dConsole.sendMsg(msg.c_str(), MESSAGE_TYPE::NETWORK_VERBOSE);
@@ -102,9 +102,9 @@ int NetworkHandler::getPeerPing(int peerID) {
 	ENetPeer* p = peerMap[peerID];
 	if (!p) {
 		if (verbose) {
-			std::string msg = "Networking WARNING: Peer with ID ";
+			std::string msg = "Networking WARNING: Ping of peer with ID ";
 			msg += std::to_string(peerID);
-			msg += "'s ping could not be fetched";
+			msg += " could not be fetched";
 			dConsole.sendMsg(msg.c_str(), MESSAGE_TYPE::NETWORK_VERBOSE);
 		}
 		return -1;
@@ -133,8 +133,9 @@ void NetworkHandler::forceDisconnectClient(int peerID, int reason) {
 	if (verbose) {
 		std::string msg = "Peer with ID ";
 		msg += std::to_string(peerID);
-		msg += " disconnected for reason code ";
+		msg += " disconnected (reason code: ";
 		msg += std::to_string(reason);
+		msg += ")";
 		dConsole.sendMsg(msg.c_str(), MESSAGE_TYPE::NETWORK_VERBOSE);
 	}
 
@@ -170,8 +171,8 @@ void netBodyClient(NetworkHandler* n, IrrHandling* m) {
 		ENetHost* cli = n->getClient();
 		if (!cli) { std::this_thread::sleep_for(std::chrono::milliseconds(10)); continue; }
 
-		if (enet_host_service(cli, &event, 100) > 0) {
-			m->addEventTask(false, event);   // hand to main thread
+		if (enet_host_service(cli, &event, 100) > 0) { // Process event from client, no locking here
+			m->addEventTask(false, event);
 		}
 	}
 }
@@ -336,7 +337,7 @@ void NetworkHandler::connectClient(std::string ad, int port, int channels) {
 	}
 
 	ENetAddress address{};
-	enet_address_set_host(&address, ad.c_str()); // e.g., "127.0.0.1"
+	enet_address_set_host(&address, ad.c_str());
 	address.port = port;
 
 	if (verbose) {
