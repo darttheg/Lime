@@ -757,6 +757,7 @@ void IrrHandling::runEventTasks() {
 		else { // Client
 			switch (event.type) {
 			case ENET_EVENT_TYPE_CONNECT:
+				networkHandler->clientTrulyConnected = true;
 				if (ConConnect.valid())
 					addLuaTask(ConConnect, sol::table());
 				else {
@@ -771,6 +772,7 @@ void IrrHandling::runEventTasks() {
 				}
 				break;
 			case ENET_EVENT_TYPE_DISCONNECT:
+				networkHandler->clientTrulyConnected = false;
 				if (ConDisconnect.valid()) {
 					sol::table t = lua->create_table();
 					t[1] = event.data;

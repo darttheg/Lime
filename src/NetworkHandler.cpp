@@ -164,20 +164,14 @@ void netBodyServer(NetworkHandler* n, IrrHandling* m) {
 using namespace std::chrono_literals;
 
 void netBodyClient(NetworkHandler* n, IrrHandling* m) {
-	// Client Network Loop
-	std::mutex lock;
 	ENetEvent event;
-
 	while (!n->finished) {
-		if (!n->initialized || !(n->getClient()) || !m) {
-			continue;
-		}
+		if (!n->initialized) { std::this_thread::sleep_for(std::chrono::milliseconds(10)); continue; }
+		ENetHost* cli = n->getClient();
+		if (!cli) { std::this_thread::sleep_for(std::chrono::milliseconds(10)); continue; }
 
-		if (n->getPeer() && n->clientTrulyConnected) {
-			lock.lock();
-			if (enet_host_service(n->getClient(), &event, 1000) > 0)
-				m->addEventTask(false, event);
-			lock.unlock();
+		if (enet_host_service(cli, &event, 100) > 0) {
+			m->addEventTask(false, event);   // hand to main thread
 		}
 	}
 }
@@ -332,60 +326,30 @@ void NetworkHandler::connectClient(std::string ad, int port, int channels) {
 		if (verbose) dConsole.sendMsg("Networking WARNING: A call to connect a client was made but networking is not initialized", MESSAGE_TYPE::NETWORK_VERBOSE);
 		return;
 	}
-
 	if (!client) {
 		if (verbose) dConsole.sendMsg("Networking WARNING: Client could not connect to address; client is not created", MESSAGE_TYPE::NETWORK_VERBOSE);
 		return;
 	}
-
 	if (peer) {
-		if (verbose) dConsole.sendMsg("Networking WARNING: Client could not connect to address", MESSAGE_TYPE::NETWORK_VERBOSE);
+		if (verbose) dConsole.sendMsg("Networking WARNING: Client could not connect to address; client is already connected to a server", MESSAGE_TYPE::NETWORK_VERBOSE);
 		return;
 	}
 
-	ENetAddress address;
-	enet_address_set_host(&address, ad.c_str());
+	ENetAddress address{};
+	enet_address_set_host(&address, ad.c_str()); // e.g., "127.0.0.1"
 	address.port = port;
 
 	if (verbose) {
 		std::string msg = "Client attempting to connect to ";
-		msg += ad;
-		msg += ":";
-		msg += std::to_string(port);
+		msg += ad; msg += ":"; msg += std::to_string(port);
 		dConsole.sendMsg(msg.c_str(), MESSAGE_TYPE::NETWORK_VERBOSE);
 	}
-	
+
 	peer = enet_host_connect(client, &address, channels, 0);
-
-	bool doVerbose = verbose;
-	std::thread connectThread([this, address, channels, doVerbose]() {
-		if (!peer) {
-			if (doVerbose) dConsole.sendMsg("Networking WARNING: Failed to create peer connection", MESSAGE_TYPE::NETWORK_VERBOSE);
-
-			sol::protected_function f = (*lua)["NetworkClient"]["OnConnectFail"];
-			irrNetHandler->addLuaTask(f, sol::table());
-			return;
-		}
-		else {
-			ENetEvent event;
-			if (enet_host_service(client, &event, 5000) > 0 && event.type == ENET_EVENT_TYPE_CONNECT) {
-				if (doVerbose) dConsole.sendMsg("Client connected to server", MESSAGE_TYPE::NETWORK_VERBOSE);
-
-				clientTrulyConnected = true;
-
-				sol::protected_function f = (*lua)["NetworkClient"]["OnConnect"];
-				irrNetHandler->addLuaTask(f, sol::table());
-			}
-			else {
-				if (doVerbose) dConsole.sendMsg("Client failed to connect to server", MESSAGE_TYPE::NETWORK_VERBOSE);
-
-				sol::protected_function f = (*lua)["NetworkClient"]["OnConnectFail"];
-				irrNetHandler->addLuaTask(f, sol::table());
-			}
-		}
-	});
-
-	connectThread.detach();
+	if (!peer) {
+		if (verbose) dConsole.sendMsg("Networking WARNING: Failed to create peer connection", MESSAGE_TYPE::NETWORK_VERBOSE);
+		return;
+	}
 }
 
 void NetworkHandler::disconnectClient() {
