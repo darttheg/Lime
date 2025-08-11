@@ -152,7 +152,7 @@ void netBodyServer(NetworkHandler* n, IrrHandling* m) {
 			continue;
 		}
 
-		if (n->getPeer() && n->getHost()) {
+		if (n->getHost()) {
 			lock.lock();
 			if (enet_host_service(n->getHost(), &event, 1000) > 0)
 				m->addEventTask(true, event);
@@ -169,7 +169,7 @@ void netBodyClient(NetworkHandler* n, IrrHandling* m) {
 	ENetEvent event;
 
 	while (!n->finished) {
-		if (!n->initialized || !(n->getClient())) {
+		if (!n->initialized || !(n->getClient()) || !m) {
 			continue;
 		}
 
@@ -178,9 +178,6 @@ void netBodyClient(NetworkHandler* n, IrrHandling* m) {
 			if (enet_host_service(n->getClient(), &event, 1000) > 0)
 				m->addEventTask(false, event);
 			lock.unlock();
-		}
-		else if (!n->clientTrulyConnected) {
-			std::this_thread::sleep_for(50ms);
 		}
 	}
 }
@@ -342,7 +339,7 @@ void NetworkHandler::connectClient(std::string ad, int port, int channels) {
 	}
 
 	if (peer) {
-		if (verbose) dConsole.sendMsg("Networking WARNING: Client could not connect to address; client is already connected to a server", MESSAGE_TYPE::NETWORK_VERBOSE);
+		if (verbose) dConsole.sendMsg("Networking WARNING: Client could not connect to address", MESSAGE_TYPE::NETWORK_VERBOSE);
 		return;
 	}
 
