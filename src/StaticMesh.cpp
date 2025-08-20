@@ -2,7 +2,7 @@
 #include <filesystem>
 
 StaticMesh::StaticMesh() : meshNode(nullptr), selector(nullptr), collisionEnabled(false),
-vColor(), shadow(ESM_EXCLUDE), hadShadow(false) {
+vColor() {
 }
 
 StaticMesh::StaticMesh(const std::string& filePath) : StaticMesh() {
@@ -63,9 +63,6 @@ bool StaticMesh::fullLoadMesh(const std::string& filePath, bool doTangents) {
 
     mesh->drop();
 
-    if (irrHandler->defaultExclude)
-        effects->excludeNodeFromLightingCalculations(meshNode);
-
     if (irrHandler->comp3dmap.find(getNode()) == irrHandler->comp3dmap.end())
         irrHandler->comp3dmap[meshNode] = temp;
 
@@ -76,16 +73,10 @@ void StaticMesh::deload() {
     if (meshNode) {
         // Should entries be on pause if deloaded? Loading a new mesh when one is loaded does that.
         destroyEntry();
-        effects->removeShadowFromNode(meshNode);
         meshNode->remove();
         meshNode = nullptr;
         meshPath.clear();
     }
-}
-
-void StaticMesh::exclude() {
-    if (meshNode)
-        effects->excludeNodeFromLightingCalculations(meshNode);
 }
 
 bool StaticMesh::getCollision() const {
@@ -102,25 +93,6 @@ void StaticMesh::setCollision(bool enable) {
     else if (meshNode) {
         meshNode->setTriangleSelector(nullptr);
         collisionEnabled = false;
-    }
-}
-
-int StaticMesh::getShadows() {
-    return meshNode ? shadow : 0;
-}
-
-void StaticMesh::setShadows(int i) {
-    if (meshNode) {
-        shadow = i;
-        E_SHADOW_MODE mode = (E_SHADOW_MODE)i;
-        if (!hadShadow && (mode == E_SHADOW_MODE::ESM_BOTH || mode == E_SHADOW_MODE::ESM_CAST)) {
-            effects->addShadowToNode(meshNode, irrHandler->defaultShadowFiltering, mode);
-            hadShadow = true;
-        }
-        else if (hadShadow) {
-            effects->removeShadowFromNode(meshNode);
-            hadShadow = false;
-        }
     }
 }
 
@@ -337,9 +309,6 @@ bool StaticMesh::loadMeshViaBuffer(const MeshBuffer& b) {
     if (!meshNode)
         return false;
 
-    if (irrHandler->defaultExclude)
-        effects->excludeNodeFromLightingCalculations(meshNode);
-
     return true;
 }
 
@@ -363,8 +332,7 @@ void bindStaticMesh() {
         "ID", sol::property(&StaticMesh::getID, &StaticMesh::setID),
         "frame", sol::property(&StaticMesh::getFrame, &StaticMesh::setFrame),
         "debug", sol::property(&StaticMesh::getDebug, &StaticMesh::setDebug),
-        "vertexColor", sol::property(&StaticMesh::getVColor, &StaticMesh::setVColor),
-        "shadows", sol::property(&StaticMesh::getShadows, &StaticMesh::setShadows));
+        "vertexColor", sol::property(&StaticMesh::getVColor, &StaticMesh::setVColor));
 
     bindType["load"] = &StaticMesh::loadMesh;
     bindType["loadWithTangents"] = &StaticMesh::loadMeshWithTangents;
@@ -381,7 +349,6 @@ void bindStaticMesh() {
     bindType["getBoundingBox"] = &StaticMesh::getBoundingBox;
     bindType["toPlanarMapping"] = &StaticMesh::makePlanarMapping;
     bindType["setHardwareMappingHint"] = &StaticMesh::setHardwareHint;
-    bindType["ignoreLighting"] = &StaticMesh::exclude;
     bindType["writeToFile"] = &StaticMesh::writeToFile;
     bindType["setAutomaticCulling"] = &StaticMesh::setAutomaticCulling;
 }

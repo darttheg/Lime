@@ -1,2 +1,0 @@
-D:\Irrlicht\Lime\x64\Release\glfw3.dll
-D:\Irrlicht\Lime\Lime\x64\Release\Lime.vcxproj.Up2Date

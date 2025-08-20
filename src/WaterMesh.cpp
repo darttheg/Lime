@@ -1,7 +1,7 @@
 #include "WaterMesh.h"
 
 Water::Water(float h, float s, float l, const Vector2D& ts, const Vector2D& tc, const Vector2D& tr, const Material& m)
-    : height(h), speed(s), length(l), tileSize(ts.x, ts.y), tileCount(tc.x, tc.y), texRepeat(tr.x, tr.y), material(m.mat), water(nullptr), rawMesh(nullptr), shadow(E_SHADOW_MODE::ESM_BOTH), hadShadow(false) {
+    : height(h), speed(s), length(l), tileSize(ts.x, ts.y), tileCount(tc.x, tc.y), texRepeat(tr.x, tr.y), material(m.mat), water(nullptr), rawMesh(nullptr) {
     createRaw();
     refreshMesh();
 }
@@ -35,25 +35,6 @@ Water::Water(sol::table tbl) : Water() {
     if (tbl["material"]) material = tbl["material"];
 }
 
-int Water::getShadows() {
-    return water ? shadow : 0;
-}
-
-void Water::setShadows(int i) {
-    if (water) {
-        shadow = i;
-        E_SHADOW_MODE mode = static_cast<E_SHADOW_MODE>(i);
-        if (!hadShadow && (mode == E_SHADOW_MODE::ESM_BOTH || mode == E_SHADOW_MODE::ESM_CAST)) {
-            effects->addShadowToNode(water, irrHandler->defaultShadowFiltering, mode);
-            hadShadow = true;
-        }
-        else if (hadShadow) {
-            effects->removeShadowFromNode(water);
-            hadShadow = false;
-        }
-    }
-}
-
 void Water::refreshMesh() {
     irr::core::vector3df pos = water ? water->getPosition() : irr::core::vector3df();
     irr::core::vector3df rot = water ? water->getRotation() : irr::core::vector3df();
@@ -63,7 +44,6 @@ void Water::refreshMesh() {
 
     water = smgr->addWaterSurfaceSceneNode(rawMesh, height, speed, length, 0, 0, pos, rot, scale);
     water->getMaterial(0) = material;
-    if (irrHandler->defaultExclude) effects->excludeNodeFromLightingCalculations(water);
 }
 
 void Water::createRaw() {
@@ -78,7 +58,6 @@ void Water::createRaw() {
 }
 
 void Water::destroy() {
-    if (shadow) effects->removeShadowFromNode(water);
     if (water) {
         destroyEntry();
         water->remove();
@@ -173,10 +152,6 @@ void Water::setTexRepeat(const Vector2D& other) {
     texRepeat = irr::core::vector2df(other.x, other.y);
 }
 
-void Water::exclude() {
-    if (water) effects->excludeNodeFromLightingCalculations(water);
-}
-
 void bindWater() {
     sol::usertype<Water> bind_type = lua->new_usertype<Water>("Water",
         sol::constructors<
@@ -196,12 +171,9 @@ void bindWater() {
         "length", sol::property(&Water::getLength, &Water::setLength),
         "tileSize", sol::property(&Water::getTileSize, &Water::setTileSize),
         "tileCount", sol::property(&Water::getTileCount, &Water::setTileCount),
-        "texRepeat", sol::property(&Water::getTexRepeat, &Water::setTexRepeat),
-        "shadows", sol::property(&Water::getShadows, &Water::setShadows)
-    );
+        "texRepeat", sol::property(&Water::getTexRepeat, &Water::setTexRepeat));
 
     bind_type["destroy"] = &Water::destroy;
     bind_type["loadMaterial"] = &Water::loadMaterial;
     bind_type["setParent"] = &Water::setParent;
-    bind_type["ignoreLighting"] = &Water::exclude;
 }

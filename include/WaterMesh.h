@@ -31,9 +31,6 @@ public:
     Water(const Vector2D& ts, const Vector2D& tc, const Vector2D& tr);
     Water(sol::table tbl);
 
-    int getShadows();
-    void setShadows(int i);
-
     void refreshMesh();
     void createRaw();
     void destroy();
@@ -69,8 +66,6 @@ public:
 
     Vector2D getTexRepeat();
     void setTexRepeat(const Vector2D& other);
-
-    void exclude();
 
     irr::scene::ISceneNode* getNode() const override { return water; }
 };

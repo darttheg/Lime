@@ -35,9 +35,6 @@
     <Filter Include="Header Files\Core\Debugging">
       <UniqueIdentifier>{ce50342b-fbb8-416d-b564-71bfc908030d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Graphics\xEffects">
-      <UniqueIdentifier>{9ac74168-5c6a-4c73-b7ba-eb1463455074}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Graphics\Text">
       <UniqueIdentifier>{db899204-35d0-4f7a-8042-a2ae23393372}</UniqueIdentifier>
     </Filter>
@@ -68,14 +65,17 @@
     <Filter Include="Source Files\Graphics\Text">
       <UniqueIdentifier>{4a599349-7056-421a-9e8d-49ad933e3dc8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Graphics\xEffects">
-      <UniqueIdentifier>{63cb87da-e33f-431e-8b6f-781352a79e6c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Physics">
       <UniqueIdentifier>{d7a440f8-cd14-44eb-b907-c696ea5bc482}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Physics">
       <UniqueIdentifier>{a06ab6ed-b0a4-434d-83da-96d1346c2042}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Physics\IrrBullet">
+      <UniqueIdentifier>{15132382-1f12-4872-a5aa-a1bb53b0ef29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Physics\IrrBullet">
+      <UniqueIdentifier>{601089ef-ee51-4b0b-8122-8eb11a276c7b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -116,9 +116,6 @@
       <Filter>Source Files\Compatible2D</Filter>
     </ClCompile>
     <ClCompile Include="src\LegacyLight.cpp">
-      <Filter>Source Files\Compatible3D</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Light.cpp">
       <Filter>Source Files\Compatible3D</Filter>
     </ClCompile>
     <ClCompile Include="src\Line.cpp">
@@ -181,17 +178,92 @@
     <ClCompile Include="src\LuaLime.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="src\EffectHandler.cpp">
-      <Filter>Source Files\Graphics\xEffects</Filter>
-    </ClCompile>
     <ClCompile Include="src\GhostTrailSceneNode.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Compatible2D.cpp">
+    <ClCompile Include="src\PhysicsHandler.cpp">
+      <Filter>Source Files\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Compatible2D.cpp">
       <Filter>Source Files\Compatible2D</Filter>
     </ClCompile>
-    <ClCompile Include="Compatible3D.cpp">
+    <ClCompile Include="src\Compatible3D.cpp">
       <Filter>Source Files\Compatible3D</Filter>
+    </ClCompile>
+    <ClCompile Include="src\irrBulletWorld.cpp">
+      <Filter>Source Files\Physics\IrrBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="src\irrBullet.cpp">
+      <Filter>Source Files\Physics\IrrBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="src\irrBulletBoxShape.cpp">
+      <Filter>Source Files\Physics\IrrBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="src\irrBulletBvhTriangleMeshShape.cpp">
+      <Filter>Source Files\Physics\IrrBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="src\irrBulletCapsuleShape.cpp">
+      <Filter>Source Files\Physics\IrrBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="src\irrBulletCollisionCallBackInformation.cpp">
+      <Filter>Source Files\Physics\IrrBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="src\irrBulletCollisionObject.cpp">
+      <Filter>Source Files\Physics\IrrBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="src\irrBulletCollisionObjectAffector.cpp">
+      <Filter>Source Files\Physics\IrrBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="src\irrBulletCollisionObjectAffectorAttract.cpp">
+      <Filter>Source Files\Physics\IrrBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="src\irrBulletCollisionObjectAffectorDelete.cpp">
+      <Filter>Source Files\Physics\IrrBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="src\irrBulletCollisionShape.cpp">
+      <Filter>Source Files\Physics\IrrBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="src\irrBulletcommon.cpp">
+      <Filter>Source Files\Physics\IrrBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="src\irrBulletConeShape.cpp">
+      <Filter>Source Files\Physics\IrrBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="src\irrBulletConvexHullShape.cpp">
+      <Filter>Source Files\Physics\IrrBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="src\irrBulletCylinderShape.cpp">
+      <Filter>Source Files\Physics\IrrBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="src\irrBulletGhostObject.cpp">
+      <Filter>Source Files\Physics\IrrBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="src\irrBulletGImpactMeshShape.cpp">
+      <Filter>Source Files\Physics\IrrBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="src\irrBulletLiquidBody.cpp">
+      <Filter>Source Files\Physics\IrrBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="src\irrBulletMotionState.cpp">
+      <Filter>Source Files\Physics\IrrBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="src\irrBulletPhysicsDebug.cpp">
+      <Filter>Source Files\Physics\IrrBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="src\irrBulletRayCastVehicle.cpp">
+      <Filter>Source Files\Physics\IrrBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="src\irrBulletRigidBody.cpp">
+      <Filter>Source Files\Physics\IrrBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="src\irrBulletSoftBody.cpp">
+      <Filter>Source Files\Physics\IrrBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="src\irrBulletSphereShape.cpp">
+      <Filter>Source Files\Physics\IrrBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="src\irrBulletTriangleMeshShape.cpp">
+      <Filter>Source Files\Physics\IrrBullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -226,9 +298,6 @@
       <Filter>Header Files\Core</Filter>
     </ClInclude>
     <ClInclude Include="include\LegacyLight.h">
-      <Filter>Header Files\Compatible3D</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Light.h">
       <Filter>Header Files\Compatible3D</Filter>
     </ClInclude>
     <ClInclude Include="include\LimeReceiver.h">
@@ -309,21 +378,6 @@
     <ClInclude Include="include\LightManager.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="include\CScreenQuad.h">
-      <Filter>Header Files\Graphics\xEffects</Filter>
-    </ClInclude>
-    <ClInclude Include="include\CShaderPre.h">
-      <Filter>Header Files\Graphics\xEffects</Filter>
-    </ClInclude>
-    <ClInclude Include="include\EffectCB.h">
-      <Filter>Header Files\Graphics\xEffects</Filter>
-    </ClInclude>
-    <ClInclude Include="include\EffectHandler.h">
-      <Filter>Header Files\Graphics\xEffects</Filter>
-    </ClInclude>
-    <ClInclude Include="include\EffectShaders.h">
-      <Filter>Header Files\Graphics\xEffects</Filter>
-    </ClInclude>
     <ClInclude Include="include\Line.h">
       <Filter>Header Files\Graphics\Text</Filter>
     </ClInclude>
@@ -333,14 +387,95 @@
     <ClInclude Include="include\TextArea.h">
       <Filter>Header Files\Graphics\Text</Filter>
     </ClInclude>
-    <ClInclude Include="include\XEffects.h">
-      <Filter>Header Files\Graphics\xEffects</Filter>
-    </ClInclude>
     <ClInclude Include="include\DrawSphere.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="include\ParseCmd.h">
       <Filter>Header Files\Core\Debugging</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PhysicsHandler.h">
+      <Filter>Header Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\irrBulletCompileConfig.h">
+      <Filter>Header Files\Physics\IrrBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="include\irrBulletConeShape.h">
+      <Filter>Header Files\Physics\IrrBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="include\irrBulletConvexHullShape.h">
+      <Filter>Header Files\Physics\IrrBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="include\irrBulletCylinderShape.h">
+      <Filter>Header Files\Physics\IrrBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="include\irrBulletGhostObject.h">
+      <Filter>Header Files\Physics\IrrBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="include\irrBulletGImpactMeshShape.h">
+      <Filter>Header Files\Physics\IrrBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="include\irrBulletKinematicCharacterController.h">
+      <Filter>Header Files\Physics\IrrBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="include\irrBulletLiquidBody.h">
+      <Filter>Header Files\Physics\IrrBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="include\irrBulletMotionState.h">
+      <Filter>Header Files\Physics\IrrBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="include\irrBulletPhysicsDebug.h">
+      <Filter>Header Files\Physics\IrrBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="include\irrBulletRayCastVehicle.h">
+      <Filter>Header Files\Physics\IrrBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="include\irrBulletRigidBody.h">
+      <Filter>Header Files\Physics\IrrBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="include\irrBulletSoftBody.h">
+      <Filter>Header Files\Physics\IrrBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="include\irrBulletSphereShape.h">
+      <Filter>Header Files\Physics\IrrBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="include\irrBulletTriangleMeshShape.h">
+      <Filter>Header Files\Physics\IrrBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="include\irrBulletWorld.h">
+      <Filter>Header Files\Physics\IrrBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="include\irrBullet.h">
+      <Filter>Header Files\Physics\IrrBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="include\irrBulletBoxShape.h">
+      <Filter>Header Files\Physics\IrrBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="include\irrBulletBvhTriangleMeshShape.h">
+      <Filter>Header Files\Physics\IrrBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="include\irrBulletCapsuleShape.h">
+      <Filter>Header Files\Physics\IrrBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="include\irrBulletCollisionCallBackInformation.h">
+      <Filter>Header Files\Physics\IrrBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="include\irrBulletCollisionObject.h">
+      <Filter>Header Files\Physics\IrrBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="include\irrBulletCollisionObjectAffector.h">
+      <Filter>Header Files\Physics\IrrBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="include\irrBulletCollisionObjectAffectorAttract.h">
+      <Filter>Header Files\Physics\IrrBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="include\irrBulletCollisionObjectAffectorDelete.h">
+      <Filter>Header Files\Physics\IrrBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="include\irrBulletCollisionShape.h">
+      <Filter>Header Files\Physics\IrrBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="include\irrBulletCommon.h">
+      <Filter>Header Files\Physics\IrrBullet</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

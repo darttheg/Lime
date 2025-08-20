@@ -3,6 +3,8 @@
 #include "LimeReceiver.h"
 #include "Sound.h"
 
+#include "irrBullet.h"
+
 #include <filesystem>
 
 namespace fs = std::filesystem;
@@ -159,7 +161,6 @@ void IrrHandling::initScene()
 	device->setWindowCaption(L"Lime Application");
 
 	driver = device->getVideoDriver();
-	effects = new EffectHandler(device, driver->getScreenSize(), false, true, false);
 	smgr = device->getSceneManager();
 	guienv = device->getGUIEnvironment();
 
@@ -167,6 +168,8 @@ void IrrHandling::initScene()
 	smgr->setLightManager(0);
 
 	networkHandler = new NetworkHandler();
+
+	physicsHandler = new PhysicsHandler();
 
 	appLoop();
 }
@@ -247,16 +250,14 @@ void IrrHandling::appLoop() {
 	sol::protected_function luaOnUpdate = (*lua)["Lime"]["OnUpdate"];
 	sol::protected_function luaOnEnd = (*lua)["Lime"]["OnEnd"];
 
-	bool ranHandlers = false;
-
 	lua->script("math.randomseed(os.time())");
 
 	// Call start in main
 	testLuaFunc((*lua)["Lime"]["OnStart"]);
-
 	u32 then = device->getTimer()->getTime();
+	f32 const frameDur = 1000.f / frameLimit;
 
-	f32 const frameDur = 1000.f / m_frameLimit;
+	bool ranHandlers = false;
 
 	while (device->run()) {
 		receiver->lastFocused = nullptr;
@@ -309,6 +310,10 @@ void IrrHandling::appLoop() {
 			mainCameraForward->updateAbsolutePosition();
 			mainCamera->setTarget(mainCameraForward->getAbsolutePosition());
 		}
+
+		// Physics
+		if (physicsHandler)
+			physicsHandler->update();
 
 		//HandleTransformQueue();
 
@@ -482,12 +487,7 @@ void IrrHandling::HandleCameraQueue() {
 	if (smgr->getActiveCamera()) {
 		setCameraMatrix(smgr->getActiveCamera());
 
-		if (legacyDrawing)
-			smgr->drawAll();
-		else {
-			effects->update();
-			effects->setClearColour(irr::video::SColor(0, 0, 0, 0));
-		}
+		smgr->drawAll();
 	}
 
 	while (!cameraQueue.empty()) {
@@ -506,12 +506,7 @@ void IrrHandling::HandleCameraQueue() {
 				c.forward->updateAbsolutePosition();
 				c.cam->setTarget(c.forward->getAbsolutePosition());
 
-				if (c.defaultRendering) {
-					smgr->drawAll();
-				}
-				else {
-					effects->update();
-				}
+				smgr->drawAll();
 			}
 		}
 

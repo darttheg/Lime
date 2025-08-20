@@ -17,8 +17,6 @@ public:
     float trailWidth;
     int segments;
     Vector3D wind;
-    int shadow;
-    bool hadShadow;
     int mode;
 
     Trail();
@@ -51,10 +49,6 @@ public:
     void setDebug(bool visible);
 
     bool loadMaterial(const Material& material);
-
-    void exclude();
-    int getShadows();
-    void setShadows(int i);
 
     void setUpdateNormals(bool enable);
 

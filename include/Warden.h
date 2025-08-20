@@ -9,8 +9,11 @@
 #include "DebugVisual.h"
 #include "Sound.h"
 
-typedef unsigned int u32;
+// For glfw set window icon
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
 
+typedef unsigned int u32;
 using namespace irr;
 
 namespace Warden {
@@ -172,7 +175,7 @@ namespace Warden {
 
 	void setFrameRate(int fps) {
 		if (device && fps >= 0 && irrHandler)
-			irrHandler->m_frameLimit = fps;
+			irrHandler->frameLimit = fps;
 	}
 
 	// Get memory usage
@@ -212,13 +215,7 @@ namespace Warden {
 	void setBackgroundColor(Vector4D& color) {
 		if (driver && irrHandler) {
 			irrHandler->backgroundColor = irr::video::SColor(color.w, color.x, color.y, color.z);
-			effects->setClearColour(irrHandler->backgroundColor);
 		}
-	}
-
-	void setLegacyDrawing(bool enable) {
-		if (irrHandler)
-			irrHandler->legacyDrawing = enable;
 	}
 
 	// Set skydome
@@ -441,6 +438,15 @@ namespace Warden {
 			glfwSetWindowAspectRatio(irrHandler->glfwWindow, GLFW_DONT_CARE, GLFW_DONT_CARE);
 	}
 
+	void setWindowIcon(const Texture& icon) {
+		GLFWimage images[1];
+		images[0].pixels = stbi_load(icon.getPath().c_str(), &images[0].width, &images[0].height, 0, 4);
+		if (images[0].pixels) {
+			glfwSetWindowIcon(irrHandler->glfwWindow, 1, images);
+			stbi_image_free(images[0].pixels);
+		}
+	}
+
 	Vector2D getMouseDelta() {
 		if (receiver->firstMouse) {
 			receiver->firstMouse = false;
@@ -525,7 +531,6 @@ namespace Warden {
 	// Shadows
 	void setAmbientColor(const Vector4D& color) {
 		smgr->setAmbientLight(video::SColorf(static_cast<u32>(color.x) / 255.0f, static_cast<u32>(color.y) / 255.0f, static_cast<u32>(color.z) / 255.0f, static_cast<u32>(color.w) / 255.0f));
-		effects->setAmbientColor(SColor(static_cast<u32>(color.w), static_cast<u32>(color.x), static_cast<u32>(color.y), static_cast<u32>(color.z)));
 	}
 
 	void setShadowColor(const Vector4D& color) {
@@ -536,11 +541,6 @@ namespace Warden {
 		SColor s = smgr->getShadowColor();
 		s.setAlpha(opacity);
 		smgr->setShadowColor(s);
-	}
-
-	void defaultExclude(bool enable) {
-		if (device && effects)
-			irrHandler->defaultExclude = enable;
 	}
 
 	// Sound
@@ -708,11 +708,8 @@ namespace Warden {
 
 			smgr->setActiveCamera(cur);
 
-			if (irrHandler->legacyDrawing) {
-				driver->setRenderTarget(tx, true, true, irrHandler->backgroundColor);
-				smgr->drawAll();
-			} else
-				effects->update();
+			driver->setRenderTarget(tx, true, true, irrHandler->backgroundColor);
+			smgr->drawAll();
 
 			if (renderGUI)
 				guienv->drawAll();
@@ -740,42 +737,6 @@ namespace Warden {
 	void clearGUI() {
 		if (guienv && device)
 			guienv->clear();
-	}
-
-	void addPPX(std::string path) {
-		if (effects)
-			effects->addPostProcessingEffectFromFile(path.c_str());
-	}
-
-	void setDefaultShadowFiltering(int i) {
-		if (irrHandler)
-			irrHandler->defaultShadowFiltering = (E_FILTER_TYPE)i;
-	}
-
-	void setDefaultShadowResolution(int i) {
-		switch (i) {
-		case 0:
-			i = 256;
-			break;
-		case 1:
-			i = 512;
-			break;
-		case 2:
-			i = 1024;
-			break;
-		case 3:
-			i = 2048;
-			break;
-		case 4:
-			i = 4096;
-			break;
-		default:
-			i = 512;
-			break;
-		}
-
-		if (irrHandler)
-			irrHandler->defaultShadowResolution = i;
 	}
 
 	// 2D
@@ -854,93 +815,92 @@ namespace Warden {
 		irrHandler->displayMessage(title, message, image);
 	}
 
-	// Network (Client)
-
-	// Network (Server)
-	void setVerbose(bool v) {
-		networkHandler->setVerbose(v);
-	}
-
-	bool initializeNetworking() {
-		return networkHandler ? networkHandler->initialize() : false;
-	}
-
-	void hostServer(std::string ip, int port, int maxClients, int maxChannels) {
-		if (!networkHandler || !networkHandler->initialized) {
-			if ((networkHandler->verbose)) dConsole.sendMsg("Networking WARNING: Failed to host server: Networking is not initialized", MESSAGE_TYPE::NETWORK_VERBOSE);
-			return;
+	#pragma region Networking Raw
+		void setVerbose(bool v) {
+			networkHandler->setVerbose(v);
 		}
 
-		networkHandler->hostServer(ip, port, maxClients, maxChannels);
-	}
+		bool initializeNetworking() {
+			return networkHandler ? networkHandler->initialize() : false;
+		}
 
-	bool isHostingServer() {
-		return networkHandler ? networkHandler->isHosting() : false;
-	}
+		void hostServer(std::string ip, int port, int maxClients, int maxChannels) {
+			if (!networkHandler || !networkHandler->initialized) {
+				if ((networkHandler->verbose)) dConsole.sendMsg("Networking WARNING: Failed to host server: Networking is not initialized", MESSAGE_TYPE::NETWORK_VERBOSE);
+				return;
+			}
 
-	int getIP() {
-		return networkHandler ? networkHandler->getServerIP() : 0;
-	}
+			networkHandler->hostServer(ip, port, maxClients, maxChannels);
+		}
 
-	int getPort() {
-		return networkHandler ? networkHandler->getPort() : 0;
-	}
+		bool isHostingServer() {
+			return networkHandler ? networkHandler->isHosting() : false;
+		}
 
-	void setBandwidthLimits(int incoming, int outgoing) {
-		if (networkHandler) networkHandler->setBandwidthLimit(incoming, outgoing); else if (!(networkHandler->initialized)) dConsole.sendMsg("Networking WARNING: Failed to set bandwidth limits: Networking is not initialized", MESSAGE_TYPE::NETWORK_VERBOSE);
-	}
+		int getIP() {
+			return networkHandler ? networkHandler->getServerIP() : 0;
+		}
 
-	bool shutdownNetworking() {
-		return networkHandler ? networkHandler->shutdown() : false;
-	}
+		int getPort() {
+			return networkHandler ? networkHandler->getPort() : 0;
+		}
 
-	bool stopHosting() {
-		return networkHandler ? networkHandler->stopHosting() : false;
-	}
+		void setBandwidthLimits(int incoming, int outgoing) {
+			if (networkHandler) networkHandler->setBandwidthLimit(incoming, outgoing); else if (!(networkHandler->initialized)) dConsole.sendMsg("Networking WARNING: Failed to set bandwidth limits: Networking is not initialized", MESSAGE_TYPE::NETWORK_VERBOSE);
+		}
 
-	bool createClient(int outgoing, int channels) {
-		return networkHandler ? networkHandler->createClient(outgoing, channels) : false;
-	}
+		bool shutdownNetworking() {
+			return networkHandler ? networkHandler->shutdown() : false;
+		}
 
-	bool destroyClient() {
-		return networkHandler ? networkHandler->destroyClient() : false;
-	}
+		bool stopHosting() {
+			return networkHandler ? networkHandler->stopHosting() : false;
+		}
 
-	void connectClient(std::string ad, int port, int channels) {
-		if (networkHandler) networkHandler->connectClient(ad, port, channels);
-	}
+		bool createClient(int outgoing, int channels) {
+			return networkHandler ? networkHandler->createClient(outgoing, channels) : false;
+		}
 
-	void disconnectClient() {
-		if (networkHandler) networkHandler->disconnectClient();
-	}
+		bool destroyClient() {
+			return networkHandler ? networkHandler->destroyClient() : false;
+		}
 
-	bool isClientConnected() {
-		return networkHandler ? networkHandler->isClientConnected() : false;
-	}
+		void connectClient(std::string ad, int port, int channels) {
+			if (networkHandler) networkHandler->connectClient(ad, port, channels);
+		}
 
-	int getPeerState(int peerID) {
-		return networkHandler ? networkHandler->getPeerState(peerID) : -1;
-	}
+		void disconnectClient() {
+			if (networkHandler) networkHandler->disconnectClient();
+		}
 
-	int getPeerPing(int peerID) {
-		return networkHandler ? networkHandler->getPeerState(peerID) : -1;
-	}
+		bool isClientConnected() {
+			return networkHandler ? networkHandler->isClientConnected() : false;
+		}
 
-	void forceDisconnectClient(int peerID, int reason) {
-		if (networkHandler) networkHandler->forceDisconnectClient(peerID, reason);
-	}
+		int getPeerState(int peerID) {
+			return networkHandler ? networkHandler->getPeerState(peerID) : -1;
+		}
 
-	void sendPacketToServer(int channel, const Packet& p, bool tcp) {
-		if (networkHandler) networkHandler->sendPacketToServer(p, channel, tcp);
-	}
+		int getPeerPing(int peerID) {
+			return networkHandler ? networkHandler->getPeerState(peerID) : -1;
+		}
 
-	void sendPacketToPeer(int peerID, int channel, const Packet& p, bool tcp) {
-		if (networkHandler) networkHandler->sendPacketToPeer(peerID, p, channel, tcp);
-	}
+		void forceDisconnectClient(int peerID, int reason) {
+			if (networkHandler) networkHandler->forceDisconnectClient(peerID, reason);
+		}
 
-	void sendPacketToAll(int channel, const Packet& p, bool tcp) {
-		if (networkHandler) networkHandler->sendPacketToAll(p, channel, tcp);
-	}
+		void sendPacketToServer(int channel, const Packet& p, bool tcp) {
+			if (networkHandler) networkHandler->sendPacketToServer(p, channel, tcp);
+		}
+
+		void sendPacketToPeer(int peerID, int channel, const Packet& p, bool tcp) {
+			if (networkHandler) networkHandler->sendPacketToPeer(peerID, p, channel, tcp);
+		}
+
+		void sendPacketToAll(int channel, const Packet& p, bool tcp) {
+			if (networkHandler) networkHandler->sendPacketToAll(p, channel, tcp);
+		}
+	#pragma endregion
 };
 
 void bindWarden() {
@@ -952,8 +912,7 @@ void bindWarden() {
 	sol::table networkClient = lua->create_named_table("NetworkClient");
 	sol::table networkServer = lua->create_named_table("NetworkServer");
 
-	// application
-	if (true) {
+	#pragma region Application
 		application["SetDriverType"] = &Warden::setDriverType;
 		application["SetFullscreen"] = &Warden::fullscreenWindow;
 		application["SetCaption"] = &Warden::setTitle;
@@ -980,10 +939,10 @@ void bindWarden() {
 		application["GetVersion"] = &Warden::getVersion;
 		application["SetMatchResolutionToSize"] = &Warden::setMatchResSize;
 		application["GetCommandLine"] = &Warden::getCommandLineValue;
-	}
+		application["SetWindowIcon"] = &Warden::setWindowIcon;
+	#pragma endregion
 	
-	// world
-	if (true) {
+	#pragma region World
 		world["SetSkydome"] = &Warden::setSkydome;
 		world["SetSkydomeParameters"] = &Warden::setSkydomeParams;
 		world["SetBackgroundColor"] = &Warden::setBackgroundColor;
@@ -1002,22 +961,16 @@ void bindWarden() {
 		world["SetShadows"] = &Warden::setShadows;
 		world["GetRenderTexture"] = &Warden::renderCameraOutput;
 		world["Clear"] = &Warden::clearScene;
-		world["AddPostProcessingEffect"] = &Warden::addPPX;
-		world["SetDefaultShadowFiltering"] = &Warden::setDefaultShadowFiltering;
-		world["SetDefaultShadowResolution"] = &Warden::setDefaultShadowResolution;
-		world["SetDefaultLightingExclusion"] = &Warden::defaultExclude;
 		world["PreloadMesh"] = &Warden::preloadMesh;
 		world["PreloadTexture"] = &Warden::preloadTexture;
 		world["UnloadMesh"] = &Warden::unloadMesh;
 		world["UnloadTexture"] = &Warden::unloadTexture;
-		world["SetLegacyDrawing"] = &Warden::setLegacyDrawing;
 		world["SetShadowColor"] = &Warden::setShadowColor;
 		world["SetShadowOpacity"] = &Warden::setShadowOpacity;
 		world["SetLightManagementMode"] = &Warden::setLightManagementMode;
-	}
+	#pragma endregion
 
-	// gui/2D images/text
-	if (true) {
+	#pragma region GUI
 		gui["ImportFont"] = &Warden::embedFont;
 		gui["SetDefaultFont"] = &Warden::setDefaultFont;
 		gui["GetImportedFontsList"] = &Warden::getFontList;
@@ -1027,10 +980,9 @@ void bindWarden() {
 		gui["SetAntiAliasing"] = &Warden::setAntiAliasing;
 		gui["Clear"] = &Warden::clearGUI;
 		gui["Queue"] = &Warden::queueGUI;
-	}
+	#pragma endregion
 
-	// sound
-	if (true) {
+	#pragma region Sound
 		sound["PlaySound2D"] = &Warden::play2DSound;
 		sound["PlaySound3D"] = &Warden::play3DSound;
 		sound["PlaySound2DOnChannel"] = &Warden::play2DSoundOnChannel;
@@ -1054,10 +1006,9 @@ void bindWarden() {
 		sound["SetChannelPosition3D"] = &Warden::setChannelPosition3D;
 		sound["IsChannelEmpty"] = &Warden::isChannelFree;
 		sound["SetChannelMinimumDistance"] = &Warden::setChannelDistance;
-	}
+	#pragma endregion
 
-	// input
-	if (true) {
+	#pragma region Input
 		input["IsKeyDown"] = &Warden::isKeyDown;
 		input["GetMouseState"] = &Warden::getMouseState;
 		input["GetControllerState"] = &Warden::getControllerState;
@@ -1067,10 +1018,10 @@ void bindWarden() {
 		input["GetMousePosition"] = &Warden::getCursorPosition;
 		//input["SetRawInputMode"] = &Warden::setRawInputMode;
 		input["GetMouseDelta"] = &Warden::getMouseDelta;
-	}
+	#pragma endregion
 
-	// networkClient
-	if (true) {
+	#pragma region Networking
+		// Client
 		networkClient["Initialize"] = &Warden::initializeNetworking;
 		networkClient["SetVerbose"] = &Warden::setVerbose;
 		networkClient["Create"] = &Warden::createClient;
@@ -1080,10 +1031,8 @@ void bindWarden() {
 		networkClient["IsConnected"] = &Warden::isClientConnected;
 
 		networkClient["SendPacketToServer"] = &Warden::sendPacketToServer;
-	}
 
-	// networkServer
-	if (true) {
+		// Server
 		networkServer["Initialize"] = &Warden::initializeNetworking;
 		networkServer["SetVerbose"] = &Warden::setVerbose;
 		networkServer["Host"] = &Warden::hostServer;
@@ -1099,5 +1048,5 @@ void bindWarden() {
 
 		networkServer["SendPacketToPeer"] = &Warden::sendPacketToPeer;
 		networkServer["SendPacketToAll"] = &Warden::sendPacketToAll;
-	}
+	#pragma endregion
 }

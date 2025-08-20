@@ -2,8 +2,6 @@
 
 ParticleSystem::ParticleSystem() {
 	ps = smgr->addParticleSystemSceneNode(false);
-
-	effects->excludeNodeFromLightingCalculations(ps);
 }
 
 Vector3D ParticleSystem::getPosition() {

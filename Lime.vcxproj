@@ -19,22 +19,45 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Compatible2D.cpp" />
-    <ClCompile Include="Compatible3D.cpp" />
     <ClCompile Include="src\Billboard.cpp" />
     <ClCompile Include="src\Camera3D.cpp" />
     <ClCompile Include="src\CGUIFont.cpp" />
+    <ClCompile Include="src\Compatible2D.cpp" />
+    <ClCompile Include="src\Compatible3D.cpp" />
     <ClCompile Include="src\CShaderPre.cpp" />
     <ClCompile Include="src\DebugConsole.cpp" />
     <ClCompile Include="src\EditBox.cpp" />
-    <ClCompile Include="src\EffectHandler.cpp" />
     <ClCompile Include="src\Empty.cpp" />
     <ClCompile Include="src\GhostTrailSceneNode.cpp" />
     <ClCompile Include="src\Hitbox.cpp" />
     <ClCompile Include="src\Image2D.cpp" />
+    <ClCompile Include="src\irrBullet.cpp" />
+    <ClCompile Include="src\irrBulletBoxShape.cpp" />
+    <ClCompile Include="src\irrBulletBvhTriangleMeshShape.cpp" />
+    <ClCompile Include="src\irrBulletCapsuleShape.cpp" />
+    <ClCompile Include="src\irrBulletCollisionCallBackInformation.cpp" />
+    <ClCompile Include="src\irrBulletCollisionObject.cpp" />
+    <ClCompile Include="src\irrBulletCollisionObjectAffector.cpp" />
+    <ClCompile Include="src\irrBulletCollisionObjectAffectorAttract.cpp" />
+    <ClCompile Include="src\irrBulletCollisionObjectAffectorDelete.cpp" />
+    <ClCompile Include="src\irrBulletCollisionShape.cpp" />
+    <ClCompile Include="src\irrBulletcommon.cpp" />
+    <ClCompile Include="src\irrBulletConeShape.cpp" />
+    <ClCompile Include="src\irrBulletConvexHullShape.cpp" />
+    <ClCompile Include="src\irrBulletCylinderShape.cpp" />
+    <ClCompile Include="src\irrBulletGhostObject.cpp" />
+    <ClCompile Include="src\irrBulletGImpactMeshShape.cpp" />
+    <ClCompile Include="src\irrBulletLiquidBody.cpp" />
+    <ClCompile Include="src\irrBulletMotionState.cpp" />
+    <ClCompile Include="src\irrBulletPhysicsDebug.cpp" />
+    <ClCompile Include="src\irrBulletRayCastVehicle.cpp" />
+    <ClCompile Include="src\irrBulletRigidBody.cpp" />
+    <ClCompile Include="src\irrBulletSoftBody.cpp" />
+    <ClCompile Include="src\irrBulletSphereShape.cpp" />
+    <ClCompile Include="src\irrBulletTriangleMeshShape.cpp" />
+    <ClCompile Include="src\irrBulletWorld.cpp" />
     <ClCompile Include="src\IrrHandling.cpp" />
     <ClCompile Include="src\LegacyLight.cpp" />
-    <ClCompile Include="src\Light.cpp" />
     <ClCompile Include="src\Lime.cpp" />
     <ClCompile Include="src\LimeReceiver.cpp" />
     <ClCompile Include="src\Line.cpp" />
@@ -45,6 +68,7 @@
     <ClCompile Include="src\os.cpp" />
     <ClCompile Include="src\Packet.cpp" />
     <ClCompile Include="src\ParticleSystem.cpp" />
+    <ClCompile Include="src\PhysicsHandler.cpp" />
     <ClCompile Include="src\SolConversions.cpp" />
     <ClCompile Include="src\Sound.cpp" />
     <ClCompile Include="src\StaticMesh.cpp" />
@@ -64,23 +88,44 @@
     <ClInclude Include="include\CGUIFont.h" />
     <ClInclude Include="include\Compatible2D.h" />
     <ClInclude Include="include\Compatible3D.h" />
-    <ClInclude Include="include\CScreenQuad.h" />
-    <ClInclude Include="include\CShaderPre.h" />
     <ClInclude Include="include\DebugConsole.h" />
     <ClInclude Include="include\DebugVisual.h" />
     <ClInclude Include="include\DrawSphere.h" />
     <ClInclude Include="include\EditBox.h" />
-    <ClInclude Include="include\EffectCB.h" />
-    <ClInclude Include="include\EffectHandler.h" />
-    <ClInclude Include="include\EffectShaders.h" />
     <ClInclude Include="include\Empty.h" />
     <ClInclude Include="include\GhostTrailSceneNode.h" />
     <ClInclude Include="include\Hitbox.h" />
     <ClInclude Include="include\Image2D.h" />
+    <ClInclude Include="include\irrBullet.h" />
+    <ClInclude Include="include\irrBulletBoxShape.h" />
+    <ClInclude Include="include\irrBulletBvhTriangleMeshShape.h" />
+    <ClInclude Include="include\irrBulletCapsuleShape.h" />
+    <ClInclude Include="include\irrBulletCollisionCallBackInformation.h" />
+    <ClInclude Include="include\irrBulletCollisionObject.h" />
+    <ClInclude Include="include\irrBulletCollisionObjectAffector.h" />
+    <ClInclude Include="include\irrBulletCollisionObjectAffectorAttract.h" />
+    <ClInclude Include="include\irrBulletCollisionObjectAffectorDelete.h" />
+    <ClInclude Include="include\irrBulletCollisionShape.h" />
+    <ClInclude Include="include\irrBulletCommon.h" />
+    <ClInclude Include="include\irrBulletCompileConfig.h" />
+    <ClInclude Include="include\irrBulletConeShape.h" />
+    <ClInclude Include="include\irrBulletConvexHullShape.h" />
+    <ClInclude Include="include\irrBulletCylinderShape.h" />
+    <ClInclude Include="include\irrBulletGhostObject.h" />
+    <ClInclude Include="include\irrBulletGImpactMeshShape.h" />
+    <ClInclude Include="include\irrBulletKinematicCharacterController.h" />
+    <ClInclude Include="include\irrBulletLiquidBody.h" />
+    <ClInclude Include="include\irrBulletMotionState.h" />
+    <ClInclude Include="include\irrBulletPhysicsDebug.h" />
+    <ClInclude Include="include\irrBulletRayCastVehicle.h" />
+    <ClInclude Include="include\irrBulletRigidBody.h" />
+    <ClInclude Include="include\irrBulletSoftBody.h" />
+    <ClInclude Include="include\irrBulletSphereShape.h" />
+    <ClInclude Include="include\irrBulletTriangleMeshShape.h" />
+    <ClInclude Include="include\irrBulletWorld.h" />
     <ClInclude Include="include\IrrHandling.h" />
     <ClInclude Include="include\IrrManagers.h" />
     <ClInclude Include="include\LegacyLight.h" />
-    <ClInclude Include="include\Light.h" />
     <ClInclude Include="include\LightManager.h" />
     <ClInclude Include="include\LimeReceiver.h" />
     <ClInclude Include="include\Line.h" />
@@ -92,6 +137,7 @@
     <ClInclude Include="include\Packet.h" />
     <ClInclude Include="include\ParseCmd.h" />
     <ClInclude Include="include\ParticleSystem.h" />
+    <ClInclude Include="include\PhysicsHandler.h" />
     <ClInclude Include="include\SolConversions.h" />
     <ClInclude Include="include\Sound.h" />
     <ClInclude Include="include\StaticMesh.h" />
@@ -107,7 +153,6 @@
     <ClInclude Include="include\Vector4D.h" />
     <ClInclude Include="include\Warden.h" />
     <ClInclude Include="include\WaterMesh.h" />
-    <ClInclude Include="include\XEffects.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -223,9 +268,9 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;LUAJIT_ENABLE_EXCEPTIONS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;LUAJIT_ENABLE_EXCEPTIONS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\irrlicht-1.8.5\include;..\luajit\src;..\sol2\include;..\irrKlang-1.6.0\include;..\enet-1.3.18\include;..\bullet3-2.83\src;..\irrBullet-master\include;..\glfw-3.4.bin.WIN64\include;$(ProjectDir)include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\irrlicht-1.8.5\include;..\luajit\src;..\sol2\include;..\irrKlang-1.6.0\include;..\enet-1.3.18\include;..\bullet3-2.83.7\src;..\glfw-3.4.bin.WIN64\include;$(ProjectDir)include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
@@ -234,8 +279,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\irrlicht-1.8.5\lib\Win64-visualStudio;..\luajit\src;..\irrKlang-1.6.0\lib\Winx64-visualStudio;..\enet-1.3.18\build\Release;..\bullet3-2.83\src;..\glfw-3.4.bin.WIN64\lib-vc2022</AdditionalLibraryDirectories>
-      <AdditionalDependencies>$(CoreLibraryDependencies);winmm.lib;ws2_32.lib;enet.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\irrlicht-1.8.5\lib\Win64-visualStudio;..\luajit\src;..\irrKlang-1.6.0\lib\Winx64-visualStudio;..\enet-1.3.18\build\Release;..\glfw-3.4.bin.WIN64\lib-vc2022;..\bullet3-2.83.7\build\lib\Release</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(CoreLibraryDependencies);winmm.lib;ws2_32.lib;enet.lib;glfw3.lib;BulletCollision.lib;BulletDynamics.lib;BulletSoftBody.lib;LinearMath.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

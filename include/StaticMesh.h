@@ -23,8 +23,6 @@ public:
     irr::scene::ITriangleSelector* selector;
     bool collisionEnabled;
     irr::video::SColor vColor;
-    int shadow;
-    bool hadShadow;
 
     StaticMesh();
     StaticMesh(const std::string& filePath);
@@ -38,9 +36,6 @@ public:
     bool fullLoadMesh(const std::string& filePath, bool doTangents);
     bool loadMeshViaBuffer(const MeshBuffer& b);
 
-    int getShadows();
-    void setShadows(int i);
-
     unsigned int getVertexCount() const;
     unsigned int getMaterialCount() const;
 
@@ -50,7 +45,6 @@ public:
     bool getCollision() const;
     void setCollision(bool enable);
 
-    void exclude();
     bool getVisibility() const;
     void setVisibility(bool visible);
 

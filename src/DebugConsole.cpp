@@ -40,7 +40,7 @@ void DebugConsole::sendMsg(const char* msg, MESSAGE_TYPE m) {
     } else if((int)m == 2) {
         cur = FOREGROUND_GREEN;
     } else if ((int)m == 3) {
-        cur = FOREGROUND_BLUE;
+        cur = FOREGROUND_BLUE | FOREGROUND_INTENSITY;
     }
 
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);

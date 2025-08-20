@@ -133,30 +133,6 @@ bool Trail::loadMaterial(const Material& material) {
 	return true;
 }
 
-void Trail::exclude() {
-	if (t)
-		effects->excludeNodeFromLightingCalculations(t);
-}
-
-int Trail::getShadows() {
-	return t ? shadow : 0;
-}
-
-void Trail::setShadows(int i) {
-	if (t) {
-		shadow = i;
-		E_SHADOW_MODE mode = (E_SHADOW_MODE)i;
-		if (!hadShadow && (mode == E_SHADOW_MODE::ESM_BOTH || mode == E_SHADOW_MODE::ESM_CAST)) {
-			effects->addShadowToNode(t, irrHandler->defaultShadowFiltering, (E_SHADOW_MODE)shadow);
-			hadShadow = true;
-		}
-		else if (hadShadow) {
-			effects->removeShadowFromNode(t);
-			hadShadow = false;
-		}
-	}
-}
-
 void Trail::setUpdateNormals(bool enable) {
 	if (t)
 		t->setUpdateNormals(enable);
@@ -193,7 +169,6 @@ void bindTrail() {
 		"rotation", sol::property(&Trail::getRotation, &Trail::setRotation),
 		"scale", sol::property(&Trail::getScale, &Trail::setScale),
 		"debug", sol::property(&Trail::getDebug, &Trail::setDebug),
-		"shadows", sol::property(&Trail::getShadows, &Trail::setShadows),
 		"height", sol::property(&Trail::getWidth, &Trail::setWidth),
 		"wind", sol::property(&Trail::getWind, &Trail::setWind),
 		"segments", sol::property(&Trail::getSegments, &Trail::setSegments),
@@ -204,6 +179,5 @@ void bindTrail() {
 	bind_type["destroy"] = &Trail::destroy;
 	bind_type["setParent"] = &Trail::setParent;
 	bind_type["loadMaterial"] = &Trail::loadMaterial;
-	bind_type["ignoreLighting"] = &Trail::exclude;
 	bind_type["updateNormals"] = &Trail::setUpdateNormals;
 }

@@ -166,7 +166,7 @@ void LegacyLight::setVisible(bool visible) {
 }
 
 void bindLegacyLight() {
-	sol::usertype<LegacyLight> bind_type = lua->new_usertype<LegacyLight>("LegacyLight",
+	sol::usertype<LegacyLight> bind_type = lua->new_usertype<LegacyLight>("Light",
 		sol::constructors<LegacyLight(), LegacyLight(const LegacyLight& other), LegacyLight(int type), LegacyLight(const Vector3D& pos), LegacyLight(int type, const Vector3D & pos, const Vector3D & rot, const Vector4D & color)>(),
 
 		sol::base_classes, sol::bases<Compatible3D>(),

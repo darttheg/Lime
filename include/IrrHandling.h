@@ -13,7 +13,6 @@
 #include <string>
 #include "DebugConsole.h"
 #include "LuaLime.h"
-#include "XEffects.h"
 
 #include <queue>
 #include <mutex>
@@ -81,13 +80,11 @@ public:
 	void setCameraMatrix(irr::scene::ICameraSceneNode* c);
 	void HandleCameraQueue();
 	void displayMessage(std::string title, std::string message, int image);
-	int m_frameLimit = 60;
+	int frameLimit = 60;
 	float dt;
 	bool didEnd = false;
-	bool defaultExclude = false;
 	bool renderedGUI = false;
 	int lights = 0;
-	bool legacyDrawing = false;
 
 	irr::video::E_DRIVER_TYPE driverType = irr::video::EDT_DIRECT3D9;
 	int width = 640;
@@ -137,10 +134,6 @@ public:
 
 	// Window
 	GLFWwindow* glfwWindow;
-
-	// XEffects
-	E_FILTER_TYPE defaultShadowFiltering = E_FILTER_TYPE::EFT_8PCF;
-	int defaultShadowResolution = 1024;
 
 	irr::scene::ISceneNode* skydome = nullptr;
 	irr::video::SColor backgroundColor = (255, 100, 101, 140);

@@ -14,8 +14,6 @@ Text3D::Text3D(const std::string& tx, const Vector3D& pos, const Vector4D& col, 
 	setColor(col);
 	setPosition(pos);
 	text->grab();
-
-	effects->excludeNodeFromLightingCalculations(text);
 }
 
 Text3D::Text3D() : Text3D("Text", Vector3D(), Vector4D(255, 255, 255, 2555), "") {}

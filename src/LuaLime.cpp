@@ -8,7 +8,6 @@
 #include "Material.h"
 #include "StaticMesh.h"
 #include "Texture.h"
-#include "Light.h"
 #include "Text3D.h"
 #include "WaterMesh.h"
 #include "Image2D.h"
@@ -49,7 +48,6 @@ int LuaLime::initLua(irr::scene::ISceneManager* smgr, irr::video::IVideoDriver* 
 	bindMaterial();
 	bindStaticMesh();
 	bindTexture();
-	bindLight();
 	bindText3D();
 	bindWater();
 	bindImage2D();
