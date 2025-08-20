@@ -144,6 +144,8 @@ void IrrHandling::initScene()
 
 	HWND hwnd = glfwGetWin32Window(glfwWindow);
 
+	///////////////////////
+
 	SIrrlichtCreationParameters params;
 	params.DriverType = driverType;
 	params.WindowSize = dimension2d<u32>(width, height);
@@ -156,9 +158,8 @@ void IrrHandling::initScene()
 
 	device = createDeviceEx(params);
 
-	///////////////////////
-
 	device->setWindowCaption(L"Lime Application");
+	setTitleBarIcon(irrHandler->imgIconPath); // Run in case title bar icon was changed before window creation
 
 	driver = device->getVideoDriver();
 	smgr = device->getSceneManager();
@@ -856,5 +857,19 @@ void IrrHandling::updateIrrRenderRes() {
 	if (matchResSize) {
 		dimension2d<u32> newSize(static_cast<u32>(irrHandler->width), static_cast<u32>(irrHandler->height));
 		driver->OnResize(newSize);
+	}
+}
+
+// For glfw set window icon
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+
+void IrrHandling::setTitleBarIcon(std::string path) {
+	// Add invalid path check?
+	GLFWimage images[1];
+	images[0].pixels = stbi_load(path.c_str(), &images[0].width, &images[0].height, 0, 4);
+	if (images[0].pixels) {
+		glfwSetWindowIcon(irrHandler->glfwWindow, 1, images);
+		stbi_image_free(images[0].pixels);
 	}
 }

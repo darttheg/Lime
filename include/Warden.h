@@ -9,10 +9,6 @@
 #include "DebugVisual.h"
 #include "Sound.h"
 
-// For glfw set window icon
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
-
 typedef unsigned int u32;
 using namespace irr;
 
@@ -439,12 +435,12 @@ namespace Warden {
 	}
 
 	void setWindowIcon(const Texture& icon) {
-		GLFWimage images[1];
-		images[0].pixels = stbi_load(icon.getPath().c_str(), &images[0].width, &images[0].height, 0, 4);
-		if (images[0].pixels) {
-			glfwSetWindowIcon(irrHandler->glfwWindow, 1, images);
-			stbi_image_free(images[0].pixels);
+		irrHandler->imgIconPath = icon.getPath();
+		if (!driver) {
+			return;
 		}
+
+		irrHandler->setTitleBarIcon(irrHandler->imgIconPath);
 	}
 
 	Vector2D getMouseDelta() {

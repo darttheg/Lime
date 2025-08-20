@@ -130,10 +130,12 @@ public:
 	void onRestoreWindow();
 
 	void updateIrrRenderRes();
+	void setTitleBarIcon(std::string path);
 	bool matchResSize = true;
 
 	// Window
 	GLFWwindow* glfwWindow;
+	std::string imgIconPath = "";
 
 	irr::scene::ISceneNode* skydome = nullptr;
 	irr::video::SColor backgroundColor = (255, 100, 101, 140);

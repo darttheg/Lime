@@ -15,6 +15,11 @@ Texture::Texture(const std::string imgpath) : path(imgpath) {
 }
 
 bool Texture::load(const std::string& imgpath) {
+	if (!driver) {
+		// For Lime.SetWindowIcon
+		path = imgpath;
+		return false;
+	}
 	if (!imgpath.empty()) {
 		texture = driver->getTexture(imgpath.c_str());
 		if (!texture) return false;
