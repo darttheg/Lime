@@ -304,7 +304,7 @@ void bindHitbox() {
 		"ID", sol::property(&Hitbox::getID, &Hitbox::setID),
 		"radius", sol::property(&Hitbox::getRadius, &Hitbox::setRadius),
 		"height", sol::property(&Hitbox::getHeight, &Hitbox::setHeight),
-		"attributes", sol::property(&Hitbox::getAttributes, &Hitbox::setAttributes)
+		"dimensions", sol::property(&Hitbox::getAttributes, &Hitbox::setAttributes)
 	);
 
 	bind_type["destroy"] = &Hitbox::destroy;
