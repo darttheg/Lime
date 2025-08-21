@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Event.cpp" />
     <ClCompile Include="src\Billboard.cpp" />
     <ClCompile Include="src\Camera3D.cpp" />
     <ClCompile Include="src\CGUIFont.cpp" />
@@ -93,6 +94,7 @@
     <ClInclude Include="include\DrawSphere.h" />
     <ClInclude Include="include\EditBox.h" />
     <ClInclude Include="include\Empty.h" />
+    <ClInclude Include="include\Event.h" />
     <ClInclude Include="include\GhostTrailSceneNode.h" />
     <ClInclude Include="include\Hitbox.h" />
     <ClInclude Include="include\Image2D.h" />

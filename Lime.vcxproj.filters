@@ -265,6 +265,9 @@
     <ClCompile Include="src\irrBulletTriangleMeshShape.cpp">
       <Filter>Source Files\Physics\IrrBullet</Filter>
     </ClCompile>
+    <ClCompile Include="Event.cpp">
+      <Filter>Source Files\Core\Types</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Billboard.h">
@@ -476,6 +479,9 @@
     </ClInclude>
     <ClInclude Include="include\irrBulletCommon.h">
       <Filter>Header Files\Physics\IrrBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Event.h">
+      <Filter>Header Files\Core\Types</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
