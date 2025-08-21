@@ -62,6 +62,7 @@ int LuaLime::initLua(irr::scene::ISceneManager* smgr, irr::video::IVideoDriver* 
 	bindPacket();
 	bindMeshBuffer();
 	bindEvent();
+	bindHook();
 
 	return 0;
 }

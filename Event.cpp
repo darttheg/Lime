@@ -3,10 +3,23 @@
 Event::Event() {
 }
 
-void Event::add(sol::function f) {
+Hook Event::hook(sol::function f) {
 	f.push();
-	funcs.push_back(luaL_ref((*lua), LUA_REGISTRYINDEX));
+	int ref = luaL_ref((*lua), LUA_REGISTRYINDEX);
+	funcs.push_back(ref);
 	// We can get the function because it's sitting at the top of the registry after just being called.
+	
+	return Hook(shared_from_this(), ref);
+}
+
+bool Event::removeRef(int ref) {
+	auto it = std::find(funcs.begin(), funcs.end(), ref);
+	if (it == funcs.end())
+		return false;
+
+	luaL_unref((*lua), LUA_REGISTRYINDEX, ref);
+	funcs.erase(it);
+	return true;
 }
 
 void Event::clear() {
@@ -36,17 +49,45 @@ void Event::run() {
 	if (passc > 0) lua_pop((*lua), passc);
 }
 
-int Event::getSize() {
-	return funcs.size();
-}
-
 void bindEvent() {
 	sol::usertype<Event> bindType = lua->new_usertype<Event>("Event",
-		sol::constructors<Event()>()
+		sol::no_constructor
 	);
 
-	bindType["add"] = &Event::add;
+	bindType["hook"] = &Event::hook;
 	bindType["clear"] = &Event::clear;
 	bindType["run"] = &Event::run;
 	bindType["length"] = &Event::getSize;
+
+	bindType.set_function("new",
+		sol::factories([]() {
+			return std::make_shared<Event>();
+		})
+	);
+}
+
+//// Hook ////
+
+Hook::Hook() {
+}
+
+void Hook::unhook() {
+	if (!hooked)
+		return;
+
+	if (auto e = myEvent.lock())
+		e->removeRef(ref);
+
+	ref = LUA_NOREF;
+	hooked = false;
+}
+
+void bindHook() {
+	sol::usertype<Hook> bindType = lua->new_usertype<Hook>("Hook",
+		sol::constructors<Hook()>()
+	);
+	// Only receive this object when hooking to an Event so no constructors
+
+	bindType["unhook"] = &Hook::unhook;
+	bindType["getHooked"] = &Hook::isHooked;
 }

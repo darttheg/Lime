@@ -31,6 +31,7 @@
     <ClCompile Include="src\Empty.cpp" />
     <ClCompile Include="src\GhostTrailSceneNode.cpp" />
     <ClCompile Include="src\Hitbox.cpp" />
+    <ClCompile Include="src\Hook.cpp" />
     <ClCompile Include="src\Image2D.cpp" />
     <ClCompile Include="src\irrBullet.cpp" />
     <ClCompile Include="src\irrBulletBoxShape.cpp" />
@@ -97,6 +98,7 @@
     <ClInclude Include="include\Event.h" />
     <ClInclude Include="include\GhostTrailSceneNode.h" />
     <ClInclude Include="include\Hitbox.h" />
+    <ClInclude Include="include\Hook.h" />
     <ClInclude Include="include\Image2D.h" />
     <ClInclude Include="include\irrBullet.h" />
     <ClInclude Include="include\irrBulletBoxShape.h" />
