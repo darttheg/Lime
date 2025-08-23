@@ -261,7 +261,6 @@ void IrrHandling::appLoop() {
 	bool ranHandlers = false;
 
 	while (device->run()) {
-		receiver->lastFocused = nullptr;
 		const u32 now = device->getTimer()->getTime();
 		dt = (now - then) / 16.667f;
 		then = now;

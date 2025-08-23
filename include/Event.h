@@ -16,6 +16,9 @@ public:
 	void clear(); // Clear list
 	void run(); // Run Event
 	int getSize() const { return funcs.size(); }
+
+	template <class... Args>
+	void engineRun(Args&&... args);
 };
 
 class Hook {

@@ -31,7 +31,6 @@
     <ClCompile Include="src\Empty.cpp" />
     <ClCompile Include="src\GhostTrailSceneNode.cpp" />
     <ClCompile Include="src\Hitbox.cpp" />
-    <ClCompile Include="src\Hook.cpp" />
     <ClCompile Include="src\Image2D.cpp" />
     <ClCompile Include="src\irrBullet.cpp" />
     <ClCompile Include="src\irrBulletBoxShape.cpp" />
@@ -95,10 +94,17 @@
     <ClInclude Include="include\DrawSphere.h" />
     <ClInclude Include="include\EditBox.h" />
     <ClInclude Include="include\Empty.h" />
+    <ClInclude Include="include\EngineEvents.h" />
     <ClInclude Include="include\Event.h" />
+    <ClInclude Include="include\FunctionsApplication.h" />
+    <ClInclude Include="include\FunctionsGUI.h" />
+    <ClInclude Include="include\FunctionsImports.h" />
+    <ClInclude Include="include\FunctionsInput.h" />
+    <ClInclude Include="include\FunctionsNetworking.h" />
+    <ClInclude Include="include\FunctionsSound.h" />
+    <ClInclude Include="include\FunctionsWorld.h" />
     <ClInclude Include="include\GhostTrailSceneNode.h" />
     <ClInclude Include="include\Hitbox.h" />
-    <ClInclude Include="include\Hook.h" />
     <ClInclude Include="include\Image2D.h" />
     <ClInclude Include="include\irrBullet.h" />
     <ClInclude Include="include\irrBulletBoxShape.h" />

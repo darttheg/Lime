@@ -4,34 +4,11 @@
 #include "LuaLime.h"
 #include "Vector2D.h"
 
-class ButtonCallbackPairClick {
-public:
-    ButtonCallbackPairClick(irr::gui::IGUIButton* b, sol::function f) : button(b), callback(f) {
-    }
-
-    irr::gui::IGUIButton* button;
-    sol::function callback;
-};
-
-class ButtonCallbackPairHover {
-public:
-    ButtonCallbackPairHover(irr::gui::IGUIButton* b, sol::function f) : button(b), hover(f) {
-    }
-
-    irr::gui::IGUIButton* button;
-    sol::function hover;
-};
-
 using namespace irr;
 
 class LimeReceiver : public IEventReceiver
 {
 public:
-    std::vector<ButtonCallbackPairClick> buttonCallbackClick;
-    std::vector<ButtonCallbackPairHover> buttonCallbackHover;
-
-    void removeImg(irr::gui::IGUIButton* b);
-
     struct SMouseState
     {
         core::position2di Position;
@@ -42,7 +19,7 @@ public:
 
         SMouseState()
             : LeftButtonDown(false), RightButtonDown(false), MiddleButtonDown(false), WheelDelta(0.0f)
-        { }
+        {}
     } MouseState;
 
     struct SControllerState
@@ -68,13 +45,12 @@ public:
 
     sol::table getMouseState() const;
 
-    sol::table getControllerState() const;
+    sol::table getControllerState() const; // Add specification for more than one controller
 
     // Check if a key is currently pressed
     bool isKeyDown(irr::EKEY_CODE keyCode) const;
     void updateDeltaMouse(GLFWwindow* win);
     void updateLastMouse();
-    irr::gui::IGUIButton* lastFocused = nullptr;
 
     double mouseX, mouseY;
     double lastMouseX, lastMouseY;

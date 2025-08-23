@@ -1,29 +1,5 @@
 #include "LimeReceiver.h"
 
-void LimeReceiver::removeImg(irr::gui::IGUIButton* b) {
-    buttonCallbackClick.erase(
-        std::remove_if(
-            buttonCallbackClick.begin(),
-            buttonCallbackClick.end(),
-            [b](const ButtonCallbackPairClick& pair) {
-                return pair.button == b;
-            }
-        ),
-        buttonCallbackClick.end()
-    );
-
-    buttonCallbackHover.erase(
-        std::remove_if(
-            buttonCallbackHover.begin(),
-            buttonCallbackHover.end(),
-            [b](const ButtonCallbackPairHover& pair) {
-                return pair.button == b;
-            }
-        ),
-        buttonCallbackHover.end()
-    );
-}
-
 LimeReceiver::LimeReceiver()
 {
     keys.fill(false);
@@ -107,28 +83,6 @@ bool LimeReceiver::OnEvent(const SEvent& event)
         }
 
         ControllerState.Buttons = JoystickState.ButtonStates;
-    }
-
-    if (event.GUIEvent.EventType == irr::gui::EGET_ELEMENT_FOCUSED || event.GUIEvent.EventType == irr::gui::EGET_BUTTON_CLICKED) {
-        irr::gui::IGUIButton* button = static_cast<irr::gui::IGUIButton*>(event.GUIEvent.Caller);
-        for (const auto& pair : buttonCallbackClick) {
-            if (pair.button == button) {
-                if (pair.button == lastFocused) return true;
-                lastFocused = pair.button;
-                if (pair.callback) pair.callback(event.GUIEvent.EventType == irr::gui::EGET_ELEMENT_FOCUSED);
-                return true;
-            }
-        }
-    }
-
-    if (event.GUIEvent.EventType == irr::gui::EGET_ELEMENT_HOVERED || event.GUIEvent.EventType == irr::gui::EGET_ELEMENT_LEFT) {
-        irr::gui::IGUIButton* clickedButton = static_cast<irr::gui::IGUIButton*>(event.GUIEvent.Caller);
-        for (const auto& pair : buttonCallbackHover) {
-            if (pair.button == clickedButton) {
-                if (pair.hover) pair.hover(event.GUIEvent.EventType == irr::gui::EGET_ELEMENT_HOVERED);
-                return true;
-            }
-        }
     }
 
     return false;

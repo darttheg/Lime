@@ -62,8 +62,6 @@ void Image2D::setSize(const Vector2D& size) {
 		r.LowerRightCorner.X = r.UpperLeftCorner.X + size.x;
 		r.LowerRightCorner.Y = r.UpperLeftCorner.Y + size.y;
 		img->setRelativePosition(r);
-		if (button)
-			updateButton();
 	}
 }
 

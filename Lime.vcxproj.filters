@@ -77,6 +77,9 @@
     <Filter Include="Header Files\Physics\IrrBullet">
       <UniqueIdentifier>{601089ef-ee51-4b0b-8122-8eb11a276c7b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Core\Static">
+      <UniqueIdentifier>{5c8118fc-b370-4c2e-a895-8872f3e06185}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Vector2D.cpp">
@@ -266,9 +269,6 @@
       <Filter>Source Files\Physics\IrrBullet</Filter>
     </ClCompile>
     <ClCompile Include="Event.cpp">
-      <Filter>Source Files\Core\Types</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Hook.cpp">
       <Filter>Source Files\Core\Types</Filter>
     </ClCompile>
   </ItemGroup>
@@ -486,8 +486,29 @@
     <ClInclude Include="include\Event.h">
       <Filter>Header Files\Core\Types</Filter>
     </ClInclude>
-    <ClInclude Include="include\Hook.h">
-      <Filter>Header Files\Core\Types</Filter>
+    <ClInclude Include="include\EngineEvents.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\FunctionsWorld.h">
+      <Filter>Header Files\Core\Static</Filter>
+    </ClInclude>
+    <ClInclude Include="include\FunctionsApplication.h">
+      <Filter>Header Files\Core\Static</Filter>
+    </ClInclude>
+    <ClInclude Include="include\FunctionsGUI.h">
+      <Filter>Header Files\Core\Static</Filter>
+    </ClInclude>
+    <ClInclude Include="include\FunctionsInput.h">
+      <Filter>Header Files\Core\Static</Filter>
+    </ClInclude>
+    <ClInclude Include="include\FunctionsNetworking.h">
+      <Filter>Header Files\Core\Static</Filter>
+    </ClInclude>
+    <ClInclude Include="include\FunctionsSound.h">
+      <Filter>Header Files\Core\Static</Filter>
+    </ClInclude>
+    <ClInclude Include="include\FunctionsImports.h">
+      <Filter>Header Files\Core\Static</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
