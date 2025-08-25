@@ -51,8 +51,6 @@ public:
     Vector2D getPosition();
     void setPosition(const Vector2D& pos);
 
-    void setParent(const Image2D& other);
-
     bool getDrawBorder();
     void setDrawBorder(bool enable);
 

@@ -345,9 +345,6 @@
     <ClInclude Include="include\Trail.h">
       <Filter>Header Files\Compatible3D</Filter>
     </ClInclude>
-    <ClInclude Include="include\Warden.h">
-      <Filter>Header Files\Core</Filter>
-    </ClInclude>
     <ClInclude Include="include\WaterMesh.h">
       <Filter>Header Files\Compatible3D</Filter>
     </ClInclude>
@@ -508,6 +505,9 @@
       <Filter>Header Files\Core\Static</Filter>
     </ClInclude>
     <ClInclude Include="include\FunctionsImports.h">
+      <Filter>Header Files\Core\Static</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Warden.h">
       <Filter>Header Files\Core\Static</Filter>
     </ClInclude>
   </ItemGroup>

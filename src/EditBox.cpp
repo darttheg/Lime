@@ -132,10 +132,6 @@ void EditBox::setPosition(const Vector2D& pos) {
     if (box) box->setRelativePosition(irr::core::position2di(pos.x, pos.y));
 }
 
-void EditBox::setParent(const Image2D& other) {
-    if (box) other.img->addChild(box);
-}
-
 bool EditBox::getDrawBorder() {
     return box ? border : false;
 }
@@ -208,5 +204,4 @@ void bindEditBox() {
     bindType["toBack"] = &EditBox::sendToBack;
     bindType["setBorderAlignment"] = &EditBox::setBorderAlignment;
     bindType["setTextAlignment"] = &EditBox::setTextAlignment;
-    bindType["setParent"] = &EditBox::setParent;
 }

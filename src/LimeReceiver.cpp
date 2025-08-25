@@ -9,8 +9,7 @@ LimeReceiver::LimeReceiver()
 bool LimeReceiver::OnEvent(const SEvent& event)
 {
     // Handle keyboard input events
-    if (event.EventType == EET_KEY_INPUT_EVENT)
-    {
+    if (event.EventType == EET_KEY_INPUT_EVENT) {
         keys[event.KeyInput.Key] = event.KeyInput.PressedDown;
 
         if (event.KeyInput.PressedDown) {
@@ -26,8 +25,7 @@ bool LimeReceiver::OnEvent(const SEvent& event)
     }
 
     // Handle mouse input events
-    if (event.EventType == EET_MOUSE_INPUT_EVENT)
-    {
+    if (event.EventType == EET_MOUSE_INPUT_EVENT) {
         switch (event.MouseInput.Event)
         {
         case EMIE_LMOUSE_PRESSED_DOWN:
@@ -73,8 +71,8 @@ bool LimeReceiver::OnEvent(const SEvent& event)
         }
     }
 
-    if (event.EventType == EET_JOYSTICK_INPUT_EVENT)
-    {
+    // Handle controller event
+    if (event.EventType == EET_JOYSTICK_INPUT_EVENT) {
         JoystickState = event.JoystickEvent;
 
         for (u32 i = 0; i < SEvent::SJoystickEvent::NUMBER_OF_AXES; ++i)
@@ -83,6 +81,14 @@ bool LimeReceiver::OnEvent(const SEvent& event)
         }
 
         ControllerState.Buttons = JoystickState.ButtonStates;
+    }
+
+    // Handle GUI event
+    if (event.EventType == EET_GUI_EVENT) {
+        auto it = guiElements.find(event.GUIEvent.Caller);
+        if (it != guiElements.end()) {
+            
+        }
     }
 
     return false;

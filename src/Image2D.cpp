@@ -3,20 +3,21 @@
 Image2D::Image2D() {
 }
 
-Image2D::Image2D(const Texture& tex) {
-	img = guienv->addImage(tex.texture, irr::core::vector2di(0, 0));
+Image2D::Image2D(const Texture& tex) : Image2D(tex, Vector2D(0,0)) {
 }
 
-Image2D::Image2D(const Texture& tex, const Vector2D& pos) {
+Image2D::Image2D(const Texture& tex, const Vector2D& pos) : Image2D(tex, pos, Vector2D(tex.texture->getSize().Width, tex.texture->getSize().Height)) {
+}
+
+Image2D::Image2D(const Texture& tex, const Vector2D& pos, const Vector2D& dimensions) {
 	img = guienv->addImage(tex.texture, irr::core::vector2di(pos.x, pos.y));
-}
-
-Image2D::Image2D(const Texture& tex, const Vector2D& pos, const Vector2D& dimensions) : Image2D(tex, pos) {
 	setSize(dimensions);
+
+	receiver->guiElements[img] = this;
 }
 
 Image2D::Image2D(const Image2D& other) {
-	img = other.img;
+	img = other.img; // Remove?
 }
 
 Vector4D Image2D::getColor() {
@@ -71,8 +72,10 @@ void Image2D::setImage(const Texture& tex) {
 }
 
 void Image2D::destroy() {
-	if (img)
+	if (img) {
+		receiver->guiElements[img] = nullptr;
 		img->remove();
+	}
 }
 
 void Image2D::bringToFront() {

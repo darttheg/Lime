@@ -4,12 +4,23 @@ void Compatible2D::setParent(sol::optional<Compatible2D*> parent) {
 	irr::gui::IGUIElement* node = getNode();
 	if (!node || !(*parent)) return;
 
-	// add child etc.
+	// Add child etc.
 	(*parent)->getNode()->addChild(node);
 }
 
-void bindCompatible2D() {
-	sol::usertype<Compatible2D> bind_type = lua->new_usertype<Compatible2D>("Compatible2D");
+void Compatible2D::setDoInputEvents(bool enable) {
+	if (getNode())
+		doEvents = enable;
+}
 
-	bind_type["setParent"] = &Compatible2D::setParent;
+void bindCompatible2D() {
+	sol::usertype<Compatible2D> bindType = lua->new_usertype<Compatible2D>("Compatible2D",	
+		"hovered", &Compatible2D::hovered,
+		"pressed", &Compatible2D::pressed
+	);
+
+	bindType["setParent"] = &Compatible2D::setParent;
+	bindType["setDoInputEvents"] = &Compatible2D::setDoInputEvents;
+	bindType["simulateHover"] = &Compatible2D::simulateHover;
+	bindType["simulatePress"] = &Compatible2D::simulatePressed;
 }

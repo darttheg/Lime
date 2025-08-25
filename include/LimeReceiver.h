@@ -3,6 +3,7 @@
 #include <sol/sol.hpp>
 #include "LuaLime.h"
 #include "Vector2D.h"
+#include <Compatible2D.h>
 
 using namespace irr;
 
@@ -38,6 +39,10 @@ public:
             return Buttons & (1 << buttonIndex);
         }
     } ControllerState;
+
+    // GUI Events
+    std::unordered_map<irr::gui::IGUIElement*, Compatible2D*> guiElements;
+    // On GUI event, if click or hover, see if caller is in this map. If so, call its events etc.
 
     LimeReceiver();
 
