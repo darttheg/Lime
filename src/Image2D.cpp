@@ -12,8 +12,6 @@ Image2D::Image2D(const Texture& tex, const Vector2D& pos) : Image2D(tex, pos, Ve
 Image2D::Image2D(const Texture& tex, const Vector2D& pos, const Vector2D& dimensions) {
 	img = guienv->addImage(tex.texture, irr::core::vector2di(pos.x, pos.y));
 	setSize(dimensions);
-
-	receiver->guiElements[img] = this;
 }
 
 Image2D::Image2D(const Image2D& other) {

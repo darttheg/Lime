@@ -9,8 +9,6 @@ Text2D::Text2D(std::string tx, const Vector2D& pos) : Text2D(tx, pos, Vector2D(2
 Text2D::Text2D(std::string tx, const Vector2D& pos, const Vector2D& dimensions) {
 	text = guienv->addStaticText(charToWchar(tx.c_str()), irr::core::recti(irr::core::vector2di(pos.x, pos.y), irr::core::vector2di(pos.x + dimensions.x, pos.y + dimensions.y)));
 	text->setBackgroundColor(irr::video::SColor(0, 180, 180, 180));
-
-	receiver->guiElements[text] = this;
 }
 
 Text2D::Text2D(const Text2D& other) {
