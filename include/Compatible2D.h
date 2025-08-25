@@ -18,6 +18,7 @@ public:
     bool doEvents = false;
     void setDoInputEvents(bool enable); // Do we even process this object for these special events?
     irr::gui::IGUIButton* button = nullptr;
+    void initButton();
 
     bool hovered = false;
     bool pressed = false; // Can be checked if held down

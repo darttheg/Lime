@@ -13,6 +13,10 @@ void Compatible2D::setDoInputEvents(bool enable) {
 		doEvents = enable;
 }
 
+void Compatible2D::initButton() {
+
+}
+
 void bindCompatible2D() {
 	sol::usertype<Compatible2D> bindType = lua->new_usertype<Compatible2D>("Compatible2D",	
 		"hovered", &Compatible2D::hovered,
