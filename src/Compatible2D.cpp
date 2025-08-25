@@ -21,6 +21,4 @@ void bindCompatible2D() {
 
 	bindType["setParent"] = &Compatible2D::setParent;
 	bindType["setDoInputEvents"] = &Compatible2D::setDoInputEvents;
-	bindType["simulateHover"] = &Compatible2D::simulateHover;
-	bindType["simulatePress"] = &Compatible2D::simulatePressed;
 }

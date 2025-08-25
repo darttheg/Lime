@@ -39,7 +39,6 @@ void Text2D::setText(std::string tx) {
 
 void Text2D::destroy() {
 	if (text) {
-		receiver->guiElements[text] = nullptr;
 		text->remove();
 	}
 }

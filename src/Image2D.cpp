@@ -73,7 +73,6 @@ void Image2D::setImage(const Texture& tex) {
 
 void Image2D::destroy() {
 	if (img) {
-		receiver->guiElements[img] = nullptr;
 		img->remove();
 	}
 }
