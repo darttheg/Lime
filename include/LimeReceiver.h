@@ -5,6 +5,8 @@
 #include "Vector2D.h"
 #include <Compatible2D.h>
 
+#include <unordered_map>
+
 using namespace irr;
 
 class LimeReceiver : public IEventReceiver
@@ -41,7 +43,7 @@ public:
     } ControllerState;
 
     // GUI Events
-    std::unordered_map<irr::gui::IGUIButton*, Compatible2D*> guiElements;
+    // std::unordered_map<irr::gui::IGUIButton*, Compatible2D*> guiElements;
     // On GUI event, if click or hover, see if caller is in this map. If so, call its events etc.
 
     LimeReceiver();
