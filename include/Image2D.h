@@ -42,10 +42,6 @@ public:
     void setScalesToFit(bool scale);
 
     void setBorderAlignment(int a, int b, int c, int d);
-    void setMaxSize(const Vector2D& max);
-
-    bool getEnabled();
-    void setEnabled(bool enable);
 
     bool getUseAlpha();
     void setUseAlpha(bool enable);

@@ -49,15 +49,6 @@ void Event::run() {
 	if (passc > 0) lua_pop((*lua), passc);
 }
 
-template <class... Args>
-void Event::engineRun(Args&&... args) {
-	for (int ref : funcs) {
-		lua_rawgeti((*lua), LUA_REGISTRYINDEX, ref);
-		(sol::stack::push((*lua), std::forward<Args>(args)), ...);
-		if (lua_pcall((*lua), sizeof...(Args), 0, 0) != LUA_OK) lua_pop((*lua), 1);
-	}
-}
-
 void bindEvent() {
 	sol::usertype<Event> bindType = lua->new_usertype<Event>("Event",
 		sol::no_constructor

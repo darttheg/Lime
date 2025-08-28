@@ -26,9 +26,6 @@ public:
     std::string getText();
     void setText(std::string tx);
 
-    bool getVisible();
-    void setVisible(bool vis);
-
     bool getWrap();
     void setWrap(bool wrap);
 
@@ -44,18 +41,8 @@ public:
     Vector4D getTextColor();
     void setTextColor(const Vector4D& col);
 
-    Vector2D getSize();
-    void setSize(const Vector2D& size);
-
-    Vector2D getPosition();
-    void setPosition(const Vector2D& pos);
-
-    void bringToFront();
-    void sendToBack();
-
     void setBorderAlignment(int a, int b, int c, int d);
     void setTextAlignment(const Vector2D& align);
-    void setMaxSize(const Vector2D& max);
 
     bool setFont(const std::string& fontName);
     void setParent(const Image2D& other);

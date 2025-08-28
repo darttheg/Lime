@@ -148,6 +148,7 @@
     <ClInclude Include="include\ParseCmd.h" />
     <ClInclude Include="include\ParticleSystem.h" />
     <ClInclude Include="include\PhysicsHandler.h" />
+    <ClInclude Include="include\ReceiverCompatible.h" />
     <ClInclude Include="include\SolConversions.h" />
     <ClInclude Include="include\Sound.h" />
     <ClInclude Include="include\StaticMesh.h" />

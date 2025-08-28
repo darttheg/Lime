@@ -510,5 +510,8 @@
     <ClInclude Include="include\Warden.h">
       <Filter>Header Files\Core\Static</Filter>
     </ClInclude>
+    <ClInclude Include="include\ReceiverCompatible.h">
+      <Filter>Header Files\Compatible2D</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

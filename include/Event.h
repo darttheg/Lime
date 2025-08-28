@@ -18,7 +18,13 @@ public:
 	int getSize() const { return funcs.size(); }
 
 	template <class... Args>
-	void engineRun(Args&&... args);
+	void engineRun(Args&&... args) {
+		for (int ref : funcs) {
+			lua_rawgeti((*lua), LUA_REGISTRYINDEX, ref);
+			(sol::stack::push((*lua), std::forward<Args>(args)), ...);
+			if (lua_pcall((*lua), sizeof...(Args), 0, 0) != LUA_OK) lua_pop((*lua), 1);
+		}
+	}
 };
 
 class Hook {

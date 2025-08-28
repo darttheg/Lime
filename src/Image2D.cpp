@@ -11,7 +11,6 @@ Image2D::Image2D(const Texture& tex, const Vector2D& pos) : Image2D(tex, pos, Ve
 
 Image2D::Image2D(const Texture& tex, const Vector2D& pos, const Vector2D& dimensions) {
 	img = guienv->addImage(tex.texture, irr::core::vector2di(pos.x, pos.y));
-	setSize(dimensions);
 }
 
 Image2D::Image2D(const Image2D& other) {
@@ -27,62 +26,17 @@ void Image2D::setColor(Vector4D& color) {
 		img->setColor(irr::video::SColor(color.w, color.x, color.y, color.z));
 }
 
-bool Image2D::getVisible() {
-	return img ? img->isVisible() : false;
-}
-
-void Image2D::setVisible(bool vis) {
-	if (img)
-		img->setVisible(vis);
-}
-
-Vector2D Image2D::getPosition() {
-	if (img)
-		return Vector2D(img->getRelativePosition().UpperLeftCorner.X, img->getRelativePosition().UpperLeftCorner.Y);
-	return Vector2D();
-}
-
-void Image2D::setPosition(const Vector2D& pos) {
-	if (img)
-		img->setRelativePosition(irr::core::position2di(pos.x, pos.y));
-}
-
-Vector2D Image2D::getSize() {
-	if (img) {
-		irr::core::recti r = img->getRelativePosition();
-		return Vector2D(r.LowerRightCorner.X - r.UpperLeftCorner.X, r.LowerRightCorner.Y - r.UpperLeftCorner.Y);
-	}
-	return Vector2D();
-}
-
-void Image2D::setSize(const Vector2D& size) {
-	if (img) {
-		irr::core::recti r = img->getRelativePosition();
-		r.LowerRightCorner.X = r.UpperLeftCorner.X + size.x;
-		r.LowerRightCorner.Y = r.UpperLeftCorner.Y + size.y;
-		img->setRelativePosition(r);
-	}
-}
-
 void Image2D::setImage(const Texture& tex) {
-	if (img)
+	if (img) {
 		img->setImage(tex.texture);
+		Compatible2D::setSize(Vector2D(tex.texture->getSize().Width, tex.texture->getSize().Height));
+	}
 }
 
 void Image2D::destroy() {
 	if (img) {
 		img->remove();
 	}
-}
-
-void Image2D::bringToFront() {
-	if (img)
-		img->bringToFront(img);
-}
-
-void Image2D::sendToBack() {
-	if (img)
-		img->sendToBack(img);
 }
 
 bool Image2D::scalesToFit() {
@@ -99,20 +53,6 @@ void Image2D::setScalesToFit(bool scale) {
 void Image2D::setBorderAlignment(int a, int b, int c, int d) {
 	if (img)
 		img->setAlignment((irr::gui::EGUI_ALIGNMENT)a, (irr::gui::EGUI_ALIGNMENT)b, (irr::gui::EGUI_ALIGNMENT)c, (irr::gui::EGUI_ALIGNMENT)d);
-}
-
-void Image2D::setMaxSize(const Vector2D& max) {
-	if (img)
-		img->setMaxSize(irr::core::dimension2du(max.x, max.y));
-}
-
-bool Image2D::getEnabled() {
-	return img ? img->isEnabled() : false;
-}
-
-void Image2D::setEnabled(bool enable) {
-	if (img)
-		img->setEnabled(enable);
 }
 
 bool Image2D::getUseAlpha() {
@@ -135,10 +75,6 @@ void bindImage2D() {
 
 		sol::base_classes, sol::bases<Compatible2D>(),
 
-		"position", sol::property(&Image2D::getPosition, &Image2D::setPosition),
-		"visible", sol::property(&Image2D::getVisible, &Image2D::setVisible),
-		"size", sol::property(&Image2D::getSize, &Image2D::setSize),
-		"enabled", sol::property(&Image2D::getEnabled, &Image2D::setEnabled),
 		"useAlpha", sol::property(&Image2D::getUseAlpha, &Image2D::setUseAlpha),
 		"scaleToFit", sol::property(&Image2D::scalesToFit, &Image2D::setScalesToFit),
 		"color", sol::property(&Image2D::getColor, &Image2D::setColor)
@@ -146,8 +82,5 @@ void bindImage2D() {
 
 	bind_type["destroy"] = &Image2D::destroy;
 	bind_type["load"] = &Image2D::setImage;
-	bind_type["setMaxSize"] = &Image2D::setMaxSize;
-	bind_type["toFront"] = &Image2D::bringToFront;
-	bind_type["toBack"] = &Image2D::sendToBack;
 	bind_type["setBorderAlignment"] = &Image2D::setBorderAlignment;
 }

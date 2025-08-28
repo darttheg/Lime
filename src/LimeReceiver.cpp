@@ -1,5 +1,8 @@
 #include "LimeReceiver.h"
 
+using namespace irr;
+using namespace gui;
+
 LimeReceiver::LimeReceiver()
 {
     keys.fill(false);
@@ -87,7 +90,14 @@ bool LimeReceiver::OnEvent(const SEvent& event)
     if (event.EventType == EET_GUI_EVENT) {
         auto it = guiElements.find(event.GUIEvent.Caller);
         if (it != guiElements.end()) {
-            
+            switch (event.GUIEvent.EventType) {
+            case EGUI_EVENT_TYPE::EGET_ELEMENT_HOVERED:
+                it->second.hoverEvent.get()->engineRun();
+                break;
+            case EGUI_EVENT_TYPE::EGET_BUTTON_CLICKED:
+                it->second.pressedEvent.get()->engineRun();
+                break;
+            }
         }
     }
 

@@ -9,7 +9,6 @@
 class LuaLime
 {
 private:
-	int ensureStructure();
 public:
 	int initLua(irr::scene::ISceneManager* smgr, irr::video::IVideoDriver* driver);
 };

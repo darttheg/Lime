@@ -3,17 +3,15 @@
 #include <sol/sol.hpp>
 #include "LuaLime.h"
 #include "Vector2D.h"
-#include <Compatible2D.h>
 
-#include <unordered_map>
+#include "ReceiverCompatible.h"
 
 using namespace irr;
 
 class LimeReceiver : public IEventReceiver
 {
 public:
-    struct SMouseState
-    {
+    struct SMouseState {
         core::position2di Position;
         bool LeftButtonDown;
         bool RightButtonDown;
@@ -25,8 +23,7 @@ public:
         {}
     } MouseState;
 
-    struct SControllerState
-    {
+    struct SControllerState {
         f32 Axis[SEvent::SJoystickEvent::NUMBER_OF_AXES];
         u32 Buttons;
 
@@ -43,7 +40,7 @@ public:
     } ControllerState;
 
     // GUI Events
-    // std::unordered_map<irr::gui::IGUIButton*, Compatible2D*> guiElements;
+    std::unordered_map<irr::gui::IGUIElement*, ButtonEvents> guiElements;
     // On GUI event, if click or hover, see if caller is in this map. If so, call its events etc.
 
     LimeReceiver();
