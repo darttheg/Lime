@@ -60,6 +60,13 @@ void Compatible2D::removeEventCallbacks() {
 	inReceiverStack = false;
 }
 
+void Compatible2D::clean() {
+	if (button) {
+		removeEventCallbacks();
+		button->drop();
+	}
+}
+
 Vector2D Compatible2D::getPosition() {
 	if (getNode())
 		return Vector2D(getNode()->getRelativePosition().UpperLeftCorner.X, getNode()->getRelativePosition().UpperLeftCorner.Y);

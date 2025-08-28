@@ -35,6 +35,7 @@ void Image2D::setImage(const Texture& tex) {
 
 void Image2D::destroy() {
 	if (img) {
+		Compatible2D::clean();
 		img->remove();
 	}
 }

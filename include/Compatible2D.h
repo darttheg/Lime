@@ -38,6 +38,7 @@ public:
     void initButton();
 
     void removeEventCallbacks();
+    void clean();
 
     bool hovered = false;
     bool pressed = false; // Can be checked if held down
