@@ -24,6 +24,8 @@ public:
     bool appendFromFile(std::string filePath, const Vector2D& pos); // Copies texture to another
     Vector4D getPixel(const Vector2D& pos);
 
+    Texture crop(const Vector2D& topL, const Vector2D& bottomR);
+
     bool doAppend(irr::video::IImage* img, vector2di pos);
 
     irr::video::IImage* texToImg(irr::video::ITexture* tex);

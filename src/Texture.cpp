@@ -80,6 +80,25 @@ Vector4D Texture::getPixel(const Vector2D& pos) {
 	return Vector4D(pCol.getRed(), pCol.getGreen(), pCol.getBlue(), pCol.getAlpha());
 }
 
+Texture Texture::crop(const Vector2D& topL, const Vector2D& bottomR) {
+	if (!texture) return Texture();
+
+	if (topL.x < 0 || topL.y < 0 || bottomR.x < 0 || bottomR.y < 0) return Texture();
+
+	position2di pos = position2di(topL.x, topL.y);
+	dimension2du dim = dimension2du(bottomR.x - topL.x, bottomR.y - topL.y);
+
+	irr::video::IImage* img = driver->createImage(texture, pos, dim);
+
+	ITexture* outRaw = driver->addTexture("cropped", img);
+	img->drop();
+
+	Texture out = Texture();
+	out.texture = outRaw;
+
+	return out;
+}
+
 bool Texture::doAppend(irr::video::IImage* img, vector2di pos) {
 	if (!texture || !img) return false;
 
@@ -111,16 +130,16 @@ irr::video::IImage* Texture::texToImg(irr::video::ITexture* tex) {
 }
 
 void bindTexture() {
-	sol::usertype<Texture> bind_type = lua->new_usertype<Texture>("Texture",
+	sol::usertype<Texture> bindType = lua->new_usertype<Texture>("Texture",
 		sol::constructors<Texture(), Texture(const Vector2D& size), Texture(std::string imgpath)>()
 	);
-
-	bind_type["load"] = &Texture::load;
-	bind_type["toStr"] = &Texture::getPath;
-	bind_type["keyColor"] = &Texture::keyColor;
-	bind_type["save"] = &Texture::saveTexture;
-	bind_type["append"] = &Texture::append;
-	bind_type["appendFromFile"] = &Texture::appendFromFile;
-	bind_type["clear"] = &Texture::createEmpty;
-	bind_type["getPixelColor"] = &Texture::getPixel;
+	bindType["crop"] = &Texture::crop;
+	bindType["load"] = &Texture::load;
+	bindType["toStr"] = &Texture::getPath;
+	bindType["keyColor"] = &Texture::keyColor;
+	bindType["save"] = &Texture::saveTexture;
+	bindType["append"] = &Texture::append;
+	bindType["appendFromFile"] = &Texture::appendFromFile;
+	bindType["clear"] = &Texture::createEmpty;
+	bindType["getPixelColor"] = &Texture::getPixel;
 }
