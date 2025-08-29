@@ -244,17 +244,20 @@ void IrrHandling::end() {
 	}
 }
 
+#include "LimeEvents.h"
+
 void IrrHandling::appLoop() {
 
 	// Events
-	sol::protected_function luaOnStart = (*lua)["Lime"]["OnStart"];
+	/*sol::protected_function luaOnStart = (*lua)["Lime"]["OnStart"];
 	sol::protected_function luaOnUpdate = (*lua)["Lime"]["OnUpdate"];
-	sol::protected_function luaOnEnd = (*lua)["Lime"]["OnEnd"];
+	sol::protected_function luaOnEnd = (*lua)["Lime"]["OnEnd"];*/
 
 	lua->script("math.randomseed(os.time())");
 
 	// Call start in main
-	testLuaFunc((*lua)["Lime"]["OnStart"]);
+	Events::Lime::OnStart.get()->engineRun();
+
 	u32 then = device->getTimer()->getTime();
 	f32 const frameDur = 1000.f / frameLimit;
 
@@ -274,14 +277,7 @@ void IrrHandling::appLoop() {
 		}
 
 		try {
-			if ((*lua)["Lime"]["OnUpdate"].get_type() == sol::type::function) {
-				sol::protected_function_result result = luaOnUpdate(dt);
-				if (!result.valid())
-				{
-					sol::error err = result;
-					dConsole.sendMsg(std::string(err.what()).c_str(), MESSAGE_TYPE::WARNING);
-				}
-			}
+			Events::Lime::OnUpdate.get()->engineRun(dt);
 		}
 		catch (const sol::error& e) {
 			std::string err = e.what();
@@ -357,7 +353,7 @@ void IrrHandling::appLoop() {
 	if (networkHandler)
 		networkHandler->shutdown();
 
-	testLuaFunc((*lua)["Lime"]["OnEnd"]);
+	Events::Lime::OnEnd.get()->engineRun();
 
 	if (!didEnd)
 		end();

@@ -19,7 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Event.cpp" />
     <ClCompile Include="src\Billboard.cpp" />
     <ClCompile Include="src\Camera3D.cpp" />
     <ClCompile Include="src\CGUIFont.cpp" />
@@ -29,6 +28,7 @@
     <ClCompile Include="src\DebugConsole.cpp" />
     <ClCompile Include="src\EditBox.cpp" />
     <ClCompile Include="src\Empty.cpp" />
+    <ClCompile Include="src\Event.cpp" />
     <ClCompile Include="src\GhostTrailSceneNode.cpp" />
     <ClCompile Include="src\Hitbox.cpp" />
     <ClCompile Include="src\Image2D.cpp" />
@@ -137,6 +137,7 @@
     <ClInclude Include="include\IrrManagers.h" />
     <ClInclude Include="include\LegacyLight.h" />
     <ClInclude Include="include\LightManager.h" />
+    <ClInclude Include="include\LimeEvents.h" />
     <ClInclude Include="include\LimeReceiver.h" />
     <ClInclude Include="include\Line.h" />
     <ClInclude Include="include\LuaLime.h" />

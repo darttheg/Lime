@@ -268,7 +268,7 @@
     <ClCompile Include="src\irrBulletTriangleMeshShape.cpp">
       <Filter>Source Files\Physics\IrrBullet</Filter>
     </ClCompile>
-    <ClCompile Include="Event.cpp">
+    <ClCompile Include="src\Event.cpp">
       <Filter>Source Files\Core\Types</Filter>
     </ClCompile>
   </ItemGroup>
@@ -512,6 +512,9 @@
     </ClInclude>
     <ClInclude Include="include\ReceiverCompatible.h">
       <Filter>Header Files\Compatible2D</Filter>
+    </ClInclude>
+    <ClInclude Include="include\LimeEvents.h">
+      <Filter>Header Files\Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
