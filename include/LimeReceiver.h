@@ -19,22 +19,19 @@ public:
         float WheelDelta;
 
         SMouseState()
-            : LeftButtonDown(false), RightButtonDown(false), MiddleButtonDown(false), WheelDelta(0.0f)
-        {}
+            : LeftButtonDown(false), RightButtonDown(false), MiddleButtonDown(false), WheelDelta(0.0f) {}
     } MouseState;
 
     struct SControllerState {
         f32 Axis[SEvent::SJoystickEvent::NUMBER_OF_AXES];
         u32 Buttons;
 
-        SControllerState()
-        {
+        SControllerState() {
             std::fill(std::begin(Axis), std::end(Axis), 0.0f);
             Buttons = 0;
         }
 
-        bool isButtonPressed(u32 buttonIndex) const
-        {
+        bool isButtonPressed(u32 buttonIndex) const {
             return Buttons & (1 << buttonIndex);
         }
     } ControllerState;
@@ -49,7 +46,7 @@ public:
 
     sol::table getMouseState() const;
 
-    sol::table getControllerState() const; // Add specification for more than one controller
+    sol::table getJoystickState(int id) const; // Add specification for more than one controller
 
     // Check if a key is currently pressed
     bool isKeyDown(irr::EKEY_CODE keyCode) const;

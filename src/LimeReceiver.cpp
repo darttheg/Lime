@@ -1,5 +1,7 @@
 #include "LimeReceiver.h"
 
+#include "LimeEvents.h"
+
 using namespace irr;
 using namespace gui;
 
@@ -17,12 +19,14 @@ bool LimeReceiver::OnEvent(const SEvent& event)
 
         if (event.KeyInput.PressedDown) {
             if (!keysRepeat[event.KeyInput.Key]) {
-                callLuaFunction("Input", "OnKeyPressed", static_cast<irr::EKEY_CODE>(event.KeyInput.Key));
+                Events::Input::OnKeyPressed.get()->engineRun(static_cast<irr::EKEY_CODE>(event.KeyInput.Key));
+                // callLuaFunction("Input", "OnKeyPressed", static_cast<irr::EKEY_CODE>(event.KeyInput.Key));
                 keysRepeat[event.KeyInput.Key] = true;
             }
         }
         else {
-            callLuaFunction("Input", "OnKeyReleased", static_cast<irr::EKEY_CODE>(event.KeyInput.Key));
+            Events::Input::OnKeyReleased.get()->engineRun(static_cast<irr::EKEY_CODE>(event.KeyInput.Key));
+            // callLuaFunction("Input", "OnKeyReleased", static_cast<irr::EKEY_CODE>(event.KeyInput.Key));
             keysRepeat[event.KeyInput.Key] = false;
         }
     }
@@ -33,7 +37,8 @@ bool LimeReceiver::OnEvent(const SEvent& event)
         {
         case EMIE_LMOUSE_PRESSED_DOWN:
             MouseState.LeftButtonDown = true;
-            callLuaFunction("Input", "OnLeftMouseClick");
+            Events::Input::OnMouseClick.get()->engineRun(0);
+            // callLuaFunction("Input", "OnLeftMouseClick");
             break;
 
         case EMIE_LMOUSE_LEFT_UP:
@@ -42,7 +47,8 @@ bool LimeReceiver::OnEvent(const SEvent& event)
 
         case EMIE_RMOUSE_PRESSED_DOWN:
             MouseState.RightButtonDown = true;
-            callLuaFunction("Input", "OnRightMouseClick");
+            Events::Input::OnMouseClick.get()->engineRun(2);
+            // callLuaFunction("Input", "OnRightMouseClick");
             break;
 
         case EMIE_RMOUSE_LEFT_UP:
@@ -51,7 +57,8 @@ bool LimeReceiver::OnEvent(const SEvent& event)
 
         case EMIE_MMOUSE_PRESSED_DOWN:
             MouseState.MiddleButtonDown = true;
-            callLuaFunction("Input", "OnMiddleMouseClick");
+            Events::Input::OnMouseClick.get()->engineRun(1);
+            // callLuaFunction("Input", "OnMiddleMouseClick");
             break;
 
         case EMIE_MMOUSE_LEFT_UP:
@@ -61,12 +68,16 @@ bool LimeReceiver::OnEvent(const SEvent& event)
         case EMIE_MOUSE_MOVED:
             MouseState.Position.X = event.MouseInput.X;
             MouseState.Position.Y = event.MouseInput.Y;
-            callLuaFunction("Input", "OnMouseMove", Vector2D(MouseState.Position.X, MouseState.Position.Y));
+            Events::Input::OnMouseMove.get()->engineRun(Vector2D(MouseState.Position.X, MouseState.Position.Y));
+            
+            // callLuaFunction("Input", "OnMouseMove", Vector2D(MouseState.Position.X, MouseState.Position.Y));
             break;
 
         case EMIE_MOUSE_WHEEL:
             MouseState.WheelDelta = event.MouseInput.Wheel;
-            callLuaFunction("Input", "OnMouseScroll", MouseState.WheelDelta);
+            Events::Input::OnMouseScroll.get()->engineRun(MouseState.WheelDelta);
+            
+            // callLuaFunction("Input", "OnMouseScroll", MouseState.WheelDelta);
             break;
 
         default:
@@ -115,8 +126,9 @@ sol::table LimeReceiver::getMouseState() const
     return table;
 }
 
-sol::table LimeReceiver::getControllerState() const
+sol::table LimeReceiver::getJoystickState(int id) const
 {
+    /*
     sol::table table = lua->create_table();
 
     sol::table axisTable = lua->create_table();
@@ -132,6 +144,7 @@ sol::table LimeReceiver::getControllerState() const
     table["axis"] = axisTable;
     table["buttons"] = buttonTable;
     return table;
+    */
 }
 
 // Check if a key is currently pressed

@@ -10,7 +10,17 @@ namespace Events {
 	}
 
 	namespace Input {
+		inline std::shared_ptr<Event> OnKeyPressed = std::make_shared<Event>();
+		inline std::shared_ptr<Event> OnKeyReleased = std::make_shared<Event>();
+		inline std::shared_ptr<Event> OnMouseClick = std::make_shared<Event>();
+		inline std::shared_ptr<Event> OnMouseMove = std::make_shared<Event>();
+		inline std::shared_ptr<Event> OnMouseScroll = std::make_shared<Event>();
 
+		inline std::shared_ptr<Event> OnJoystickConnect = std::make_shared<Event>(); // calls with joystick #
+		inline std::shared_ptr<Event> OnJoystickDisconnect = std::make_shared<Event>(); // calls with joystick #
+		inline std::shared_ptr<Event> OnJoystickButtonPressed = std::make_shared<Event>();
+		inline std::shared_ptr<Event> OnJoystickButtonReleased = std::make_shared<Event>();
+		inline std::shared_ptr<Event> OnJoystickAxisMoved = std::make_shared<Event>();
 	}
 }
 
@@ -18,4 +28,16 @@ inline void initEvents() {
 	(*lua)["Lime"]["OnStart"] = Events::Lime::OnStart;
 	(*lua)["Lime"]["OnUpdate"] = Events::Lime::OnUpdate;
 	(*lua)["Lime"]["OnEnd"] = Events::Lime::OnEnd;
+
+	(*lua)["Input"]["OnKeyPressed"] = Events::Input::OnKeyPressed;
+	(*lua)["Input"]["OnKeyReleased"] = Events::Input::OnKeyReleased;
+	(*lua)["Input"]["OnMouseClick"] = Events::Input::OnMouseClick;
+	(*lua)["Input"]["OnMouseMove"] = Events::Input::OnMouseMove;
+	(*lua)["Input"]["OnMouseScroll"] = Events::Input::OnMouseScroll;
+
+	(*lua)["Input"]["OnJoystickConnect"] = Events::Input::OnJoystickConnect;
+	(*lua)["Input"]["OnJoystickDisconnect"] = Events::Input::OnJoystickDisconnect;
+	(*lua)["Input"]["OnJoystickButtonPressed"] = Events::Input::OnJoystickButtonPressed;
+	(*lua)["Input"]["OnJoystickButtonReleased"] = Events::Input::OnJoystickButtonReleased;
+	(*lua)["Input"]["OnJoystickButtonReleased"] = Events::Input::OnJoystickButtonReleased;
 }

@@ -8,9 +8,9 @@ namespace Bind {
 		return sol::table();
 	}
 
-	sol::table getControllerState() {
+	sol::table getJoystickState(int id) {
 		if (receiver) {
-			return receiver->getControllerState();
+			return receiver->getJoystickState(id);
 		}
 		return sol::table();
 	}
@@ -73,13 +73,13 @@ namespace Bind {
 void bindInput() {
 	sol::table input = lua->create_named_table("Input");
 
-	input["IsKeyDown"] = &Bind::isKeyDown;
+	input["IsKeyPressed"] = &Bind::isKeyDown;
 	input["GetMouseState"] = &Bind::getMouseState;
-	input["GetControllerState"] = &Bind::getControllerState;
-	input["CheckControllers"] = &Bind::isControllerConnected;
 	input["SetMouseVisible"] = &Bind::showCursor;
 	input["SetMousePosition"] = &Bind::setCursorPosition;
 	input["GetMousePosition"] = &Bind::getCursorPosition;
-	//input["SetRawInputMode"] = &Bind::setRawInputMode;
 	input["GetMouseDelta"] = &Bind::getMouseDelta;
+	// input["GetJoystickState"] = &Bind::getJoystickState;
+	// input["IsJoystickConnected"] = &Bind::isJoystickConnected;
+	// input["IsJoystickButtonPressed"] = &Bind::isJoystickButtonPressed;
 }
