@@ -85,6 +85,10 @@ namespace Bind {
 	void sendPacketToAll(int channel, const Packet& p, bool tcp) {
 		if (networkHandler) networkHandler->sendPacketToAll(p, channel, tcp);
 	}
+
+	std::string getPeerIP(int peerID) {
+		return networkHandler ? networkHandler->getPeerIP(peerID) : "";
+	}
 }
 
 void bindNetworking() {
@@ -108,14 +112,14 @@ void bindNetworking() {
 	networkServer["Host"] = &Bind::hostServer;
 	networkServer["IsHosting"] = &Bind::isHostingServer;
 	networkServer["StopHosting"] = &Bind::stopHosting;
-	networkServer["GetIP"] = &Bind::getIP;
+	networkServer["GetHostingIP"] = &Bind::getIP;
 	networkServer["GetPort"] = &Bind::getPort;
 	networkServer["SetBandwidthLimits"] = &Bind::setBandwidthLimits;
 	networkServer["Shutdown"] = &Bind::shutdownNetworking;
 	networkServer["GetPeerState"] = &Bind::getPeerState;
 	networkServer["GetPeerPing"] = &Bind::getPeerPing;
 	networkServer["DisconnectPeer"] = &Bind::forceDisconnectClient;
-
+	networkServer["GetPeerIP"] = &Bind::getPeerIP;
 	networkServer["SendPacketToPeer"] = &Bind::sendPacketToPeer;
 	networkServer["SendPacketToAll"] = &Bind::sendPacketToAll;
 }

@@ -79,7 +79,7 @@ int NetworkHandler::getPeerState(int peerID) {
 		return -1;
 	}
 
-	ENetPeer* p = peerMap[peerID];
+	ENetPeer* p = getPeerWithID(peerID);
 	if (!p) {
 		if (verbose) {
 			std::string msg = "Networking WARNING: State of peer with ID ";
@@ -99,7 +99,7 @@ int NetworkHandler::getPeerPing(int peerID) {
 		return -1;
 	}
 
-	ENetPeer* p = peerMap[peerID];
+	ENetPeer* p = getPeerWithID(peerID);
 	if (!p) {
 		if (verbose) {
 			std::string msg = "Networking WARNING: Ping of peer with ID ";
@@ -119,7 +119,7 @@ void NetworkHandler::forceDisconnectClient(int peerID, int reason) {
 		return;
 	}
 
-	ENetPeer* p = peerMap[peerID];
+	ENetPeer* p = getPeerWithID(peerID);
 	if (!p) {
 		if (verbose) {
 			std::string msg = "Networking WARNING: Peer with ID ";
@@ -140,6 +140,26 @@ void NetworkHandler::forceDisconnectClient(int peerID, int reason) {
 	}
 
 	enet_peer_disconnect(p,reason);
+}
+
+std::string NetworkHandler::getPeerIP(int peerID) {
+	if (!server) {
+		if (verbose) dConsole.sendMsg("Networking WARNING: Could not get peer IP; server is not being hosted", MESSAGE_TYPE::NETWORK_VERBOSE);
+		return "";
+	}
+
+	ENetPeer* p = getPeerWithID(peerID);
+	if (!p) {
+		if (verbose) {
+			std::string msg = "Networking WARNING: IP of peer with ID ";
+			msg += std::to_string(peerID);
+			msg += " could not be found";
+			dConsole.sendMsg(msg.c_str(), MESSAGE_TYPE::NETWORK_VERBOSE);
+		}
+		return "";
+	}
+
+	return std::to_string(p->address.host) + ":" + std::to_string(p->address.port);
 }
 
 void netBodyServer(NetworkHandler* n, IrrHandling* m) {
@@ -454,6 +474,15 @@ void NetworkHandler::sendPacketToAll(const Packet& p, int channel, bool tcp) {
 	}
 
 	irrNetHandler->addPacketToSend(PacketToSend(p.p, -1, -1, tcp));
+}
+
+ENetPeer* NetworkHandler::getPeerWithID(int id) {
+	if (!server) return nullptr;
+
+	auto it = peerMap.find(id);
+	if (it == peerMap.end()) return nullptr;
+
+	return it->second;
 }
 
 std::unordered_map<enet_uint16, ENetPeer*> NetworkHandler::getPeers() {

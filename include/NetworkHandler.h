@@ -32,6 +32,8 @@ public:
 	int getPeerState(int peerID);
 	int getPeerPing(int peerID);
 	void forceDisconnectClient(int peerID, int reasonCode);
+	std::string getPeerIP(int peerID);
+	ENetPeer* getPeerWithID(int id);
 
 	// Client
 	bool createClient(int outgoing, int channels);
