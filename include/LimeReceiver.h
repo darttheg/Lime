@@ -6,6 +6,9 @@
 
 #include "ReceiverCompatible.h"
 
+#include <vector>
+#include <unordered_map>
+
 using namespace irr;
 
 class LimeReceiver : public IEventReceiver
@@ -22,20 +25,6 @@ public:
             : LeftButtonDown(false), RightButtonDown(false), MiddleButtonDown(false), WheelDelta(0.0f) {}
     } MouseState;
 
-    struct SControllerState {
-        f32 Axis[SEvent::SJoystickEvent::NUMBER_OF_AXES];
-        u32 Buttons;
-
-        SControllerState() {
-            std::fill(std::begin(Axis), std::end(Axis), 0.0f);
-            Buttons = 0;
-        }
-
-        bool isButtonPressed(u32 buttonIndex) const {
-            return Buttons & (1 << buttonIndex);
-        }
-    } ControllerState;
-
     // GUI Events
     std::unordered_map<irr::gui::IGUIElement*, ButtonEvents> guiElements;
     // On GUI event, if click or hover, see if caller is in this map. If so, call its events etc.
@@ -43,13 +32,10 @@ public:
     LimeReceiver();
 
     virtual bool OnEvent(const SEvent& event) override;
-
     sol::table getMouseState() const;
 
-    sol::table getJoystickState(int id) const; // Add specification for more than one controller
-
     // Check if a key is currently pressed
-    bool isKeyDown(irr::EKEY_CODE keyCode) const;
+    bool isKeyPressed(irr::EKEY_CODE keyCode) const;
     void updateDeltaMouse(GLFWwindow* win);
     void updateLastMouse();
 
@@ -59,10 +45,12 @@ public:
     bool firstMouse = true;
     bool skipDeltaOnResize = false;
 
+    // Joysticks
+    core::array<SJoystickInfo> joysticks;
+    std::unordered_map<int32_t, SEvent::SJoystickEvent> lastJoystickState;
 private:
     std::array<bool, KEY_KEY_CODES_COUNT> keys;
     std::array<bool, KEY_KEY_CODES_COUNT> keysRepeat;
-    SEvent::SJoystickEvent JoystickState;
 
     template<typename... Args>
     void callLuaFunction(const std::string& tableName, const std::string& functionName, Args&&... args)

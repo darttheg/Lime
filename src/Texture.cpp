@@ -133,6 +133,7 @@ void bindTexture() {
 	sol::usertype<Texture> bindType = lua->new_usertype<Texture>("Texture",
 		sol::constructors<Texture(), Texture(const Vector2D& size), Texture(std::string imgpath)>()
 	);
+
 	bindType["crop"] = &Texture::crop;
 	bindType["load"] = &Texture::load;
 	bindType["toStr"] = &Texture::getPath;

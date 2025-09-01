@@ -94,7 +94,6 @@
     <ClInclude Include="include\DrawSphere.h" />
     <ClInclude Include="include\EditBox.h" />
     <ClInclude Include="include\Empty.h" />
-    <ClInclude Include="include\EngineEvents.h" />
     <ClInclude Include="include\Event.h" />
     <ClInclude Include="include\FunctionsApplication.h" />
     <ClInclude Include="include\FunctionsGUI.h" />

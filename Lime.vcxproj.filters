@@ -483,9 +483,6 @@
     <ClInclude Include="include\Event.h">
       <Filter>Header Files\Core\Types</Filter>
     </ClInclude>
-    <ClInclude Include="include\EngineEvents.h">
-      <Filter>Header Files\Core</Filter>
-    </ClInclude>
     <ClInclude Include="include\FunctionsWorld.h">
       <Filter>Header Files\Core\Static</Filter>
     </ClInclude>

@@ -85,16 +85,48 @@ bool LimeReceiver::OnEvent(const SEvent& event)
         }
     }
 
-    // Handle controller event
+    // Irrlicht sends joystick updates per frame
     if (event.EventType == EET_JOYSTICK_INPUT_EVENT) {
-        JoystickState = event.JoystickEvent;
+        bool callConnect = false;
 
-        for (u32 i = 0; i < SEvent::SJoystickEvent::NUMBER_OF_AXES; ++i)
-        {
-            ControllerState.Axis[i] = JoystickState.Axis[i];
+        auto it = lastJoystickState.find(event.JoystickEvent.Joystick);
+        if (it == lastJoystickState.end())
+            callConnect = true;
+
+        int32_t id = event.JoystickEvent.Joystick;
+
+        // Handle button presses etc.
+        if (!callConnect) {
+            uint32_t btnCount = (id >= 0 && id < joysticks.size()) ? joysticks[id].Buttons : 32u;
+
+            uint32_t prev = it->second.ButtonStates;
+            uint32_t now = event.JoystickEvent.ButtonStates;
+
+            uint32_t pressedMask = (~prev) & now;
+            uint32_t releasedMask = prev & (~now);
+
+            uint32_t limit = (btnCount >= 32) ? 32u : btnCount;
+            for (uint32_t i = 0; i < limit; ++i) {
+                uint32_t bit = 1u << i;
+                if (pressedMask & bit) Events::Input::OnJoystickButtonPressed.get()->engineRun(id, i);
+                if (releasedMask & bit) Events::Input::OnJoystickButtonReleased.get()->engineRun(id, i);
+            }
+
+            // Dpad
+            if (event.JoystickEvent.POV != lastJoystickState[id].POV) {
+                if (event.JoystickEvent.POV != 0xFFFF)
+                    Events::Input::OnJoystickDPadDelta.get()->engineRun(id, ((event.JoystickEvent.POV + 2250) / 4500) % 8);
+                else
+                    Events::Input::OnJoystickDPadDelta.get()->engineRun(id, -1); 
+            }
         }
 
-        ControllerState.Buttons = JoystickState.ButtonStates;
+        // Update it
+        lastJoystickState[event.JoystickEvent.Joystick] = event.JoystickEvent;
+
+        // Call the connect function so we can work with the event we just received.
+        if (callConnect)
+            Events::Input::OnJoystickConnect.get()->engineRun(id);
     }
 
     // Handle GUI event
@@ -126,30 +158,8 @@ sol::table LimeReceiver::getMouseState() const
     return table;
 }
 
-sol::table LimeReceiver::getJoystickState(int id) const
-{
-    /*
-    sol::table table = lua->create_table();
-
-    sol::table axisTable = lua->create_table();
-    for (int i = 0; i < SEvent::SJoystickEvent::NUMBER_OF_AXES; i++) {
-        axisTable[i + 1] = ControllerState.Axis[i] / 32767.f;
-    }
-
-    sol::table buttonTable = lua->create_table();
-    for (int i = 0; i < 32; ++i) {
-        buttonTable[i + 1] = ControllerState.isButtonPressed(i);
-    }
-
-    table["axis"] = axisTable;
-    table["buttons"] = buttonTable;
-    return table;
-    */
-}
-
 // Check if a key is currently pressed
-bool LimeReceiver::isKeyDown(irr::EKEY_CODE keyCode) const
-{
+bool LimeReceiver::isKeyPressed(irr::EKEY_CODE keyCode) const {
     return keys[keyCode];
 }
 

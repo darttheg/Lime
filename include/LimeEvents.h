@@ -20,7 +20,7 @@ namespace Events {
 		inline std::shared_ptr<Event> OnJoystickDisconnect = std::make_shared<Event>(); // calls with joystick #
 		inline std::shared_ptr<Event> OnJoystickButtonPressed = std::make_shared<Event>();
 		inline std::shared_ptr<Event> OnJoystickButtonReleased = std::make_shared<Event>();
-		inline std::shared_ptr<Event> OnJoystickAxisMoved = std::make_shared<Event>();
+		inline std::shared_ptr<Event> OnJoystickDPadDelta = std::make_shared<Event>(); // calls with joystick # and new direction
 	}
 }
 
@@ -39,5 +39,5 @@ inline void initEvents() {
 	(*lua)["Input"]["OnJoystickDisconnect"] = Events::Input::OnJoystickDisconnect;
 	(*lua)["Input"]["OnJoystickButtonPressed"] = Events::Input::OnJoystickButtonPressed;
 	(*lua)["Input"]["OnJoystickButtonReleased"] = Events::Input::OnJoystickButtonReleased;
-	(*lua)["Input"]["OnJoystickButtonReleased"] = Events::Input::OnJoystickButtonReleased;
+	(*lua)["Input"]["OnJoystickDPadDelta"] = Events::Input::OnJoystickDPadDelta;
 }
