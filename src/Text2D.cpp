@@ -122,7 +122,7 @@ void Text2D::setDrawBorder(bool enable) {
 
 void bindText2D() {
 	sol::usertype<Text2D> bind_type = lua->new_usertype<Text2D>("Text2D",
-		sol::constructors <Text2D(), Text2D(const Text2D & other), Text2D(std::string tx), Text2D(std::string tx, const Vector2D & pos), Text2D(std::string tx, const Vector2D & pos, const Vector2D & dimensions)>(),
+		sol::constructors <Text2D(), Text2D(std::string tx), Text2D(std::string tx, const Vector2D & pos), Text2D(std::string tx, const Vector2D & pos, const Vector2D & dimensions)>(),
 
 		sol::base_classes, sol::bases<Compatible2D>(),
 

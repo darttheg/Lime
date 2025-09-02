@@ -75,7 +75,7 @@ void Billboard::destroy() {
 
 void bindBillboard() {
     sol::usertype<Billboard> bindType = lua->new_usertype<Billboard>("Billboard",
-        sol::constructors<Billboard(), Billboard(const Billboard & other), Billboard(const Material & material)>(),
+        sol::constructors<Billboard(), Billboard(const Material & material)>(),
 
         sol::base_classes, sol::bases<Compatible3D>(),
 

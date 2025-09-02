@@ -291,7 +291,7 @@ bool Hitbox::pointInside(const Vector3D& point) {
 
 void bindHitbox() {
 	sol::usertype<Hitbox> bind_type = lua->new_usertype<Hitbox>("Hitbox",
-		sol::constructors<Hitbox(), Hitbox(float radius, float height), Hitbox(const Hitbox& other)>(),
+		sol::constructors<Hitbox(), Hitbox(float radius, float height)>(),
 
 		sol::base_classes, sol::bases<Compatible3D>(),
 

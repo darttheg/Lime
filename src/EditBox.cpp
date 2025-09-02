@@ -179,7 +179,6 @@ void bindEditBox() {
     sol::usertype<EditBox> bindType = lua->new_usertype<EditBox>("EditBox",
         sol::constructors<
         EditBox(),
-        EditBox(const EditBox&),
         EditBox(std::string),
         EditBox(std::string, const Vector2D&),
         EditBox(std::string, const Vector2D&, const Vector2D&)>(),

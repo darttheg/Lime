@@ -320,7 +320,7 @@ void StaticMesh::setAutomaticCulling(bool enable) {
 
 void bindStaticMesh() {
     sol::usertype<StaticMesh> bindType = lua->new_usertype<StaticMesh>("Mesh",
-        sol::constructors<StaticMesh(), StaticMesh(const std::string & filePath), StaticMesh(const StaticMesh & other)>(),
+        sol::constructors<StaticMesh(), StaticMesh(const std::string & filePath)>(),
 
         sol::base_classes, sol::bases<Compatible3D>(),
 
