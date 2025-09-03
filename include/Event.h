@@ -16,6 +16,7 @@ public:
 	void clear(); // Clear list
 	void run(); // Run Event
 	int getSize() const { return funcs.size(); }
+	bool empty();
 
 	template <class... Args>
 	void engineRun(Args&&... args) {

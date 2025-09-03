@@ -30,6 +30,10 @@ void Event::clear() {
 	funcs.clear();
 }
 
+bool Event::empty() {
+	return getSize() == 0;
+}
+
 void Event::run() {
 	int argc = lua_gettop((*lua));
 	int passc = (argc >= 1) ? (argc - 1) : 0;

@@ -92,12 +92,18 @@ namespace Bind {
 }
 
 void bindNetworking() {
-	sol::table networkClient = lua->create_named_table("NetworkClient");
-	sol::table networkServer = lua->create_named_table("NetworkServer");
+	sol::table network = lua->create_named_table("Network");
+	sol::table networkClient = lua->create_named_table("Client");
+	sol::table networkServer = lua->create_named_table("Server");
+
+	network["Client"] = networkClient;
+	network["Server"] = networkServer;
+
+	// General
+	network["Initialize"] = &Bind::initializeNetworking;
+	network["SetVerbose"] = &Bind::setVerbose;
 
 	// Client
-	networkClient["Initialize"] = &Bind::initializeNetworking;
-	networkClient["SetVerbose"] = &Bind::setVerbose;
 	networkClient["Create"] = &Bind::createClient;
 	networkClient["Destroy"] = &Bind::destroyClient;
 	networkClient["Connect"] = &Bind::connectClient;
@@ -107,8 +113,6 @@ void bindNetworking() {
 	networkClient["SendPacketToServer"] = &Bind::sendPacketToServer;
 
 	// Server
-	networkServer["Initialize"] = &Bind::initializeNetworking;
-	networkServer["SetVerbose"] = &Bind::setVerbose;
 	networkServer["Host"] = &Bind::hostServer;
 	networkServer["IsHosting"] = &Bind::isHostingServer;
 	networkServer["StopHosting"] = &Bind::stopHosting;

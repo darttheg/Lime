@@ -673,13 +673,6 @@ void IrrHandling::runEventTasks() {
 	bool doVerbose = verbose;
 	tlqLock.lock();
 
-	sol::protected_function SonPeerConnect = (*lua)["NetworkServer"]["OnClientConnect"];
-	sol::protected_function SonPeerDisconnect = (*lua)["NetworkServer"]["OnClientDisconnect"];
-	sol::protected_function SonPacketReceived = (*lua)["NetworkServer"]["OnPacketReceived"];
-	sol::protected_function ConConnect = (*lua)["NetworkClient"]["OnConnect"];
-	sol::protected_function ConDisconnect = (*lua)["NetworkClient"]["OnDisconnect"];
-	sol::protected_function ConPacketReceived = (*lua)["NetworkClient"]["OnPacketReceived"];
-
 	while (!eventOutQueue.empty()) {
 		std::pair<bool, ENetEvent> task = eventOutQueue.front();
 		
@@ -687,15 +680,11 @@ void IrrHandling::runEventTasks() {
 		if (task.first) { // Server
 			switch (event.type) {
 			case ENET_EVENT_TYPE_CONNECT:
-				if (SonPeerConnect.valid()) {
-					sol::table t = lua->create_table();
-					t[1] = event.peer->incomingPeerID;
-					t[2] = event.peer->address.host;
-
-					addLuaTask(SonPeerConnect, t);
+				if (!Events::Networking::SonPeerConnect.get()->empty()) { // Replace lua tasks with events
+					Events::Networking::SonPeerConnect.get()->engineRun(event.peer->incomingPeerID, event.peer->address.host);
 				}
 				else {
-					if (doVerbose) dConsole.sendMsg("Networking WARNING: A peer connected but NetworkServer.OnClientConnect is not declared", MESSAGE_TYPE::NETWORK_VERBOSE);
+					if (doVerbose) dConsole.sendMsg("WARNING: A peer connected but Event Network.Server.OnClientConnect is empty", MESSAGE_TYPE::NETWORK_VERBOSE);
 				}
 
 				networkHandler->getPeerMap()[event.peer->incomingPeerID] = event.peer;
@@ -709,15 +698,11 @@ void IrrHandling::runEventTasks() {
 				}
 				break;
 			case ENET_EVENT_TYPE_DISCONNECT:
-				if (SonPeerDisconnect.valid()) {
-					sol::table t = lua->create_table();
-					t[1] = event.peer->outgoingPeerID;
-					t[2] = event.peer->address.host;
-
-					addLuaTask(SonPeerDisconnect, t);
+				if (!Events::Networking::SonPeerDisconnect.get()->empty()) {
+					Events::Networking::SonPeerDisconnect.get()->engineRun(event.peer->outgoingPeerID, event.peer->address.host);
 				}
 				else {
-					if (doVerbose) dConsole.sendMsg("Networking WARNING: A peer disconnected but NetworkServer.OnClientDisconnect is not declared", MESSAGE_TYPE::NETWORK_VERBOSE);
+					if (doVerbose) dConsole.sendMsg("WARNING: A peer disconnected but Event Network.Server.OnClientDisconnect is empty", MESSAGE_TYPE::NETWORK_VERBOSE);
 				}
 
 				networkHandler->getPeerMap().erase(event.peer->outgoingPeerID);
@@ -731,15 +716,11 @@ void IrrHandling::runEventTasks() {
 				}
 				break;
 			case ENET_EVENT_TYPE_RECEIVE:
-				if (SonPacketReceived.valid()) {
-					sol::table t = lua->create_table();
-					t[1] = event.channelID;
-					t[2] = Packet(event.packet, event.peer->incomingSessionID);
-
-					addLuaTask(SonPacketReceived, t);
+				if (!Events::Networking::SonPacketReceived.get()->empty()) {
+					Events::Networking::SonPacketReceived.get()->engineRun(event.channelID, Packet(event.packet, event.peer->incomingSessionID));
 				}
 				else {
-					if (doVerbose) dConsole.sendMsg("Networking WARNING: A packet was received but NetworkServer.OnPacketReceived is not declared", MESSAGE_TYPE::NETWORK_VERBOSE);
+					if (doVerbose) dConsole.sendMsg("WARNING: A packet was received but Event Network.Server.OnPacketReceived is empty", MESSAGE_TYPE::NETWORK_VERBOSE);
 					enet_packet_destroy(event.packet);
 				}
 				break;
@@ -749,10 +730,10 @@ void IrrHandling::runEventTasks() {
 			switch (event.type) {
 			case ENET_EVENT_TYPE_CONNECT:
 				networkHandler->clientTrulyConnected = true;
-				if (ConConnect.valid())
-					addLuaTask(ConConnect, sol::table());
+				if (!Events::Networking::ConConnect.get()->empty())
+					Events::Networking::ConConnect.get()->engineRun();
 				else {
-					if (doVerbose) dConsole.sendMsg("Networking WARNING: Client connected but NetworkClient.OnConnect is not declared", MESSAGE_TYPE::NETWORK_VERBOSE);
+					if (doVerbose) dConsole.sendMsg("WARNING: Client connected but Event Network.Client.OnConnect is empty", MESSAGE_TYPE::NETWORK_VERBOSE);
 				}
 
 				//if (!n->getHost()) n->getPeerMap()[event.peer->incomingPeerID] = event.peer;
@@ -764,13 +745,11 @@ void IrrHandling::runEventTasks() {
 				break;
 			case ENET_EVENT_TYPE_DISCONNECT:
 				networkHandler->clientTrulyConnected = false;
-				if (ConDisconnect.valid()) {
-					sol::table t = lua->create_table();
-					t[1] = event.data;
-					addLuaTask(ConDisconnect, t);
+				if (!Events::Networking::ConDisconnect.get()->empty()) {
+					Events::Networking::ConDisconnect.get()->engineRun(event.data);
 				}
 				else {
-					if (doVerbose) dConsole.sendMsg("Networking WARNING: Client disconnected but NetworkClient.OnDisconnect is not declared", MESSAGE_TYPE::NETWORK_VERBOSE);
+					if (doVerbose) dConsole.sendMsg("WARNING: Client disconnected but Event Network.Client.OnDisconnect is empty", MESSAGE_TYPE::NETWORK_VERBOSE);
 				}
 
 				//if (!n->getHost()) n->getPeerMap().erase(event.peer->incomingPeerID);
@@ -782,15 +761,11 @@ void IrrHandling::runEventTasks() {
 				}
 				break;
 			case ENET_EVENT_TYPE_RECEIVE:
-				if (ConPacketReceived.valid()) {
-					sol::table t = lua->create_table();
-					t[1] = event.channelID;
-					t[2] = Packet(event.packet, event.peer->incomingPeerID);
-
-					addLuaTask(ConPacketReceived, t);
+				if (!Events::Networking::ConPacketReceived.get()->empty()) {
+					Events::Networking::ConPacketReceived.get()->engineRun(event.channelID, Packet(event.packet, event.peer->incomingPeerID));
 				}
 				else {
-					if (doVerbose) dConsole.sendMsg("Networking WARNING: A packet was received but NetworkClient.OnPacketReceived is not declared", MESSAGE_TYPE::NETWORK_VERBOSE);
+					if (doVerbose) dConsole.sendMsg("WARNING: A packet was received but Event Network.Client.OnPacketReceived is empty", MESSAGE_TYPE::NETWORK_VERBOSE);
 					enet_packet_destroy(event.packet);
 				}
 				break;
