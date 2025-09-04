@@ -12,6 +12,8 @@ public:
     IRigidBody* rigidBody = nullptr;
 
     RigidBody3D(const StaticMesh& m);
+    RigidBody3D(const StaticMesh& m, const StaticMesh& colliderMesh);
+    RigidBody3D(const StaticMesh& m, std::string colliderPath);
     RigidBody3D(const StaticMesh& m, float mass);
 
     bool destroy();

@@ -3,6 +3,8 @@
 RigidBody3D::RigidBody3D(const StaticMesh& m, float mass) {
     auto shape = new IGImpactMeshShape(m.getNode(), m.meshNode->getMesh(), mass);
 
+    // Create general creation function
+
     rigidBody = physicsHandler->world->addRigidBody(shape);
     rigidBody->includeNodeOnRemoval(false);
 
@@ -15,6 +17,7 @@ RigidBody3D::RigidBody3D(const StaticMesh& m, float mass) {
     rigidBody->setLinearVelocity(); // Set linear velocity
     rigidBody->setAngularVelocity(); // Set angular velocity
     rigidBody->setSleepingThresholds(); // Set sleep thresholds (linear, angular)
+    rigidBody->setCollisionShape(); // Set custom collision shape
 
     Add affectors
     Set position, rotation, scale
