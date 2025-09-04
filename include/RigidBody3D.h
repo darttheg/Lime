@@ -14,7 +14,9 @@ public:
     RigidBody3D(const StaticMesh& m);
     RigidBody3D(const StaticMesh& m, const StaticMesh& colliderMesh);
     RigidBody3D(const StaticMesh& m, std::string colliderPath);
-    RigidBody3D(const StaticMesh& m, float mass);
+    // RigidBody3D(const MeshBuffer& m); ?
+
+    RigidBody3D(const StaticMesh& m, float mass); // Basic testing constructor if you just want to get something in real quick
 
     bool destroy();
 
