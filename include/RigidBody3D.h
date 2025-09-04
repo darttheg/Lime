@@ -7,13 +7,14 @@
 #include "Compatible3D.h"
 
 class RigidBody3D : public Compatible3D {
+private:
 public:
     IRigidBody* rigidBody = nullptr;
 
     RigidBody3D(const StaticMesh& m);
+    RigidBody3D(const StaticMesh& m, float mass);
 
-    // Appearance
-    // Controlled via StaticMesh
+    bool destroy();
 
     // Physics
     void setFriction(float f);
@@ -25,6 +26,7 @@ public:
     void setDamping(float linear, float angular);
 
     // Apply forces
+
 
     irr::scene::ISceneNode* getNode() const override { return nullptr; }
 };

@@ -4,8 +4,9 @@
 PhysicsHandler::PhysicsHandler() {
 	if (!device) return;
 	
-	world = createIrrBulletWorld(device, true, false);
+	world = createIrrBulletWorld(device, true, true);
 	world->setDebugMode(m_debugMode);
+	world->setGravity(irr::core::vector3df(0, -9.8, 0));
 }
 
 void PhysicsHandler::setDebugMode(int m) {
@@ -53,5 +54,6 @@ void PhysicsHandler::update() {
 	if (!world) return;
 
 	world->stepSimulation(irrHandler->dt * m_stepMultiplier);
+	world->debugDrawWorld(true);
 	world->debugDrawProperties(drawProperties);
 }
