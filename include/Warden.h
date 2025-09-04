@@ -15,6 +15,7 @@
 #include "FunctionsNetworking.h"
 #include "FunctionsSound.h"
 #include "FunctionsWorld.h"
+#include "FunctionsPhysics.h"
 
 typedef unsigned int u32;
 using namespace irr;
@@ -26,4 +27,5 @@ void bindWarden() {
 	bindNetworking();
 	bindSound();
 	bindWorld();
+	bindPhysics();
 }

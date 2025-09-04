@@ -22,6 +22,7 @@
 #include "Packet.h"
 #include "MeshBuffer.h"
 #include "Event.h"
+#include "RigidBody3D.h"
 
 #include "Compatible2D.h"
 #include "Compatible3D.h"
@@ -65,6 +66,8 @@ int LuaLime::initLua(irr::scene::ISceneManager* smgr, irr::video::IVideoDriver* 
 	bindMeshBuffer();
 	bindEvent();
 	bindHook();
+
+	bindRigidBody3D();
 
 	initEvents();
 

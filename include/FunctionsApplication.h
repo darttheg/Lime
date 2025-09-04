@@ -1,8 +1,6 @@
 #include "FunctionsImports.h"
 
 namespace Bind {
-	std::string caption = "Lime Application";
-
 	irr::video::E_DRIVER_TYPE getDriverType(int driverType) {
 		switch (driverType) {
 		case 0: return irr::video::EDT_NULL;
@@ -43,14 +41,14 @@ namespace Bind {
 	}
 
 	void setTitle(const std::string& title) {
-		caption = title;
+		irrHandler->windowTitle = title;
 		if (device) {
-			device->setWindowCaption(irr::core::stringw(caption.c_str()).c_str());
+			device->setWindowCaption(irr::core::stringw(irrHandler->windowTitle.c_str()).c_str());
 		}
 	}
 
 	std::string getTitle() {
-		return caption;
+		return irrHandler->windowTitle;
 	}
 
 	void setWindowPosition(const Vector2D& position) {
@@ -218,8 +216,8 @@ void bindApplication() {
 
 	application["SetDriverType"] = &Bind::setDriverType;
 	application["SetFullscreen"] = &Bind::fullscreenWindow;
-	application["SetCaption"] = &Bind::setTitle;
-	application["GetCaption"] = &Bind::getTitle;
+	application["SetWindowTitle"] = &Bind::setTitle;
+	application["GetWindowTitle"] = &Bind::getTitle;
 	application["SetWindowPosition"] = &Bind::setWindowPosition;
 	application["GetWindowSize"] = &Bind::getWindowSize;
 	application["SetWindowSize"] = &Bind::setWindowSize;

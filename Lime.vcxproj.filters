@@ -513,5 +513,8 @@
     <ClInclude Include="include\LimeEvents.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
+    <ClInclude Include="include\FunctionsPhysics.h">
+      <Filter>Header Files\Core\Static</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

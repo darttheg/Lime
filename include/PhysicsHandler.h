@@ -7,6 +7,7 @@ class PhysicsHandler {
 private:
 private:
 	float m_stepMultiplier = 1.0;
+	irrPhysicsDebugMode m_debugMode = irrPhysicsDebugMode::EPDM_NoDebug;
 public:
 	PhysicsHandler();
 
@@ -15,13 +16,16 @@ public:
 
 	// Gravity
 	void setGravity(const Vector3D& g);
-	float getGravity();
 
 	// Step
-	void setStep(float s); // Multiplier (dt * s)
+	void setStepFactor(float s); // Multiplier (dt * s)
+	void pause(bool p);
+	bool isPaused();
 
 	// Debug mode
 	void setDebugMode(int m);
+	void setDrawProperties(bool d) { drawProperties = d; };
 public:
 	irrBulletWorld* world = nullptr;
+	bool drawProperties = false;
 };

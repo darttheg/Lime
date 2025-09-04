@@ -20,6 +20,8 @@ public:
     DebugSceneNode* d;
 
     Camera3D();
+    Camera3D(const Vector3D& position);
+    Camera3D(const Vector3D& position, const Vector3D& rotation);
     Camera3D(const Camera3D& other);
 
     //~Camera3D() { destroy(); }

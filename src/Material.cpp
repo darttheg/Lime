@@ -4,8 +4,17 @@ Material::Material() {
     mat.UseMipMaps = false;
 }
 
+Material::Material(int type) {
+    setMaterialType(type);
+}
+
 Material::Material(const Material& other) {
     mat = SMaterial(other.mat);
+}
+
+Material::Material(Texture& tex, int type) {
+    setTexture(tex, 0);
+    setMaterialType(type);
 }
 
 Material::Material(Texture& tex) {
@@ -261,7 +270,7 @@ void Material::setMaterialFlag(int i, bool enable) {
 
 void bindMaterial() {
     sol::usertype<Material> bind_type = lua->new_usertype<Material>("Material",
-        sol::constructors<Material(), Material(const Texture & tex), Material(const Material & other)>(),
+        sol::constructors<Material(), Material(int type), Material(const Texture& tex), Material(const Texture& tex, int type), Material(const Material & other)>(),
 
         "type", sol::property(&Material::getMaterialType, &Material::setMaterialType),
         "fog", sol::property(&Material::getFog, &Material::setFog),

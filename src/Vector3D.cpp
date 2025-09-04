@@ -68,26 +68,22 @@ float Vector3D::distance(const Vector3D& other) const {
 // Rotate
 Vector3D Vector3D::rotate(const Vector3D& rot) const {
     // X-axis rotation
-    float cosX = std::cos(rot.x * 180.0 / PI);
-    float sinX = std::sin(rot.x * 180.0 / PI);
+    float cosX = std::cos(rot.x * PI / 180.0);
+    float sinX = std::sin(rot.x * PI / 180.0);
     float newY = y * cosX - z * sinX;
     float newZ = y * sinX + z * cosX;
 
     // Y-axis rotation
-    float cosY = std::cos(rot.y * 180.0 / PI);
-    float sinY = std::sin(rot.y * 180.0 / PI);
+    float cosY = std::cos(rot.y * PI / 180.0);
+    float sinY = std::sin(rot.y * PI / 180.0);
     float newX = x * cosY + newZ * sinY;
     newZ = -x * sinY + newZ * cosY;
 
     // Z-axis rotation
-    float cosZ = std::cos(rot.z * 180.0 / PI);
-    float sinZ = std::sin(rot.z * 180.0 / PI);
+    float cosZ = std::cos(rot.z * PI / 180.0);
+    float sinZ = std::sin(rot.z * PI / 180.0);
     float finalX = newX * cosZ - newY * sinZ;
     float finalY = newX * sinZ + newY * cosZ;
-
-    finalX = finalX * PI / 180.0;
-    finalY = finalY * PI / 180.0;
-    newZ = newZ * PI / 180.0;
 
     return Vector3D(finalX, finalY, newZ);
 }

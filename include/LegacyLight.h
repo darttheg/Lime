@@ -19,7 +19,7 @@ public:
 
     irr::scene::ISceneNode* getNode() const override { return light; }
 
-    LegacyLight(int type, const Vector3D& pos, const Vector3D& rot, const Vector4D& color);
+    LegacyLight(const Vector3D& pos, const Vector3D& rot, int type, const Vector4D& color);
     LegacyLight(int type);
     LegacyLight(const Vector3D& pos);
     LegacyLight();

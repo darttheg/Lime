@@ -1,12 +1,21 @@
 #include "Camera3D.h"
 
-Camera3D::Camera3D() {
+Camera3D::Camera3D() : Camera3D(Vector3D(0,0,0), Vector3D(0,0,0)) {
+}
+
+Camera3D::Camera3D(const Vector3D& position) : Camera3D(position, Vector3D(0,0,0)) {
+}
+
+Camera3D::Camera3D(const Vector3D& position, const Vector3D& rotation) {
     camera = createCamera();
 
     if (mainCamera)
         smgr->setActiveCamera(mainCamera);
     else
         setActive();
+
+    setPosition(position);
+    setRotation(rotation);
 
     camera->grab();
 }
@@ -177,7 +186,7 @@ void Camera3D::addToRenderQueue() {
 
 void bindCamera3D() {
     sol::usertype<Camera3D> bindType = lua->new_usertype<Camera3D>("Camera",
-        sol::constructors<Camera3D()>(),
+        sol::constructors<Camera3D(), Camera3D(const Vector3D& position), Camera3D(const Vector3D& position, const Vector3D& rotation)>(),
 
         sol::base_classes, sol::bases<Compatible3D>(),
 

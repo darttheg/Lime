@@ -75,8 +75,6 @@ public:
 	void writeTextureToFile(irr::video::ITexture* texture, std::string name);
 	void updateFPS();
 	void AddCameraToQueue(irr::scene::ICameraSceneNode* cam, irr::scene::ISceneNode* forward, bool defaultRendering, bool renderGUI);
-	void AddTransformToQueue(int type, irr::scene::ISceneNode* node, irr::core::vector3df transform);
-	void HandleTransformQueue();
 	void setCameraMatrix(irr::scene::ICameraSceneNode* c);
 	void HandleCameraQueue();
 	void displayMessage(std::string title, std::string message, int image);
@@ -108,9 +106,6 @@ public:
 	// Render queue
 	std::queue<CameraToQueue> cameraQueue;
 
-	// Transform queue
-	std::queue<BatchedTransform> transformQueue;
-
 	// Lua function call queue
 	std::queue<std::pair<sol::function, sol::table>> threadedLuaQueue;
 	std::queue<std::pair<bool, ENetEvent>> eventOutQueue;
@@ -136,6 +131,7 @@ public:
 	// Window
 	GLFWwindow* glfwWindow;
 	std::string imgIconPath = "";
+	std::string windowTitle = "Lime Application";
 
 	irr::scene::ISceneNode* skydome = nullptr;
 	irr::video::SColor backgroundColor = (255, 100, 101, 140);

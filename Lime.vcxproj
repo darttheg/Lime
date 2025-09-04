@@ -100,6 +100,7 @@
     <ClInclude Include="include\FunctionsImports.h" />
     <ClInclude Include="include\FunctionsInput.h" />
     <ClInclude Include="include\FunctionsNetworking.h" />
+    <ClInclude Include="include\FunctionsPhysics.h" />
     <ClInclude Include="include\FunctionsSound.h" />
     <ClInclude Include="include\FunctionsWorld.h" />
     <ClInclude Include="include\GhostTrailSceneNode.h" />

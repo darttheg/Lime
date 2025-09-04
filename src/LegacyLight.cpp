@@ -1,6 +1,6 @@
 #include "LegacyLight.h"
 
-LegacyLight::LegacyLight(int type, const Vector3D& pos, const Vector3D& rot, const Vector4D& color) {
+LegacyLight::LegacyLight(const Vector3D& pos, const Vector3D& rot, int type, const Vector4D& color) {
 	vector3df p = vector3df(pos.x, pos.y, pos.z);
 	vector3df r = vector3df(rot.x, rot.y, rot.z);
 	SColorf col = SColorf(color.x / 255.0, color.y / 255.0, color.z / 255.0, color.w / 255.0);
@@ -9,19 +9,20 @@ LegacyLight::LegacyLight(int type, const Vector3D& pos, const Vector3D& rot, con
 	light->setRotation(r);
 }
 
-LegacyLight::LegacyLight() : LegacyLight(0, Vector3D(), Vector3D(), Vector4D(255)) {}
+LegacyLight::LegacyLight() : LegacyLight(Vector3D(), Vector3D(), 0, Vector4D(255)) {}
 
-LegacyLight::LegacyLight(const LegacyLight& other) : LegacyLight(other.light->getLightType(), 
+LegacyLight::LegacyLight(const LegacyLight& other) : LegacyLight( 
 													 Vector3D(other.light->getPosition().X, other.light->getPosition().Y, other.light->getPosition().Z),
 													 Vector3D(other.light->getRotation().X, other.light->getRotation().Y, other.light->getRotation().Z),
+													 other.light->getLightType(),
 													 Vector4D(other.light->getLightData().DiffuseColor.getRed(), other.light->getLightData().DiffuseColor.getGreen(), other.light->getLightData().DiffuseColor.getBlue(), other.light->getLightData().DiffuseColor.getAlpha()))
 {
 	
 }
 
-LegacyLight::LegacyLight(int type) : LegacyLight(type, Vector3D(), Vector3D(), Vector4D()) {}
+LegacyLight::LegacyLight(int type) : LegacyLight(Vector3D(), Vector3D(), type, Vector4D()) {}
 
-LegacyLight::LegacyLight(const Vector3D& pos) : LegacyLight(0, pos, Vector3D(), Vector4D()) {}
+LegacyLight::LegacyLight(const Vector3D& pos) : LegacyLight(pos, Vector3D(), 0, Vector4D()) {}
 
 Vector3D LegacyLight::getPosition() {
 	return true ? Vector3D(light->getPosition().X, light->getPosition().Y, light->getPosition().Z) : Vector3D();
@@ -167,7 +168,7 @@ void LegacyLight::setVisible(bool visible) {
 
 void bindLegacyLight() {
 	sol::usertype<LegacyLight> bind_type = lua->new_usertype<LegacyLight>("Light",
-		sol::constructors<LegacyLight(), LegacyLight(int type), LegacyLight(const Vector3D& pos), LegacyLight(int type, const Vector3D & pos, const Vector3D & rot, const Vector4D & color)>(),
+		sol::constructors<LegacyLight(), LegacyLight(int type), LegacyLight(const Vector3D& pos), LegacyLight(const Vector3D & pos, const Vector3D & rot, int type, const Vector4D & color)>(),
 
 		sol::base_classes, sol::bases<Compatible3D>(),
 

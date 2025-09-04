@@ -158,8 +158,8 @@ void IrrHandling::initScene()
 
 	device = createDeviceEx(params);
 
-	device->setWindowCaption(L"Lime Application");
 	setTitleBarIcon(irrHandler->imgIconPath); // Run in case title bar icon was changed before window creation
+	device->setWindowCaption(irr::core::stringw(irrHandler->windowTitle.c_str()).c_str());
 
 	driver = device->getVideoDriver();
 	smgr = device->getSceneManager();
@@ -432,31 +432,6 @@ void IrrHandling::AddCameraToQueue(irr::scene::ICameraSceneNode* cam, irr::scene
 {
 	if (cam != mainCamera)
 		cameraQueue.push(CameraToQueue(cam, forward, defaultRendering, renderGUI));
-}
-
-void IrrHandling::AddTransformToQueue(int type, irr::scene::ISceneNode* node, irr::core::vector3df transform) {
-	transformQueue.push(BatchedTransform(type, node, transform));
-}
-
-void IrrHandling::HandleTransformQueue() {
-	while (!transformQueue.empty()) {
-		BatchedTransform b = transformQueue.front();
-		irr::scene::ISceneNode* s = b.node;
-
-		switch (b.type) {
-		default:
-			s->setPosition(b.transform);
-			break;
-		case 1: // rotation
-			s->setRotation(b.transform);
-			break;
-		case 2: // scale
-			s->setScale(b.transform);
-			break;
-		}
-
-		transformQueue.pop();
-	}
 }
 
 void IrrHandling::setCameraMatrix(irr::scene::ICameraSceneNode* c) {

@@ -13,7 +13,9 @@ public:
     irr::video::SMaterial mat;
 
     Material();
+    Material(int type);
     Material(const Material& other);
+    Material(Texture& tex, int type);
     Material(Texture& tex);
 
     int getAntiAliasing();
