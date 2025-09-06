@@ -2,7 +2,13 @@
 
 namespace Bind {
 	bool embedFont(const std::string& fontPath) {
-		std::string fontName = std::filesystem::path(fontPath).stem().string();
+		if (!device) return false;
+
+		std::filesystem::path p(fontPath);
+		if (p.extension() != ".xml")
+			return false;
+
+		std::string fontName = p.stem().string();
 
 		if (fontCache.find(fontName) != fontCache.end())
 			return true;
