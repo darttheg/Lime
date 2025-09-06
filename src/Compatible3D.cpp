@@ -70,9 +70,48 @@ void Compatible3D::destroyEntry() {
         irrHandler->comp3dmap.erase(it);
 }
 
+// New general 3D functions
+
+Vector3D Compatible3D::getPosition() {
+    return Vector3D(getNode()->getPosition().X, getNode()->getPosition().Y, getNode()->getPosition().Z);
+}
+
+void Compatible3D::setPosition(const Vector3D& pos) {
+    getNode()->setPosition(irr::core::vector3df(pos.x, pos.y, pos.z));
+}
+
+Vector3D Compatible3D::getRotation() {
+    return Vector3D(getNode()->getRotation().X, getNode()->getRotation().Y, getNode()->getRotation().Z);
+}
+
+void Compatible3D::setRotation(const Vector3D& rot) {
+    float clampedX = std::clamp(rot.x, -89.0f, 89.0f);
+    getNode()->setRotation(irr::core::vector3df(clampedX, rot.y, rot.z));
+}
+
+bool Compatible3D::getVisibility() const {
+    return getNode() ? getNode()->isVisible() : false;
+}
+
+void Compatible3D::setVisibility(bool visible) {
+    if (getNode()) getNode()->setVisible(visible);
+}
+
+#include "Proxy.h"
 void bindCompatible3D() {
     sol::usertype<Compatible3D> bind_type = lua->new_usertype<Compatible3D>("Compatible3D",
-        "attributes", sol::property(&Compatible3D::getEntry, &Compatible3D::setEntry)
+        "attributes", sol::property(&Compatible3D::getEntry, &Compatible3D::setEntry),
+
+        "position", sol::property(
+            [](Compatible3D& c) { return Vector3DProxy{ [&] { return c.getPosition(); }, [&](auto v) { c.setPosition(v); } }; },
+            [](Compatible3D& c, const Vector3D& v) { c.setPosition(v); }
+        ),
+        "rotation", sol::property(
+            [](Compatible3D& c) { return Vector3DProxy{ [&] { return c.getRotation(); }, [&](auto v) { c.setRotation(v); } }; },
+            [](Compatible3D& c, const Vector3D& v) { c.setRotation(v); }
+        ),
+
+        "visible", sol::property(&Compatible3D::getVisibility, &Compatible3D::setVisibility)
     );
 
     bind_type["setParent"] = &Compatible3D::setParent;

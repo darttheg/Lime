@@ -19,24 +19,6 @@ Hitbox::Hitbox(const Hitbox& other) {
 	construct();
 }
 
-Vector3D Hitbox::getPosition() {
-	return node ? Vector3D(holder->getPosition().X, holder->getPosition().Y, holder->getPosition().Z) : Vector3D();
-}
-
-void Hitbox::setPosition(const Vector3D& pos) {
-	if (node)
-		holder->setPosition(vector3df(pos.x, pos.y, pos.z));
-}
-
-Vector3D Hitbox::getRotation() {
-	return node ? Vector3D(holder->getRotation().X, holder->getRotation().Y, holder->getRotation().Z) : Vector3D();
-}
-
-void Hitbox::setRotation(const Vector3D& rot) {
-	if (node)
-		holder->setRotation(vector3df(rot.x, rot.y, rot.z));
-}
-
 bool Hitbox::getVisible() {
 	return node ? visible : false;
 }
@@ -295,8 +277,6 @@ void bindHitbox() {
 
 		sol::base_classes, sol::bases<Compatible3D>(),
 
-		"position", sol::property(&Hitbox::getPosition, &Hitbox::setPosition),
-		"rotation", sol::property(&Hitbox::getRotation, &Hitbox::setRotation),
 		"active", sol::property(&Hitbox::getActive, &Hitbox::setActive),
 		"debug", sol::property(&Hitbox::getVisible, &Hitbox::setVisible),
 		"levelOfDetail", sol::property(&Hitbox::getLOD, &Hitbox::setLOD),

@@ -4,30 +4,6 @@ ParticleSystem::ParticleSystem() {
 	ps = smgr->addParticleSystemSceneNode(false);
 }
 
-Vector3D ParticleSystem::getPosition() {
-	if (!ps)
-		return Vector3D();
-	return Vector3D(ps->getPosition().X, ps->getPosition().Y, ps->getPosition().Z);
-}
-
-void ParticleSystem::setPosition(const Vector3D& pos) {
-	if (!ps)
-		return;
-	ps->setPosition(irr::core::vector3df(pos.x, pos.y, pos.z));
-}
-
-Vector3D ParticleSystem::getRotation() {
-	if (!ps)
-		return Vector3D();
-	return Vector3D(ps->getRotation().X, ps->getRotation().Y, ps->getRotation().Z);
-}
-
-void ParticleSystem::setRotation(const Vector3D& rot) {
-	if (!ps)
-		return;
-	ps->setRotation(irr::core::vector3df(rot.x, rot.y, rot.z));
-}
-
 Vector3D ParticleSystem::getScale() {
 	if (!ps)
 		return Vector3D();
@@ -299,15 +275,6 @@ void ParticleSystem::setDebug(bool visible) {
 	}
 }
 
-bool ParticleSystem::getVisible() {
-	return (ps && ps->isVisible());
-}
-
-void ParticleSystem::setVisible(bool enable) {
-	if (ps)
-		ps->setVisible(enable);
-}
-
 void ParticleSystem::destroy() {
 	if (ps) {
 		destroyEntry();
@@ -321,12 +288,9 @@ void bindParticleSystem() {
 
 		sol::base_classes, sol::bases<Compatible3D>(),
 
-		"position", sol::property(&ParticleSystem::getPosition, &ParticleSystem::setPosition),
-		"rotation", sol::property(&ParticleSystem::getRotation, &ParticleSystem::setRotation),
 		"scale", sol::property(&ParticleSystem::getScale, &ParticleSystem::setScale),
 		"debug", sol::property(&ParticleSystem::getDebug, &ParticleSystem::setDebug),
-		"active", sol::property(&ParticleSystem::getActive, &ParticleSystem::setActive),
-		"visible", sol::property(&ParticleSystem::getVisible, &ParticleSystem::setVisible)
+		"active", sol::property(&ParticleSystem::getActive, &ParticleSystem::setActive)
 	);
 
 	bind_type["destroy"] = &ParticleSystem::destroy;

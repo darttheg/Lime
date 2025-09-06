@@ -21,6 +21,13 @@ public:
     void setEntry(sol::table obj);
     void createEntry();
     void destroyEntry();
+
+    Vector3D getPosition();
+    void setPosition(const Vector3D& pos);
+    Vector3D getRotation();
+    void setRotation(const Vector3D& rot);
+    bool getVisibility() const;
+    void setVisibility(bool v);
 };
 
 void bindCompatible3D();

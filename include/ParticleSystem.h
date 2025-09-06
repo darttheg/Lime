@@ -19,12 +19,6 @@ public:
 
     ParticleSystem();
 
-    Vector3D getPosition();
-    void setPosition(const Vector3D& pos);
-
-    Vector3D getRotation();
-    void setRotation(const Vector3D& rot);
-
     Vector3D getScale();
     void setScale(const Vector3D& scale);
 
@@ -43,9 +37,6 @@ public:
 
     bool getDebug();
     void setDebug(bool visible);
-
-    bool getVisible();
-    void setVisible(bool enable);
 
     void destroy();
 

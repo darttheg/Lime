@@ -19,9 +19,6 @@ public:
     Billboard(const Billboard& other);
     Billboard(const Material& material);
 
-    Vector3D getPosition();
-    void setPosition(const Vector3D& pos);
-
     Vector2D getSize();
     void setSize(const Vector2D& size);
 
@@ -32,9 +29,6 @@ public:
 
     irr::f32 getYPivot();
     void setYPivot(float y);
-
-    bool getVisible();
-    void setVisible(bool visible);
 
     void destroy();
 

@@ -30,13 +30,9 @@ public:
     Hitbox(float rad, float h);
     Hitbox(const Hitbox& other);
 
-    Vector3D getPosition();
-    void setPosition(const Vector3D& pos);
-    Vector3D getRotation();
-    void setRotation(const Vector3D& rot);
     bool getActive();
     void setActive(bool active); // Active hitbox turns the hitbox yellow, otherwise blue (but if it is not visible then the capsule will not be rendered at all)
-    bool getVisible();
+    bool getVisible(); // Works differently than Compatible3D visibility
     void setVisible(bool visible); // Sets vertex opacity to 255; hitboxes will always be truly visible
     int getLOD();
     void setLOD(int i); // Calls construct if LOD is different than lod member variable

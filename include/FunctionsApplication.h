@@ -222,7 +222,7 @@ void bindApplication() {
 	application["GetWindowSize"] = &Bind::getWindowSize;
 	application["SetWindowSize"] = &Bind::setWindowSize;
 	application["GetMonitorSize"] = &Bind::getMonitorSize;
-	application["EndApplication"] = &Bind::endApplication;
+	application["End"] = &Bind::endApplication;
 	application["IsWindowFocused"] = &Bind::isFocused;
 	application["SetResizable"] = &Bind::makeResizable;
 	application["GetElapsedTime"] = &Bind::getElapsedTime;

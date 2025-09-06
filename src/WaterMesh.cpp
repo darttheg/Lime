@@ -91,30 +91,6 @@ void Water::setLength(float i) {
     refreshMesh();
 }
 
-bool Water::getVisibility() const {
-    return water ? water->isVisible() : false;
-}
-
-void Water::setVisibility(bool visible) {
-    if (water) water->setVisible(visible);
-}
-
-Vector3D Water::getPosition() {
-    return water ? Vector3D(water->getPosition().X, water->getPosition().Y, water->getPosition().Z) : Vector3D();
-}
-
-void Water::setPosition(const Vector3D& pos) {
-    if (water) water->setPosition(irr::core::vector3df(pos.x, pos.y, pos.z));
-}
-
-Vector3D Water::getRotation() {
-    return water ? Vector3D(water->getRotation().X, water->getRotation().Y, water->getRotation().Z) : Vector3D();
-}
-
-void Water::setRotation(const Vector3D& rot) {
-    if (water) water->setRotation(irr::core::vector3df(rot.x, rot.y, rot.z));
-}
-
 Vector3D Water::getScale() {
     return water ? Vector3D(water->getScale().X, water->getScale().Y, water->getScale().Z) : Vector3D();
 }
@@ -162,10 +138,7 @@ void bindWater() {
 
         sol::base_classes, sol::bases<Compatible3D>(),
 
-        "position", sol::property(&Water::getPosition, &Water::setPosition),
-        "rotation", sol::property(&Water::getRotation, &Water::setRotation),
         "scale", sol::property(&Water::getScale, &Water::setScale),
-        "visible", sol::property(&Water::getVisibility, &Water::setVisibility),
         "height", sol::property(&Water::getHeight, &Water::setHeight),
         "speed", sol::property(&Water::getSpeed, &Water::setSpeed),
         "length", sol::property(&Water::getLength, &Water::setLength),

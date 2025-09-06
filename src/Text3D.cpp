@@ -41,28 +41,6 @@ void Text3D::setText(const std::string& tx) {
 	}
 }
 
-bool Text3D::getVisibility() const {
-	if (!text)
-		return false;
-	return text->isVisible();
-}
-
-void Text3D::setVisibility(bool visible) {
-	text->setVisible(visible);
-}
-
-Vector3D Text3D::getPosition() {
-	if (!text)
-		return Vector3D();
-	return Vector3D(text->getPosition().X, text->getPosition().Y, text->getPosition().Z);
-}
-
-void Text3D::setPosition(const Vector3D& pos) {
-	if (!text)
-		return;
-	text->setPosition(irr::core::vector3df(pos.x, pos.y, pos.z));
-}
-
 Vector4D Text3D::getColor() {
 	if (text)
 		return Vector4D(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
@@ -110,8 +88,6 @@ void bindText3D() {
 
 		sol::base_classes, sol::bases<Compatible3D>(),
 
-		"position", sol::property(&Text3D::getPosition, &Text3D::setPosition),
-		"visible", sol::property(&Text3D::getVisibility, &Text3D::setVisibility),
 		"textColor", sol::property(&Text3D::getColor, &Text3D::setColor),
 		"text", sol::property(&Text3D::getText, &Text3D::setText)
 	);

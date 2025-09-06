@@ -16,40 +16,6 @@ Empty::Empty(const Vector3D& pos, const Vector3D& rot, const Vector3D& scale) : 
 	emp->setScale(irr::core::vector3df(scale.x, scale.y, scale.z));
 }
 
-bool Empty::getVisibility() const {
-	if (!emp)
-		return false;
-	return emp->isVisible();
-}
-
-void Empty::setVisibility(bool visible) {
-	emp->setVisible(visible);
-}
-
-Vector3D Empty::getPosition() {
-	if (!emp)
-		return Vector3D();
-	return Vector3D(emp->getPosition().X, emp->getPosition().Y, emp->getPosition().Z);
-}
-
-void Empty::setPosition(const Vector3D& pos) {
-	if (!emp)
-		return;
-	emp->setPosition(irr::core::vector3df(pos.x, pos.y, pos.z));
-}
-
-Vector3D Empty::getRotation() {
-	if (!emp)
-		return Vector3D();
-	return Vector3D(emp->getRotation().X, emp->getRotation().Y, emp->getRotation().Z);
-}
-
-void Empty::setRotation(const Vector3D& rot) {
-	if (!emp)
-		return;
-	emp->setRotation(irr::core::vector3df(rot.x, rot.y, rot.z));
-}
-
 Vector3D Empty::getScale() {
 	if (!emp)
 		return Vector3D();
@@ -102,7 +68,6 @@ void bindEmpty() {
 
 		sol::base_classes, sol::bases<Compatible3D>(),
 
-		"visible", sol::property(&Empty::getVisibility, &Empty::setVisibility),
 		"position", sol::property(&Empty::getPosition, &Empty::setPosition),
 		"rotation", sol::property(&Empty::getRotation, &Empty::setRotation),
 		"scale", sol::property(&Empty::getScale, &Empty::setScale),

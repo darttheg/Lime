@@ -121,36 +121,6 @@ bool StaticMesh::loadMaterial(const Material& material, int slot) {
     return true;
 }
 
-bool StaticMesh::getVisibility() const {
-    return meshNode ? meshNode->isVisible() : false;
-}
-
-void StaticMesh::setVisibility(bool visible) {
-    if (meshNode) {
-        meshNode->setVisible(visible);
-    }
-}
-
-Vector3D StaticMesh::getPosition() {
-    return meshNode ? Vector3D(meshNode->getPosition().X, meshNode->getPosition().Y, meshNode->getPosition().Z) : Vector3D();
-}
-
-void StaticMesh::setPosition(const Vector3D& pos) {
-    if (meshNode) {
-        meshNode->setPosition(irr::core::vector3df(pos.x, pos.y, pos.z));
-    }
-}
-
-Vector3D StaticMesh::getRotation() {
-    return meshNode ? Vector3D(meshNode->getRotation().X, meshNode->getRotation().Y, meshNode->getRotation().Z) : Vector3D();
-}
-
-void StaticMesh::setRotation(const Vector3D& rot) {
-    if (meshNode) {
-        meshNode->setRotation(irr::core::vector3df(rot.x, rot.y, rot.z));
-    }
-}
-
 Vector3D StaticMesh::getScale() {
     return meshNode ? Vector3D(meshNode->getScale().X, meshNode->getScale().Y, meshNode->getScale().Z) : Vector3D();
 }
@@ -325,9 +295,6 @@ void bindStaticMesh() {
         sol::base_classes, sol::bases<Compatible3D>(),
 
         "collision", sol::property(&StaticMesh::getCollision, &StaticMesh::setCollision),
-        "visible", sol::property(&StaticMesh::getVisibility, &StaticMesh::setVisibility),
-        "position", sol::property(&StaticMesh::getPosition, &StaticMesh::setPosition),
-        "rotation", sol::property(&StaticMesh::getRotation, &StaticMesh::setRotation),
         "scale", sol::property(&StaticMesh::getScale, &StaticMesh::setScale),
         "ID", sol::property(&StaticMesh::getID, &StaticMesh::setID),
         "frame", sol::property(&StaticMesh::getFrame, &StaticMesh::setFrame),

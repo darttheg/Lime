@@ -46,14 +46,9 @@ namespace Bind {
 		return smgr->getRootSceneNode()->getChildren().getSize();
 	}
 
-	sol::table fireRaypick(Vector3D start, Vector3D end, float debugLifetime, sol::table exclusion = nullptr) {
+	sol::table fireRaypick(Vector3D start, Vector3D end, float debugLifetime) {
 		scene::ISceneCollisionManager* collisionManager = smgr->getSceneCollisionManager();
 		core::line3d<f32> ray(core::vector3df(start.x, start.y, start.z), core::vector3df(end.x, end.y, end.z));
-
-		/*
-		if (exclusion)
-			collisionManager->setExcludeIDs(tblToMap(exclusion));
-		*/
 
 		core::vector3df hitPosition;
 		core::triangle3df hitTriangle;
@@ -73,6 +68,7 @@ namespace Bind {
 			result["materialID"] = material.ID;
 			result["hitPosition"] = hit;
 			result["hit"] = attr;
+			result["success"] = true;
 		}
 		else {
 			result["ID"] = -1;
@@ -80,6 +76,7 @@ namespace Bind {
 			result["materialID"] = -1;
 			result["hitPosition"] = end;
 			result["hit"] = sol::nil;
+			result["success"] = false;
 		}
 
 		if (debugLifetime > 0) {
@@ -90,23 +87,23 @@ namespace Bind {
 			d->raypick_life = debugLifetime;
 		}
 
-		//collisionManager->clearExcludeIDs();
-
 		return result;
 	}
 
-	sol::table fireRaypick2D(Vector2D screenCoord, Vector3D end) {
+	sol::table fireRaypick2D(Vector2D screenCoord, float length, float debugLifetime) {
+		sol::table result = lua->create_table();
 		scene::ISceneCollisionManager* collisionManager = smgr->getSceneCollisionManager();
-		core::line3d<f32> ray = collisionManager->getRayFromScreenCoordinates(
-			core::position2di(screenCoord.x, screenCoord.y), smgr->getActiveCamera());
-		ray.end = core::vector3df(end.x, end.y, end.z);
+		scene::ICameraSceneNode* cam = smgr->getActiveCamera();
+		if (!cam || length == 0.0f) return result;
+
+		core::line3df ray = collisionManager->getRayFromScreenCoordinates(core::position2di(screenCoord.x, screenCoord.y), cam);
+		core::vector3df dir = ray.getVector().normalize();
+		ray.end = ray.start + dir * length;
 
 		core::vector3df hitPosition;
 		core::triangle3df hitTriangle;
 		scene::ISceneNode* pickedNode = collisionManager->getSceneNodeAndCollisionPointFromRay(
 			ray, hitPosition, hitTriangle);
-
-		sol::table result = lua->create_table();
 
 		sol::object attr = irrHandler->comp3dmap[pickedNode];
 
@@ -119,13 +116,23 @@ namespace Bind {
 			result["materialID"] = material.ID;
 			result["hitPosition"] = hit;
 			result["hit"] = attr;
+			result["success"] = true;
 		}
 		else {
 			result["ID"] = -1;
 			result["normal"] = Vector3D(0, 1, 0);
 			result["materialID"] = -1;
-			result["hitPosition"] = end;
+			result["hitPosition"] = Vector3D(ray.end.X, ray.end.Y, ray.end.Z);
 			result["hit"] = sol::nil;
+			result["success"] = false;
+		}
+
+		if (debugLifetime > 0) {
+			DebugSceneNode* d = new DebugSceneNode(mainCamera, smgr, 0, DebugType::RAY_PICK);
+			d->raypick_start = Vector3D(ray.start.X, ray.start.Y, ray.start.Z);
+			d->raypick_end = pickedNode ? Vector3D(hitPosition.X, hitPosition.Y, hitPosition.Z) : Vector3D(ray.end.X, ray.end.Y, ray.end.Z);
+			d->raypick_hit = pickedNode ? true : false;
+			d->raypick_life = debugLifetime;
 		}
 
 		return result;

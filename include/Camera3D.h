@@ -29,12 +29,6 @@ public:
     irr::scene::ICameraSceneNode* createCamera();
     void destroy();
 
-    Vector3D getPosition();
-    void setPosition(const Vector3D& pos);
-
-    Vector3D getRotation();
-    void setRotation(const Vector3D& rot);
-
     void setTargetBind(bool val);
 
     float getNearPlane();

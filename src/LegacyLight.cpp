@@ -24,24 +24,6 @@ LegacyLight::LegacyLight(int type) : LegacyLight(Vector3D(), Vector3D(), type, V
 
 LegacyLight::LegacyLight(const Vector3D& pos) : LegacyLight(pos, Vector3D(), 0, Vector4D()) {}
 
-Vector3D LegacyLight::getPosition() {
-	return true ? Vector3D(light->getPosition().X, light->getPosition().Y, light->getPosition().Z) : Vector3D();
-}
-
-void LegacyLight::setPosition(const Vector3D& pos) {
-	if (light)
-		light->setPosition(vector3df(pos.x, pos.y, pos.z));
-}
-
-Vector3D LegacyLight::getRotation() {
-	return light ? Vector3D(light->getRotation().X, light->getRotation().Y, light->getRotation().Z) : Vector3D();
-}
-
-void LegacyLight::setRotation(const Vector3D& rot) {
-	if (light)
-		light->setRotation(vector3df(rot.x, rot.y, rot.z));
-}
-
 Vector4D LegacyLight::getLightColor() {
 	if (light) {
 		SColorf c = light->getLightData().DiffuseColor;
@@ -157,29 +139,17 @@ void LegacyLight::setDebug(bool visible) {
 	}
 }
 
-bool LegacyLight::getVisible() {
-	return light ? light->isVisible() : false;
-}
-
-void LegacyLight::setVisible(bool visible) {
-	if (light)
-		light->setVisible(visible);
-}
-
 void bindLegacyLight() {
 	sol::usertype<LegacyLight> bind_type = lua->new_usertype<LegacyLight>("Light",
 		sol::constructors<LegacyLight(), LegacyLight(int type), LegacyLight(const Vector3D& pos), LegacyLight(const Vector3D & pos, const Vector3D & rot, int type, const Vector4D & color)>(),
 
 		sol::base_classes, sol::bases<Compatible3D>(),
 
-		"position", sol::property(&LegacyLight::getPosition, &LegacyLight::setPosition),
-		"rotation", sol::property(&LegacyLight::getRotation, &LegacyLight::setRotation),
 		"type", sol::property(&LegacyLight::getType, &LegacyLight::setType),
 		"diffuseColor", sol::property(&LegacyLight::getLightColor, &LegacyLight::setLightColor),
 		"ambientColor", sol::property(&LegacyLight::getAmbientColor, &LegacyLight::setAmbientColor),
 		"debug", sol::property(&LegacyLight::getDebug, &LegacyLight::setDebug),
 		"cones", sol::property(&LegacyLight::getCones, &LegacyLight::setCones),
-		"active", sol::property(&LegacyLight::getVisible, &LegacyLight::setVisible),
 		"radius", sol::property(&LegacyLight::getRadius, &LegacyLight::setRadius),
 		"attenuation", sol::property(&LegacyLight::getAttenuation, &LegacyLight::setAttenuation),
 		"falloff", sol::property(&LegacyLight::getFalloff, &LegacyLight::setFalloff),

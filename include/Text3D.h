@@ -27,12 +27,6 @@ public:
     std::string getText();
     void setText(const std::string& tx);
 
-    bool getVisibility() const;
-    void setVisibility(bool visible);
-
-    Vector3D getPosition();
-    void setPosition(const Vector3D& pos);
-
     Vector4D getColor();
     void setColor(const Vector4D& col);
 

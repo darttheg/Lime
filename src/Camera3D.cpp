@@ -52,23 +52,6 @@ void Camera3D::destroy() {
     camera = nullptr;
 }
 
-Vector3D Camera3D::getPosition() {
-    return Vector3D(camera->getPosition().X, camera->getPosition().Y, camera->getPosition().Z);
-}
-
-void Camera3D::setPosition(const Vector3D& pos) {
-    camera->setPosition(irr::core::vector3df(pos.x, pos.y, pos.z));
-}
-
-Vector3D Camera3D::getRotation() {
-    return Vector3D(camera->getRotation().X, camera->getRotation().Y, camera->getRotation().Z);
-}
-
-void Camera3D::setRotation(const Vector3D& rot) {
-    float clampedX = std::clamp(rot.x, -89.0f, 89.0f);
-    camera->setRotation(irr::core::vector3df(clampedX, rot.y, rot.z));
-}
-
 void Camera3D::setTargetBind(bool val) {
     camera->bindTargetAndRotation(val);
 }
@@ -184,16 +167,23 @@ void Camera3D::addToRenderQueue() {
     }
 }
 
+#include "Proxy.h"
+
 void bindCamera3D() {
     sol::usertype<Camera3D> bindType = lua->new_usertype<Camera3D>("Camera",
         sol::constructors<Camera3D(), Camera3D(const Vector3D& position), Camera3D(const Vector3D& position, const Vector3D& rotation)>(),
 
         sol::base_classes, sol::bases<Compatible3D>(),
 
-        "position", sol::property(&Camera3D::getPosition, &Camera3D::setPosition),
-        "rotation", sol::property(&Camera3D::getRotation, &Camera3D::setRotation),
-        "up", sol::property(&Camera3D::getUp, &Camera3D::setUp),
-        "viewPlanes", sol::property(&Camera3D::getPlanes, &Camera3D::setPlanes),
+        "up", sol::property(
+            [](Camera3D& c) { return Vector3DProxy{ [&] { return c.getUp(); }, [&](auto v) { c.setUp(v); } }; },
+            [](Camera3D& c, const Vector3D& v) { c.setUp(v); }
+        ),
+        "viewPlanes", sol::property(
+            [](Camera3D& c) { return Vector2DProxy{ [&] { return c.getPlanes(); }, [&](auto v) { c.setPlanes(v); } }; },
+            [](Camera3D& c, const Vector2D& v) { c.setPlanes(v); }
+        ),
+
         "fieldOfView", sol::property(&Camera3D::getFOV, &Camera3D::setFOV),
         "visible", sol::property(&Camera3D::getVisible, &Camera3D::setVisible),
         "aspectRatio", sol::property(&Camera3D::getAspect, &Camera3D::setAspect),

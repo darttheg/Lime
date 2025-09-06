@@ -24,15 +24,6 @@ public:
     void make();
     void destroy();
 
-    bool getVisibility() const;
-    void setVisibility(bool visible);
-
-    Vector3D getPosition();
-    void setPosition(const Vector3D& pos);
-
-    Vector3D getRotation();
-    void setRotation(const Vector3D& rot);
-
     Vector3D getScale();
     void setScale(const Vector3D& scale);
 

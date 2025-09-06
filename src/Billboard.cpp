@@ -19,14 +19,6 @@ Billboard::Billboard(const Material& material) {
     loadMaterial(material);
 }
 
-Vector3D Billboard::getPosition() {
-    return Vector3D(bb->getPosition().X, bb->getPosition().Y, bb->getPosition().Z);
-}
-
-void Billboard::setPosition(const Vector3D& pos) {
-    bb->setPosition(irr::core::vector3df(pos.x, pos.y, pos.z));
-}
-
 Vector2D Billboard::getSize() {
     return Vector2D(bb->getSize().Width, bb->getSize().Height);
 }
@@ -57,16 +49,6 @@ void Billboard::setYPivot(float y) {
     bb->setPivotY(y);
 }
 
-bool Billboard::getVisible() {
-    return bb ? bb->isVisible() : false;
-}
-
-void Billboard::setVisible(bool visible) {
-    if (bb) {
-        bb->setVisible(visible);
-    }
-}
-
 void Billboard::destroy() {
     if (bb) {
         bb->remove();
@@ -79,11 +61,9 @@ void bindBillboard() {
 
         sol::base_classes, sol::bases<Compatible3D>(),
 
-        "position", sol::property(&Billboard::getPosition, &Billboard::setPosition),
         "size", sol::property(&Billboard::getSize, &Billboard::setSize),
         "yPivot", sol::property(&Billboard::getYPivot, &Billboard::setYPivot),
-        "lockAxis", sol::property(&Billboard::getRotLock, &Billboard::setRotLock),
-        "visible", sol::property(&Billboard::getVisible, &Billboard::setVisible)
+        "lockAxis", sol::property(&Billboard::getRotLock, &Billboard::setRotLock)
     );
 
     bindType["loadMaterial"] = &Billboard::loadMaterial;

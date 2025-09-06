@@ -30,38 +30,6 @@ void Trail::destroy() {
 	}
 }
 
-bool Trail::getVisibility() const {
-	return t ? t->isVisible() : false;
-}
-
-void Trail::setVisibility(bool visible) {
-	t->setVisible(visible);
-}
-
-Vector3D Trail::getPosition() {
-	if (!t)
-		return Vector3D();
-	return Vector3D(empty->getPosition().X, empty->getPosition().Y, empty->getPosition().Z);
-}
-
-void Trail::setPosition(const Vector3D& pos) {
-	if (!t)
-		return;
-	empty->setPosition(irr::core::vector3df(pos.x, pos.y, pos.z));
-}
-
-Vector3D Trail::getRotation() {
-	if (!t)
-		return Vector3D();
-	return Vector3D(empty->getRotation().X, empty->getRotation().Y, empty->getRotation().Z);
-}
-
-void Trail::setRotation(const Vector3D& rot) {
-	if (!t)
-		return;
-	empty->setRotation(irr::core::vector3df(rot.x, rot.y, rot.z));
-}
-
 Vector3D Trail::getScale() {
 	if (!t)
 		return Vector3D();
