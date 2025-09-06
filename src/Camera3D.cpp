@@ -185,7 +185,6 @@ void bindCamera3D() {
         ),
 
         "fieldOfView", sol::property(&Camera3D::getFOV, &Camera3D::setFOV),
-        "visible", sol::property(&Camera3D::getVisible, &Camera3D::setVisible),
         "aspectRatio", sol::property(&Camera3D::getAspect, &Camera3D::setAspect),
         "debug", sol::property(&Camera3D::getDebug, &Camera3D::setDebug),
         "orthogonal", sol::property(&Camera3D::getOrtho, &Camera3D::setOrtho)

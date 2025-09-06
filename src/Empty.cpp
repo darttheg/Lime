@@ -16,18 +16,6 @@ Empty::Empty(const Vector3D& pos, const Vector3D& rot, const Vector3D& scale) : 
 	emp->setScale(irr::core::vector3df(scale.x, scale.y, scale.z));
 }
 
-Vector3D Empty::getScale() {
-	if (!emp)
-		return Vector3D();
-	return Vector3D(emp->getScale().X, emp->getScale().Y, emp->getScale().Z);
-}
-
-void Empty::setScale(const Vector3D& scale) {
-	if (!emp)
-		return;
-	emp->setScale(irr::core::vector3df(scale.x, scale.y, scale.z));
-}
-
 bool Empty::getDebug() {
 	return emp ? d != nullptr : false;
 }
@@ -68,9 +56,6 @@ void bindEmpty() {
 
 		sol::base_classes, sol::bases<Compatible3D>(),
 
-		"position", sol::property(&Empty::getPosition, &Empty::setPosition),
-		"rotation", sol::property(&Empty::getRotation, &Empty::setRotation),
-		"scale", sol::property(&Empty::getScale, &Empty::setScale),
 		"debug", sol::property(&Empty::getDebug, &Empty::setDebug)
 	);
 

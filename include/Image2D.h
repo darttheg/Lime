@@ -21,7 +21,7 @@ public:
     Image2D(const Image2D& other);
 
     Vector4D getColor();
-    void setColor(Vector4D& color);
+    void setColor(const Vector4D& color);
 
     bool getVisible();
     void setVisible(bool vis);

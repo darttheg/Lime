@@ -139,6 +139,7 @@ void LegacyLight::setDebug(bool visible) {
 	}
 }
 
+#include "Proxy.h"
 void bindLegacyLight() {
 	sol::usertype<LegacyLight> bind_type = lua->new_usertype<LegacyLight>("Light",
 		sol::constructors<LegacyLight(), LegacyLight(int type), LegacyLight(const Vector3D& pos), LegacyLight(const Vector3D & pos, const Vector3D & rot, int type, const Vector4D & color)>(),
@@ -146,14 +147,31 @@ void bindLegacyLight() {
 		sol::base_classes, sol::bases<Compatible3D>(),
 
 		"type", sol::property(&LegacyLight::getType, &LegacyLight::setType),
-		"diffuseColor", sol::property(&LegacyLight::getLightColor, &LegacyLight::setLightColor),
-		"ambientColor", sol::property(&LegacyLight::getAmbientColor, &LegacyLight::setAmbientColor),
+
+		"diffuseColor", sol::property(
+			[](LegacyLight& c) { return Vector4DProxy{ [&] { return c.getLightColor(); }, [&](auto v) { c.setLightColor(v); } }; },
+			[](LegacyLight& c, const Vector4D& v) { c.setLightColor(v); }
+		),
+		"ambientColor", sol::property(
+			[](LegacyLight& c) { return Vector4DProxy{ [&] { return c.getAmbientColor(); }, [&](auto v) { c.setAmbientColor(v); } }; },
+			[](LegacyLight& c, const Vector4D& v) { c.setAmbientColor(v); }
+		),
+		"specularColor", sol::property(
+			[](LegacyLight& c) { return Vector4DProxy{ [&] { return c.getSpecColor(); }, [&](auto v) { c.setSpecColor(v); } }; },
+			[](LegacyLight& c, const Vector4D& v) { c.setSpecColor(v); }
+		),
+		"cones", sol::property(
+			[](LegacyLight& c) { return Vector2DProxy{ [&] { return c.getCones(); }, [&](auto v) { c.setCones(v); } }; },
+			[](LegacyLight& c, const Vector2D& v) { c.setCones(v); }
+		),
+		"attenuation", sol::property(
+			[](LegacyLight& c) { return Vector3DProxy{ [&] { return c.getAttenuation(); }, [&](auto v) { c.setAttenuation(v); } }; },
+			[](LegacyLight& c, const Vector3D& v) { c.setAttenuation(v); }
+		),
+
 		"debug", sol::property(&LegacyLight::getDebug, &LegacyLight::setDebug),
-		"cones", sol::property(&LegacyLight::getCones, &LegacyLight::setCones),
 		"radius", sol::property(&LegacyLight::getRadius, &LegacyLight::setRadius),
-		"attenuation", sol::property(&LegacyLight::getAttenuation, &LegacyLight::setAttenuation),
-		"falloff", sol::property(&LegacyLight::getFalloff, &LegacyLight::setFalloff),
-		"specularColor", sol::property(&LegacyLight::getSpecColor, &LegacyLight::setSpecColor)
+		"falloff", sol::property(&LegacyLight::getFalloff, &LegacyLight::setFalloff)
 	);
 
 	bind_type["destroy"] = &LegacyLight::destroy;

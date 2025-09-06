@@ -45,9 +45,6 @@ public:
     bool getCollision() const;
     void setCollision(bool enable);
 
-    Vector3D getScale();
-    void setScale(const Vector3D& scale);
-
     int getID();
     void setID(int i);
 

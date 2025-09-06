@@ -4,18 +4,6 @@ ParticleSystem::ParticleSystem() {
 	ps = smgr->addParticleSystemSceneNode(false);
 }
 
-Vector3D ParticleSystem::getScale() {
-	if (!ps)
-		return Vector3D();
-	return Vector3D(ps->getScale().X, ps->getScale().Y, ps->getScale().Z);
-}
-
-void ParticleSystem::setScale(const Vector3D& scale) {
-	if (!ps)
-		return;
-	ps->setScale(irr::core::vector3df(scale.x, scale.y, scale.z));
-}
-
 void ParticleSystem::setEmitter(int i, sol::table params) {
 	if (!ps)
 		return;
@@ -288,7 +276,6 @@ void bindParticleSystem() {
 
 		sol::base_classes, sol::bases<Compatible3D>(),
 
-		"scale", sol::property(&ParticleSystem::getScale, &ParticleSystem::setScale),
 		"debug", sol::property(&ParticleSystem::getDebug, &ParticleSystem::setDebug),
 		"active", sol::property(&ParticleSystem::getActive, &ParticleSystem::setActive)
 	);

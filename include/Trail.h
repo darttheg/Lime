@@ -24,9 +24,6 @@ public:
     void make();
     void destroy();
 
-    Vector3D getScale();
-    void setScale(const Vector3D& scale);
-
     float getWidth();
     void setWidth(float w);
 

@@ -156,12 +156,20 @@ void Compatible2D::setToolTip(std::string tip) {
 	button->setToolTipText(out.c_str());
 }
 
+#include "Proxy.h"
 void bindCompatible2D() {
 	sol::usertype<Compatible2D> bindType = lua->new_usertype<Compatible2D>("Compatible2D",
 
-		"position", sol::property(&Compatible2D::getPosition, &Compatible2D::setPosition),
+		"position", sol::property(
+			[](Compatible2D& c) { return Vector2DProxy{ [&] { return c.getPosition(); }, [&](auto v) { c.setPosition(v); } }; },
+			[](Compatible2D& c, const Vector2D& v) { c.setPosition(v); }
+		),
+		"size", sol::property(
+			[](Compatible2D& c) { return Vector2DProxy{ [&] { return c.getSize(); }, [&](auto v) { c.setSize(v); } }; },
+			[](Compatible2D& c, const Vector2D& v) { c.setSize(v); }
+		),
+
 		"visible", sol::property(&Compatible2D::getVisible, &Compatible2D::setVisible),
-		"size", sol::property(&Compatible2D::getSize, &Compatible2D::setSize),
 		"toolTip", sol::property(&Compatible2D::getToolTip, &Compatible2D::setToolTip),
 
 		"hovered", &Compatible2D::hovered,

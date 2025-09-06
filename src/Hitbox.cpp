@@ -271,6 +271,7 @@ bool Hitbox::pointInside(const Vector3D& point) {
 	return (p - closestPoint).getLengthSQ() <= radius * radius;
 }
 
+#include "Proxy.h"
 void bindHitbox() {
 	sol::usertype<Hitbox> bind_type = lua->new_usertype<Hitbox>("Hitbox",
 		sol::constructors<Hitbox(), Hitbox(float radius, float height)>(),
@@ -284,7 +285,11 @@ void bindHitbox() {
 		"ID", sol::property(&Hitbox::getID, &Hitbox::setID),
 		"radius", sol::property(&Hitbox::getRadius, &Hitbox::setRadius),
 		"height", sol::property(&Hitbox::getHeight, &Hitbox::setHeight),
-		"dimensions", sol::property(&Hitbox::getAttributes, &Hitbox::setAttributes)
+
+		"size", sol::property(
+			[](Hitbox& c) { return Vector2DProxy{ [&] { return c.getAttributes(); }, [&](auto v) { c.setAttributes(v); } }; },
+			[](Hitbox& c, const Vector2D& v) { c.setAttributes(v); }
+		)
 	);
 
 	bind_type["destroy"] = &Hitbox::destroy;

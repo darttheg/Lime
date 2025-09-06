@@ -25,9 +25,6 @@ public:
     Empty(const Vector3D& pos, const Vector3D& rot);
     Empty(const Vector3D& pos, const Vector3D& rot, const Vector3D& scale);
 
-    Vector3D getScale();
-    void setScale(const Vector3D& scale);
-
     bool getDebug();
     void setDebug(bool visible);
 

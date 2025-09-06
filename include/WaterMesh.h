@@ -42,10 +42,7 @@ public:
     void setSpeed(float i);
 
     float getLength();
-    void setLength(float i);
-
-    Vector3D getScale();
-    void setScale(const Vector3D& scale);
+    void setLength(float i);;
 
     void loadMaterial(const Material& m);
 

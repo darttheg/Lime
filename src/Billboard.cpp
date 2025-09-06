@@ -55,13 +55,18 @@ void Billboard::destroy() {
     }
 }
 
+#include "Proxy.h"
 void bindBillboard() {
     sol::usertype<Billboard> bindType = lua->new_usertype<Billboard>("Billboard",
         sol::constructors<Billboard(), Billboard(const Material & material)>(),
 
         sol::base_classes, sol::bases<Compatible3D>(),
 
-        "size", sol::property(&Billboard::getSize, &Billboard::setSize),
+        "size", sol::property(
+            [](Billboard& c) { return Vector2DProxy{ [&] { return c.getSize(); }, [&](auto v) { c.setSize(v); } }; },
+            [](Billboard& c, const Vector2D& v) { c.setSize(v); }
+        ),
+
         "yPivot", sol::property(&Billboard::getYPivot, &Billboard::setYPivot),
         "lockAxis", sol::property(&Billboard::getRotLock, &Billboard::setRotLock)
     );

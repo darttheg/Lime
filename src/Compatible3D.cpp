@@ -73,20 +73,35 @@ void Compatible3D::destroyEntry() {
 // New general 3D functions
 
 Vector3D Compatible3D::getPosition() {
+    if (!getNode()) return Vector3D();
     return Vector3D(getNode()->getPosition().X, getNode()->getPosition().Y, getNode()->getPosition().Z);
 }
 
 void Compatible3D::setPosition(const Vector3D& pos) {
-    getNode()->setPosition(irr::core::vector3df(pos.x, pos.y, pos.z));
+    if (getNode())
+        getNode()->setPosition(irr::core::vector3df(pos.x, pos.y, pos.z));
 }
 
 Vector3D Compatible3D::getRotation() {
+    if (!getNode()) return Vector3D();
     return Vector3D(getNode()->getRotation().X, getNode()->getRotation().Y, getNode()->getRotation().Z);
 }
 
 void Compatible3D::setRotation(const Vector3D& rot) {
-    float clampedX = std::clamp(rot.x, -89.0f, 89.0f);
-    getNode()->setRotation(irr::core::vector3df(clampedX, rot.y, rot.z));
+    // float clampedX = std::clamp(rot.x, -89.0f, 89.0f); From Camera
+    // getNode()->setRotation(irr::core::vector3df(clampedX, rot.y, rot.z));
+    if (getNode())
+        getNode()->setRotation(irr::core::vector3df(rot.x, rot.y, rot.z));
+}
+
+Vector3D Compatible3D::getScale() {
+    if (!getNode()) return Vector3D();
+    return Vector3D(getNode()->getScale().X, getNode()->getScale().Y, getNode()->getScale().Z);
+}
+
+void Compatible3D::setScale(const Vector3D& scale) {
+    if (getNode())
+        getNode()->setScale(irr::core::vector3df(scale.x, scale.y, scale.z));
 }
 
 bool Compatible3D::getVisibility() const {
@@ -109,6 +124,10 @@ void bindCompatible3D() {
         "rotation", sol::property(
             [](Compatible3D& c) { return Vector3DProxy{ [&] { return c.getRotation(); }, [&](auto v) { c.setRotation(v); } }; },
             [](Compatible3D& c, const Vector3D& v) { c.setRotation(v); }
+        ),
+        "scale", sol::property(
+            [](Compatible3D& c) { return Vector3DProxy{ [&] { return c.getScale(); }, [&](auto v) { c.setScale(v); } }; },
+            [](Compatible3D& c, const Vector3D& v) { c.setScale(v); }
         ),
 
         "visible", sol::property(&Compatible3D::getVisibility, &Compatible3D::setVisibility)

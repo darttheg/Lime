@@ -19,9 +19,6 @@ public:
 
     ParticleSystem();
 
-    Vector3D getScale();
-    void setScale(const Vector3D& scale);
-
     void setEmitter(int i, sol::table params);
     void addAffector(int i, sol::table params);
     void removeAffectors();

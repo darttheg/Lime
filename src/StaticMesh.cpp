@@ -121,16 +121,6 @@ bool StaticMesh::loadMaterial(const Material& material, int slot) {
     return true;
 }
 
-Vector3D StaticMesh::getScale() {
-    return meshNode ? Vector3D(meshNode->getScale().X, meshNode->getScale().Y, meshNode->getScale().Z) : Vector3D();
-}
-
-void StaticMesh::setScale(const Vector3D& scale) {
-    if (meshNode) {
-        meshNode->setScale(irr::core::vector3df(scale.x, scale.y, scale.z));
-    }
-}
-
 int StaticMesh::getID() {
     return meshNode ? meshNode->getID() : -1;
 }
@@ -288,6 +278,7 @@ void StaticMesh::setAutomaticCulling(bool enable) {
     meshNode->setAutomaticCulling(enable ? EAC_BOX : EAC_OFF);
 }
 
+#include "Proxy.h"
 void bindStaticMesh() {
     sol::usertype<StaticMesh> bindType = lua->new_usertype<StaticMesh>("Mesh",
         sol::constructors<StaticMesh(), StaticMesh(const std::string & filePath)>(),
@@ -295,11 +286,15 @@ void bindStaticMesh() {
         sol::base_classes, sol::bases<Compatible3D>(),
 
         "collision", sol::property(&StaticMesh::getCollision, &StaticMesh::setCollision),
-        "scale", sol::property(&StaticMesh::getScale, &StaticMesh::setScale),
         "ID", sol::property(&StaticMesh::getID, &StaticMesh::setID),
         "frame", sol::property(&StaticMesh::getFrame, &StaticMesh::setFrame),
         "debug", sol::property(&StaticMesh::getDebug, &StaticMesh::setDebug),
-        "vertexColor", sol::property(&StaticMesh::getVColor, &StaticMesh::setVColor));
+
+        "vertexColor", sol::property(
+            [](StaticMesh& c) { return Vector4DProxy{ [&] { return c.getVColor(); }, [&](auto v) { c.setVColor(v); } }; },
+            [](StaticMesh& c, const Vector4D& v) { c.setVColor(v); }
+        )
+    );
 
     bindType["load"] = &StaticMesh::loadMesh;
     bindType["loadWithTangents"] = &StaticMesh::loadMeshWithTangents;

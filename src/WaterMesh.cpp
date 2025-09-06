@@ -91,14 +91,6 @@ void Water::setLength(float i) {
     refreshMesh();
 }
 
-Vector3D Water::getScale() {
-    return water ? Vector3D(water->getScale().X, water->getScale().Y, water->getScale().Z) : Vector3D();
-}
-
-void Water::setScale(const Vector3D& scale) {
-    if (water) water->setScale(irr::core::vector3df(scale.x, scale.y, scale.z));
-}
-
 void Water::loadMaterial(const Material& m) {
     material = m.mat;
     water->getMaterial(0) = material;
@@ -128,6 +120,7 @@ void Water::setTexRepeat(const Vector2D& other) {
     texRepeat = irr::core::vector2df(other.x, other.y);
 }
 
+#include "Proxy.h"
 void bindWater() {
     sol::usertype<Water> bind_type = lua->new_usertype<Water>("Water",
         sol::constructors<
@@ -138,13 +131,23 @@ void bindWater() {
 
         sol::base_classes, sol::bases<Compatible3D>(),
 
-        "scale", sol::property(&Water::getScale, &Water::setScale),
         "height", sol::property(&Water::getHeight, &Water::setHeight),
         "speed", sol::property(&Water::getSpeed, &Water::setSpeed),
         "length", sol::property(&Water::getLength, &Water::setLength),
-        "tileSize", sol::property(&Water::getTileSize, &Water::setTileSize),
-        "tileCount", sol::property(&Water::getTileCount, &Water::setTileCount),
-        "texRepeat", sol::property(&Water::getTexRepeat, &Water::setTexRepeat));
+
+        "tileSize", sol::property(
+            [](Water& c) { return Vector2DProxy{ [&] { return c.getTileSize(); }, [&](auto v) { c.setTileSize(v); } }; },
+            [](Water& c, const Vector2D& v) { c.setTileSize(v); }
+        ),
+        "tileCount", sol::property(
+            [](Water& c) { return Vector2DProxy{ [&] { return c.getTileCount(); }, [&](auto v) { c.setTileCount(v); } }; },
+            [](Water& c, const Vector2D& v) { c.setTileCount(v); }
+        ),
+        "texRepeat", sol::property(
+            [](Water& c) { return Vector2DProxy{ [&] { return c.getTexRepeat(); }, [&](auto v) { c.setTexRepeat(v); } }; },
+            [](Water& c, const Vector2D& v) { c.setTexRepeat(v); }
+        )
+    );
 
     bind_type["destroy"] = &Water::destroy;
     bind_type["loadMaterial"] = &Water::loadMaterial;

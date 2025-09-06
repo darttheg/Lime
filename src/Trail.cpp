@@ -30,18 +30,6 @@ void Trail::destroy() {
 	}
 }
 
-Vector3D Trail::getScale() {
-	if (!t)
-		return Vector3D();
-	return Vector3D(empty->getScale().X, empty->getScale().Y, empty->getScale().Z);
-}
-
-void Trail::setScale(const Vector3D& scale) {
-	if (!t)
-		return;
-	empty->setScale(irr::core::vector3df(scale.x, scale.y, scale.z));
-}
-
 float Trail::getWidth() {
 	return t ? trailWidth : 0.0f;
 }
@@ -126,19 +114,21 @@ void Trail::setFixedSize(float s) {
 		t->setFixedSize(s);
 }
 
+#include "Proxy.h"
 void bindTrail() {
 	sol::usertype<Trail> bind_type = lua->new_usertype<Trail>("Trail",
 		sol::constructors<Trail()>(),
 
 		sol::base_classes, sol::bases<Compatible3D>(),
 
-		"visible", sol::property(&Trail::getVisibility, &Trail::setVisibility),
-		"position", sol::property(&Trail::getPosition, &Trail::setPosition),
-		"rotation", sol::property(&Trail::getRotation, &Trail::setRotation),
-		"scale", sol::property(&Trail::getScale, &Trail::setScale),
 		"debug", sol::property(&Trail::getDebug, &Trail::setDebug),
 		"height", sol::property(&Trail::getWidth, &Trail::setWidth),
-		"wind", sol::property(&Trail::getWind, &Trail::setWind),
+
+		"wind", sol::property(
+			[](Trail& c) { return Vector3DProxy{ [&] { return c.getWind(); }, [&](auto v) { c.setWind(v); } }; },
+			[](Trail& c, const Vector3D& v) { c.setWind(v); }
+		),
+
 		"segments", sol::property(&Trail::getSegments, &Trail::setSegments),
 		"alignment", sol::property(&Trail::getAlignmentMode, &Trail::setAlignmentMode),
 		"segmentLength", sol::property(&Trail::getFixedSize, &Trail::setFixedSize)
