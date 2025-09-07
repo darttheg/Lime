@@ -20,6 +20,11 @@ StaticMesh::StaticMesh(const StaticMesh& other) : StaticMesh() {
     collisionEnabled = other.collisionEnabled;
 }
 
+StaticMesh::StaticMesh(const MeshBuffer& m) {
+    meshPath = "capsule";
+    loadMeshViaBuffer(m);
+}
+
 StaticMesh::StaticMesh(irr::scene::IAnimatedMeshSceneNode* node) : StaticMesh() {
     meshNode = node;
 }
@@ -255,13 +260,13 @@ bool StaticMesh::writeToFile(std::string path) {
 }
 
 bool StaticMesh::loadMeshViaBuffer(const MeshBuffer& b) {
-    if (meshNode) meshNode->drop();
     SMesh* m = new SMesh();
     m->addMeshBuffer(b.getBuffer());
 
     m->recalculateBoundingBox();
 
     irr::scene::IMeshManipulator* meshManipulator = device->getSceneManager()->getMeshManipulator();
+    if (meshNode) meshNode->drop();
     meshNode = smgr->addAnimatedMeshSceneNode(meshManipulator->createAnimatedMesh(m));
 
     m->drop();
@@ -281,7 +286,7 @@ void StaticMesh::setAutomaticCulling(bool enable) {
 #include "Proxy.h"
 void bindStaticMesh() {
     sol::usertype<StaticMesh> bindType = lua->new_usertype<StaticMesh>("Mesh",
-        sol::constructors<StaticMesh(), StaticMesh(const std::string & filePath)>(),
+        sol::constructors<StaticMesh(), StaticMesh(const std::string & filePath), StaticMesh(const MeshBuffer& m)>(),
 
         sol::base_classes, sol::bases<Compatible3D>(),
 

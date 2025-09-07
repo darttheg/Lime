@@ -14,6 +14,72 @@ Texture::Texture(const std::string imgpath) : path(imgpath) {
 	}
 }
 
+Texture::Texture(const std::string imgpath, sol::table options) : path(imgpath) {
+	// Works but driver doesn't apply these changes when creating a texture, so useless.
+	if (!path.empty()) {
+		// Parse options
+		if (!driver) return;
+
+		bool pow2 = driver->getTextureCreationFlag(ETCF_ALLOW_NON_POWER_2);
+		bool always16 = driver->getTextureCreationFlag(ETCF_ALWAYS_16_BIT);
+		bool always32 = driver->getTextureCreationFlag(ETCF_ALWAYS_32_BIT);
+		bool mipmaps = driver->getTextureCreationFlag(ETCF_CREATE_MIP_MAPS);
+		bool noalpha = driver->getTextureCreationFlag(ETCF_NO_ALPHA_CHANNEL);
+		bool quality = driver->getTextureCreationFlag(ETCF_OPTIMIZED_FOR_QUALITY);
+		bool speed = driver->getTextureCreationFlag(ETCF_OPTIMIZED_FOR_SPEED);
+
+		if (options["BitDepth"].valid() && options["BitDepth"].is<int>()) {
+			sol::object obj = options["BitDepth"];
+			if (obj.as<int>() == 0) {
+				driver->setTextureCreationFlag(ETCF_ALWAYS_16_BIT, true);
+				driver->setTextureCreationFlag(ETCF_ALWAYS_32_BIT, false);
+			} else {
+				driver->setTextureCreationFlag(ETCF_ALWAYS_16_BIT, false);
+				driver->setTextureCreationFlag(ETCF_ALWAYS_32_BIT, true);
+			}
+		}
+
+		if (options["Optimize"].valid() && options["Optimize"].is<int>()) {
+			sol::object obj = options["Optimize"];
+			if (obj.as<int>() == 0) {
+				driver->setTextureCreationFlag(ETCF_OPTIMIZED_FOR_SPEED, true);
+				driver->setTextureCreationFlag(ETCF_OPTIMIZED_FOR_QUALITY, false);
+			}
+			else {
+				driver->setTextureCreationFlag(ETCF_OPTIMIZED_FOR_SPEED, false);
+				driver->setTextureCreationFlag(ETCF_OPTIMIZED_FOR_QUALITY, true);
+			}
+		}
+
+		if (options["AllowNonPower2"].valid() && options["AllowNonPower2"].is<bool>()) {
+			sol::object obj = options["AllowNonPower2"];
+			driver->setTextureCreationFlag(ETCF_ALLOW_NON_POWER_2, obj.as<bool>());
+		}
+
+		if (options["CreateMipmaps"].valid() && options["CreateMipmaps"].is<bool>()) {
+			sol::object obj = options["CreateMipmaps"];
+			driver->setTextureCreationFlag(ETCF_CREATE_MIP_MAPS, obj.as<bool>());
+		}
+
+		if (options["NoAlpha"].valid() && options["NoAlpha"].is<bool>()) {
+			sol::object obj = options["NoAlpha"];
+			driver->setTextureCreationFlag(ETCF_NO_ALPHA_CHANNEL, obj.as<bool>());
+		}
+
+		// Create with new flags
+		load(imgpath);
+
+		// Done
+		driver->setTextureCreationFlag(ETCF_ALLOW_NON_POWER_2, pow2);
+		driver->setTextureCreationFlag(ETCF_ALWAYS_16_BIT, always16);
+		driver->setTextureCreationFlag(ETCF_ALWAYS_32_BIT, always32);
+		driver->setTextureCreationFlag(ETCF_CREATE_MIP_MAPS, mipmaps);
+		driver->setTextureCreationFlag(ETCF_NO_ALPHA_CHANNEL, noalpha);
+		driver->setTextureCreationFlag(ETCF_OPTIMIZED_FOR_QUALITY, quality);
+		driver->setTextureCreationFlag(ETCF_OPTIMIZED_FOR_SPEED, speed);
+	}
+}
+
 bool Texture::load(const std::string& imgpath) {
 	if (!driver) {
 		// For Lime.SetWindowIcon
@@ -131,7 +197,7 @@ irr::video::IImage* Texture::texToImg(irr::video::ITexture* tex) {
 
 void bindTexture() {
 	sol::usertype<Texture> bindType = lua->new_usertype<Texture>("Texture",
-		sol::constructors<Texture(), Texture(const Vector2D& size), Texture(std::string imgpath)>()
+		sol::constructors<Texture(), Texture(const Vector2D& size), Texture(std::string imgpath)/*, Texture(std::string imgpath, sol::table options)*/>()
 	);
 
 	bindType["crop"] = &Texture::crop;

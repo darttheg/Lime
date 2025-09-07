@@ -58,6 +58,7 @@ public:
     void faceTarget(const Vector3D& position);
     void clearForces();
 
+    void applySimpleForce(float force, const Vector3D& worldPos);
     void applySimpleImpulse(float force, const Vector3D& worldPos);
 
     Vector3D getLinearVelocity();
@@ -72,8 +73,7 @@ public:
     // void setSleepingThresholds(float linear, float angular);
     float getSleepingThreshold();
     void setSleepingThreshold(float f);
-    void setCollisionShape(const StaticMesh& m);
-    void setCollisionShape(const MeshBuffer& m);
+    void setGhost(bool v);
     Vector3D getForward();
 
     void wakeUp(); // Wakes up sleeping object

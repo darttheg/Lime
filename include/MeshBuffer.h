@@ -5,6 +5,7 @@
 #include "Vector3D.h"
 #include "Vector2D.h"
 #include "Vector4D.h"
+#include "DrawSphere.h"
 
 class MeshBuffer {
 public:
@@ -19,6 +20,8 @@ public:
 	void destroy();
 	void recalculateBoundingBox();
 	int getVertexCount() const;
+	void createCapsule(float radius, float height, int rings, int sectors);
+
 	irr::scene::SMeshBuffer* getBuffer() const;
 
 	u16 currentIndex = 0;

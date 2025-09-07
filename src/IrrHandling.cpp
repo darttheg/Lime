@@ -318,6 +318,8 @@ void IrrHandling::appLoop() {
 		if (!renderedGUI)
 			guienv->drawAll();
 
+		physicsHandler->world->debugDrawProperties(physicsHandler->drawProperties);
+
 		driver->endScene();
 
 		updateFPS();
@@ -459,6 +461,8 @@ void IrrHandling::HandleCameraQueue() {
 		setCameraMatrix(smgr->getActiveCamera());
 
 		smgr->drawAll();
+
+		physicsHandler->onRender();
 	}
 
 	while (!cameraQueue.empty()) {

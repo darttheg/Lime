@@ -14,6 +14,7 @@ public:
     Texture();
     Texture(const Vector2D& size);
     Texture(const std::string imgpath);
+    Texture(const std::string imgpath, sol::table options);
 
     bool load(const std::string& imgpath);
     std::string getPath() const;

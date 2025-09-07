@@ -317,6 +317,35 @@ namespace Bind {
 		else
 			smgr->setLightManager(0);
 	}
+
+	void setTextureCreationFlag(int f, bool v) {
+		if (!driver) return;
+
+		E_TEXTURE_CREATION_FLAG out = E_TEXTURE_CREATION_FLAG::ETCF_ALLOW_NON_POWER_2;
+
+		switch (f) {
+		case 1:
+			out = E_TEXTURE_CREATION_FLAG::ETCF_ALWAYS_16_BIT;
+			break;
+		case 2:
+			out = E_TEXTURE_CREATION_FLAG::ETCF_ALWAYS_32_BIT;
+			break;
+		case 3:
+			out = E_TEXTURE_CREATION_FLAG::ETCF_CREATE_MIP_MAPS;
+			break;
+		case 4:
+			out = E_TEXTURE_CREATION_FLAG::ETCF_NO_ALPHA_CHANNEL;
+			break;
+		case 5:
+			out = E_TEXTURE_CREATION_FLAG::ETCF_OPTIMIZED_FOR_QUALITY;
+			break;
+		case 6:
+			out = E_TEXTURE_CREATION_FLAG::ETCF_OPTIMIZED_FOR_SPEED;
+			break;
+		}
+
+		driver->setTextureCreationFlag(out, v);
+	}
 }
 
 void bindWorld() {
@@ -347,4 +376,5 @@ void bindWorld() {
 	world["SetShadowColor"] = &Bind::setShadowColor;
 	world["SetShadowOpacity"] = &Bind::setShadowOpacity;
 	world["SetLightManagementMode"] = &Bind::setLightManagementMode;
+	world["SetTextureCreationFlag"] = &Bind::setTextureCreationFlag;
 }

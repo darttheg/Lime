@@ -76,17 +76,27 @@ int MeshBuffer::getVertexCount() const {
     return buffer ? buffer->Vertices.size() : 0;
 }
 
+void MeshBuffer::createCapsule(float radius, float height, int rings, int sectors) {
+    if (buffer) {
+        buffer->drop();
+        buffer = new irr::scene::SMeshBuffer();
+    }
+
+    buffer = genCapsule(vector3df(0,-height/2, 0), radius, height, rings, sectors);
+}
+
 irr::scene::SMeshBuffer* MeshBuffer::getBuffer() const {
 	return buffer;
 }
 
 void bindMeshBuffer() {
-    sol::usertype<MeshBuffer> bind_type = lua->new_usertype<MeshBuffer>("MeshBuffer",
+    sol::usertype<MeshBuffer> bindType = lua->new_usertype<MeshBuffer>("MeshBuffer",
         sol::constructors<MeshBuffer()>()
     );
 
-    bind_type["pushFace"] = &MeshBuffer::pushFace;
-    bind_type["destroy"] = &MeshBuffer::destroy;
-    bind_type["clear"] = &MeshBuffer::clear;
-    bind_type["getVertexCount"] = &MeshBuffer::getVertexCount;
+    bindType["pushFace"] = &MeshBuffer::pushFace;
+    bindType["destroy"] = &MeshBuffer::destroy;
+    bindType["clear"] = &MeshBuffer::clear;
+    bindType["getVertexCount"] = &MeshBuffer::getVertexCount;
+    bindType["createCapsule"] = &MeshBuffer::createCapsule;
 }

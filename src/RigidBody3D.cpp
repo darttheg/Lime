@@ -210,6 +210,20 @@ void RigidBody3D::applySimpleImpulse(float forceMagnitude, const Vector3D& world
     rigidBody->activate(true);
 }
 
+void RigidBody3D::applySimpleForce(float forceMagnitude, const Vector3D& worldPos) {
+    if (!rigidBody) return;
+
+    btVector3 centerMass = rigidBody->getPointer()->getWorldTransform().getOrigin();
+    btVector3 dir = btVector3(worldPos.x, worldPos.y, worldPos.z) - centerMass;
+    dir.normalize();
+
+    btVector3 imp = dir * -1.0 * forceMagnitude;
+    btVector3 rel = btVector3(worldPos.x, worldPos.y, worldPos.z) - centerMass;
+
+    rigidBody->getPointer()->applyForce(imp, rel);
+    rigidBody->activate(true);
+}
+
 Vector3D RigidBody3D::getLinearVelocity() {
     return rigidBody ? Vector3D(rigidBody->getLinearVelocity().X, rigidBody->getLinearVelocity().Y, rigidBody->getLinearVelocity().Z) : Vector3D();
 }
@@ -269,6 +283,12 @@ void RigidBody3D::setSleepingThreshold(float f) { // Velocity vector must be <= 
     rigidBody->setSleepingThresholds(f, f);
 }
 
+void RigidBody3D::setGhost(bool v) {
+    if (!rigidBody) return;
+
+    rigidBody->setCollisionFlags(v ? ECollisionFlag::ECF_NO_CONTACT_RESPONSE : (ECollisionFlag)0);
+}
+
 #include "Proxy.h"
 void bindRigidBody3D() {
     sol::usertype<RigidBody3D> bindType = lua->new_usertype<RigidBody3D>("RigidBody3D",
@@ -320,10 +340,13 @@ void bindRigidBody3D() {
     bindType["lookAt"] = &RigidBody3D::faceTarget;
     bindType["getForward"] = &RigidBody3D::getForward;
 
-    bindType["applyForce"] = &RigidBody3D::applyForce;
-    bindType["applyImpulse"] = &RigidBody3D::applyImpulse;
+    bindType["applyForceRelative"] = &RigidBody3D::applyForce;
+    bindType["applyImpulseRelative"] = &RigidBody3D::applyImpulse;    
+    bindType["applyImpulse"] = &RigidBody3D::applySimpleImpulse;
+    bindType["applyForce"] = &RigidBody3D::applySimpleForce;
     bindType["applyTorque"] = &RigidBody3D::applyTorque;
-    bindType["applyImpulseMagnitude"] = &RigidBody3D::applySimpleImpulse;
+
+    bindType["setGhost"] = &RigidBody3D::setGhost;
 
     bindType["getMeshAttributes"] = &RigidBody3D::getMeshAttributes; // From irrcomp3dmap
 }

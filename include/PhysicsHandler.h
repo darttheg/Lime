@@ -6,13 +6,14 @@
 class PhysicsHandler {
 private:
 private:
-	float m_stepMultiplier = 1.0;
-	irrPhysicsDebugMode m_debugMode = irrPhysicsDebugMode::EPDM_NoDebug;
+	float stepMultiplier = 1.0;
+	irrPhysicsDebugMode debugMode = irrPhysicsDebugMode::EPDM_NoDebug;
 public:
 	PhysicsHandler();
 
 	// Update
 	void update();
+	void onRender();
 
 	// Gravity
 	void setGravity(const Vector3D& g);

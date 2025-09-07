@@ -31,12 +31,6 @@ namespace Events {
 		inline std::shared_ptr<Event> ConDisconnect = std::make_shared<Event>();
 		inline std::shared_ptr<Event> ConPacketReceived = std::make_shared<Event>();
 	}
-
-	namespace Physics {
-		inline std::shared_ptr<Event> OnCollisionEnter = std::make_shared<Event>();
-		inline std::shared_ptr<Event> OnCollisionInside = std::make_shared<Event>();
-		inline std::shared_ptr<Event> OnCollisionExit = std::make_shared<Event>();
-	}
 }
 
 inline void initEvents() {
@@ -62,8 +56,4 @@ inline void initEvents() {
 	(*lua)["Network"]["Client"]["OnConnect"] = Events::Networking::ConConnect;
 	(*lua)["Network"]["Client"]["OnDisconnect"] = Events::Networking::ConDisconnect;
 	(*lua)["Network"]["Client"]["OnPacketReceived"] = Events::Networking::ConPacketReceived;
-
-	(*lua)["Physics"]["OnCollisionEnter"] = Events::Physics::OnCollisionEnter;
-	(*lua)["Physics"]["OnCollisionInside"] = Events::Physics::OnCollisionInside;
-	(*lua)["Physics"]["OnCollisionExit"] = Events::Physics::OnCollisionExit;
 }
