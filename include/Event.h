@@ -23,7 +23,13 @@ public:
 		for (int ref : funcs) {
 			lua_rawgeti((*lua), LUA_REGISTRYINDEX, ref);
 			(sol::stack::push((*lua), std::forward<Args>(args)), ...);
-			if (lua_pcall((*lua), sizeof...(Args), 0, 0) != LUA_OK) lua_pop((*lua), 1);
+			if (lua_pcall((*lua), sizeof...(Args), 0, 0) != LUA_OK) {
+				size_t n = 0;
+				const char* s = luaL_tolstring((*lua), -1, &n);
+				std::string msg(s, n);
+				lua_pop((*lua), 1);
+				dConsole.postError(msg); 
+			}
 		}
 	}
 };

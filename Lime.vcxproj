@@ -288,6 +288,7 @@
       <AdditionalIncludeDirectories>..\irrlicht-1.8.5\include;..\luajit\src;..\sol2\include;..\irrKlang-1.6.0\include;..\enet-1.3.18\include;..\bullet3-2.83.7\src;..\glfw-3.4.bin.WIN64\include;$(ProjectDir)include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

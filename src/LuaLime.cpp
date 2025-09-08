@@ -35,7 +35,7 @@
 
 int LuaLime::initLua(irr::scene::ISceneManager* smgr, irr::video::IVideoDriver* driver) {
 	lua = new sol::state(); // maybe change heap alloc
-	lua->open_libraries(sol::lib::base, sol::lib::string, sol::lib::os, sol::lib::coroutine, sol::lib::jit, sol::lib::utf8, sol::lib::io, sol::lib::math, sol::lib::table, sol::lib::package);
+	lua->open_libraries(sol::lib::base, sol::lib::string, sol::lib::os, sol::lib::coroutine, sol::lib::jit, sol::lib::utf8, sol::lib::io, sol::lib::math, sol::lib::table, sol::lib::package, sol::lib::debug);
 
 	// warden
 	bindWarden();

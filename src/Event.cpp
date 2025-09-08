@@ -50,7 +50,8 @@ void Event::run() {
 			lua_pop((*lua), 1);
 	}
 
-	if (passc > 0) lua_pop((*lua), passc);
+	if (passc > 0)
+		lua_pop((*lua), passc);
 }
 
 void bindEvent() {

@@ -70,7 +70,6 @@ public:
 	int getMemUsed();
 	void end();
 	void appLoop();
-	void testLuaFunc(sol::object f);
 	void doWriteTextureThreaded(irr::video::ITexture* texture, std::string name);
 	void writeTextureToFile(irr::video::ITexture* texture, std::string name);
 	void updateFPS();

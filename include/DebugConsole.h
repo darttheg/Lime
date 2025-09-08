@@ -5,7 +5,6 @@
 #include <ctime>
 #include <sstream>
 #include <fstream>
-#include "IrrHandling.h"
 #include <sol/sol.hpp>
 
 enum struct MESSAGE_TYPE : int {
@@ -28,8 +27,11 @@ public:
 	bool enabled = false;
 	bool doOutput = false;
 
+	bool endOnError = true;
+
 	std::string out;
+
+	void postError(std::string msg);
 };
 
 inline DebugConsole dConsole;
-

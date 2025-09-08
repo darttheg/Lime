@@ -75,20 +75,8 @@ void IrrHandling::initScene()
 		sol::protected_function_result result = lua->safe_script_file(mainPath);
 	}
 	catch(const std::exception& e) {
-		std::string err = e.what();
-		
-		dConsole.doOutput = true;
-		dConsole.sendMsg(err.c_str(), MESSAGE_TYPE::WARNING);
-		dConsole.writeOutput();
-
-		err = "Lime encountered an error:\n" + err;
-
-		std::wstring wStr = std::wstring(err.begin(), err.end());
-		const wchar_t* wCharStr = wStr.c_str();
-
-		MessageBox(nullptr, wStr.c_str(), TEXT("Lime Runtime Error"), MB_ICONEXCLAMATION);
-
-		end();
+		dConsole.endOnError = true;
+		dConsole.postError(e.what());
 		return;
 	}
 
@@ -247,16 +235,10 @@ void IrrHandling::end() {
 #include "LimeEvents.h"
 
 void IrrHandling::appLoop() {
-
-	// Events
-	/*sol::protected_function luaOnStart = (*lua)["Lime"]["OnStart"];
-	sol::protected_function luaOnUpdate = (*lua)["Lime"]["OnUpdate"];
-	sol::protected_function luaOnEnd = (*lua)["Lime"]["OnEnd"];*/
-
 	lua->script("math.randomseed(os.time())");
 
 	// Call start in main
-	Events::Lime::OnStart.get()->engineRun();
+	Events::Lime::OnStart.get()->engineRun(this);
 
 	u32 then = device->getTimer()->getTime();
 	f32 const frameDur = 1000.f / frameLimit;
@@ -277,24 +259,10 @@ void IrrHandling::appLoop() {
 		}
 
 		try {
-			Events::Lime::OnUpdate.get()->engineRun(dt);
+			Events::Lime::OnUpdate.get()->engineRun(this, dt);
 		}
 		catch (const sol::error& e) {
-			std::string err = e.what();
-
-			dConsole.doOutput = true;
-			dConsole.sendMsg(err.c_str(), MESSAGE_TYPE::WARNING);
-			dConsole.writeOutput();
-
-			err = "Lime encountered an error:\n" + err;
-
-			std::wstring wStr = std::wstring(err.begin(), err.end());
-			const wchar_t* wCharStr = wStr.c_str();
-
-			MessageBox(nullptr, wStr.c_str(), TEXT("Lime Runtime Error"), MB_ICONEXCLAMATION);
-
-			end();
-			return;
+			dConsole.postError(e.what());
 		}
 
 		// Update lastMouse
@@ -355,41 +323,10 @@ void IrrHandling::appLoop() {
 	if (networkHandler)
 		networkHandler->shutdown();
 
-	Events::Lime::OnEnd.get()->engineRun();
+	Events::Lime::OnEnd.get()->engineRun(this, this);
 
 	if (!didEnd)
 		end();
-}
-
-void IrrHandling::testLuaFunc(sol::object f) {
-	try {
-		if (f.get_type() == sol::type::function) {
-			sol::protected_function g = f.as<sol::protected_function>();
-			sol::protected_function_result result = g(); // Doing Mesh:load(path) on its own will crash here.
-			if (!result.valid())
-			{
-				sol::error err = result;
-				dConsole.sendMsg(std::string(err.what()).c_str(), MESSAGE_TYPE::WARNING);
-			}
-		}
-	}
-	catch (const sol::error& e) {
-		std::string err = e.what();
-
-		dConsole.doOutput = true;
-		dConsole.sendMsg(err.c_str(), MESSAGE_TYPE::WARNING);
-		dConsole.writeOutput();
-
-		err = "Lime encountered an error:\n" + err;
-
-		std::wstring wStr = std::wstring(err.begin(), err.end());
-		const wchar_t* wCharStr = wStr.c_str();
-
-		MessageBox(nullptr, wStr.c_str(), TEXT("Lime Runtime Error"), MB_ICONEXCLAMATION);
-
-		end();
-		return;
-	}
 }
 
 void IrrHandling::doWriteTextureThreaded(irr::video::ITexture* texture, std::string name) {
@@ -622,20 +559,7 @@ void IrrHandling::runLuaTasks() {
 				task.first(sol::as_args(args));
 			}
 			catch (const sol::error& e) {
-				std::string err = e.what();
-
-				dConsole.doOutput = true;
-				dConsole.sendMsg(err.c_str(), MESSAGE_TYPE::WARNING);
-				dConsole.writeOutput();
-
-				err = "Lime encountered an error:\n" + err;
-
-				std::wstring wStr = std::wstring(err.begin(), err.end());
-				const wchar_t* wCharStr = wStr.c_str();
-
-				MessageBox(nullptr, wStr.c_str(), TEXT("Lime Runtime Error"), MB_ICONEXCLAMATION);
-
-				end();
+				dConsole.postError(e.what());
 			}
 		}
 		threadedLuaQueue.pop();
@@ -660,7 +584,7 @@ void IrrHandling::runEventTasks() {
 			switch (event.type) {
 			case ENET_EVENT_TYPE_CONNECT:
 				if (!Events::Networking::SonPeerConnect.get()->empty()) { // Replace lua tasks with events
-					Events::Networking::SonPeerConnect.get()->engineRun(event.peer->incomingPeerID, event.peer->address.host);
+					Events::Networking::SonPeerConnect.get()->engineRun(this, event.peer->incomingPeerID, event.peer->address.host);
 				}
 				else {
 					if (doVerbose) dConsole.sendMsg("WARNING: A peer connected but Event Network.Server.OnClientConnect is empty", MESSAGE_TYPE::NETWORK_VERBOSE);
@@ -678,7 +602,7 @@ void IrrHandling::runEventTasks() {
 				break;
 			case ENET_EVENT_TYPE_DISCONNECT:
 				if (!Events::Networking::SonPeerDisconnect.get()->empty()) {
-					Events::Networking::SonPeerDisconnect.get()->engineRun(event.peer->outgoingPeerID, event.peer->address.host);
+					Events::Networking::SonPeerDisconnect.get()->engineRun(this, event.peer->outgoingPeerID, event.peer->address.host);
 				}
 				else {
 					if (doVerbose) dConsole.sendMsg("WARNING: A peer disconnected but Event Network.Server.OnClientDisconnect is empty", MESSAGE_TYPE::NETWORK_VERBOSE);
@@ -696,7 +620,7 @@ void IrrHandling::runEventTasks() {
 				break;
 			case ENET_EVENT_TYPE_RECEIVE:
 				if (!Events::Networking::SonPacketReceived.get()->empty()) {
-					Events::Networking::SonPacketReceived.get()->engineRun(event.channelID, Packet(event.packet, event.peer->incomingSessionID));
+					Events::Networking::SonPacketReceived.get()->engineRun(this, event.channelID, Packet(event.packet, event.peer->incomingSessionID));
 				}
 				else {
 					if (doVerbose) dConsole.sendMsg("WARNING: A packet was received but Event Network.Server.OnPacketReceived is empty", MESSAGE_TYPE::NETWORK_VERBOSE);
@@ -710,7 +634,7 @@ void IrrHandling::runEventTasks() {
 			case ENET_EVENT_TYPE_CONNECT:
 				networkHandler->clientTrulyConnected = true;
 				if (!Events::Networking::ConConnect.get()->empty())
-					Events::Networking::ConConnect.get()->engineRun();
+					Events::Networking::ConConnect.get()->engineRun(this);
 				else {
 					if (doVerbose) dConsole.sendMsg("WARNING: Client connected but Event Network.Client.OnConnect is empty", MESSAGE_TYPE::NETWORK_VERBOSE);
 				}
@@ -725,7 +649,7 @@ void IrrHandling::runEventTasks() {
 			case ENET_EVENT_TYPE_DISCONNECT:
 				networkHandler->clientTrulyConnected = false;
 				if (!Events::Networking::ConDisconnect.get()->empty()) {
-					Events::Networking::ConDisconnect.get()->engineRun(event.data);
+					Events::Networking::ConDisconnect.get()->engineRun(this, event.data);
 				}
 				else {
 					if (doVerbose) dConsole.sendMsg("WARNING: Client disconnected but Event Network.Client.OnDisconnect is empty", MESSAGE_TYPE::NETWORK_VERBOSE);
@@ -741,7 +665,7 @@ void IrrHandling::runEventTasks() {
 				break;
 			case ENET_EVENT_TYPE_RECEIVE:
 				if (!Events::Networking::ConPacketReceived.get()->empty()) {
-					Events::Networking::ConPacketReceived.get()->engineRun(event.channelID, Packet(event.packet, event.peer->incomingPeerID));
+					Events::Networking::ConPacketReceived.get()->engineRun(this, event.channelID, Packet(event.packet, event.peer->incomingPeerID));
 				}
 				else {
 					if (doVerbose) dConsole.sendMsg("WARNING: A packet was received but Event Network.Client.OnPacketReceived is empty", MESSAGE_TYPE::NETWORK_VERBOSE);

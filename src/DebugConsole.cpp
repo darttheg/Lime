@@ -1,5 +1,7 @@
 #include "DebugConsole.h"
 
+#include "IrrManagers.h"
+
 void DebugConsole::makeConsole() {
     AllocConsole();
     FILE* consoleOut;
@@ -16,6 +18,25 @@ const char* DebugConsole::getTime() {
     static std::string timeStr;
     timeStr = ss.str();
     return timeStr.c_str();
+}
+
+void DebugConsole::postError(std::string err) {
+    if (endOnError) {
+        dConsole.sendMsg(err.c_str(), MESSAGE_TYPE::WARNING);
+
+        err = "Lime encountered an error:\n" + err;
+
+        std::wstring wStr = std::wstring(err.begin(), err.end());
+        const wchar_t* wCharStr = wStr.c_str();
+
+        MessageBox(nullptr, wStr.c_str(), TEXT("Lime Runtime Error"), MB_ICONEXCLAMATION);
+
+        irrHandler->end();
+    } else {
+        dConsole.sendMsg(err.c_str(), MESSAGE_TYPE::WARNING);
+    }
+
+    return;
 }
 
 void DebugConsole::abruptEnd() {

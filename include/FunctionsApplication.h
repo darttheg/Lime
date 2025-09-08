@@ -209,6 +209,10 @@ namespace Bind {
 
 		irrHandler->setTitleBarIcon(irrHandler->imgIconPath);
 	}
+
+	void setEndOnError(bool v) {
+		dConsole.endOnError = v;
+	}
 }
 
 void bindApplication() {
@@ -241,4 +245,5 @@ void bindApplication() {
 	application["SetMatchResolutionToSize"] = &Bind::setMatchResSize;
 	application["GetCommandLine"] = &Bind::getCommandLineValue;
 	application["SetWindowIcon"] = &Bind::setWindowIcon;
+	application["SetEndOnError"] = &Bind::setEndOnError;
 }
