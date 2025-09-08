@@ -276,17 +276,13 @@ namespace Bind {
 	}
 
 	bool preloadMesh(std::string filePath) {
-		IAnimatedMesh* mesh = smgr->getMesh(filePath.c_str());
-		if (mesh)
-			mesh->grab();
-		return mesh != nullptr;
+		if (!driver) return false;
+		return smgr->getMesh(filePath.c_str()) != nullptr;
 	}
 
 	bool preloadTexture(std::string filePath) {
-		ITexture* tex = driver->getTexture(filePath.c_str());
-		if (tex)
-			tex->grab();
-		return tex != nullptr;
+		if (!driver) return false;
+		return driver->getTexture(filePath.c_str()) != nullptr;
 	}
 
 	bool unloadMesh(std::string filePath) {

@@ -27,7 +27,7 @@ public:
 	bool enabled = false;
 	bool doOutput = false;
 
-	bool endOnError = true;
+	bool endOnError = false;
 
 	std::string out;
 
