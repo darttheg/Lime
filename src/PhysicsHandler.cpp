@@ -84,8 +84,8 @@ void PhysicsHandler::handleCollisions() {
 				touch = true;
 
 		if (touch) {
-			auto bodyA = m->getBody0();
-			auto bodyB = m->getBody1();
+			auto bodyA = const_cast<btCollisionObject*>(m->getBody0());
+			auto bodyB = const_cast<btCollisionObject*>(m->getBody1());
 
 			if (bodyA > bodyB) std::swap(bodyA, bodyB);
 			currentCollisions.insert({ bodyA, bodyB });
@@ -94,15 +94,18 @@ void PhysicsHandler::handleCollisions() {
 
 	for (auto& p : currentCollisions) {
 		if (!lastCollisions.count(p)) {
-			// Call onEnter
+			auto bodyA = colliderPair.find(p.first);
+			if (bodyA != colliderPair.end()) { // OnEnter
+				auto bodyB = colliderPair.find(p.second);
+
+				bodyA->second->getEnterEvent().get()->engineRun();
+			}
 		}
-		else {
-			// Call onInside
+		else { // OnInside
 		}
 
 		for (auto& p : lastCollisions) {
-			if (!currentCollisions.count(p)) {
-				// Call onExit
+			if (!currentCollisions.count(p)) { // OnExit
 			}
 		}
 	}

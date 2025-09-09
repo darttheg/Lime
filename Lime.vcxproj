@@ -70,6 +70,7 @@
     <ClCompile Include="src\Packet.cpp" />
     <ClCompile Include="src\ParticleSystem.cpp" />
     <ClCompile Include="src\PhysicsHandler.cpp" />
+    <ClCompile Include="src\PhysicsObject.cpp" />
     <ClCompile Include="src\RigidBody3D.cpp" />
     <ClCompile Include="src\SolConversions.cpp" />
     <ClCompile Include="src\Sound.cpp" />
@@ -150,6 +151,7 @@
     <ClInclude Include="include\ParseCmd.h" />
     <ClInclude Include="include\ParticleSystem.h" />
     <ClInclude Include="include\PhysicsHandler.h" />
+    <ClInclude Include="include\PhysicsObject.h" />
     <ClInclude Include="include\Proxy.h" />
     <ClInclude Include="include\ReceiverCompatible.h" />
     <ClInclude Include="include\RigidBody3D.h" />

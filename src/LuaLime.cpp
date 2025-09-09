@@ -22,6 +22,7 @@
 #include "Packet.h"
 #include "MeshBuffer.h"
 #include "Event.h"
+#include "PhysicsObject.h"
 #include "RigidBody3D.h"
 #include "Proxy.h"
 
@@ -67,6 +68,7 @@ int LuaLime::initLua(irr::scene::ISceneManager* smgr, irr::video::IVideoDriver* 
 	bindMeshBuffer();
 	bindEvent();
 	bindHook();
+	bindPhysicsObject();
 	bindRigidBody3D();
 	bindProxyVectors();
 

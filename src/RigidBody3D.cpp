@@ -10,6 +10,8 @@ RigidBody3D::RigidBody3D(const StaticMesh& m, float mass) {
     mesh = m.meshNode;
 
     rigidBody->setSleepingThresholds(0.5, 0.5);
+
+    PhysicsObject::createHandlerEntry();
 }
 
 RigidBody3D::RigidBody3D(const StaticMesh& m) : RigidBody3D(m, 0.0f) {
@@ -23,11 +25,14 @@ RigidBody3D::RigidBody3D(const StaticMesh& m, const StaticMesh& colliderMesh) {
     mesh = m.meshNode;
 
     rigidBody->setSleepingThresholds(0.5, 0.5);
+
+    PhysicsObject::createHandlerEntry();
 }
 
 bool RigidBody3D::destroy() {
     if (physicsHandler && physicsHandler->world) {
         physicsHandler->world->removeCollisionObject(rigidBody);
+        PhysicsObject::removeHandlerEntry();
         return true;
     }
     return false;
@@ -294,7 +299,7 @@ void bindRigidBody3D() {
     sol::usertype<RigidBody3D> bindType = lua->new_usertype<RigidBody3D>("RigidBody3D",
         sol::constructors<RigidBody3D(const StaticMesh& m, float mass), RigidBody3D(const StaticMesh& m), RigidBody3D(const StaticMesh& m, const StaticMesh& colliderMesh)>(),
 
-        sol::base_classes, sol::bases<Compatible3D>(),
+        sol::base_classes, sol::bases<Compatible3D, PhysicsObject>(),
 
         "position", sol::property(
             [](RigidBody3D& c) { return Vector3DProxy{ [&] { return c.getPosition(); }, [&](auto v) { c.setPosition(v); } }; },

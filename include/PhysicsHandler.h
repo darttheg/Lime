@@ -2,6 +2,7 @@
 
 #include "irrBullet.h"
 #include "Vector3D.h"
+#include "PhysicsObject.h"
 #include <set>
 
 class PhysicsHandler {
@@ -30,8 +31,10 @@ public:
 
 	// Callbacks
 	void handleCollisions();
-	std::set<std::pair<const btCollisionObject*, const btCollisionObject*>> lastCollisions;
-	std::set<std::pair<const btCollisionObject*, const btCollisionObject*>> currentCollisions;
+	std::set<std::pair<btCollisionObject*, btCollisionObject*>> lastCollisions;
+	std::set<std::pair<btCollisionObject*, btCollisionObject*>> currentCollisions;
+
+	std::unordered_map<btCollisionObject*, PhysicsObject*> colliderPair;
 public:
 	irrBulletWorld* world = nullptr;
 	bool drawProperties = false;
