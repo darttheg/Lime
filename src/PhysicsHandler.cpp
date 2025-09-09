@@ -75,24 +75,43 @@ void PhysicsHandler::handleCollisions() {
 	btDispatcher* d = world->getPointer()->getDispatcher();
 
 	currentCollisions.clear();
+	curData.clear();
 
 	for (int i = 0; i < d->getNumManifolds(); ++i) {
 		btPersistentManifold* m = d->getManifoldByIndexInternal(i);
 		if (m->getNumContacts() == 0) continue; // No collisions
 
-		bool touch = false;
-		for (int j = 0; j < m->getNumContacts(); ++j)
-			if (m->getContactPoint(j).getDistance() <= 0.0f)
-				touch = true;
-
-		if (touch) {
-			auto bodyA = const_cast<btCollisionObject*>(m->getBody0());
-			auto bodyB = const_cast<btCollisionObject*>(m->getBody1());
-
-			if (bodyA > bodyB) std::swap(bodyA, bodyB);
-			currentCollisions.insert({ bodyA, bodyB });
+		const btManifoldPoint* closest = nullptr;
+		btScalar lowestDist = BT_LARGE_FLOAT;
+		for (int j = 0; j < m->getNumContacts(); ++j) {
+			btManifoldPoint& cur = m->getContactPoint(j);
+			if (cur.getDistance() <= 0 && cur.getDistance() < lowestDist) {
+				lowestDist = cur.getDistance();
+				closest = &cur;
+			}
 		}
+				
+		if (lowestDist > 0 || !closest) continue;
+		
+		auto bodyA = const_cast<btCollisionObject*>(m->getBody0());
+		auto bodyB = const_cast<btCollisionObject*>(m->getBody1());
+
+		if (bodyA > bodyB) std::swap(bodyA, bodyB);
+		currentCollisions.insert({ bodyA, bodyB });
+
+		ContactInfo c;
+		c.depth = lowestDist;
+		c.posA = closest->getPositionWorldOnA();
+		c.posB = closest->getPositionWorldOnB();
+		c.normalB = closest->m_normalWorldOnB;
+		curData.insert({ bodyA, c });
 	}
+
+	ContactInfo info;
+	Vector3D posA;
+	Vector3D posB;
+	Vector3D normal;
+	float depth;
 
 	for (const auto& pair : currentCollisions) {
 		auto [a, b] = pair;
@@ -101,13 +120,19 @@ void PhysicsHandler::handleCollisions() {
 		auto bodyB = colliderPair.find(b);
 		if (bodyA == colliderPair.end() || bodyB == colliderPair.end()) continue;
 
+		info = curData[a];
+		posA = Vector3D(info.posA.x(), info.posA.y(), info.posA.z());
+		posB = Vector3D(info.posB.x(), info.posB.y(), info.posB.z());
+		normal = Vector3D(info.normalB.x(), info.normalB.y(), info.normalB.z());
+		depth = info.depth;
+
 		if (!lastCollisions.count(pair)) { // If was not colliding before, call OnEnter
-			bodyA->second->getEnterEvent().get()->engineRun(bodyB);
-			bodyB->second->getEnterEvent().get()->engineRun(bodyA);
+			bodyA->second->getEnterEvent().get()->engineRun(bodyB, posB, depth, normal);
+			bodyB->second->getEnterEvent().get()->engineRun(bodyA, posA, depth, normal);
 		}
 		else { // Else, OnInside
-			bodyA->second->getInsideEvent().get()->engineRun(bodyB);
-			bodyB->second->getInsideEvent().get()->engineRun(bodyA);
+			bodyA->second->getInsideEvent().get()->engineRun(bodyB, posB, depth);
+			bodyB->second->getInsideEvent().get()->engineRun(bodyA, posA, depth);
 		}
 	}
 
@@ -118,8 +143,8 @@ void PhysicsHandler::handleCollisions() {
 			auto bodyB = colliderPair.find(b);
 			if (bodyA == colliderPair.end() || bodyB == colliderPair.end()) continue;
 
-			bodyA->second->getExitEvent().get()->engineRun(bodyB);
-			bodyB->second->getExitEvent().get()->engineRun(bodyA);
+			bodyA->second->getExitEvent().get()->engineRun(bodyB, posB, normal);
+			bodyB->second->getExitEvent().get()->engineRun(bodyA, posA, normal);
 		}
 	}
 

@@ -11,6 +11,12 @@ private:
 	float stepMultiplier = 1.0;
 	irrPhysicsDebugMode debugMode = irrPhysicsDebugMode::EPDM_NoDebug;
 public:
+	struct ContactInfo {
+		btVector3 posA, posB;
+		btVector3 normalB;
+		btScalar depth;
+	};
+
 	PhysicsHandler();
 
 	// Update
@@ -33,6 +39,7 @@ public:
 	void handleCollisions();
 	std::set<std::pair<btCollisionObject*, btCollisionObject*>> lastCollisions;
 	std::set<std::pair<btCollisionObject*, btCollisionObject*>> currentCollisions;
+	std::unordered_map<btCollisionObject*, ContactInfo> curData;
 
 	std::unordered_map<btCollisionObject*, PhysicsObject*> colliderPair;
 public:
