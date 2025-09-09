@@ -74,6 +74,8 @@ void PhysicsHandler::onRender() {
 void PhysicsHandler::handleCollisions() {
 	btDispatcher* d = world->getPointer()->getDispatcher();
 
+	currentCollisions.clear();
+
 	for (int i = 0; i < d->getNumManifolds(); ++i) {
 		btPersistentManifold* m = d->getManifoldByIndexInternal(i);
 		if (m->getNumContacts() == 0) continue; // No collisions
@@ -92,21 +94,34 @@ void PhysicsHandler::handleCollisions() {
 		}
 	}
 
-	for (auto& p : currentCollisions) {
-		if (!lastCollisions.count(p)) {
-			auto bodyA = colliderPair.find(p.first);
-			if (bodyA != colliderPair.end()) { // OnEnter
-				auto bodyB = colliderPair.find(p.second);
+	for (const auto& pair : currentCollisions) {
+		auto [a, b] = pair;
 
-				bodyA->second->getEnterEvent().get()->engineRun();
-			}
-		}
-		else { // OnInside
-		}
+		auto bodyA = colliderPair.find(a);
+		auto bodyB = colliderPair.find(b);
+		if (bodyA == colliderPair.end() || bodyB == colliderPair.end()) continue;
 
-		for (auto& p : lastCollisions) {
-			if (!currentCollisions.count(p)) { // OnExit
-			}
+		if (!lastCollisions.count(pair)) { // If was not colliding before, call OnEnter
+			bodyA->second->getEnterEvent().get()->engineRun(bodyB);
+			bodyB->second->getEnterEvent().get()->engineRun(bodyA);
+		}
+		else { // Else, OnInside
+			bodyA->second->getInsideEvent().get()->engineRun(bodyB);
+			bodyB->second->getInsideEvent().get()->engineRun(bodyA);
 		}
 	}
+
+	for (const auto& pair : lastCollisions) {
+		if (!currentCollisions.count(pair)) {
+			auto [a, b] = pair;
+			auto bodyA = colliderPair.find(a);
+			auto bodyB = colliderPair.find(b);
+			if (bodyA == colliderPair.end() || bodyB == colliderPair.end()) continue;
+
+			bodyA->second->getExitEvent().get()->engineRun(bodyB);
+			bodyB->second->getExitEvent().get()->engineRun(bodyA);
+		}
+	}
+
+	lastCollisions.swap(currentCollisions);
 }
