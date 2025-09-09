@@ -3,8 +3,11 @@
 #include "irrBullet.h"
 #include "Vector3D.h"
 #include "StaticMesh.h"
+#include "Event.h"
 
-class RigidBody3D {
+#include "Compatible3D.h"
+
+class RigidBody3D : public Compatible3D {
 private:
     irr::scene::ISceneNode* mesh = nullptr;
 public:
@@ -79,6 +82,17 @@ public:
     void wakeUp(); // Wakes up sleeping object
 
     sol::table getMeshAttributes();
+
+    // Events
+    std::shared_ptr<Event> onEnter = std::make_shared<Event>();
+    std::shared_ptr<Event> onInside = std::make_shared<Event>();
+    std::shared_ptr<Event> onExit = std::make_shared<Event>();
+
+    std::shared_ptr<Event> getEnterEvent() { return onEnter; }
+    std::shared_ptr<Event> getInsideEvent() { return onInside; }
+    std::shared_ptr<Event> getExitEvent() { return onExit; }
+
+    irr::scene::ISceneNode* getNode() const override { return mesh; }
 };
 
 void bindRigidBody3D();

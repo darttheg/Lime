@@ -2,6 +2,7 @@
 
 #include "irrBullet.h"
 #include "Vector3D.h"
+#include <set>
 
 class PhysicsHandler {
 private:
@@ -26,6 +27,11 @@ public:
 	// Debug mode
 	void setDebugMode(int m);
 	void setDrawProperties(bool d) { drawProperties = d; };
+
+	// Callbacks
+	void handleCollisions();
+	std::set<std::pair<const btCollisionObject*, const btCollisionObject*>> lastCollisions;
+	std::set<std::pair<const btCollisionObject*, const btCollisionObject*>> currentCollisions;
 public:
 	irrBulletWorld* world = nullptr;
 	bool drawProperties = false;
