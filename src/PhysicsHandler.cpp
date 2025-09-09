@@ -149,4 +149,5 @@ void PhysicsHandler::handleCollisions() {
 	}
 
 	lastCollisions.swap(currentCollisions);
+	curData.clear();
 }
