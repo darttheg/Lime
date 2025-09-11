@@ -1,7 +1,6 @@
 #include "IrrHandling.h"
 #include "IrrManagers.h"
 #include "LimeReceiver.h"
-#include "Sound.h"
 
 #include "irrBullet.h"
 
@@ -86,7 +85,6 @@ void IrrHandling::initScene()
 	dConsole.sendMsg("Lime started", MESSAGE_TYPE::NORMAL);
 
 	receiver = new LimeReceiver();
-	sound = irrklang::createIrrKlangDevice();
 	soundManager = new SoundManager();
 
 	///////////////////////

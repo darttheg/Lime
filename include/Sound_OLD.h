@@ -8,8 +8,6 @@
 #include <array>
 #include <string>
 
-#pragma comment(lib, "irrKlang.lib")
-
 typedef unsigned int u32;
 
 using namespace irrklang;
