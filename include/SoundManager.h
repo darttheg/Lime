@@ -19,7 +19,7 @@ private:
 	Camera3D* listenerSrc;
 
 	irr::core::vector3df nonCamPos, nonCamForward, listenerVel, nonCamUp;
-
+	std::vector<irrklang::ISound*> attachedToObjs; // Push sounds to this array if attached to a node, erase if object is nil or removed manually.
 public:
 	SoundManager();
 	~SoundManager();
