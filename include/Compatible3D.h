@@ -30,6 +30,9 @@ public:
     void setScale(const Vector3D& scale);
     bool getVisibility() const;
     void setVisibility(bool v);
+
+    int getID();
+    void setID(int i);
 };
 
 void bindCompatible3D();

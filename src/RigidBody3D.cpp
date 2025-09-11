@@ -11,7 +11,10 @@ RigidBody3D::RigidBody3D(const StaticMesh& m, float mass) {
 
     rigidBody->setSleepingThresholds(0.5, 0.5);
 
-    PhysicsObject::createHandlerEntry();
+    // Create entry
+    btCollisionObject* out = getCollisionObject();
+    if (!out) return;
+    physicsHandler->colliderPair[out] = this;
 }
 
 RigidBody3D::RigidBody3D(const StaticMesh& m) : RigidBody3D(m, 0.0f) {
@@ -26,13 +29,19 @@ RigidBody3D::RigidBody3D(const StaticMesh& m, const StaticMesh& colliderMesh) {
 
     rigidBody->setSleepingThresholds(0.5, 0.5);
 
-    PhysicsObject::createHandlerEntry();
+    // Create entry
+    btCollisionObject* out = getCollisionObject();
+    if (!out) return;
+    physicsHandler->colliderPair[out] = this;
 }
 
 bool RigidBody3D::destroy() {
     if (physicsHandler && physicsHandler->world) {
         physicsHandler->world->removeCollisionObject(rigidBody);
-        PhysicsObject::removeHandlerEntry();
+
+        if (getCollisionObject())
+            physicsHandler->colliderPair.erase(getCollisionObject());
+
         return true;
     }
     return false;
@@ -299,7 +308,7 @@ void bindRigidBody3D() {
     sol::usertype<RigidBody3D> bindType = lua->new_usertype<RigidBody3D>("RigidBody3D",
         sol::constructors<RigidBody3D(const StaticMesh& m, float mass), RigidBody3D(const StaticMesh& m), RigidBody3D(const StaticMesh& m, const StaticMesh& colliderMesh)>(),
 
-        sol::base_classes, sol::bases<Compatible3D, PhysicsObject>(),
+        sol::base_classes, sol::bases<Compatible3D>(),
 
         "position", sol::property(
             [](RigidBody3D& c) { return Vector3DProxy{ [&] { return c.getPosition(); }, [&](auto v) { c.setPosition(v); } }; },
@@ -356,4 +365,8 @@ void bindRigidBody3D() {
     bindType["setGhost"] = &RigidBody3D::setGhost;
 
     bindType["getMeshAttributes"] = &RigidBody3D::getMeshAttributes; // From irrcomp3dmap
+
+    bindType["OnEnter"] = sol::property([](PhysicsObject& self) { return self.getEnterEvent(); });
+    bindType["OnInside"] = sol::property([](PhysicsObject& self) { return self.getInsideEvent(); });
+    bindType["OnExit"] = sol::property([](PhysicsObject& self) { return self.getExitEvent(); });
 }

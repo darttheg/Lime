@@ -112,6 +112,16 @@ void Compatible3D::setVisibility(bool visible) {
     if (getNode()) getNode()->setVisible(visible);
 }
 
+int Compatible3D::getID() {
+    return getNode() ? getNode()->getID() : -1;
+}
+
+void Compatible3D::setID(int i) {
+    if (getNode()) {
+        getNode()->setID(i);
+    }
+}
+
 #include "Proxy.h"
 void bindCompatible3D() {
     sol::usertype<Compatible3D> bind_type = lua->new_usertype<Compatible3D>("Compatible3D",
@@ -130,7 +140,8 @@ void bindCompatible3D() {
             [](Compatible3D& c, const Vector3D& v) { c.setScale(v); }
         ),
 
-        "visible", sol::property(&Compatible3D::getVisibility, &Compatible3D::setVisibility)
+        "visible", sol::property(&Compatible3D::getVisibility, &Compatible3D::setVisibility),
+        "ID", sol::property(&Compatible3D::getID, &Compatible3D::setID)
     );
 
     bind_type["setParent"] = &Compatible3D::setParent;

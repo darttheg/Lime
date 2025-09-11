@@ -9,6 +9,7 @@ class PhysicsObject {
 public:
 	virtual ~PhysicsObject() = default;
     virtual btCollisionObject* getCollisionObject() const = 0;
+    virtual irr::scene::ISceneNode* getNode() const = 0;
 
     void createHandlerEntry();
     void removeHandlerEntry();

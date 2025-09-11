@@ -46,9 +46,6 @@ public:
     bool getCollision() const;
     void setCollision(bool enable);
 
-    int getID();
-    void setID(int i);
-
     int getFrame();
     void setFrame(int i);
     int getFrameCount();

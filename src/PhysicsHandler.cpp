@@ -96,6 +96,15 @@ void PhysicsHandler::handleCollisions() {
 		auto bodyA = const_cast<btCollisionObject*>(m->getBody0());
 		auto bodyB = const_cast<btCollisionObject*>(m->getBody1());
 
+		auto ba = colliderPair.find(bodyA);
+		auto bb = colliderPair.find(bodyB);
+		if (ba != colliderPair.end() && bb != colliderPair.end()) {
+			int idA = ba->second->getNode()->getID();
+			int idB = bb->second->getNode()->getID();
+
+			if (physicsHandler->collisionsIgnoreSameID && idA == idB) continue;
+		}
+
 		if (bodyA > bodyB) std::swap(bodyA, bodyB);
 		currentCollisions.insert({ bodyA, bodyB });
 
@@ -110,7 +119,8 @@ void PhysicsHandler::handleCollisions() {
 	ContactInfo info;
 	Vector3D posA;
 	Vector3D posB;
-	Vector3D normal;
+	Vector3D normalA;
+	Vector3D normalB;
 	float depth;
 
 	for (const auto& pair : currentCollisions) {
@@ -123,16 +133,35 @@ void PhysicsHandler::handleCollisions() {
 		info = curData[a];
 		posA = Vector3D(info.posA.x(), info.posA.y(), info.posA.z());
 		posB = Vector3D(info.posB.x(), info.posB.y(), info.posB.z());
-		normal = Vector3D(info.normalB.x(), info.normalB.y(), info.normalB.z());
+		normalA = Vector3D(-info.normalB.x(), -info.normalB.y(), -info.normalB.z());
+		normalB = Vector3D(info.normalB.x(), info.normalB.y(), info.normalB.z());
 		depth = info.depth;
 
+		sol::table attrA;
+		sol::table attrB;
+		int idA = bodyA->second->getNode()->getID();
+		int idB = bodyB->second->getNode()->getID();
+
+		auto aA = irrHandler->comp3dmap.find(bodyA->second->getNode());
+		if (aA != irrHandler->comp3dmap.end())
+			attrA = aA->second;
+		else
+			attrA = sol::nil;
+
+		auto bA = irrHandler->comp3dmap.find(bodyB->second->getNode());
+		if (bA != irrHandler->comp3dmap.end())
+			attrB = bA->second;
+		else
+			attrB = sol::nil;
+
+		// Collision events: ID, attributes (nil if none), posX, depth, normal
 		if (!lastCollisions.count(pair)) { // If was not colliding before, call OnEnter
-			bodyA->second->getEnterEvent().get()->engineRun(bodyB, posB, depth, normal);
-			bodyB->second->getEnterEvent().get()->engineRun(bodyA, posA, depth, normal);
+			bodyA->second->getEnterEvent().get()->engineRun(idB, attrB, posB, normalB/*, depth*/);
+			bodyB->second->getEnterEvent().get()->engineRun(idA, attrA, posA, normalA/*, depth*/);
 		}
 		else { // Else, OnInside
-			bodyA->second->getInsideEvent().get()->engineRun(bodyB, posB, depth);
-			bodyB->second->getInsideEvent().get()->engineRun(bodyA, posA, depth);
+			bodyA->second->getInsideEvent().get()->engineRun(idB, attrB, posB, depth);
+			bodyB->second->getInsideEvent().get()->engineRun(idA, attrA, posA, depth);
 		}
 	}
 
@@ -143,11 +172,32 @@ void PhysicsHandler::handleCollisions() {
 			auto bodyB = colliderPair.find(b);
 			if (bodyA == colliderPair.end() || bodyB == colliderPair.end()) continue;
 
-			bodyA->second->getExitEvent().get()->engineRun(bodyB, posB, normal);
-			bodyB->second->getExitEvent().get()->engineRun(bodyA, posA, normal);
+			sol::table attrA;
+			sol::table attrB;
+			int idA = bodyA->second->getNode()->getID();
+			int idB = bodyB->second->getNode()->getID();
+
+			auto aA = irrHandler->comp3dmap.find(bodyA->second->getNode());
+			if (aA != irrHandler->comp3dmap.end())
+				attrA = aA->second;
+			else
+				attrA = sol::nil;
+
+			auto bA = irrHandler->comp3dmap.find(bodyB->second->getNode());
+			if (bA != irrHandler->comp3dmap.end())
+				attrB = bA->second;
+			else
+				attrB = sol::nil;
+
+			bodyA->second->getExitEvent().get()->engineRun(idB, attrB, posB, normalB);
+			bodyB->second->getExitEvent().get()->engineRun(idA, attrA, posA, normalA);
 		}
 	}
 
 	lastCollisions.swap(currentCollisions);
 	curData.clear();
+}
+
+void PhysicsHandler::setIgnoreSameID(bool v) {
+	collisionsIgnoreSameID = v;
 }

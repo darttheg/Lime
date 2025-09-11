@@ -2,8 +2,8 @@
 
 #include "irrBullet.h"
 #include "Vector3D.h"
-#include "PhysicsObject.h"
 #include <set>
+#include "PhysicsObject.h"
 
 class PhysicsHandler {
 private:
@@ -12,8 +12,7 @@ private:
 	irrPhysicsDebugMode debugMode = irrPhysicsDebugMode::EPDM_NoDebug;
 public:
 	struct ContactInfo {
-		btVector3 posA, posB;
-		btVector3 normalB;
+		btVector3 posA, posB, normalB;
 		btScalar depth;
 	};
 
@@ -40,8 +39,10 @@ public:
 	std::set<std::pair<btCollisionObject*, btCollisionObject*>> lastCollisions;
 	std::set<std::pair<btCollisionObject*, btCollisionObject*>> currentCollisions;
 	std::unordered_map<btCollisionObject*, ContactInfo> curData;
-
 	std::unordered_map<btCollisionObject*, PhysicsObject*> colliderPair;
+
+	bool collisionsIgnoreSameID = false;
+	void setIgnoreSameID(bool v);
 public:
 	irrBulletWorld* world = nullptr;
 	bool drawProperties = false;

@@ -26,6 +26,10 @@ namespace Bind {
 	void drawProperties(bool d) {
 		physicsHandler->setDrawProperties(d);
 	}
+
+	void setIgnoreSameID(bool v) {
+		physicsHandler->setIgnoreSameID(v);
+	}
 }
 
 void bindPhysics() {
@@ -37,4 +41,5 @@ void bindPhysics() {
 	physics["SetPaused"] = &Bind::setPaused;
 	physics["IsPaused"] = &Bind::getPaused;
 	physics["SetDrawProperties"] = &Bind::drawProperties;
+	physics["SetIgnoreSameID"] = &Bind::setIgnoreSameID;
 }

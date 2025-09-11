@@ -15,7 +15,7 @@ public:
 
     RigidBody3D(const StaticMesh& m);
     RigidBody3D(const StaticMesh& m, const StaticMesh& colliderMesh);
-    // RigidBody3D(const MeshBuffer& m); ?
+    // RigidBody3D(const MeshBuffer& m); ? No, no visible mesh to wrap.
 
     RigidBody3D(const StaticMesh& m, float mass); // Basic testing constructor if you just want to get something in real quick
 
@@ -85,6 +85,14 @@ public:
 
     irr::scene::ISceneNode* getNode() const override { return mesh; }
     btCollisionObject* getCollisionObject() const override { return rigidBody->getPointer(); }
+
+    std::shared_ptr<Event> onEnter = std::make_shared<Event>();
+    std::shared_ptr<Event> onInside = std::make_shared<Event>();
+    std::shared_ptr<Event> onExit = std::make_shared<Event>();
+
+    std::shared_ptr<Event> getEnterEvent() { return onEnter; }
+    std::shared_ptr<Event> getInsideEvent() { return onInside; }
+    std::shared_ptr<Event> getExitEvent() { return onExit; }
 };
 
 void bindRigidBody3D();

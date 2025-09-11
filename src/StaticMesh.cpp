@@ -126,16 +126,6 @@ bool StaticMesh::loadMaterial(const Material& material, int slot) {
     return true;
 }
 
-int StaticMesh::getID() {
-    return meshNode ? meshNode->getID() : -1;
-}
-
-void StaticMesh::setID(int i) {
-    if (meshNode) {
-        meshNode->setID(i);
-    }
-}
-
 int StaticMesh::getFrame() {
     return meshNode ? meshNode->getFrameNr() : 0;
 }
@@ -291,7 +281,6 @@ void bindStaticMesh() {
         sol::base_classes, sol::bases<Compatible3D>(),
 
         "collision", sol::property(&StaticMesh::getCollision, &StaticMesh::setCollision),
-        "ID", sol::property(&StaticMesh::getID, &StaticMesh::setID),
         "frame", sol::property(&StaticMesh::getFrame, &StaticMesh::setFrame),
         "debug", sol::property(&StaticMesh::getDebug, &StaticMesh::setDebug),
 

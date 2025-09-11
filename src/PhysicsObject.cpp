@@ -5,7 +5,7 @@ void PhysicsObject::createHandlerEntry() {
 	btCollisionObject* out = getCollisionObject();
 	if (!out) return;
 
-	physicsHandler->colliderPair[out] = this;
+	// physicsHandler->colliderPair[out] = this;
 }
 
 void PhysicsObject::removeHandlerEntry() {
@@ -16,7 +16,8 @@ void PhysicsObject::removeHandlerEntry() {
 }
 
 void bindPhysicsObject() {
-	sol::usertype<PhysicsObject> bindType = lua->new_usertype<PhysicsObject>("PhysicsObject"
+	sol::usertype<PhysicsObject> bindType = lua->new_usertype<PhysicsObject>("PhysicsObject",
+		sol::no_constructor
 	);
 
 	bindType["OnEnter"] = sol::property([](PhysicsObject& self) { return self.getEnterEvent(); });

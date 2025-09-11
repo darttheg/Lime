@@ -64,18 +64,18 @@ namespace Bind {
 			video::SMaterial material = pickedNode->getMaterial(0);
 			Vector3D hit = Vector3D(hitPosition.X, hitPosition.Y, hitPosition.Z);
 			result["ID"] = pickedNode->getID();
+			result["attributes"] = attr;
 			result["normal"] = normal;
 			result["materialID"] = material.ID;
 			result["hitPosition"] = hit;
-			result["hit"] = attr;
 			result["success"] = true;
 		}
 		else {
 			result["ID"] = -1;
+			result["attributes"] = sol::nil;
 			result["normal"] = Vector3D(0, 1, 0);
 			result["materialID"] = -1;
 			result["hitPosition"] = end;
-			result["hit"] = sol::nil;
 			result["success"] = false;
 		}
 
@@ -112,18 +112,18 @@ namespace Bind {
 			video::SMaterial material = pickedNode->getMaterial(0);
 			Vector3D hit = Vector3D(hitPosition.X, hitPosition.Y, hitPosition.Z);
 			result["ID"] = pickedNode->getID();
+			result["attributes"] = attr;
 			result["normal"] = normal;
 			result["materialID"] = material.ID;
 			result["hitPosition"] = hit;
-			result["hit"] = attr;
 			result["success"] = true;
 		}
 		else {
 			result["ID"] = -1;
+			result["attributes"] = sol::nil;
 			result["normal"] = Vector3D(0, 1, 0);
 			result["materialID"] = -1;
 			result["hitPosition"] = Vector3D(ray.end.X, ray.end.Y, ray.end.Z);
-			result["hit"] = sol::nil;
 			result["success"] = false;
 		}
 
