@@ -43,8 +43,27 @@ void SoundManager::setManualListener(const Vector3D& pos, const Vector3D& forwar
 }
 
 bool SoundManager::preloadSound(std::string path) {
-	ISoundSource* s = soundEngine->addSoundSourceFromFile(path.c_str());
+	ISoundSource* s = soundEngine->addSoundSourceFromFile(path.c_str(), E_STREAM_MODE::ESM_AUTO_DETECT, true);
 	return s != nullptr;
+}
 
-	// Allow for different streaming modes
+void SoundManager::unloadSound(std::string path) {
+	soundEngine->removeSoundSource(path.c_str());
+}
+
+void SoundManager::unloadAllSounds() {
+	soundEngine->removeAllSoundSources();
+}
+
+void SoundManager::setAllSoundsPaused(bool v) {
+	soundEngine->setAllSoundsPaused(v);
+}
+
+int SoundManager::getLoadedSoundsCount() {
+	return soundEngine->getSoundSourceCount();
+}
+
+void SoundManager::setDefaultVolumeRange(const Vector2D& minMax) {
+	soundEngine->setDefault3DSoundMinDistance(minMax.x);
+	soundEngine->setDefault3DSoundMaxDistance(minMax.y);
 }

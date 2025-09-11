@@ -7,7 +7,6 @@
 #include "Texture.h"
 #include "Camera3D.h"
 #include "DebugVisual.h"
-#include "Sound.h"
 
 #include "FunctionsApplication.h"
 #include "FunctionsGUI.h"
