@@ -273,6 +273,10 @@ void IrrHandling::appLoop() {
 			mainCamera->setTarget(mainCameraForward->getAbsolutePosition());
 		}
 
+		// Sound (listener position)
+		if (soundManager)
+			soundManager->update();
+
 		// Physics
 		if (physicsHandler)
 			physicsHandler->update();

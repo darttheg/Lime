@@ -7,6 +7,7 @@
 
 #include "Vector2D.h"
 #include "Vector3D.h"
+#include "Camera3D.h"
 
 #include "Compatible3D.h"
 
@@ -15,19 +16,21 @@
 class SoundManager {
 private:
 	irrklang::ISoundEngine* soundEngine = nullptr;
-	irr::scene::ISceneNode* listenerSrc = nullptr;
-	irr::core::vector3df listenerPos;
+	Camera3D* listenerSrc;
+
+	irr::core::vector3df nonCamPos, nonCamForward, listenerVel, nonCamUp;
+
 public:
 	SoundManager();
 	~SoundManager();
 
 	void update(); // Update listener position etc.
 
-	void setListenerAt(const Compatible3D& node); // Allow setListenAt(nil) to clear?
-	void setListenerAt(const Vector3D& pos);
-	Vector3D getListenerPosition(); // Returns position of node that is listenerSrc or listenerPos if listenerSrc is nullptr
+	void makeCameraListener(Camera3D* cam);
+	void setListenerVelocity(const Vector3D& vel);
+	void setManualListener(const Vector3D& pos = Vector3D(), const Vector3D& forward = Vector3D(), const Vector3D& velocity = Vector3D(), const Vector3D& up = Vector3D(0,1,0));
 
-	void preloadSound(std::string path); // Can use :toStr() to get sound path
+	bool preloadSound(std::string path); // Can use :toStr() to get sound path
 	void unloadSound(std::string path); // removeSoundSource
 	void unloadAllSounds(); // removeAllSoundSources
 
