@@ -73,6 +73,7 @@
     <ClCompile Include="src\PhysicsObject.cpp" />
     <ClCompile Include="src\RigidBody3D.cpp" />
     <ClCompile Include="src\SolConversions.cpp" />
+    <ClCompile Include="src\Sound.cpp" />
     <ClCompile Include="src\SoundManager.cpp" />
     <ClCompile Include="src\Sound_OLD.cpp" />
     <ClCompile Include="src\StaticMesh.cpp" />
@@ -157,6 +158,7 @@
     <ClInclude Include="include\ReceiverCompatible.h" />
     <ClInclude Include="include\RigidBody3D.h" />
     <ClInclude Include="include\SolConversions.h" />
+    <ClInclude Include="include\Sound.h" />
     <ClInclude Include="include\SoundManager.h" />
     <ClInclude Include="include\Sound_OLD.h" />
     <ClInclude Include="include\StaticMesh.h" />

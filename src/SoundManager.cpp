@@ -23,6 +23,8 @@ void SoundManager::update() {
 	else {
 		soundEngine->setListenerPosition(nonCamPos, nonCamForward, listenerVel, nonCamUp);
 	}
+
+	// Set attached node positions, check if sound is finished and remove it if so.
 }
 
 void SoundManager::makeCameraListener(Camera3D* cam) {
@@ -42,9 +44,8 @@ void SoundManager::setManualListener(const Vector3D& pos, const Vector3D& forwar
 	nonCamUp = vector3df(up.x, up.y, up.z);
 }
 
-bool SoundManager::preloadSound(std::string path) {
-	ISoundSource* s = soundEngine->addSoundSourceFromFile(path.c_str(), E_STREAM_MODE::ESM_AUTO_DETECT, true);
-	return s != nullptr;
+ISoundSource* SoundManager::preloadSound(std::string path) {
+	return soundEngine->addSoundSourceFromFile(path.c_str(), E_STREAM_MODE::ESM_AUTO_DETECT, true);
 }
 
 void SoundManager::unloadSound(std::string path) {
@@ -66,4 +67,12 @@ int SoundManager::getLoadedSoundsCount() {
 void SoundManager::setDefaultVolumeRange(const Vector2D& minMax) {
 	soundEngine->setDefault3DSoundMinDistance(minMax.x);
 	soundEngine->setDefault3DSoundMaxDistance(minMax.y);
+}
+
+void SoundManager::setDopplerEffectParameters(float dopplerFactor, float distanceFactor) {
+	soundEngine->setDopplerEffectParameters(dopplerFactor, distanceFactor);
+}
+
+irrklang::ISoundEngine* SoundManager::getEngine() {
+	return soundEngine;
 }

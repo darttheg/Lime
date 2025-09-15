@@ -1,19 +1,25 @@
 #pragma once
 
-#include "SoundManager.h"
+#include "IrrManagers.h"
 
 class Sound {
 private:
 	irrklang::ISound* mySound = nullptr;
-	vector3df playPos3D;
+	irrklang::ISoundSource* soundSrc = nullptr;
+	bool loops = false;
+	bool doSFX = false;
+	vec3df playPos3D;
+	std::string path = "";
 
-	irr::scene::ISceneNode* src = nullptr;
+	bool attached = false;
+
 public:
-	Sound();
-	Sound(std::string path, bool startPaused = false);
+	// Sound();
+	Sound(std::string path, int playbackType = 0);
+	Sound(std::string path, int playbackType = 0, bool loops = false);
 
-	void load(std::string path);
-	void play(bool is3D = false);
+	bool load(std::string path, int playbackType = 0, bool doEffects = false); // Starts paused, just loads the sound to be ready for play
+	void play(bool is3D = false, bool startPaused = false);
 
 	void setPaused(bool v);
 	bool isPaused();
@@ -34,8 +40,6 @@ public:
 	void setVelocity(const Vector3D& vel);
 	Vector3D getVelocity();
 
-	void setDopplerParameters(float dopplerFactor, float distanceFactor);
-
 	void setPosition(const Vector3D& pos);
 	Vector3D getPosition();
 
@@ -44,15 +48,13 @@ public:
 	void addEchoEffect(float wetDry, float feedback, float delay);
 	void addReverbEffect(float inputGain, float mix, float time, float freqRatio);
 
-	void setPlaybackSpeed(float f);
-	float getPlaybackSpeed();
-
 	void setVolumeDistanceRange(const Vector2D& minMax);
 
-	void setStreamingMode(int type);
+	void setSourceStreamMode(int mode = 0);
 
-	void attachToObject(const Compatible3D& obj); // Update sound position per frame
+	void attachToObject(const Compatible3D& obj); // Update sound position per frame, push to SoundManager vector
 	void attachToObject(); // Detach
+	void detach();
 
 	void destroy();
 	std::string toStr(); // Returns path

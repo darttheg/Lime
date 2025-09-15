@@ -280,6 +280,9 @@
     <ClCompile Include="src\SoundManager.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
+    <ClCompile Include="src\Sound.cpp">
+      <Filter>Source Files\Core\Types</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Billboard.h">
@@ -536,6 +539,9 @@
     </ClInclude>
     <ClInclude Include="include\SoundManager.h">
       <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Sound.h">
+      <Filter>Header Files\Core\Types</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
