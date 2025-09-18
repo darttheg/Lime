@@ -156,7 +156,7 @@ namespace Bind {
 	void setVerticalSync(bool enable) {
 		if (irrHandler)
 			irrHandler->vSync = enable;
-		glfwSwapInterval(enable ? 1 : 0);
+		glfwSwapInterval(enable ? 1 : 0); // I don't think this works how you think it does with this use case
 	}
 
 	void displayMessage(std::string title, std::string message, int image) {
