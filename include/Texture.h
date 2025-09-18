@@ -27,7 +27,7 @@ public:
 
     Texture crop(const Vector2D& topL, const Vector2D& bottomR);
 
-    bool doAppend(irr::video::IImage* img, vector2di pos);
+    bool doAppend(irr::video::IImage* img, irr::core::vector2di pos);
 
     irr::video::IImage* texToImg(irr::video::ITexture* tex);
 };

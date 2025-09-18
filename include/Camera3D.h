@@ -2,7 +2,6 @@
 
 #include "irrlicht.h"
 #include "IrrManagers.h"
-#include "DebugVisual.h"
 #include "Material.h"
 #include "Vector2D.h"
 #include "Vector3D.h"
@@ -11,6 +10,8 @@
 #include <vector>
 
 #include "Compatible3D.h"
+
+class DebugSceneNode;
 
 class Camera3D : public Compatible3D {
 public:

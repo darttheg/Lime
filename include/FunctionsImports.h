@@ -7,7 +7,7 @@
 #include "Texture.h"
 #include "Camera3D.h"
 #include "DebugVisual.h"
-#include "SoundManager.h"
+#include "SoundHandler.h"
 
 typedef unsigned int u32;
 using namespace irr;

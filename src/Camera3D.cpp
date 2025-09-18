@@ -1,4 +1,5 @@
 #include "Camera3D.h"
+#include "DebugVisual.h"
 
 Camera3D::Camera3D() : Camera3D(Vector3D(0,0,0), Vector3D(0,0,0)) {
 }

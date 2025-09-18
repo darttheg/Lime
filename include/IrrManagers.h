@@ -1,10 +1,10 @@
 #pragma once
+#include <map>
 #include "irrlicht.h"
 #include "IrrHandling.h"
 #include "LimeReceiver.h"
-#include "SoundManager.h"
+#include "SoundHandler.h"
 #include "LightManager.h"
-#include <map>
 #include "NetworkHandler.h"
 #include "PhysicsHandler.h"
 

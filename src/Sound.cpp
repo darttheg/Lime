@@ -1,10 +1,11 @@
 #include "Sound.h"
+#include "Compatible3D.h"
 
 // Sound::Sound() : Sound("", false, false) {}
 
-Sound::Sound(std::string path, int playbackType = 0) : Sound(path, playbackType, false) {}
+Sound::Sound(std::string path, int playbackType) : Sound(path, playbackType, false) {}
 
-Sound::Sound(std::string nPath, int playbackType = 0, bool doLoop = false) {
+Sound::Sound(std::string nPath, int playbackType, bool doLoop) {
     load(nPath, playbackType);
     loops = doLoop;
 }
@@ -19,7 +20,7 @@ bool Sound::load(std::string nPath, int playbackType, bool doEffects) {
     return soundSrc != nullptr;
 }
 
-void Sound::play(bool is3D, bool startPaused = false) {
+void Sound::play(bool is3D, bool startPaused) {
     if (!soundSrc) return;
 
     if (is3D)
@@ -76,6 +77,19 @@ void Sound::setPan(float v) {
 
 float Sound::getPan() {
     return mySound ? mySound->getPan() : 0.0f;
+}
+
+int Sound::getPlayPosition() {
+    return mySound ? mySound->getPlayPosition() : 0;
+}
+
+void Sound::setPlayPosition(int ms) {
+    if (!mySound) return;
+    mySound->setPlayPosition(ms);
+}
+
+int Sound::getPlayLength() {
+    return mySound ? mySound->getPlayLength() : 0;
 }
 
 void Sound::setVelocity(const Vector3D& vel) {
@@ -149,4 +163,45 @@ void Sound::destroy() {
 
 std::string Sound::toStr() {
     return mySound ? path : "";
+}
+
+#include "Proxy.h"
+void bindSound() {
+    sol::usertype<Sound> bindType = lua->new_usertype<Sound>("Sound",
+        sol::constructors<Sound(std::string path, int playbackType), Sound(std::string path, int playbackType, bool loops)>(),
+        
+        "paused", sol::property(&Sound::isPaused, &Sound::setPaused),
+        "loops", sol::property(&Sound::getLoops, &Sound::setLoops),
+        "volume", sol::property(&Sound::getVolume, &Sound::setVolume),
+        "playbackSpeed", sol::property(&Sound::getPitch, &Sound::setPitch),
+        "pan", sol::property(&Sound::getPan, &Sound::setPan),
+        "paused", sol::property(&Sound::isPaused, &Sound::setPaused),
+
+        "velocity", sol::property(
+            [](Sound& c) { return Vector3DProxy{ [&] { return c.getVelocity(); }, [&](auto v) { c.setVelocity(v); } }; },
+            [](Sound& c, const Vector3D& v) { c.setVelocity(v); }
+        ),
+
+        "position", sol::property(
+            [](Sound& c) { return Vector3DProxy{ [&] { return c.getPosition(); }, [&](auto v) { c.setPosition(v); } }; },
+            [](Sound& c, const Vector3D& v) { c.setPosition(v); }
+        ));
+
+    bindType["play"] = &Sound::play;
+    bindType["load"] = &Sound::load;
+    bindType["isPlaying"] = &Sound::isPlaying;
+    bindType["getPlayLength"] = &Sound::getPlayLength;
+
+    bindType["clearEffects"] = &Sound::clearEffects;
+    bindType["addDistortionEffect"] = &Sound::addDistortionEffect;
+    bindType["addEchoEffect"] = &Sound::addEchoEffect;
+    bindType["addReverbEffect"] = &Sound::addReverbEffect;
+    bindType["setVolumeDistanceRange"] = &Sound::setVolumeDistanceRange;
+    bindType["setStreamMode"] = &Sound::setSourceStreamMode;
+
+    bindType["attach"] = &Sound::attachToObject;
+    bindType["detach"] = &Sound::detach;
+
+    bindType["destroy"] = &Sound::destroy;
+    bindType["toStr"] = &Sound::toStr;
 }

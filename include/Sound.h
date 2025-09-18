@@ -1,6 +1,9 @@
 #pragma once
 
 #include "IrrManagers.h"
+#pragma comment(lib, "irrKlang.lib")
+
+class Compatible3D;
 
 class Sound {
 private:
@@ -37,6 +40,11 @@ public:
 	void setPan(float f);
 	float getPan();
 
+	int getPlayPosition();
+	void setPlayPosition(int ms);
+
+	int getPlayLength();
+
 	void setVelocity(const Vector3D& vel);
 	Vector3D getVelocity();
 
@@ -53,7 +61,6 @@ public:
 	void setSourceStreamMode(int mode = 0);
 
 	void attachToObject(const Compatible3D& obj); // Update sound position per frame, push to SoundManager vector
-	void attachToObject(); // Detach
 	void detach();
 
 	void destroy();

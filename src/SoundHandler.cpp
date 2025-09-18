@@ -1,5 +1,6 @@
-#include "SoundManager.h"
-using namespace irrklang;
+#include "SoundHandler.h"
+#include "IrrManagers.h"
+#include <algorithm>
 
 SoundManager::SoundManager() {
 	soundEngine = irrklang::createIrrKlangDevice();
@@ -8,15 +9,19 @@ SoundManager::SoundManager() {
 	nonCamUp = vector3df(0, 1, 0);
 }
 
+SoundManager::~SoundManager() {
+}
+
 void SoundManager::update() {
-	if (listenerSrc && listenerSrc->getNode()) {
+	if (!manualListenThisFrame) {
 		vector3df pos, forward, up;
 
-		pos = listenerSrc->getNode()->getAbsolutePosition();
-		Vector3D f = listenerSrc->getForward();
-		forward = vector3df(f.x, f.y, f.z);
-		Vector3D u = listenerSrc->getUp();
-		up = vector3df(u.x, u.y, u.z);
+		// Use active camera
+
+		pos = smgr->getActiveCamera()->getAbsolutePosition();
+		forward = mainCameraForward->getAbsolutePosition() - pos;
+		forward.normalize();
+		up = smgr->getActiveCamera()->getUpVector();
 
 		soundEngine->setListenerPosition(pos, forward, listenerVel, up);
 	}
@@ -25,10 +30,23 @@ void SoundManager::update() {
 	}
 
 	// Set attached node positions, check if sound is finished and remove it if so.
+	attachedToObjs.erase(
+		std::remove_if(attachedToObjs.begin(), attachedToObjs.end(),
+			[](const SoundAttachedToPos& e) { return !e.posSrc || !e.src; }),
+		attachedToObjs.end()
+	);
+
+	for (auto& entry : attachedToObjs)
+		entry.src->setPosition(entry.posSrc->getAbsolutePosition());
 }
 
-void SoundManager::makeCameraListener(Camera3D* cam) {
-	listenerSrc = cam;
+float SoundManager::getMainVolume() {
+	return soundEngine ? soundEngine->getSoundVolume() : 0.0f;
+}
+
+void SoundManager::setMainVolume(float f) {
+	if (!soundEngine) return;
+	soundEngine->setSoundVolume(f);
 }
 
 void SoundManager::setListenerVelocity(const Vector3D& vel) {
@@ -36,7 +54,7 @@ void SoundManager::setListenerVelocity(const Vector3D& vel) {
 }
 
 void SoundManager::setManualListener(const Vector3D& pos, const Vector3D& forward, const Vector3D& velocity, const Vector3D& up) {
-	listenerSrc = nullptr;
+	manualListenThisFrame = true;
 
 	nonCamPos = vector3df(pos.x, pos.y, pos.z);
 	nonCamForward = vector3df(forward.x, forward.y, forward.z);
@@ -60,6 +78,10 @@ void SoundManager::setAllSoundsPaused(bool v) {
 	soundEngine->setAllSoundsPaused(v);
 }
 
+void SoundManager::stopAllSounds() {
+	soundEngine->stopAllSounds();
+}
+
 int SoundManager::getLoadedSoundsCount() {
 	return soundEngine->getSoundSourceCount();
 }
@@ -71,6 +93,28 @@ void SoundManager::setDefaultVolumeRange(const Vector2D& minMax) {
 
 void SoundManager::setDopplerEffectParameters(float dopplerFactor, float distanceFactor) {
 	soundEngine->setDopplerEffectParameters(dopplerFactor, distanceFactor);
+}
+
+void SoundManager::pushSoundPosEntry(ISound* key, ISceneNode* srcPos) {
+	auto it = std::find_if(attachedToObjs.begin(), attachedToObjs.end(),
+		[key](const SoundAttachedToPos& entry) {
+			return entry.src == key;
+		});
+
+	if (it == attachedToObjs.end())
+		attachedToObjs.emplace_back(key, srcPos);
+	else
+		it->posSrc = srcPos;
+}
+
+void SoundManager::removeSoundPosEntry(ISound* key) {
+	attachedToObjs.erase(
+		std::remove_if(attachedToObjs.begin(), attachedToObjs.end(),
+			[key](const SoundAttachedToPos& entry) {
+				return entry.src == key;
+			}),
+		attachedToObjs.end()
+	);
 }
 
 irrklang::ISoundEngine* SoundManager::getEngine() {

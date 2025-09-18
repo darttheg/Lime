@@ -166,9 +166,6 @@
     <ClCompile Include="src\StaticMesh.cpp">
       <Filter>Source Files\Compatible3D</Filter>
     </ClCompile>
-    <ClCompile Include="src\Sound_OLD.cpp">
-      <Filter>Source Files\Core</Filter>
-    </ClCompile>
     <ClCompile Include="src\IrrHandling.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
@@ -277,11 +274,11 @@
     <ClCompile Include="src\RigidBody3D.cpp">
       <Filter>Source Files\Physics</Filter>
     </ClCompile>
-    <ClCompile Include="src\SoundManager.cpp">
-      <Filter>Source Files\Core</Filter>
-    </ClCompile>
     <ClCompile Include="src\Sound.cpp">
       <Filter>Source Files\Core\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SoundHandler.cpp">
+      <Filter>Source Files\Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -386,9 +383,6 @@
     </ClInclude>
     <ClInclude Include="include\DebugVisual.h">
       <Filter>Header Files\Core\Debugging</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Sound_OLD.h">
-      <Filter>Header Files\Core</Filter>
     </ClInclude>
     <ClInclude Include="include\LightManager.h">
       <Filter>Header Files\Core</Filter>
@@ -537,11 +531,11 @@
     <ClInclude Include="include\PhysicsObject.h">
       <Filter>Header Files\Physics</Filter>
     </ClInclude>
-    <ClInclude Include="include\SoundManager.h">
-      <Filter>Header Files\Core</Filter>
-    </ClInclude>
     <ClInclude Include="include\Sound.h">
       <Filter>Header Files\Core\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SoundHandler.h">
+      <Filter>Header Files\Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
