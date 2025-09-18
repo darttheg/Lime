@@ -342,6 +342,50 @@ namespace Bind {
 
 		driver->setTextureCreationFlag(out, v);
 	}
+
+	void drawPixel(const Vector2D& pos, const Vector4D& color) {
+		if (!driver) return;
+		driver->drawPixel(pos.x, pos.y, SColor(color.w, color.x, color.y, color.z));
+	}
+
+	void drawLine2D(const Vector2D& start, const Vector2D& end, const Vector4D& color) {
+		if (!driver) return;
+		driver->draw2DLine(vector2di(start.x, start.y), vector2di(end.x, end.y), SColor(color.w, color.x, color.y, color.z));
+	}
+
+	void drawLine3D(const Vector3D& start, const Vector3D& end, const Vector4D& color) {
+		if (!driver) return;
+
+		SMaterial m;
+		m.Lighting = false;
+		driver->setMaterial(m);
+		driver->setTransform(video::ETS_WORLD, core::matrix4());
+
+		driver->draw3DLine(vector3df(start.x, start.y, start.z), vector3df(end.x, end.y, end.z), SColor(color.w, color.x, color.y, color.z));
+	}
+
+	void drawRectangle2D(const Vector2D& cornerTopLeft, const Vector2D& cornerBottomRight, const Vector4D& color) {
+		if (!driver) return;
+		driver->draw2DRectangleOutline(recti(cornerTopLeft.x, cornerTopLeft.y, cornerBottomRight.x, cornerBottomRight.y), SColor(color.w, color.x, color.y, color.z));
+
+		/*
+		if (outline)
+			driver->draw2DRectangleOutline(recti(cornerTopLeft.x, cornerTopLeft.y, cornerBottomRight.x, cornerBottomRight.y), SColor(color.w, color.x, color.y, color.z));
+		else
+			driver->draw2DRectangle(SColor(color.w, color.x, color.y, color.z), recti(cornerTopLeft.x, cornerTopLeft.y, cornerBottomRight.x, cornerBottomRight.y));
+		*/
+	}
+
+	void drawRectangle3D(const Vector3D& minEdge, const Vector3D& maxEdge, const Vector4D& color) {
+		if (!driver) return;
+		aabbox3df box = aabbox3df(vector3df(minEdge.x, minEdge.y, minEdge.z), vector3df(maxEdge.x, maxEdge.y, maxEdge.z));
+		driver->draw3DBox(box, SColor(color.w, color.x, color.y, color.z));
+	}
+
+	void drawPolygon2D() {
+		if (!driver) return;
+		driver->draw2DPolygon()
+	}
 }
 
 void bindWorld() {
