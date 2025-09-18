@@ -22,6 +22,8 @@
 #define GLFW_EXPOSE_NATIVE_WIN32
 #include <GLFW/glfw3native.h>
 
+class FrameLimiter;
+
 struct PacketToSend {
 public:
 	PacketToSend(ENetPacket* pack, int chID, int pID, bool t) : p(pack), channel(chID), peerID(pID), tcp(t) {}
@@ -77,7 +79,7 @@ public:
 	void setCameraMatrix(irr::scene::ICameraSceneNode* c);
 	void HandleCameraQueue();
 	void displayMessage(std::string title, std::string message, int image);
-	float dt;
+	float dt = 0.0f;
 	bool didEnd = false;
 	bool renderedGUI = false;
 	int lights = 0;

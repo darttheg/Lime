@@ -2,8 +2,6 @@
 #include "IrrManagers.h"
 #include "LimeReceiver.h"
 
-#include "irrBullet.h"
-
 #include <filesystem>
 
 namespace fs = std::filesystem;
@@ -238,15 +236,9 @@ void IrrHandling::appLoop() {
 	// Call start in main
 	Events::Lime::OnStart.get()->engineRun();
 
-	u32 then = device->getTimer()->getTime();
-
 	bool ranHandlers = false;
 
 	while (device->run()) {
-		const u32 now = device->getTimer()->getTime();
-		dt = (now - then) * 0.001f;
-		then = now;
-
 		receiver->updateDeltaMouse(glfwWindow);
 
 		if (!ranHandlers) {
@@ -256,7 +248,7 @@ void IrrHandling::appLoop() {
 		}
 
 		try {
-			Events::Lime::OnUpdate.get()->engineRun(dt);
+			Events::Lime::OnUpdate.get()->engineRun(/*dt*/);
 		}
 		catch (const sol::error& e) {
 			dConsole.postError(e.what());

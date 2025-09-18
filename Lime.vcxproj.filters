@@ -537,5 +537,8 @@
     <ClInclude Include="include\SoundHandler.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
+    <ClInclude Include="include\FrameLimiter.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
