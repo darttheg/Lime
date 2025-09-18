@@ -55,8 +55,11 @@ bool PhysicsHandler::isPaused() {
 
 void PhysicsHandler::update() {
 	if (!world) return;
+	
+	const btScalar fixed = 1.0f / 60.0f;
+	const int maxSubSteps = 8;
 
-	world->stepSimulation(irrHandler->dt * stepMultiplier);
+	world->stepSimulation(irrHandler->dt * stepMultiplier, maxSubSteps, fixed);
 }
 
 void PhysicsHandler::onRender() {

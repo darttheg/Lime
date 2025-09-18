@@ -11,11 +11,11 @@ public:
 
     using clock = std::chrono::steady_clock;
 
-    double targetFPS = 60.0;
+    int targetFPS = 60.0;
     clock::duration frameDur{};
     clock::time_point prev{}, next{};
 
-    void setFPS(float fps) {
+    void setFPS(int fps) {
         targetFPS = fps;
         frameDur = (fps > 0.0) ? std::chrono::duration_cast<clock::duration>(std::chrono::duration<double>(1.0 / fps)) : clock::duration::zero();
         prev = next = clock::now();

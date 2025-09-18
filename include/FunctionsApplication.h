@@ -171,13 +171,11 @@ namespace Bind {
 	}
 
 	int getFrameRate() {
-		if (device && irrHandler)
-			return irrHandler->fps;
-		return 0;
+		return irrHandler ? irrHandler->fps : 0;
 	}
 
 	void setFrameRate(int fps) {
-		if (device && fps >= 0 && irrHandler)
+		if (fps >= 0 && irrHandler)
 			irrHandler->limiter.setFPS(fps);
 	}
 
