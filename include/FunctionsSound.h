@@ -28,16 +28,36 @@ namespace Bind {
 	int getLoadedSoundsCount() {
 		return soundManager->getLoadedSoundsCount();
 	}
+
+	void setAllSoundsPaused(bool v) {
+		soundManager->setAllSoundsPaused(v);
+	}
+
+	void stopAll() {
+		soundManager->stopAllSounds();
+	}
+
+	void setDefaultDistanceRange(const Vector2D& minMax) {
+		soundManager->setDefaultVolumeRange(minMax);
+	}
+
+	void setDopplerParameters(float d, float di) {
+		soundManager->setDopplerEffectParameters(d, di);
+	}
 }
 
 void bindSound() {
 	sol::table audio = lua->create_named_table("Audio");
 
-	audio["getVolume"] = Bind::getVolume;
-	audio["setVolume"] = Bind::setVolume;
-	audio["setListenerVelocity"] = Bind::setListenerVelocity;
-	audio["setManualListener"] = Bind::setManualListener;
-	audio["unload"] = &Bind::unloadSound;
-	audio["unloadAll"] = &Bind::unloadAllSounds;
-	audio["getLoadedSoundsCount"] = &Bind::getLoadedSoundsCount;
+	audio["GetVolume"] = Bind::getVolume;
+	audio["SetVolume"] = Bind::setVolume;
+	audio["SetListenerVelocity"] = Bind::setListenerVelocity;
+	audio["SetManualListener"] = Bind::setManualListener;
+	audio["Unload"] = &Bind::unloadSound;
+	audio["UnloadAll"] = &Bind::unloadAllSounds;
+	audio["GetLoadedSoundsCount"] = &Bind::getLoadedSoundsCount;
+	audio["SetAllPaused"] = &Bind::setAllSoundsPaused;
+	audio["StopAll"] = &Bind::stopAll;
+	audio["SetDefaultVolumeDistanceRange"] = &Bind::setDefaultDistanceRange;
+	audio["SetDopplerParameters"] = &Bind::setDopplerParameters;
 }

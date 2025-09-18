@@ -145,10 +145,6 @@ void Sound::attachToObject(const Compatible3D& obj) {
     soundManager->pushSoundPosEntry(mySound, obj.getNode());
 }
 
-void Sound::attachToObject() {
-    detach();
-}
-
 void Sound::detach() {
     if (!attached) return;
 
@@ -157,8 +153,10 @@ void Sound::detach() {
 }
 
 void Sound::destroy() {
+    detach();
     if (mySound) mySound->drop();
     if (soundSrc) soundSrc->drop();
+    attached = false;
 }
 
 std::string Sound::toStr() {
