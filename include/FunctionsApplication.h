@@ -176,8 +176,8 @@ namespace Bind {
 	}
 
 	void setFrameRate(int fps) {
-		if (device && fps >= 0 && irrHandler)
-			irrHandler->frameLimit = fps;
+		/*if (device && fps >= 0 && irrHandler)
+			irrHandler->frameLimit = fps;*/
 	}
 
 	int getMemoryUsage() {
