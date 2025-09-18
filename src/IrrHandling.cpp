@@ -236,16 +236,15 @@ void IrrHandling::appLoop() {
 	lua->script("math.randomseed(os.time())");
 
 	// Call start in main
-	Events::Lime::OnStart.get()->engineRun(this);
+	Events::Lime::OnStart.get()->engineRun();
 
 	u32 then = device->getTimer()->getTime();
-	f32 const frameDur = 1000.f / frameLimit;
 
 	bool ranHandlers = false;
 
 	while (device->run()) {
 		const u32 now = device->getTimer()->getTime();
-		dt = (now - then) / 16.667f;
+		dt = (now - then) * 0.001f;
 		then = now;
 
 		receiver->updateDeltaMouse(glfwWindow);
@@ -257,7 +256,7 @@ void IrrHandling::appLoop() {
 		}
 
 		try {
-			Events::Lime::OnUpdate.get()->engineRun(this, dt);
+			Events::Lime::OnUpdate.get()->engineRun(dt);
 		}
 		catch (const sol::error& e) {
 			dConsole.postError(e.what());
@@ -288,7 +287,7 @@ void IrrHandling::appLoop() {
 		if (!renderedGUI)
 			guienv->drawAll();
 
-		physicsHandler->world->debugDrawProperties(physicsHandler->drawProperties);
+		physicsHandler->world->debugDrawProperties(&physicsHandler->drawProperties);
 
 		driver->endScene();
 
@@ -308,11 +307,6 @@ void IrrHandling::appLoop() {
 
 		renderedGUI = false;
 
-		// Rounding issue with FPS
-		f32 frameTime = device->getTimer()->getTime() - now;
-		if (frameTime < frameDur)
-			device->sleep((frameDur - frameTime) / 2.0);
-
 		irrHandler->runEventTasks();
 		irrHandler->runLuaTasks();
 		irrHandler->runPacketToSend();
@@ -325,7 +319,7 @@ void IrrHandling::appLoop() {
 	if (networkHandler)
 		networkHandler->shutdown();
 
-	Events::Lime::OnEnd.get()->engineRun(this, this);
+	Events::Lime::OnEnd.get()->engineRun();
 
 	if (!didEnd)
 		end();
@@ -586,7 +580,7 @@ void IrrHandling::runEventTasks() {
 			switch (event.type) {
 			case ENET_EVENT_TYPE_CONNECT:
 				if (!Events::Networking::SonPeerConnect.get()->empty()) { // Replace lua tasks with events
-					Events::Networking::SonPeerConnect.get()->engineRun(this, event.peer->incomingPeerID, event.peer->address.host);
+					Events::Networking::SonPeerConnect.get()->engineRun(event.peer->incomingPeerID, event.peer->address.host);
 				}
 				else {
 					if (doVerbose) dConsole.sendMsg("WARNING: A peer connected but Event Network.Server.OnClientConnect is empty", MESSAGE_TYPE::NETWORK_VERBOSE);
@@ -604,7 +598,7 @@ void IrrHandling::runEventTasks() {
 				break;
 			case ENET_EVENT_TYPE_DISCONNECT:
 				if (!Events::Networking::SonPeerDisconnect.get()->empty()) {
-					Events::Networking::SonPeerDisconnect.get()->engineRun(this, event.peer->outgoingPeerID, event.peer->address.host);
+					Events::Networking::SonPeerDisconnect.get()->engineRun(event.peer->outgoingPeerID, event.peer->address.host);
 				}
 				else {
 					if (doVerbose) dConsole.sendMsg("WARNING: A peer disconnected but Event Network.Server.OnClientDisconnect is empty", MESSAGE_TYPE::NETWORK_VERBOSE);
@@ -622,7 +616,7 @@ void IrrHandling::runEventTasks() {
 				break;
 			case ENET_EVENT_TYPE_RECEIVE:
 				if (!Events::Networking::SonPacketReceived.get()->empty()) {
-					Events::Networking::SonPacketReceived.get()->engineRun(this, event.channelID, Packet(event.packet, event.peer->incomingSessionID));
+					Events::Networking::SonPacketReceived.get()->engineRun(event.channelID, Packet(event.packet, event.peer->incomingSessionID));
 				}
 				else {
 					if (doVerbose) dConsole.sendMsg("WARNING: A packet was received but Event Network.Server.OnPacketReceived is empty", MESSAGE_TYPE::NETWORK_VERBOSE);
@@ -651,7 +645,7 @@ void IrrHandling::runEventTasks() {
 			case ENET_EVENT_TYPE_DISCONNECT:
 				networkHandler->clientTrulyConnected = false;
 				if (!Events::Networking::ConDisconnect.get()->empty()) {
-					Events::Networking::ConDisconnect.get()->engineRun(this, event.data);
+					Events::Networking::ConDisconnect.get()->engineRun(event.data);
 				}
 				else {
 					if (doVerbose) dConsole.sendMsg("WARNING: Client disconnected but Event Network.Client.OnDisconnect is empty", MESSAGE_TYPE::NETWORK_VERBOSE);
@@ -667,7 +661,7 @@ void IrrHandling::runEventTasks() {
 				break;
 			case ENET_EVENT_TYPE_RECEIVE:
 				if (!Events::Networking::ConPacketReceived.get()->empty()) {
-					Events::Networking::ConPacketReceived.get()->engineRun(this, event.channelID, Packet(event.packet, event.peer->incomingPeerID));
+					Events::Networking::ConPacketReceived.get()->engineRun(event.channelID, Packet(event.packet, event.peer->incomingPeerID));
 				}
 				else {
 					if (doVerbose) dConsole.sendMsg("WARNING: A packet was received but Event Network.Client.OnPacketReceived is empty", MESSAGE_TYPE::NETWORK_VERBOSE);

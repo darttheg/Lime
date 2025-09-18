@@ -3,6 +3,8 @@
 
 // Sound::Sound() : Sound("", false, false) {}
 
+Sound::Sound(std::string path) : Sound(path, 0, false) {}
+
 Sound::Sound(std::string path, int playbackType) : Sound(path, playbackType, false) {}
 
 Sound::Sound(std::string nPath, int playbackType, bool doLoop) {
@@ -166,7 +168,7 @@ std::string Sound::toStr() {
 #include "Proxy.h"
 void bindSound() {
     sol::usertype<Sound> bindType = lua->new_usertype<Sound>("Sound",
-        sol::constructors<Sound(std::string path, int playbackType), Sound(std::string path, int playbackType, bool loops)>(),
+        sol::constructors<Sound(std::string path), Sound(std::string path, int playbackType), Sound(std::string path, int playbackType, bool loops)>(),
         
         "paused", sol::property(&Sound::isPaused, &Sound::setPaused),
         "loops", sol::property(&Sound::getLoops, &Sound::setLoops),

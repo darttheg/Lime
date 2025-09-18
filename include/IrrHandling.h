@@ -58,7 +58,7 @@ private:
 	int frameCount = 0;
 public:
 	// Version
-	std::string version = "1.0.0-beta.1";
+	std::string version = "1.0.0-beta.2";
 	//
 
 	void setDriver(irr::video::E_DRIVER_TYPE type);
@@ -77,7 +77,6 @@ public:
 	void setCameraMatrix(irr::scene::ICameraSceneNode* c);
 	void HandleCameraQueue();
 	void displayMessage(std::string title, std::string message, int image);
-	int frameLimit = 60;
 	float dt;
 	bool didEnd = false;
 	bool renderedGUI = false;

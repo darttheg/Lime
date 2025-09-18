@@ -382,9 +382,9 @@ namespace Bind {
 		driver->draw3DBox(box, SColor(color.w, color.x, color.y, color.z));
 	}
 
-	void drawPolygon2D() {
+	void drawPolygon2D(int resolution, const Vector2D& pos, float radius, const Vector4D& color) {
 		if (!driver) return;
-		driver->draw2DPolygon()
+		driver->draw2DPolygon(vector2di(pos.x, pos.y), radius, SColor(color.w, color.x, color.y, color.z), resolution);
 	}
 }
 
@@ -417,4 +417,10 @@ void bindWorld() {
 	world["SetShadowOpacity"] = &Bind::setShadowOpacity;
 	world["SetLightManagementMode"] = &Bind::setLightManagementMode;
 	world["SetTextureCreationFlag"] = &Bind::setTextureCreationFlag;
+	world["drawLine2D"] = &Bind::drawLine2D;
+	world["drawLine3D"] = &Bind::drawLine3D;
+	world["drawPixel"] = &Bind::drawPixel;
+	world["drawBox2D"] = &Bind::drawRectangle2D;
+	world["drawBox3D"] = &Bind::drawRectangle3D;
+	world["drawPolygon2D"] = &Bind::drawPolygon2D;
 }

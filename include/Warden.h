@@ -24,7 +24,7 @@ void bindWarden() {
 	bindGUI();
 	bindInput();
 	bindNetworking();
-	bindSound();
+	bindAudio();
 	bindWorld();
 	bindPhysics();
 }

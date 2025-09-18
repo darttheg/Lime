@@ -46,7 +46,7 @@ namespace Bind {
 	}
 }
 
-void bindSound() {
+void bindAudio() {
 	sol::table audio = lua->create_named_table("Audio");
 
 	audio["GetVolume"] = Bind::getVolume;

@@ -18,8 +18,9 @@ private:
 
 public:
 	// Sound();
-	Sound(std::string path, int playbackType = 0);
-	Sound(std::string path, int playbackType = 0, bool loops = false);
+	Sound(std::string path, int playbackType);
+	Sound(std::string path, int playbackType, bool loops);
+	Sound(std::string path);
 
 	bool load(std::string path, int playbackType = 0, bool doEffects = false); // Starts paused, just loads the sound to be ready for play
 	void play(bool is3D = false, bool startPaused = false);
