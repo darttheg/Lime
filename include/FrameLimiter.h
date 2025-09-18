@@ -3,6 +3,7 @@
 #include <thread>
 
 class FrameLimiter {
+public:
     using clock = std::chrono::steady_clock;
 
     double targetFPS = 60.0;
