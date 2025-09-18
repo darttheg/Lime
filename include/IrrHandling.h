@@ -22,7 +22,7 @@
 #define GLFW_EXPOSE_NATIVE_WIN32
 #include <GLFW/glfw3native.h>
 
-class FrameLimiter;
+#include "FrameLimiter.h"
 
 struct PacketToSend {
 public:
@@ -63,6 +63,8 @@ public:
 	std::string version = "1.0.0-beta.2";
 	//
 
+	FrameLimiter limiter = FrameLimiter();
+
 	void setDriver(irr::video::E_DRIVER_TYPE type);
 	void initScene();
 	void capture();
@@ -79,7 +81,7 @@ public:
 	void setCameraMatrix(irr::scene::ICameraSceneNode* c);
 	void HandleCameraQueue();
 	void displayMessage(std::string title, std::string message, int image);
-	float dt = 0.0f;
+	double dt = 0.0f;
 	bool didEnd = false;
 	bool renderedGUI = false;
 	int lights = 0;

@@ -4,15 +4,18 @@
 
 class FrameLimiter {
 public:
+    FrameLimiter(float fps = 60.0) { 
+        setFPS(fps); 
+        prev = next = clock::now(); 
+    }
+
     using clock = std::chrono::steady_clock;
 
     double targetFPS = 60.0;
     clock::duration frameDur{};
     clock::time_point prev{}, next{};
 
-    explicit FrameLimiter(double fps = 60.0) { setFPS(fps); prev = next = clock::now(); }
-
-    void setFPS(double fps) {
+    void setFPS(float fps) {
         targetFPS = fps;
         frameDur = (fps > 0.0) ? std::chrono::duration_cast<clock::duration>(std::chrono::duration<double>(1.0 / fps)) : clock::duration::zero();
         prev = next = clock::now();

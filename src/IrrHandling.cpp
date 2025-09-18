@@ -58,6 +58,8 @@ void IrrHandling::initScene()
 	LuaLime l;
 	l.initLua(smgr, driver);
 
+	lua->script("math.randomseed(os.time())");
+
 	// Is main.lua safe?
 	std::string mainPath = getMainPath(".");
 	if (mainPath == "") {
@@ -231,14 +233,14 @@ void IrrHandling::end() {
 #include "LimeEvents.h"
 
 void IrrHandling::appLoop() {
-	lua->script("math.randomseed(os.time())");
-
 	// Call start in main
 	Events::Lime::OnStart.get()->engineRun();
 
 	bool ranHandlers = false;
 
 	while (device->run()) {
+		dt = limiter.beginFrame();
+
 		receiver->updateDeltaMouse(glfwWindow);
 
 		if (!ranHandlers) {
@@ -248,7 +250,7 @@ void IrrHandling::appLoop() {
 		}
 
 		try {
-			Events::Lime::OnUpdate.get()->engineRun(/*dt*/);
+			Events::Lime::OnUpdate.get()->engineRun(dt);
 		}
 		catch (const sol::error& e) {
 			dConsole.postError(e.what());
@@ -303,9 +305,11 @@ void IrrHandling::appLoop() {
 		irrHandler->runLuaTasks();
 		irrHandler->runPacketToSend();
 
-		if (glfwWindowShouldClose(glfwWindow)) {
+		if (glfwWindowShouldClose(glfwWindow))
 			device->closeDevice();
-		}
+		else
+			limiter.endFrame();
+		
 	}
 
 	if (networkHandler)
