@@ -144,6 +144,8 @@ void IrrHandling::initScene()
 
 	device = createDeviceEx(params);
 
+	limiter.setVSync(vSync);
+
 	setTitleBarIcon(irrHandler->imgIconPath); // Run in case title bar icon was changed before window creation
 	device->setWindowCaption(irr::core::stringw(irrHandler->windowTitle.c_str()).c_str());
 
@@ -155,7 +157,6 @@ void IrrHandling::initScene()
 	smgr->setLightManager(0);
 
 	networkHandler = new NetworkHandler();
-
 	physicsHandler = new PhysicsHandler();
 
 	appLoop();

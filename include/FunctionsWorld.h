@@ -340,6 +340,9 @@ namespace Bind {
 			break;
 		}
 
+		if ((static_cast<u32>(out) & static_cast<u32>(ETCF_NO_ALPHA_CHANNEL)) && irrHandler->driverType == E_DRIVER_TYPE::EDT_OPENGL)
+			return;
+
 		driver->setTextureCreationFlag(out, v);
 	}
 
