@@ -446,5 +446,5 @@ void bindWorld() {
 	world["DrawPolygon2D"] = &Bind::drawPolygon2D;
 	world["SetUseHighLevelShaders"] = &Bind::setUseHighLevelShaders;
 	world["SetUseCGShaders"] = &Bind::setUseCGShaders;
-	world["GetFeatureSupport"] = &Bind::queryFeature;
+	world["GetFeatureSupported"] = &Bind::queryFeature;
 }
