@@ -211,16 +211,16 @@ bool Packet::writeToFile(int bytePos, std::string path) {
 }
 
 void bindPacket() {
-    sol::usertype<Packet> bind_type = lua->new_usertype<Packet>("Packet",
+    sol::usertype<Packet> bindType = lua->new_usertype<Packet>("Packet",
         sol::constructors<Packet()>(),
         
         "ID", &Packet::originalID,
         "position", sol::property(&Packet::getPosition, &Packet::setPosition));
 
-    bind_type["append"] = &Packet::append;
-    bind_type["get"] = &Packet::get;
-    bind_type["getSize"] = &Packet::getSize;
-    bind_type["destroy"] = &Packet::destroy;
-    bind_type["writeToFile"] = &Packet::writeToFile;
-    bind_type["getNext"] = &Packet::getNext;
+    bindType["append"] = &Packet::append;
+    bindType["get"] = &Packet::get;
+    bindType["getSize"] = &Packet::getSize;
+    bindType["destroy"] = &Packet::destroy;
+    bindType["writeToFile"] = &Packet::writeToFile;
+    bindType["getNext"] = &Packet::getNext;
 }

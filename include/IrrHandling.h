@@ -137,4 +137,7 @@ public:
 
 	irr::scene::ISceneNode* skydome = nullptr;
 	irr::video::SColor backgroundColor = (255, 100, 101, 140);
+
+	bool useHighLevelShaders = false;
+	bool useCGShaders = false;
 };

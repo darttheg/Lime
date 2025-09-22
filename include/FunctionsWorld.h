@@ -389,6 +389,20 @@ namespace Bind {
 		if (!driver) return;
 		driver->draw2DPolygon(vector2di(pos.x, pos.y), radius, SColor(color.w, color.x, color.y, color.z), resolution);
 	}
+
+	void setUseHighLevelShaders(bool v) {
+		if (irrHandler)
+			irrHandler->useHighLevelShaders = v;
+	}
+
+	void setUseCGShaders(bool v) {
+		if (irrHandler) {
+			irrHandler->useCGShaders = v;
+
+			if (driver && (irrHandler->useCGShaders && !driver->queryFeature(video::EVDF_CG)))
+				irrHandler->useCGShaders = false;
+		}
+	}
 }
 
 void bindWorld() {
@@ -420,10 +434,12 @@ void bindWorld() {
 	world["SetShadowOpacity"] = &Bind::setShadowOpacity;
 	world["SetLightManagementMode"] = &Bind::setLightManagementMode;
 	world["SetTextureCreationFlag"] = &Bind::setTextureCreationFlag;
-	world["drawLine2D"] = &Bind::drawLine2D;
-	world["drawLine3D"] = &Bind::drawLine3D;
-	world["drawPixel"] = &Bind::drawPixel;
-	world["drawBox2D"] = &Bind::drawRectangle2D;
-	world["drawBox3D"] = &Bind::drawRectangle3D;
-	world["drawPolygon2D"] = &Bind::drawPolygon2D;
+	world["DrawLine2D"] = &Bind::drawLine2D;
+	world["DrawLine3D"] = &Bind::drawLine3D;
+	world["DrawPixel"] = &Bind::drawPixel;
+	world["DrawBox2D"] = &Bind::drawRectangle2D;
+	world["DrawBox3D"] = &Bind::drawRectangle3D;
+	world["DrawPolygon2D"] = &Bind::drawPolygon2D;
+	world["SetUseHighLevelShaders"] = &Bind::setUseHighLevelShaders;
+	world["SetUseCGShaders"] = &Bind::setUseCGShaders;
 }

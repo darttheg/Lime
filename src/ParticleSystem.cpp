@@ -271,7 +271,7 @@ void ParticleSystem::destroy() {
 }
 
 void bindParticleSystem() {
-	sol::usertype<ParticleSystem> bind_type = lua->new_usertype<ParticleSystem>("ParticleSystem",
+	sol::usertype<ParticleSystem> bindType = lua->new_usertype<ParticleSystem>("ParticleSystem",
 		sol::constructors <ParticleSystem()>(),
 
 		sol::base_classes, sol::bases<Compatible3D>(),
@@ -280,12 +280,12 @@ void bindParticleSystem() {
 		"active", sol::property(&ParticleSystem::getActive, &ParticleSystem::setActive)
 	);
 
-	bind_type["destroy"] = &ParticleSystem::destroy;
-	bind_type["setDoAbsoluteTracking"] = &ParticleSystem::setParticleGlobalBehavior;
-	bind_type["setEmitter"] = &ParticleSystem::setEmitter;
-	bind_type["addAffector"] = &ParticleSystem::addAffector;
-	bind_type["clearAffectors"] = &ParticleSystem::removeAffectors;
-	bind_type["clearParticles"] = &ParticleSystem::removeParticles;
-	bind_type["loadMaterial"] = &ParticleSystem::loadMaterial;
-	bind_type["spark"] = &ParticleSystem::emitOnce;
+	bindType["destroy"] = &ParticleSystem::destroy;
+	bindType["setDoAbsoluteTracking"] = &ParticleSystem::setParticleGlobalBehavior;
+	bindType["setEmitter"] = &ParticleSystem::setEmitter;
+	bindType["addAffector"] = &ParticleSystem::addAffector;
+	bindType["clearAffectors"] = &ParticleSystem::removeAffectors;
+	bindType["clearParticles"] = &ParticleSystem::removeParticles;
+	bindType["loadMaterial"] = &ParticleSystem::loadMaterial;
+	bindType["spark"] = &ParticleSystem::emitOnce;
 }

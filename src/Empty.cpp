@@ -51,7 +51,7 @@ void Empty::destroy() {
 }
 
 void bindEmpty() {
-	sol::usertype<Empty> bind_type = lua->new_usertype<Empty>("Empty",
+	sol::usertype<Empty> bindType = lua->new_usertype<Empty>("Empty",
 		sol::constructors<Empty(), Empty(const Vector3D & pos), Empty(const Vector3D & pos, const Vector3D & rot), Empty(const Vector3D & pos, const Vector3D & rot, const Vector3D & scale)>(),
 
 		sol::base_classes, sol::bases<Compatible3D>(),
@@ -59,6 +59,6 @@ void bindEmpty() {
 		"debug", sol::property(&Empty::getDebug, &Empty::setDebug)
 	);
 
-	bind_type["destroy"] = &Empty::destroy;
-	bind_type["getBoundingBox"] = &Empty::getBoundingBox;
+	bindType["destroy"] = &Empty::destroy;
+	bindType["getBoundingBox"] = &Empty::getBoundingBox;
 }

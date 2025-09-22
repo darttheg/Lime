@@ -116,7 +116,7 @@ void Trail::setFixedSize(float s) {
 
 #include "Proxy.h"
 void bindTrail() {
-	sol::usertype<Trail> bind_type = lua->new_usertype<Trail>("Trail",
+	sol::usertype<Trail> bindType = lua->new_usertype<Trail>("Trail",
 		sol::constructors<Trail()>(),
 
 		sol::base_classes, sol::bases<Compatible3D>(),
@@ -134,8 +134,8 @@ void bindTrail() {
 		"segmentLength", sol::property(&Trail::getFixedSize, &Trail::setFixedSize)
 	);
 
-	bind_type["destroy"] = &Trail::destroy;
-	bind_type["setParent"] = &Trail::setParent;
-	bind_type["loadMaterial"] = &Trail::loadMaterial;
-	bind_type["updateNormals"] = &Trail::setUpdateNormals;
+	bindType["destroy"] = &Trail::destroy;
+	bindType["setParent"] = &Trail::setParent;
+	bindType["loadMaterial"] = &Trail::loadMaterial;
+	bindType["updateNormals"] = &Trail::setUpdateNormals;
 }

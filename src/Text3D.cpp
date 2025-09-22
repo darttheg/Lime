@@ -83,7 +83,7 @@ bool Text3D::setFont(const std::string& fontName) {
 }
 
 void bindText3D() {
-	sol::usertype<Text3D> bind_type = lua->new_usertype<Text3D>("Text3D",
+	sol::usertype<Text3D> bindType = lua->new_usertype<Text3D>("Text3D",
 		sol::constructors <Text3D(const std::string & tx, const std::string & fontName), Text3D(const std::string & tx, const Vector3D & pos, const Vector4D & col), Text3D(const std::string & tx), Text3D(const std::string & tx, const Vector3D & pos), Text3D()>(),
 
 		sol::base_classes, sol::bases<Compatible3D>(),
@@ -92,7 +92,7 @@ void bindText3D() {
 		"text", sol::property(&Text3D::getText, &Text3D::setText)
 	);
 
-	bind_type["destroy"] = &Text3D::destroy;
-	bind_type["setParent"] = &Text3D::setParent;
-	bind_type["setFont"] = &Text3D::setFont;
+	bindType["destroy"] = &Text3D::destroy;
+	bindType["setParent"] = &Text3D::setParent;
+	bindType["setFont"] = &Text3D::setFont;
 }

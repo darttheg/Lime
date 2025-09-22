@@ -273,7 +273,7 @@ bool Hitbox::pointInside(const Vector3D& point) {
 
 #include "Proxy.h"
 void bindHitbox() {
-	sol::usertype<Hitbox> bind_type = lua->new_usertype<Hitbox>("Hitbox",
+	sol::usertype<Hitbox> bindType = lua->new_usertype<Hitbox>("Hitbox",
 		sol::constructors<Hitbox(), Hitbox(float radius, float height)>(),
 
 		sol::base_classes, sol::bases<Compatible3D>(),
@@ -292,7 +292,7 @@ void bindHitbox() {
 		)
 	);
 
-	bind_type["destroy"] = &Hitbox::destroy;
-	bind_type["overlaps"] = &Hitbox::overlaps;
-	bind_type["pointInside"] = &Hitbox::pointInside;
+	bindType["destroy"] = &Hitbox::destroy;
+	bindType["overlaps"] = &Hitbox::overlaps;
+	bindType["pointInside"] = &Hitbox::pointInside;
 }

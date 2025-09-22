@@ -122,7 +122,7 @@ void Water::setTexRepeat(const Vector2D& other) {
 
 #include "Proxy.h"
 void bindWater() {
-    sol::usertype<Water> bind_type = lua->new_usertype<Water>("Water",
+    sol::usertype<Water> bindType = lua->new_usertype<Water>("Water",
         sol::constructors<
         Water(),
         Water(const Vector2D & ts, const Vector2D & tc, const Vector2D & tr),
@@ -149,7 +149,7 @@ void bindWater() {
         )
     );
 
-    bind_type["destroy"] = &Water::destroy;
-    bind_type["loadMaterial"] = &Water::loadMaterial;
-    bind_type["setParent"] = &Water::setParent;
+    bindType["destroy"] = &Water::destroy;
+    bindType["loadMaterial"] = &Water::loadMaterial;
+    bindType["setParent"] = &Water::setParent;
 }

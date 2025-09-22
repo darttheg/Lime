@@ -141,7 +141,7 @@ void LegacyLight::setDebug(bool visible) {
 
 #include "Proxy.h"
 void bindLegacyLight() {
-	sol::usertype<LegacyLight> bind_type = lua->new_usertype<LegacyLight>("Light",
+	sol::usertype<LegacyLight> bindType = lua->new_usertype<LegacyLight>("Light",
 		sol::constructors<LegacyLight(), LegacyLight(int type), LegacyLight(const Vector3D& pos), LegacyLight(const Vector3D & pos, const Vector3D & rot, int type, const Vector4D & color)>(),
 
 		sol::base_classes, sol::bases<Compatible3D>(),
@@ -174,5 +174,5 @@ void bindLegacyLight() {
 		"falloff", sol::property(&LegacyLight::getFalloff, &LegacyLight::setFalloff)
 	);
 
-	bind_type["destroy"] = &LegacyLight::destroy;
+	bindType["destroy"] = &LegacyLight::destroy;
 }

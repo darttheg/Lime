@@ -122,7 +122,7 @@ void Text2D::setDrawBorder(bool enable) {
 
 #include "Proxy.h"
 void bindText2D() {
-	sol::usertype<Text2D> bind_type = lua->new_usertype<Text2D>("Text2D",
+	sol::usertype<Text2D> bindType = lua->new_usertype<Text2D>("Text2D",
 		sol::constructors <Text2D(), Text2D(std::string tx), Text2D(std::string tx, const Vector2D & pos), Text2D(std::string tx, const Vector2D & pos, const Vector2D & dimensions)>(),
 
 		sol::base_classes, sol::bases<Compatible2D>(),
@@ -142,8 +142,8 @@ void bindText2D() {
 		"drawBorder", sol::property(&Text2D::getDrawBorder, &Text2D::setDrawBorder)
 	);
 
-	bind_type["destroy"] = &Text2D::destroy;
-	bind_type["setFont"] = &Text2D::setFont;
-	bind_type["setBorderAlignment"] = &Text2D::setBorderAlignment;
-	bind_type["setTextAlignment"] = &Text2D::setTextAlignment;
+	bindType["destroy"] = &Text2D::destroy;
+	bindType["setFont"] = &Text2D::setFont;
+	bindType["setBorderAlignment"] = &Text2D::setBorderAlignment;
+	bindType["setTextAlignment"] = &Text2D::setTextAlignment;
 }

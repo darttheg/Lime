@@ -124,7 +124,7 @@ void Compatible3D::setID(int i) {
 
 #include "Proxy.h"
 void bindCompatible3D() {
-    sol::usertype<Compatible3D> bind_type = lua->new_usertype<Compatible3D>("Compatible3D",
+    sol::usertype<Compatible3D> bindType = lua->new_usertype<Compatible3D>("Compatible3D",
         "attributes", sol::property(&Compatible3D::getEntry, &Compatible3D::setEntry),
 
         "position", sol::property(
@@ -144,9 +144,9 @@ void bindCompatible3D() {
         "ID", sol::property(&Compatible3D::getID, &Compatible3D::setID)
     );
 
-    bind_type["setParent"] = &Compatible3D::setParent;
-    bind_type["getAbsolutePosition"] = &Compatible3D::getAbsPos;
-    bind_type["getAbsoluteRotation"] = &Compatible3D::getAbsRot;
-    bind_type["getAbsoluteScale"] = &Compatible3D::getAbsScale;
-    bind_type["updateAbsolutePosition"] = &Compatible3D::updateAbsPos;
+    bindType["setParent"] = &Compatible3D::setParent;
+    bindType["getAbsolutePosition"] = &Compatible3D::getAbsPos;
+    bindType["getAbsoluteRotation"] = &Compatible3D::getAbsRot;
+    bindType["getAbsoluteScale"] = &Compatible3D::getAbsScale;
+    bindType["updateAbsolutePosition"] = &Compatible3D::updateAbsPos;
 }

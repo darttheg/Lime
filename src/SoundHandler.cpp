@@ -40,13 +40,13 @@ void SoundManager::update() {
 		entry.src->setPosition(entry.posSrc->getAbsolutePosition());
 }
 
-float SoundManager::getMainVolume() {
-	return soundEngine ? soundEngine->getSoundVolume() : 0.0f;
+int SoundManager::getMainVolume() {
+	return soundEngine ? soundEngine->getSoundVolume() * 100 : 0;
 }
 
-void SoundManager::setMainVolume(float f) {
+void SoundManager::setMainVolume(int f) {
 	if (!soundEngine) return;
-	soundEngine->setSoundVolume(f);
+	soundEngine->setSoundVolume(f / 100.0);
 }
 
 void SoundManager::setListenerVelocity(const Vector3D& vel) {
