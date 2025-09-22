@@ -403,6 +403,10 @@ namespace Bind {
 				irrHandler->useCGShaders = false;
 		}
 	}
+
+	bool queryFeature(int i) {
+		return driver->queryFeature((irr::video::E_VIDEO_DRIVER_FEATURE)i);
+	}
 }
 
 void bindWorld() {
@@ -442,4 +446,5 @@ void bindWorld() {
 	world["DrawPolygon2D"] = &Bind::drawPolygon2D;
 	world["SetUseHighLevelShaders"] = &Bind::setUseHighLevelShaders;
 	world["SetUseCGShaders"] = &Bind::setUseCGShaders;
+	world["GetFeatureSupport"] = &Bind::queryFeature;
 }
