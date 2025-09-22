@@ -146,6 +146,16 @@ Vector4D Texture::getPixel(const Vector2D& pos) {
 	return Vector4D(pCol.getRed(), pCol.getGreen(), pCol.getBlue(), pCol.getAlpha());
 }
 
+Texture Texture::makeNormalMap(float height) {
+	if (!texture) return Texture();
+
+	ITexture* t = driver->getTexture(path.c_str());
+	driver->makeNormalMapTexture(t, height);
+	Texture out = Texture();
+	out.texture = t;
+	return out;
+}
+
 Texture Texture::crop(const Vector2D& topL, const Vector2D& bottomR) {
 	if (!texture) return Texture();
 
@@ -209,4 +219,5 @@ void bindTexture() {
 	bindType["appendFromFile"] = &Texture::appendFromFile;
 	bindType["clear"] = &Texture::createEmpty;
 	bindType["getPixelColor"] = &Texture::getPixel;
+	bindType["createNormalMap"] = &Texture::makeNormalMap;
 }

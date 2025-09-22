@@ -94,16 +94,16 @@ public:
 };
 
 void bindLine() {
-	sol::usertype<TextLine> bind_type = lua->new_usertype<TextLine>("Line",
+	sol::usertype<TextLine> bindType = lua->new_usertype<TextLine>("Line",
 		sol::constructors<TextLine(), TextLine(const std::string& font)>(),
 
 		"life", sol::property(&TextLine::getLifetime, &TextLine::setLifetime)
 	);
 
-	bind_type["clear"] = &TextLine::clear;
-	bind_type["addString"] = &TextLine::addString;
-	bind_type["addImage"] = &TextLine::addImage;
-	bind_type["setStrings"] = &TextLine::setStrings;
-	bind_type["setImages"] = &TextLine::setImages;
-	bind_type["setFont"] = &TextLine::setFont;
+	bindType["clear"] = &TextLine::clear;
+	bindType["addString"] = &TextLine::addString;
+	bindType["addImage"] = &TextLine::addImage;
+	bindType["setStrings"] = &TextLine::setStrings;
+	bindType["setImages"] = &TextLine::setImages;
+	bindType["setFont"] = &TextLine::setFont;
 }

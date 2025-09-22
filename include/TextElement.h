@@ -135,7 +135,7 @@ public:
 };  
 
 void bindText() {
-	sol::usertype<TextElement> bind_type = lua->new_usertype<TextElement>("TextBox",
+	sol::usertype<TextElement> bindType = lua->new_usertype<TextElement>("TextBox",
 		sol::constructors<TextElement(), TextElement(const TextElement& other)>(),
 
         "position", sol::property(&TextElement::getPosition, &TextElement::setPosition),
@@ -145,12 +145,12 @@ void bindText() {
         "toolTip", sol::property(&TextElement::getToolTip, &TextElement::setToolTip)
     );
 
-    bind_type["setAnchor"] = &TextElement::setAnchor;
-    bind_type["clear"] = &TextElement::clear;
-    bind_type["addLine"] = &TextElement::addLine;
-    bind_type["addLines"] = &TextElement::addLines;
-    bind_type["getLineCount"] = &TextElement::getNumLines;
-    bind_type["setMaxLines"] = &TextElement::setMaxLines;
-    bind_type["setParent"] = &TextElement::setParent;
-    bind_type["removeChildID"] = &TextElement::removeChild;
+    bindType["setAnchor"] = &TextElement::setAnchor;
+    bindType["clear"] = &TextElement::clear;
+    bindType["addLine"] = &TextElement::addLine;
+    bindType["addLines"] = &TextElement::addLines;
+    bindType["getLineCount"] = &TextElement::getNumLines;
+    bindType["setMaxLines"] = &TextElement::setMaxLines;
+    bindType["setParent"] = &TextElement::setParent;
+    bindType["removeChildID"] = &TextElement::removeChild;
 }

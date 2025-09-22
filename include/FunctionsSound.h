@@ -1,11 +1,11 @@
 #include "FunctionsImports.h"
 
 namespace Bind {
-	float getVolume() {
+	int getVolume() {
 		return soundManager->getMainVolume();
 	}
 
-	void setVolume(float f) {
+	void setVolume(int f) {
 		soundManager->setMainVolume(f);
 	}
 

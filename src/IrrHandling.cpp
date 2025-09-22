@@ -152,6 +152,10 @@ void IrrHandling::initScene()
 	driver = device->getVideoDriver();
 	smgr = device->getSceneManager();
 	guienv = device->getGUIEnvironment();
+	gpu = driver->getGPUProgrammingServices();
+
+	if (useCGShaders && !driver->queryFeature(video::EVDF_CG))
+		useCGShaders = false;
 
 	lightManager = new CLightManager(smgr);
 	smgr->setLightManager(0);

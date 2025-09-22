@@ -37,8 +37,8 @@ public:
 
 	void update(); // Update listener position etc.
 
-	float getMainVolume();
-	void setMainVolume(float f);
+	int getMainVolume();
+	void setMainVolume(int f);
 
 	void setListenerVelocity(const Vector3D& vel);
 	void setManualListener(const Vector3D& pos, const Vector3D& forward, const Vector3D& velocity, const Vector3D& up);

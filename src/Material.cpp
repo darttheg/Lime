@@ -1,4 +1,5 @@
 #include "Material.h"
+#include "ShaderCallback.h"
 
 Material::Material() {
     mat.UseMipMaps = false;
@@ -35,6 +36,10 @@ int Material::getMaterialType() {
 
 void Material::setMaterialType(int i) {
     mat.MaterialType = (irr::video::E_MATERIAL_TYPE)i;
+    if ((irr::video::E_MATERIAL_TYPE)i == E_MATERIAL_TYPE::EMT_ONETEXTURE_BLEND)
+        mat.MaterialTypeParam = pack_textureBlendFunc(EBF_DST_COLOR, EBF_ZERO, EMFN_MODULATE_1X, EAS_NONE);
+    else
+        mat.MaterialTypeParam = 0;
 }
 
 bool Material::getFog() {
@@ -245,6 +250,14 @@ bool Material::getTexture(int slot) {
     return mat.getTexture(slot) != nullptr;
 }
 
+float Material::getTypeParam(int i) {
+    return i == 0 ? mat.MaterialTypeParam : mat.MaterialTypeParam2;
+}
+
+void Material::setTypeParam(float f, int i) {
+    if (i == 0) mat.MaterialTypeParam = f; else mat.MaterialTypeParam2 = f;
+}
+
 void Material::setTexture(Texture& tex, int slot) {
     if (tex.texture) {
         mat.setTexture(slot, tex.texture);
@@ -268,12 +281,39 @@ void Material::setMaterialFlag(int i, bool enable) {
     mat.setFlag((irr::video::E_MATERIAL_FLAG)i, enable);
 }
 
+void Material::toShader(std::string vs, std::string ps) {
+    if (!driver || !gpu) return;
+    if (driver->getDriverType() != EDT_DIRECT3D9 && driver->getDriverType() != EDT_OPENGL) return;
+
+    io::path vsPath = vs.c_str();
+    bool hasPS = !ps.empty();
+    io::path psPath = hasPS ? io::path(ps.c_str()) : io::path("");
+
+    ShaderCallback* cb = new ShaderCallback(irrHandler->useHighLevelShaders, irrHandler->useCGShaders, device);
+
+    s32 mt = -1;
+    if (irrHandler->useHighLevelShaders)
+        mt = gpu->addHighLevelShaderMaterialFromFiles(vsPath, "vertexMain", EVST_VS_1_1, psPath, hasPS ? "pixelMain" : nullptr, EPST_PS_1_1, cb, mat.MaterialType, 0, irrHandler->useCGShaders ? EGSL_CG : EGSL_DEFAULT);
+    else
+        mt = gpu->addShaderMaterialFromFiles(vsPath, psPath, cb, mat.MaterialType, 0);
+
+    mat.MaterialType = (E_MATERIAL_TYPE)mt;
+
+    cb->drop();
+}
+
+void Material::toShaderSingle(std::string vs) {
+    if (!irrHandler->useHighLevelShaders) return;
+    toShader(vs, vs);
+}
+
 void bindMaterial() {
-    sol::usertype<Material> bind_type = lua->new_usertype<Material>("Material",
+    sol::usertype<Material> bindType = lua->new_usertype<Material>("Material",
         sol::constructors<Material(), Material(int type), Material(const Texture& tex), Material(const Texture& tex, int type), Material(const Material & other)>(),
 
         "type", sol::property(&Material::getMaterialType, &Material::setMaterialType),
         "fog", sol::property(&Material::getFog, &Material::setFog),
+        "shaderParameter", sol::property(&Material::getTypeParam, &Material::setTypeParam),
         "backfaceCulling", sol::property(&Material::getBackface, &Material::setBackface),
         "frontfaceCulling", sol::property(&Material::getFrontface, &Material::setFrontface),
         "antiAliasing", sol::property(&Material::getAntiAliasing, &Material::setAntiAliasing),
@@ -299,15 +339,18 @@ void bindMaterial() {
         "ID", sol::property(&Material::getID, &Material::setID)
     );
 
-    bind_type["getTextureTranslation"] = &Material::getPan;
-    bind_type["setTextureTranslation"] = &Material::setPan;
-    bind_type["setTextureUVWrapping"] = &Material::setWrapUV;
-    bind_type["setTextureUWrapping"] = &Material::setWrapU;
-    bind_type["setTextureVWrapping"] = &Material::setWrapV;
-    bind_type["setTexture"] = &Material::setTexture;
+    bindType["getTextureTranslation"] = &Material::getPan;
+    bindType["setTextureTranslation"] = &Material::setPan;
+    bindType["setTextureUVWrapping"] = &Material::setWrapUV;
+    bindType["setTextureUWrapping"] = &Material::setWrapU;
+    bindType["setTextureVWrapping"] = &Material::setWrapV;
+    bindType["setTexture"] = &Material::setTexture;
 
-    bind_type["setTextureScale"] = &Material::setTextureScale;
-    bind_type["getTextureScale"] = &Material::setTextureScale;
+    bindType["setTextureScale"] = &Material::setTextureScale;
+    bindType["getTextureScale"] = &Material::setTextureScale;
 
-    bind_type["setMaterialFlag"] = &Material::setMaterialFlag;
+    bindType["setMaterialFlag"] = &Material::setMaterialFlag;
+
+    bindType["toShader"] = &Material::toShader;
+    bindType["toShaderHLSL"] = &Material::toShaderSingle;
 }
