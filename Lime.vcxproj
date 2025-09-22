@@ -152,11 +152,14 @@
     <ClInclude Include="include\Packet.h" />
     <ClInclude Include="include\ParseCmd.h" />
     <ClInclude Include="include\ParticleSystem.h" />
+    <ClInclude Include="include\PerlinHeader.h" />
+    <ClInclude Include="include\PerlinNoise.h" />
     <ClInclude Include="include\PhysicsHandler.h" />
     <ClInclude Include="include\PhysicsObject.h" />
     <ClInclude Include="include\Proxy.h" />
     <ClInclude Include="include\ReceiverCompatible.h" />
     <ClInclude Include="include\RigidBody3D.h" />
+    <ClInclude Include="include\ShaderCallback.h" />
     <ClInclude Include="include\SolConversions.h" />
     <ClInclude Include="include\Sound.h" />
     <ClInclude Include="include\SoundHandler.h" />

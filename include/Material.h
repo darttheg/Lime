@@ -93,8 +93,11 @@ public:
     bool getMipMaps();
     void setMipMaps(bool i);
 
-    void setTexture(Texture& tex, int slot);
-    bool getTexture(int slot);
+    void setTexture(Texture& tex, int slot = 0);
+    bool getTexture(int slot = 0);
+
+    float getTypeParam(int i = 0);
+    void setTypeParam(float f, int i = 0);
 
     int getID();
     void setID(int i);
@@ -103,6 +106,10 @@ public:
     Vector2D getTextureScale(int i);
 
     void setMaterialFlag(int i, bool enable);
+
+    // Shaders
+    void toShader(std::string vs, std::string ps);
+    void toShaderSingle(std::string vs);
 };
 
 void bindMaterial();

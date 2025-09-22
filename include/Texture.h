@@ -24,6 +24,7 @@ public:
     bool append(const Texture& tex, const Vector2D& pos); // Copies texture to another
     bool appendFromFile(std::string filePath, const Vector2D& pos); // Copies texture to another
     Vector4D getPixel(const Vector2D& pos);
+    Texture makeNormalMap(float height = 1.0f);
 
     Texture crop(const Vector2D& topL, const Vector2D& bottomR);
 

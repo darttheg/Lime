@@ -540,5 +540,14 @@
     <ClInclude Include="include\FrameLimiter.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
+    <ClInclude Include="include\ShaderCallback.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PerlinNoise.h">
+      <Filter>Header Files\Core\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PerlinHeader.h">
+      <Filter>Header Files\Core\Other</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
