@@ -1,6 +1,9 @@
 #include "FunctionsImports.h"
+#include "PerlinHeader.h"
 
 namespace Bind {
+	PerlinObject p;
+
 	irr::video::E_DRIVER_TYPE getDriverType(int driverType) {
 		switch (driverType) {
 		case 0: return irr::video::EDT_NULL;
@@ -211,10 +214,37 @@ namespace Bind {
 	void setEndOnError(bool v) {
 		dConsole.endOnError = v;
 	}
+
+	void setNoiseSeed(uint32_t seed) {
+		p.setSeed(seed);
+	}
+
+	int getNoiseSeed() {
+		return p.seed;
+	}
+
+	void setNoiseOctaves(uint32_t octaves) {
+		p.setOctaves(octaves);
+	}
+
+	int getNoiseOctaves() {
+		return p.octaves;
+	}
+
+	float getNoiseValue(uint32_t dimension, float x, float y, float z) {
+		return p.getValueAt(dimension, x, y, z);
+	}
 }
 
 void bindApplication() {
 	sol::table application = lua->create_named_table("Lime");
+
+	sol::table noise = lua->create_named_table("noise");
+	(*lua)["math"]["noise"] = noise;
+
+	(*lua)["math"]["noise"]["setSeed"] = &Bind::setNoiseSeed;
+	(*lua)["math"]["noise"]["setOctaves"] = &Bind::setNoiseOctaves;
+	(*lua)["math"]["noise"]["get"] = &Bind::getNoiseValue;
 
 	application["SetDriverType"] = &Bind::setDriverType;
 	application["SetFullscreen"] = &Bind::fullscreenWindow;
