@@ -96,8 +96,8 @@ public:
     void setTexture(Texture& tex, int slot = 0);
     bool getTexture(int slot = 0);
 
-    float getTypeParam(int i = 0);
-    void setTypeParam(float f, int i = 0);
+    float getTypeParam();
+    void setTypeParam(float f);
 
     int getID();
     void setID(int i);

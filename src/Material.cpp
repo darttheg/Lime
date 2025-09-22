@@ -250,12 +250,12 @@ bool Material::getTexture(int slot) {
     return mat.getTexture(slot) != nullptr;
 }
 
-float Material::getTypeParam(int i) {
-    return i == 0 ? mat.MaterialTypeParam : mat.MaterialTypeParam2;
+float Material::getTypeParam() {
+    return mat.MaterialTypeParam;
 }
 
-void Material::setTypeParam(float f, int i) {
-    if (i == 0) mat.MaterialTypeParam = f; else mat.MaterialTypeParam2 = f;
+void Material::setTypeParam(float f) {
+    mat.MaterialTypeParam = f;
 }
 
 void Material::setTexture(Texture& tex, int slot) {
@@ -313,7 +313,7 @@ void bindMaterial() {
 
         "type", sol::property(&Material::getMaterialType, &Material::setMaterialType),
         "fog", sol::property(&Material::getFog, &Material::setFog),
-        "shaderParameter", sol::property(&Material::getTypeParam, &Material::setTypeParam),
+        "typeParameter", sol::property(&Material::getTypeParam, &Material::setTypeParam),
         "backfaceCulling", sol::property(&Material::getBackface, &Material::setBackface),
         "frontfaceCulling", sol::property(&Material::getFrontface, &Material::setFrontface),
         "antiAliasing", sol::property(&Material::getAntiAliasing, &Material::setAntiAliasing),
