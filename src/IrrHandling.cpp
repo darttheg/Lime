@@ -95,8 +95,14 @@ void IrrHandling::initScene()
 
 	glfwInit();
 	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+	glfwWindowHint(GLFW_RESIZABLE, isResizable ? GLFW_TRUE : GLFW_FALSE);
 
 	glfwWindow = glfwCreateWindow(width, height, "Lime Application", nullptr, nullptr);
+
+	if (maintainAspectRatio)
+		glfwSetWindowAspectRatio(glfwWindow, width, height);
+	else
+		glfwSetWindowAspectRatio(glfwWindow, GLFW_DONT_CARE, GLFW_DONT_CARE);
 
 	// Center
 	const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());

@@ -122,8 +122,11 @@ namespace Bind {
 	}
 
 	void makeResizable(bool enable) {
-		if (device)
-			device->setResizable(enable);
+		if (!irrHandler) return;
+
+		irrHandler->isResizable = enable;
+		if (irrHandler->glfwWindow)
+			glfwSetWindowAttrib(irrHandler->glfwWindow, GLFW_RESIZABLE, irrHandler->isResizable ? GLFW_TRUE : GLFW_FALSE);
 	}
 
 	int getElapsedTime() {
@@ -158,7 +161,13 @@ namespace Bind {
 	}
 
 	void maintainAspectRatio(bool enable) {
-		if (enable)
+		if (!irrHandler) return;
+
+		irrHandler->maintainAspectRatio = enable;
+
+		if (!irrHandler->glfwWindow) return;
+
+		if (irrHandler->maintainAspectRatio)
 			glfwSetWindowAspectRatio(irrHandler->glfwWindow, irrHandler->width, irrHandler->height);
 		else
 			glfwSetWindowAspectRatio(irrHandler->glfwWindow, GLFW_DONT_CARE, GLFW_DONT_CARE);

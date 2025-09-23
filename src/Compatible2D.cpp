@@ -78,6 +78,21 @@ void Compatible2D::setPosition(const Vector2D& pos) {
 		getNode()->setRelativePosition(irr::core::position2di(pos.x, pos.y));
 }
 
+Vector2D Compatible2D::getPositionProportional() {
+	if (!getNode()) return Vector2D();
+	core::rect<s32> rect = getNode()->getAbsolutePosition();
+	s32 x = rect.UpperLeftCorner.X;
+	s32 y = rect.UpperLeftCorner.Y;
+	dimension2di p = getNode()->getParent()->getAbsolutePosition().getSize();
+
+	return Vector2D((f32)x / (f32)p.Width, (f32)y / (f32)p.Height);
+}
+
+void Compatible2D::setPositionProportional(const Vector2D& pos) {
+	if (getNode())
+		getNode()->setRelativePositionProportional(irr::core::rectf(0, 0, pos.x, pos.y));
+}
+
 bool Compatible2D::getVisible() {
 	return getNode() ? getNode()->isVisible() : false;
 }
@@ -164,6 +179,11 @@ void bindCompatible2D() {
 			[](Compatible2D& c) { return Vector2DProxy{ [&] { return c.getPosition(); }, [&](auto v) { c.setPosition(v); } }; },
 			[](Compatible2D& c, const Vector2D& v) { c.setPosition(v); }
 		),
+		"proportionalPosition", sol::property(
+			[](Compatible2D& c) { return Vector2DProxy{ [&] { return c.getPositionProportional(); }, [&](auto v) { c.setPositionProportional(v); } }; },
+			[](Compatible2D& c, const Vector2D& v) { c.setPositionProportional(v); }
+		),
+
 		"size", sol::property(
 			[](Compatible2D& c) { return Vector2DProxy{ [&] { return c.getSize(); }, [&](auto v) { c.setSize(v); } }; },
 			[](Compatible2D& c, const Vector2D& v) { c.setSize(v); }

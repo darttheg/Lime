@@ -16,6 +16,8 @@ public:
     void setParent(sol::optional<Compatible2D*> parent);
     Vector2D getPosition();
     void setPosition(const Vector2D& pos);
+    Vector2D getPositionProportional();
+    void setPositionProportional(const Vector2D& pos);
     bool getVisible();
     void setVisible(bool v);
     void bringToFront();

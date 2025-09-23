@@ -24,6 +24,7 @@ public:
 
     Vector3D getPosition();
     void setPosition(const Vector3D& pos);
+
     Vector3D getRotation();
     void setRotation(const Vector3D& rot);
     Vector3D getScale();

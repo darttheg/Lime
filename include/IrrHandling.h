@@ -96,6 +96,9 @@ public:
 	int posY = 0;
 	int fps = 0;
 
+	bool isResizable = false;
+	bool maintainAspectRatio = false;
+
 	std::string key = "";
 	bool verbose = false;
 
