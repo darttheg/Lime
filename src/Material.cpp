@@ -292,9 +292,12 @@ void Material::toShader(std::string vs, std::string ps) {
     ShaderCallback* cb = new ShaderCallback(irrHandler->useHighLevelShaders, irrHandler->useCGShaders, device);
 
     s32 mt = -1;
-    if (irrHandler->useHighLevelShaders)
+    if (irrHandler->useHighLevelShaders) {
         mt = gpu->addHighLevelShaderMaterialFromFiles(vsPath, "vertexMain", EVST_VS_1_1, psPath, hasPS ? "pixelMain" : nullptr, EPST_PS_1_1, cb, mat.MaterialType, 0, irrHandler->useCGShaders ? EGSL_CG : EGSL_DEFAULT);
-    else
+        
+        mat.BackfaceCulling = true;
+        mat.FrontfaceCulling = false;
+    } else
         mt = gpu->addShaderMaterialFromFiles(vsPath, psPath, cb, mat.MaterialType, 0);
 
     mat.MaterialType = (E_MATERIAL_TYPE)mt;
