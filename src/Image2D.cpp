@@ -73,7 +73,7 @@ void Image2D::setParent(const Image2D& other) {
 #include "Proxy.h"
 void bindImage2D() {
 	sol::usertype<Image2D> bindType = lua->new_usertype<Image2D>("Image2D",
-		sol::constructors <Image2D(const Texture & tex), Image2D(const Texture & tex, const Vector2D & pos), Image2D(const Texture & tex, const Vector2D & pos, const Vector2D & dimensions), Image2D(const Image2D & other)>(),
+		sol::constructors <Image2D(const Texture & tex), Image2D(const Texture & tex, const Vector2D & pos), Image2D(const Texture & tex, const Vector2D & pos), Image2D(const Image2D & other)>(),
 
 		sol::base_classes, sol::bases<Compatible2D>(),
 

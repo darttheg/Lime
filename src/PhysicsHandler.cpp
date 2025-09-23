@@ -7,6 +7,7 @@ PhysicsHandler::PhysicsHandler() {
 	world = createIrrBulletWorld(device, true, true);
 	world->setDebugMode(debugMode);
 	world->setGravity(irr::core::vector3df(0, -9.8, 0));
+	world->debugDrawProperties(false);
 }
 
 void PhysicsHandler::setDebugMode(int m) {
@@ -24,9 +25,11 @@ void PhysicsHandler::setDebugMode(int m) {
 			break;
 		case 4:
 			out = irrPhysicsDebugMode::EPDM_DrawConstraints | irrPhysicsDebugMode::EPDM_DrawConstraintLimits;
+			break;
 		case 5:
 			out = irrPhysicsDebugMode::EPDM_DrawAabb | irrPhysicsDebugMode::EPDM_DrawContactPoints | irrPhysicsDebugMode::EPDM_DrawWireframe |
 				  irrPhysicsDebugMode::EPDM_DrawConstraints | irrPhysicsDebugMode::EPDM_DrawConstraintLimits;
+			break;
 	}
 
 	debugMode = out;

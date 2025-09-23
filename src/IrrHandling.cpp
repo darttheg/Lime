@@ -241,6 +241,8 @@ void IrrHandling::appLoop() {
 	// Call start in main
 	Events::Lime::OnStart.get()->engineRun();
 
+	updateIrrRenderRes();
+
 	bool ranHandlers = false;
 
 	while (device->run()) {
@@ -286,7 +288,7 @@ void IrrHandling::appLoop() {
 		if (!renderedGUI)
 			guienv->drawAll();
 
-		physicsHandler->world->debugDrawProperties(&physicsHandler->drawProperties);
+		physicsHandler->world->debugDrawProperties(physicsHandler->drawProperties);
 
 		driver->endScene();
 
@@ -727,6 +729,11 @@ void IrrHandling::updateIrrRenderRes() {
 	if (matchResSize) {
 		dimension2d<u32> newSize(static_cast<u32>(irrHandler->width), static_cast<u32>(irrHandler->height));
 		driver->OnResize(newSize);
+	}
+
+	if (guienv) {
+		auto* root = guienv->getRootGUIElement();
+		root->setRelativePosition(core::rect<s32>(0, 0, (s32)irrHandler->width, (s32)irrHandler->height));
 	}
 }
 

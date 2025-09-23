@@ -464,7 +464,7 @@ void bindWorld() {
 	world["Clear"] = &Bind::clearScene;
 	world["PreloadMesh"] = &Bind::preloadMesh;
 	world["PreloadTexture"] = &Bind::preloadTexture;
-	world["LoadArchive"] = &Bind::addArchive;
+	world["AddArchive"] = &Bind::addArchive;
 	world["UnloadMesh"] = &Bind::unloadMesh;
 	world["UnloadTexture"] = &Bind::unloadTexture;
 	world["SetShadowColor"] = &Bind::setShadowColor;

@@ -2,10 +2,12 @@
 
 namespace Bind {
 	void setDebugMode(int m) {
+		if (!physicsHandler) return;
 		physicsHandler->setDebugMode(m);
 	}
 
 	void setStep(float f) {
+		if (!physicsHandler) return;
 		physicsHandler->setStepFactor(f);
 	}
 
@@ -24,10 +26,12 @@ namespace Bind {
 	}
 
 	void drawProperties(bool d) {
+		if (!physicsHandler) return;
 		physicsHandler->setDrawProperties(d);
 	}
 
 	void setIgnoreSameID(bool v) {
+		if (!physicsHandler) return;
 		physicsHandler->setIgnoreSameID(v);
 	}
 }
