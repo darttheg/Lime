@@ -139,7 +139,7 @@ void LegacyLight::setDebug(bool visible) {
 	}
 }
 
-#include "Proxy.h"
+
 void bindLegacyLight() {
 	sol::usertype<LegacyLight> bindType = lua->new_usertype<LegacyLight>("Light",
 		sol::constructors<LegacyLight(), LegacyLight(int type), LegacyLight(const Vector3D& pos), LegacyLight(const Vector3D & pos, const Vector3D & rot, int type, const Vector4D & color)>(),
@@ -149,23 +149,23 @@ void bindLegacyLight() {
 		"type", sol::property(&LegacyLight::getType, &LegacyLight::setType),
 
 		"diffuseColor", sol::property(
-			[](LegacyLight& c) { return Vector4DProxy{ [&] { return c.getLightColor(); }, [&](auto v) { c.setLightColor(v); } }; },
+			[](LegacyLight& c) { return Vector4D{ [&] { return c.getLightColor(); }, [&](auto v) { c.setLightColor(v); } }; },
 			[](LegacyLight& c, const Vector4D& v) { c.setLightColor(v); }
 		),
 		"ambientColor", sol::property(
-			[](LegacyLight& c) { return Vector4DProxy{ [&] { return c.getAmbientColor(); }, [&](auto v) { c.setAmbientColor(v); } }; },
+			[](LegacyLight& c) { return Vector4D{ [&] { return c.getAmbientColor(); }, [&](auto v) { c.setAmbientColor(v); } }; },
 			[](LegacyLight& c, const Vector4D& v) { c.setAmbientColor(v); }
 		),
 		"specularColor", sol::property(
-			[](LegacyLight& c) { return Vector4DProxy{ [&] { return c.getSpecColor(); }, [&](auto v) { c.setSpecColor(v); } }; },
+			[](LegacyLight& c) { return Vector4D{ [&] { return c.getSpecColor(); }, [&](auto v) { c.setSpecColor(v); } }; },
 			[](LegacyLight& c, const Vector4D& v) { c.setSpecColor(v); }
 		),
 		"cones", sol::property(
-			[](LegacyLight& c) { return Vector2DProxy{ [&] { return c.getCones(); }, [&](auto v) { c.setCones(v); } }; },
+			[](LegacyLight& c) { return Vector2D{ [&] { return c.getCones(); }, [&](auto v) { c.setCones(v); } }; },
 			[](LegacyLight& c, const Vector2D& v) { c.setCones(v); }
 		),
 		"attenuation", sol::property(
-			[](LegacyLight& c) { return Vector3DProxy{ [&] { return c.getAttenuation(); }, [&](auto v) { c.setAttenuation(v); } }; },
+			[](LegacyLight& c) { return Vector3D{ [&] { return c.getAttenuation(); }, [&](auto v) { c.setAttenuation(v); } }; },
 			[](LegacyLight& c, const Vector3D& v) { c.setAttenuation(v); }
 		),
 

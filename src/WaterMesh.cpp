@@ -120,7 +120,7 @@ void Water::setTexRepeat(const Vector2D& other) {
     texRepeat = irr::core::vector2df(other.x, other.y);
 }
 
-#include "Proxy.h"
+
 void bindWater() {
     sol::usertype<Water> bindType = lua->new_usertype<Water>("Water",
         sol::constructors<
@@ -136,15 +136,15 @@ void bindWater() {
         "length", sol::property(&Water::getLength, &Water::setLength),
 
         "tileSize", sol::property(
-            [](Water& c) { return Vector2DProxy{ [&] { return c.getTileSize(); }, [&](auto v) { c.setTileSize(v); } }; },
+            [](Water& c) { return Vector2D{ [&] { return c.getTileSize(); }, [&](auto v) { c.setTileSize(v); } }; },
             [](Water& c, const Vector2D& v) { c.setTileSize(v); }
         ),
         "tileCount", sol::property(
-            [](Water& c) { return Vector2DProxy{ [&] { return c.getTileCount(); }, [&](auto v) { c.setTileCount(v); } }; },
+            [](Water& c) { return Vector2D{ [&] { return c.getTileCount(); }, [&](auto v) { c.setTileCount(v); } }; },
             [](Water& c, const Vector2D& v) { c.setTileCount(v); }
         ),
         "texRepeat", sol::property(
-            [](Water& c) { return Vector2DProxy{ [&] { return c.getTexRepeat(); }, [&](auto v) { c.setTexRepeat(v); } }; },
+            [](Water& c) { return Vector2D{ [&] { return c.getTexRepeat(); }, [&](auto v) { c.setTexRepeat(v); } }; },
             [](Water& c, const Vector2D& v) { c.setTexRepeat(v); }
         )
     );

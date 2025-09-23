@@ -303,7 +303,7 @@ void RigidBody3D::setGhost(bool v) {
     rigidBody->setCollisionFlags(v ? ECollisionFlag::ECF_NO_CONTACT_RESPONSE : (ECollisionFlag)0);
 }
 
-#include "Proxy.h"
+
 void bindRigidBody3D() {
     sol::usertype<RigidBody3D> bindType = lua->new_usertype<RigidBody3D>("RigidBody3D",
         sol::constructors<RigidBody3D(const StaticMesh& m, float mass), RigidBody3D(const StaticMesh& m), RigidBody3D(const StaticMesh& m, const StaticMesh& colliderMesh)>(),
@@ -311,17 +311,17 @@ void bindRigidBody3D() {
         sol::base_classes, sol::bases<Compatible3D>(),
 
         "position", sol::property(
-            [](RigidBody3D& c) { return Vector3DProxy{ [&] { return c.getPosition(); }, [&](auto v) { c.setPosition(v); } }; },
+            [](RigidBody3D& c) { return Vector3D{ [&] { return c.getPosition(); }, [&](auto v) { c.setPosition(v); } }; },
             [](RigidBody3D& c, const Vector3D& v) { c.setPosition(v); }
         ),
         "rotation", sol::property(
-            [](RigidBody3D& c) { return Vector3DProxy{ [&] { return c.getRotation(); }, [&](auto v) { c.setRotation(v); } }; },
+            [](RigidBody3D& c) { return Vector3D{ [&] { return c.getRotation(); }, [&](auto v) { c.setRotation(v); } }; },
             [](RigidBody3D& c, const Vector3D& v) { c.setRotation(v); }
         ),
 
         "friction", sol::property(&RigidBody3D::getFriction, &RigidBody3D::setFriction),
         "anisotropicFriction", sol::property(
-            [](RigidBody3D& c) { return Vector3DProxy{ [&] { return c.getAnisotropicFriction(); }, [&](auto v) { c.setAnisotropicFriction(v); } }; },
+            [](RigidBody3D& c) { return Vector3D{ [&] { return c.getAnisotropicFriction(); }, [&](auto v) { c.setAnisotropicFriction(v); } }; },
             [](RigidBody3D& c, const Vector3D& v) { c.setAnisotropicFriction(v); }
         ),
 
@@ -332,19 +332,19 @@ void bindRigidBody3D() {
         "sleepThreshold", sol::property(&RigidBody3D::getSleepingThreshold, &RigidBody3D::setSleepingThreshold),
 
         "linearVelocity", sol::property(
-            [](RigidBody3D& c) { return Vector3DProxy{ [&] { return c.getLinearVelocity(); }, [&](auto v) { c.setLinearVelocity(v); } }; },
+            [](RigidBody3D& c) { return Vector3D{ [&] { return c.getLinearVelocity(); }, [&](auto v) { c.setLinearVelocity(v); } }; },
             [](RigidBody3D& c, const Vector3D& v) { c.setLinearVelocity(v); }
         ),
         "angularVelocity", sol::property(
-            [](RigidBody3D& c) { return Vector3DProxy{ [&] { return c.getAngularVelocity(); }, [&](auto v) { c.setAngularVelocity(v); } }; },
+            [](RigidBody3D& c) { return Vector3D{ [&] { return c.getAngularVelocity(); }, [&](auto v) { c.setAngularVelocity(v); } }; },
             [](RigidBody3D& c, const Vector3D& v) { c.setAngularVelocity(v); }
         ),
         "linearFactor", sol::property(
-            [](RigidBody3D& c) { return Vector3DProxy{ [&] { return c.getLinearFactor(); }, [&](auto v) { c.setLinearFactor(v); } }; },
+            [](RigidBody3D& c) { return Vector3D{ [&] { return c.getLinearFactor(); }, [&](auto v) { c.setLinearFactor(v); } }; },
             [](RigidBody3D& c, const Vector3D& v) { c.setLinearFactor(v); }
         ),
         "angularFactor", sol::property(
-            [](RigidBody3D& c) { return Vector3DProxy{ [&] { return c.getAngularFactor(); }, [&](auto v) { c.setAngularFactor(v); } }; },
+            [](RigidBody3D& c) { return Vector3D{ [&] { return c.getAngularFactor(); }, [&](auto v) { c.setAngularFactor(v); } }; },
             [](RigidBody3D& c, const Vector3D& v) { c.setAngularFactor(v); }
         )
     );

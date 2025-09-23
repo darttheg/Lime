@@ -273,7 +273,7 @@ void StaticMesh::setAutomaticCulling(bool enable) {
     meshNode->setAutomaticCulling(enable ? EAC_BOX : EAC_OFF);
 }
 
-#include "Proxy.h"
+
 void bindStaticMesh() {
     sol::usertype<StaticMesh> bindType = lua->new_usertype<StaticMesh>("Mesh",
         sol::constructors<StaticMesh(), StaticMesh(const std::string & filePath), StaticMesh(const MeshBuffer& m)>(),
@@ -285,7 +285,7 @@ void bindStaticMesh() {
         "debug", sol::property(&StaticMesh::getDebug, &StaticMesh::setDebug),
 
         "vertexColor", sol::property(
-            [](StaticMesh& c) { return Vector4DProxy{ [&] { return c.getVColor(); }, [&](auto v) { c.setVColor(v); } }; },
+            [](StaticMesh& c) { return Vector4D{ [&] { return c.getVColor(); }, [&](auto v) { c.setVColor(v); } }; },
             [](StaticMesh& c, const Vector4D& v) { c.setVColor(v); }
         )
     );

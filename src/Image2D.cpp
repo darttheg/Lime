@@ -70,7 +70,7 @@ void Image2D::setParent(const Image2D& other) {
 		other.img->addChild(img);
 }
 
-#include "Proxy.h"
+
 void bindImage2D() {
 	sol::usertype<Image2D> bindType = lua->new_usertype<Image2D>("Image2D",
 		sol::constructors <Image2D(const Texture & tex), Image2D(const Texture & tex, const Vector2D & pos), Image2D(const Texture & tex, const Vector2D & pos), Image2D(const Image2D & other)>(),
@@ -80,7 +80,7 @@ void bindImage2D() {
 		"useAlpha", sol::property(&Image2D::getUseAlpha, &Image2D::setUseAlpha),
 		"scaleToFit", sol::property(&Image2D::scalesToFit, &Image2D::setScalesToFit),
 		"color", sol::property(
-			[](Image2D& c) { return Vector4DProxy{ [&] { return c.getColor(); }, [&](auto v) { c.setColor(v); } }; },
+			[](Image2D& c) { return Vector4D{ [&] { return c.getColor(); }, [&](auto v) { c.setColor(v); } }; },
 			[](Image2D& c, const Vector4D& v) { c.setColor(v); }
 		)
 	);

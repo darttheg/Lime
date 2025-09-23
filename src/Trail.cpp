@@ -114,7 +114,7 @@ void Trail::setFixedSize(float s) {
 		t->setFixedSize(s);
 }
 
-#include "Proxy.h"
+
 void bindTrail() {
 	sol::usertype<Trail> bindType = lua->new_usertype<Trail>("Trail",
 		sol::constructors<Trail()>(),
@@ -125,7 +125,7 @@ void bindTrail() {
 		"height", sol::property(&Trail::getWidth, &Trail::setWidth),
 
 		"wind", sol::property(
-			[](Trail& c) { return Vector3DProxy{ [&] { return c.getWind(); }, [&](auto v) { c.setWind(v); } }; },
+			[](Trail& c) { return Vector3D{ [&] { return c.getWind(); }, [&](auto v) { c.setWind(v); } }; },
 			[](Trail& c, const Vector3D& v) { c.setWind(v); }
 		),
 

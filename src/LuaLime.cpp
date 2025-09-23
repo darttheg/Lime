@@ -24,7 +24,7 @@
 #include "Event.h"
 #include "PhysicsObject.h"
 #include "RigidBody3D.h"
-#include "Proxy.h"
+
 #include "Sound.h"
 
 #include "Compatible2D.h"
@@ -71,7 +71,6 @@ int LuaLime::initLua(irr::scene::ISceneManager* smgr, irr::video::IVideoDriver* 
 	bindHook();
 	bindPhysicsObject();
 	bindRigidBody3D();
-	bindProxyVectors();
 	bindSound();
 
 	initEvents();

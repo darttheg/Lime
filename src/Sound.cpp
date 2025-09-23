@@ -165,7 +165,7 @@ std::string Sound::toStr() {
     return mySound ? path : "";
 }
 
-#include "Proxy.h"
+
 void bindSound() {
     sol::usertype<Sound> bindType = lua->new_usertype<Sound>("Sound",
         sol::constructors<Sound(std::string path), Sound(std::string path, int playbackType), Sound(std::string path, int playbackType, bool loops)>(),
@@ -178,12 +178,12 @@ void bindSound() {
         "paused", sol::property(&Sound::isPaused, &Sound::setPaused),
 
         "velocity", sol::property(
-            [](Sound& c) { return Vector3DProxy{ [&] { return c.getVelocity(); }, [&](auto v) { c.setVelocity(v); } }; },
+            [](Sound& c) { return Vector3D{ [&] { return c.getVelocity(); }, [&](auto v) { c.setVelocity(v); } }; },
             [](Sound& c, const Vector3D& v) { c.setVelocity(v); }
         ),
 
         "position", sol::property(
-            [](Sound& c) { return Vector3DProxy{ [&] { return c.getPosition(); }, [&](auto v) { c.setPosition(v); } }; },
+            [](Sound& c) { return Vector3D{ [&] { return c.getPosition(); }, [&](auto v) { c.setPosition(v); } }; },
             [](Sound& c, const Vector3D& v) { c.setPosition(v); }
         ));
 

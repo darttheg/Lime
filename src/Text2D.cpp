@@ -120,7 +120,7 @@ void Text2D::setDrawBorder(bool enable) {
 		text->setDrawBorder(enable);
 }
 
-#include "Proxy.h"
+
 void bindText2D() {
 	sol::usertype<Text2D> bindType = lua->new_usertype<Text2D>("Text2D",
 		sol::constructors <Text2D(), Text2D(std::string tx), Text2D(std::string tx, const Vector2D & pos), Text2D(std::string tx, const Vector2D & pos, const Vector2D & dimensions)>(),
@@ -130,11 +130,11 @@ void bindText2D() {
 		"wrap", sol::property(&Text2D::getWrap, &Text2D::setWrap),
 
 		"backgroundColor", sol::property(
-			[](Text2D& c) { return Vector4DProxy{ [&] { return c.getBackgroundColor(); }, [&](auto v) { c.setBackgroundColor(v); } }; },
+			[](Text2D& c) { return Vector4D{ [&] { return c.getBackgroundColor(); }, [&](auto v) { c.setBackgroundColor(v); } }; },
 			[](Text2D& c, const Vector4D& v) { c.setBackgroundColor(v); }
 		),
 		"textColor", sol::property(
-			[](Text2D& c) { return Vector4DProxy{ [&] { return c.getTextColor(); }, [&](auto v) { c.setTextColor(v); } }; },
+			[](Text2D& c) { return Vector4D{ [&] { return c.getTextColor(); }, [&](auto v) { c.setTextColor(v); } }; },
 			[](Text2D& c, const Vector4D& v) { c.setTextColor(v); }
 		),
 

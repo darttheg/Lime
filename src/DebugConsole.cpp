@@ -33,7 +33,9 @@ void DebugConsole::postError(std::string err) {
 
         irrHandler->end();
     } else {
-        dConsole.sendMsg(err.c_str(), MESSAGE_TYPE::WARNING);
+        std::string out = "Lime encountered an error: ";
+        out += err;
+        dConsole.sendMsg(out.c_str(), MESSAGE_TYPE::WARNING);
     }
 
     return;

@@ -122,21 +122,20 @@ void Compatible3D::setID(int i) {
     }
 }
 
-#include "Proxy.h"
 void bindCompatible3D() {
     sol::usertype<Compatible3D> bindType = lua->new_usertype<Compatible3D>("Compatible3D",
         "attributes", sol::property(&Compatible3D::getEntry, &Compatible3D::setEntry),
 
         "position", sol::property(
-            [](Compatible3D& c) { return Vector3DProxy{ [&] { return c.getPosition(); }, [&](auto v) { c.setPosition(v); } }; },
+            [](Compatible3D& c) { return Vector3D{ [&] { return c.getPosition(); }, [&](auto v) { c.setPosition(v); } }; },
             [](Compatible3D& c, const Vector3D& v) { c.setPosition(v); }
         ),
         "rotation", sol::property(
-            [](Compatible3D& c) { return Vector3DProxy{ [&] { return c.getRotation(); }, [&](auto v) { c.setRotation(v); } }; },
+            [](Compatible3D& c) { return Vector3D{ [&] { return c.getRotation(); }, [&](auto v) { c.setRotation(v); } }; },
             [](Compatible3D& c, const Vector3D& v) { c.setRotation(v); }
         ),
         "scale", sol::property(
-            [](Compatible3D& c) { return Vector3DProxy{ [&] { return c.getScale(); }, [&](auto v) { c.setScale(v); } }; },
+            [](Compatible3D& c) { return Vector3D{ [&] { return c.getScale(); }, [&](auto v) { c.setScale(v); } }; },
             [](Compatible3D& c, const Vector3D& v) { c.setScale(v); }
         ),
 

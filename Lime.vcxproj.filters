@@ -522,9 +522,6 @@
     <ClInclude Include="include\FunctionsPhysics.h">
       <Filter>Header Files\Core\Static</Filter>
     </ClInclude>
-    <ClInclude Include="include\Proxy.h">
-      <Filter>Header Files\Core\Types</Filter>
-    </ClInclude>
     <ClInclude Include="include\RigidBody3D.h">
       <Filter>Header Files\Physics</Filter>
     </ClInclude>

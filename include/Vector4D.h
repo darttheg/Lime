@@ -29,15 +29,17 @@ public:
 
     operator Vector4D() const { return get(); }
 
-    float getX() const { return get().x; }
-    float getY() const { return get().y; }
-    float getZ() const { return get().z; }
-    float getW() const { return get().w; }
+    float getX() const { if (get) return get().x; else return x; }
+    float getY() const { if (get) return get().y; else return y; }
+    float getZ() const { if (get) return get().z; else return z; }
+    float getW() const { if (get) return get().w; else return w; }
 
-    void setX(float v) { auto t = get(); t.x = v; set(t); }
-    void setY(float v) { auto t = get(); t.y = v; set(t); }
-    void setZ(float v) { auto t = get(); t.z = v; set(t); }
-    void setW(float v) { auto t = get(); t.w = v; set(t); }
+    void setX(float v) { if (get) { auto t = get(); t.x = v; set(t); } else x = v; }
+    void setY(float v) { if (get) { auto t = get(); t.y = v; set(t); } else y = v; }
+    void setZ(float v) { if (get) { auto t = get(); t.z = v; set(t); } else z = v; }
+    void setW(float v) { if (get) { auto t = get(); t.w = v; set(t); } else w = v; }
+
+    Vector4D(Getter g, Setter s) : get(std::move(g)), set(std::move(s)) {}
 };
 
 void bindVector4D();

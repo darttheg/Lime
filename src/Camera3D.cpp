@@ -168,8 +168,6 @@ void Camera3D::addToRenderQueue() {
     }
 }
 
-#include "Proxy.h"
-
 void bindCamera3D() {
     sol::usertype<Camera3D> bindType = lua->new_usertype<Camera3D>("Camera",
         sol::constructors<Camera3D(), Camera3D(const Vector3D& position), Camera3D(const Vector3D& position, const Vector3D& rotation)>(),
@@ -177,11 +175,11 @@ void bindCamera3D() {
         sol::base_classes, sol::bases<Compatible3D>(),
 
         "up", sol::property(
-            [](Camera3D& c) { return Vector3DProxy{ [&] { return c.getUp(); }, [&](auto v) { c.setUp(v); } }; },
+            [](Camera3D& c) { return Vector3D{ [&] { return c.getUp(); }, [&](auto v) { c.setUp(v); } }; },
             [](Camera3D& c, const Vector3D& v) { c.setUp(v); }
         ),
         "viewPlanes", sol::property(
-            [](Camera3D& c) { return Vector2DProxy{ [&] { return c.getPlanes(); }, [&](auto v) { c.setPlanes(v); } }; },
+            [](Camera3D& c) { return Vector2D{ [&] { return c.getPlanes(); }, [&](auto v) { c.setPlanes(v); } }; },
             [](Camera3D& c, const Vector2D& v) { c.setPlanes(v); }
         ),
 
