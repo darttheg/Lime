@@ -9,24 +9,24 @@ Vector2D::Vector2D(float x) : x(x), y(x) {}
 
 // Operator overloads
 Vector2D Vector2D::operator+(const Vector2D& other) const {
-    return Vector2D(x + other.x, y + other.y);
+    return Vector2D(getX() + other.getX(), getY() + other.getY());
 }
 
 Vector2D Vector2D::operator-(const Vector2D& other) const {
-    return Vector2D(x - other.x, y - other.y);
+    return Vector2D(getX() - other.getX(), getY() - other.getY());
 }
 
 Vector2D Vector2D::operator*(float scalar) const {
-    return Vector2D(x * scalar, y * scalar);
+    return Vector2D(getX() * scalar, getY() * scalar);
 }
 
 Vector2D Vector2D::operator/(float scalar) const {
-    return Vector2D(x / scalar, y / scalar);
+    return Vector2D(getX() / scalar, getY() / scalar);
 }
 
 // Length
 float Vector2D::length() const {
-    return std::sqrt(x * x + y * y);
+    return std::sqrt(getX() * getX() + getY() * getY());
 }
 
 // Normalize
@@ -52,13 +52,13 @@ Vector2D Vector2D::normalizeRange(float min, float max) const {
 
 // Dot product
 float Vector2D::dot(const Vector2D& other) const {
-    return (x * other.x) + (y * other.y);
+    return (getX() * other.getX()) + (getY() * other.getY());
 }
 
 // Distance
 float Vector2D::distance(const Vector2D& other) const {
-    float dx = x - other.x;
-    float dy = y - other.y;
+    float dx = getX() - other.getX();
+    float dy = getY() - other.getY();
     return std::sqrt(dx * dx + dy * dy);
 }
 
@@ -68,8 +68,8 @@ Vector2D Vector2D::rotate(float rad) const {
     float sinTheta = std::sin(rad);
 
     return Vector2D(
-        x * cosTheta - y * sinTheta,
-        x * sinTheta + y * cosTheta
+        getX() * cosTheta - getY() * sinTheta,
+        getX() * sinTheta + getY() * cosTheta
     );
 }
 
@@ -89,33 +89,16 @@ float Vector2D::angle(const Vector2D& other) const {
 
 // Equality operators
 bool Vector2D::operator==(const Vector2D& other) const {
-    return x == other.x && y == other.y;
+    return getX() == other.getX() && getY() == other.getY();
 }
 
 bool Vector2D::operator!=(const Vector2D& other) const {
-    return !(x == other.x && y == other.y);
+    return !(getX() == other.getX() && getY() == other.getY());
 }
 
 // To string
 std::string Vector2D::toString() const {
-    return "(" + std::to_string(x) + ", " + std::to_string(y) + ")";
-}
-
-// Get content
-float Vector2D::getX() const {
-	return x;
-}
-
-float Vector2D::getY() const {
-    return y;
-}
-
-void Vector2D::setX(float v) {
-    x = v;
-}
-
-void Vector2D::setY(float v) {
-    y = v;
+    return "(" + std::to_string(getX()) + ", " + std::to_string(getY()) + ")";
 }
 
 // Lua binding
@@ -129,7 +112,8 @@ void bindVector2D() {
         sol::meta_function::equal_to, &Vector2D::operator==,
 
         "x", sol::property(&Vector2D::getX, &Vector2D::setX),
-        "y", sol::property(&Vector2D::getY, &Vector2D::setY));
+        "y", sol::property(&Vector2D::getY, &Vector2D::setY),
+        sol::meta_function::to_string, &Vector2D::toString);
 
     bindType["length"] = &Vector2D::length;
     bindType["normalize"] = &Vector2D::normalize;

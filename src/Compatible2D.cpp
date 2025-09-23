@@ -171,21 +171,20 @@ void Compatible2D::setToolTip(std::string tip) {
 	button->setToolTipText(out.c_str());
 }
 
-#include "Proxy.h"
 void bindCompatible2D() {
 	sol::usertype<Compatible2D> bindType = lua->new_usertype<Compatible2D>("Compatible2D",
 
 		"position", sol::property(
-			[](Compatible2D& c) { return Vector2DProxy{ [&] { return c.getPosition(); }, [&](auto v) { c.setPosition(v); } }; },
+			[](Compatible2D& c) { return Vector2D{ [&] { return c.getPosition(); }, [&](auto v) { c.setPosition(v); } }; },
 			[](Compatible2D& c, const Vector2D& v) { c.setPosition(v); }
 		),
 		"proportionalPosition", sol::property(
-			[](Compatible2D& c) { return Vector2DProxy{ [&] { return c.getPositionProportional(); }, [&](auto v) { c.setPositionProportional(v); } }; },
+			[](Compatible2D& c) { return Vector2D{ [&] { return c.getPositionProportional(); }, [&](auto v) { c.setPositionProportional(v); } }; },
 			[](Compatible2D& c, const Vector2D& v) { c.setPositionProportional(v); }
 		),
 
 		"size", sol::property(
-			[](Compatible2D& c) { return Vector2DProxy{ [&] { return c.getSize(); }, [&](auto v) { c.setSize(v); } }; },
+			[](Compatible2D& c) { return Vector2D{ [&] { return c.getSize(); }, [&](auto v) { c.setSize(v); } }; },
 			[](Compatible2D& c, const Vector2D& v) { c.setSize(v); }
 		),
 

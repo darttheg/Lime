@@ -7,6 +7,7 @@
 
 #include "Event.h"
 #include "Vector4D.h"
+#include <functional>
 
 class Compatible2D {
 public:

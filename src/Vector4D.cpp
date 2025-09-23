@@ -9,24 +9,24 @@ Vector4D::Vector4D(float x) : x(x), y(x), z(x), w(x) {}
 
 // Operator overloads
 Vector4D Vector4D::operator+(const Vector4D& other) const {
-    return Vector4D(x + other.x, y + other.y, z + other.z, w + other.w);
+    return Vector4D(getX() + other.getX(), getY() + other.getY(), getZ() + other.getZ(), getW() + other.getW());
 }
 
 Vector4D Vector4D::operator-(const Vector4D& other) const {
-    return Vector4D(x - other.x, y - other.y, z - other.z, w - other.w);
+    return Vector4D(getX() - other.getX(), getY() - other.getY(), getZ() - other.getZ(), getW() - other.getW());
 }
 
 Vector4D Vector4D::operator*(float scalar) const {
-    return Vector4D(x * scalar, y * scalar, z * scalar, w * scalar);
+    return Vector4D(getX() * scalar, getY() * scalar, getZ() * scalar, getW() * scalar);
 }
 
 Vector4D Vector4D::operator/(float scalar) const {
-    return Vector4D(x / scalar, y / scalar, z / scalar, w / scalar);
+    return Vector4D(getX() / scalar, getY() / scalar, getZ() / scalar, getW() / scalar);
 }
 
 // Equality operators
 bool Vector4D::operator==(const Vector4D& other) const {
-    return x == other.x && y == other.y && z == other.z && w == other.w;
+    return getX() == other.getX() && getY() == other.y && getZ() == other.getZ() && getW() == other.getW();
 }
 
 bool Vector4D::operator!=(const Vector4D& other) const {
@@ -35,40 +35,7 @@ bool Vector4D::operator!=(const Vector4D& other) const {
 
 // To string
 std::string Vector4D::toString() const {
-    return "(" + std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(z) + ", " + std::to_string(w) + ")";
-}
-
-// Get content
-float Vector4D::getX() const {
-    return x;
-}
-
-float Vector4D::getY() const {
-    return y;
-}
-
-float Vector4D::getZ() const {
-    return z;
-}
-
-float Vector4D::getW() const {
-    return w;
-}
-
-void Vector4D::setX(float v) {
-    x = v;
-}
-
-void Vector4D::setY(float v) {
-    y = v;
-}
-
-void Vector4D::setZ(float v) {
-    z = v;
-}
-
-void Vector4D::setW(float v) {
-    w = v;
+    return "(" + std::to_string(getX()) + ", " + std::to_string(getY()) + ", " + std::to_string(getZ()) + ", " + std::to_string(getW()) + ")";
 }
 
 // Lua binding
@@ -84,7 +51,8 @@ void bindVector4D() {
         "x", sol::property(&Vector4D::getX, &Vector4D::setX),
         "y", sol::property(&Vector4D::getY, &Vector4D::setY),
         "z", sol::property(&Vector4D::getZ, &Vector4D::setZ),
-        "w", sol::property(&Vector4D::getW, &Vector4D::setW));
+        "w", sol::property(&Vector4D::getW, &Vector4D::setW),
+        sol::meta_function::to_string, &Vector4D::toString);
 
     bindType["toStr"] = &Vector4D::toString;
 }

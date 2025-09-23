@@ -29,10 +29,19 @@ public:
     bool operator!=(const Vector2D& other) const;
 
     std::string toString() const;
-    float getX() const;
-    float getY() const;
-    void setX(float v);
-    void setY(float v);
+
+    using Getter = std::function<Vector2D()>;
+    using Setter = std::function<void(const Vector2D&)>;
+
+    Getter get;
+    Setter set;
+    Vector2D(Getter g, Setter s) : get(std::move(g)), set(std::move(s)) {}
+
+    float getX() const { return get().x; }
+    float getY() const { return get().y; }
+
+    void setX(float v) { auto t = get(); t.x = v; set(t); }
+    void setY(float v) { auto t = get(); t.y = v; set(t); }
 };
 
 void bindVector2D();

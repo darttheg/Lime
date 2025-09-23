@@ -9,24 +9,24 @@ Vector3D::Vector3D(float x) : x(x), y(x), z(x) {}
 
 // Operator overloads
 Vector3D Vector3D::operator+(const Vector3D& other) const {
-    return Vector3D(x + other.x, y + other.y, z + other.z);
+    return Vector3D(getX() + other.getX(), getY() + other.getY(), getZ() + other.getZ());
 }
 
 Vector3D Vector3D::operator-(const Vector3D& other) const {
-    return Vector3D(x - other.x, y - other.y, z - other.z);
+    return Vector3D(getX() - other.getX(), getY() - other.getY(), getZ() - other.getZ());
 }
 
 Vector3D Vector3D::operator*(float scalar) const {
-    return Vector3D(x * scalar, y * scalar, z * scalar);
+    return Vector3D(getX() * scalar, getY() * scalar, getZ() * scalar);
 }
 
 Vector3D Vector3D::operator/(float scalar) const {
-    return Vector3D(x / scalar, y / scalar, z / scalar);
+    return Vector3D(getX() / scalar, getY() / scalar, getZ() / scalar);
 }
 
 // Length
 float Vector3D::length() const {
-    return std::sqrt(x * x + y * y + z * z);
+    return std::sqrt(getX() * getX() + getY() * getY() + getZ() * getZ());
 }
 
 // Normalize
@@ -38,9 +38,9 @@ Vector3D Vector3D::normalize() const {
 Vector3D Vector3D::normalizeRange(float min, float max) const {
     float len = length();
     if (len > 0) {
-        float normX = x / len;
-        float normY = y / len;
-        float normZ = z / len;
+        float normX = getX()/ len;
+        float normY = getY() / len;
+        float normZ = getZ() / len;
 
         float scale = max - min;
         normX = normX * scale + min;
@@ -54,34 +54,34 @@ Vector3D Vector3D::normalizeRange(float min, float max) const {
 
 // Dot product
 float Vector3D::dot(const Vector3D& other) const {
-    return (x * other.x) + (y * other.y) + (z * other.z);
+    return (getX()* other.getX()) + (getY() * other.getY()) + (getZ() * other.getZ());
 }
 
 // Distance
 float Vector3D::distance(const Vector3D& other) const {
-    float dx = x - other.x;
-    float dy = y - other.y;
-    float dz = z - other.z;
+    float dx = getX() - other.getX();
+    float dy = getY() - other.getY();
+    float dz = getZ() - other.getZ();
     return std::sqrt(dx * dx + dy * dy + dz * dz);
 }
 
 // Rotate
 Vector3D Vector3D::rotate(const Vector3D& rot) const {
     // X-axis rotation
-    float cosX = std::cos(rot.x * PI / 180.0);
-    float sinX = std::sin(rot.x * PI / 180.0);
-    float newY = y * cosX - z * sinX;
-    float newZ = y * sinX + z * cosX;
+    float cosX = std::cos(rot.getX() * PI / 180.0);
+    float sinX = std::sin(rot.getX() * PI / 180.0);
+    float newY = getY() * cosX - getZ() * sinX;
+    float newZ = getY() * sinX + getZ() * cosX;
 
     // Y-axis rotation
-    float cosY = std::cos(rot.y * PI / 180.0);
-    float sinY = std::sin(rot.y * PI / 180.0);
-    float newX = x * cosY + newZ * sinY;
-    newZ = -x * sinY + newZ * cosY;
+    float cosY = std::cos(rot.getY() * PI / 180.0);
+    float sinY = std::sin(rot.getY() * PI / 180.0);
+    float newX = getX() * cosY + newZ * sinY;
+    newZ = -getX() * sinY + newZ * cosY;
 
     // Z-axis rotation
-    float cosZ = std::cos(rot.z * PI / 180.0);
-    float sinZ = std::sin(rot.z * PI / 180.0);
+    float cosZ = std::cos(rot.getZ() * PI / 180.0);
+    float sinZ = std::sin(rot.getZ() * PI / 180.0);
     float finalX = newX * cosZ - newY * sinZ;
     float finalY = newX * sinZ + newY * cosZ;
 
@@ -90,12 +90,12 @@ Vector3D Vector3D::rotate(const Vector3D& rot) const {
 
 // Convert to degrees
 Vector3D Vector3D::deg() const {
-    return Vector3D(x * 180 / PI, y * 180 / PI, z * 180 / PI);
+    return Vector3D(getX() * 180 / PI, getY() * 180 / PI, getZ() * 180 / PI);
 }
 
 // Convert to radians
 Vector3D Vector3D::rad() const {
-    return Vector3D(x * PI / 180, y * PI / 180, z * PI / 180);
+    return Vector3D(getX() * PI / 180, getY() * PI / 180, getZ() * PI / 180);
 }
 
 // Angle between vectors
@@ -110,8 +110,8 @@ Vector3D Vector3D::angle(const Vector3D& other) const {
 
     direction = direction.normalize();
 
-    float yaw = std::atan2(direction.x, direction.z);
-    float pitch = std::atan2(-direction.y, std::sqrt(direction.x * direction.x + direction.z * direction.z));
+    float yaw = std::atan2(direction.getX(), direction.getZ());
+    float pitch = std::atan2(-direction.getY(), std::sqrt(direction.getX() * direction.getX() + direction.getZ() * direction.getZ()));
     float roll = 0.0f;
 
     return Vector3D(pitch * RAD2DEG, yaw * RAD2DEG, roll);
@@ -119,7 +119,7 @@ Vector3D Vector3D::angle(const Vector3D& other) const {
 
 // Equality operators
 bool Vector3D::operator==(const Vector3D& other) const {
-    return x == other.x && y == other.y && z == other.z;
+    return getX() == other.getX() && getY() == other.getY() && getZ() == other.getZ();
 }
 
 bool Vector3D::operator!=(const Vector3D& other) const {
@@ -128,32 +128,7 @@ bool Vector3D::operator!=(const Vector3D& other) const {
 
 // To string
 std::string Vector3D::toString() const {
-    return "(" + std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(z) + ")";
-}
-
-// Get content
-float Vector3D::getX() const {
-    return x;
-}
-
-float Vector3D::getY() const {
-    return y;
-}
-
-float Vector3D::getZ() const {
-    return z;
-}
-
-void Vector3D::setX(float v) {
-    x = v;
-}
-
-void Vector3D::setY(float v) {
-    y = v;
-}
-
-void Vector3D::setZ(float v) {
-    z = v;
+    return "(" + std::to_string(getX()) + ", " + std::to_string(getY()) + ", " + std::to_string(getZ()) + ")";
 }
 
 // Lua binding
@@ -168,7 +143,8 @@ void bindVector3D() {
 
         "x", sol::property(&Vector3D::getX, &Vector3D::setX),
         "y", sol::property(&Vector3D::getY, &Vector3D::setY),
-        "z", sol::property(&Vector3D::getZ, &Vector3D::setZ));
+        "z", sol::property(&Vector3D::getZ, &Vector3D::setZ),
+        sol::meta_function::to_string, &Vector3D::toString);
 
     bindType["length"] = &Vector3D::length;
     bindType["normalize"] = &Vector3D::normalize;
