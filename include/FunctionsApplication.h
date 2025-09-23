@@ -140,14 +140,6 @@ namespace Bind {
 		dConsole.doOutput = var;
 	}
 
-	bool addArchive(const std::string& path) {
-		if (device) {
-			device->getFileSystem()->addFileArchive(path.c_str());
-			return true;
-		}
-		return false;
-	}
-
 	void showConsole(bool var) {
 		dConsole.enabled = var;
 	}
@@ -259,7 +251,6 @@ void bindApplication() {
 	application["SetResizable"] = &Bind::makeResizable;
 	application["GetElapsedTime"] = &Bind::getElapsedTime;
 	application["Log"] = &Bind::logConsole;
-	application["AddArchiveToMemory"] = &Bind::addArchive;
 	application["SetConsoleVisible"] = &Bind::showConsole;
 	application["SetWriteConsole"] = &Bind::writeConsoleOutput;
 	application["RecreateDevice"] = &Bind::recreateDevice;

@@ -18,12 +18,14 @@ void SoundManager::update() {
 
 		// Use active camera
 
-		pos = smgr->getActiveCamera()->getAbsolutePosition();
-		forward = mainCameraForward->getAbsolutePosition() - pos;
-		forward.normalize();
-		up = smgr->getActiveCamera()->getUpVector();
+		if (smgr->getActiveCamera()) {
+			pos = smgr->getActiveCamera()->getAbsolutePosition();
+			forward = mainCameraForward->getAbsolutePosition() - pos;
+			forward.normalize();
+			up = smgr->getActiveCamera()->getUpVector();
 
-		soundEngine->setListenerPosition(pos, forward, listenerVel, up);
+			soundEngine->setListenerPosition(pos, forward, listenerVel, up);
+		}
 	}
 	else {
 		soundEngine->setListenerPosition(nonCamPos, nonCamForward, listenerVel, nonCamUp);

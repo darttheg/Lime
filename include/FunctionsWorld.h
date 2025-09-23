@@ -275,32 +275,58 @@ namespace Bind {
 		}
 	}
 
-	bool preloadMesh(std::string filePath) {
-		if (!driver) return false;
-		return smgr->getMesh(filePath.c_str()) != nullptr;
-	}
-
-	bool preloadTexture(std::string filePath) {
-		if (!driver) return false;
-		return driver->getTexture(filePath.c_str()) != nullptr;
-	}
-
-	bool unloadMesh(std::string filePath) {
-		irr::scene::IMesh* mesh = smgr->getMesh(filePath.c_str());
-		if (mesh) {
-			smgr->getMeshCache()->removeMesh(mesh);
-			return true;
+	bool preloadMesh(sol::variadic_args va) {
+		if (!driver || !smgr) return false;
+		bool all = true;
+		for (sol::stack_object v : va) {
+			sol::optional<std::string_view> s = v.as<sol::optional<std::string_view>>();
+			if (!s) return false;
+			all = all && (smgr->getMesh(std::string(*s).c_str()) != nullptr);
 		}
-		return false;
+		return all;
 	}
 
-	bool unloadTexture(std::string filePath) {
-		irr::video::ITexture* texture = driver->getTexture(filePath.c_str());
-		if (texture) {
-			driver->removeTexture(texture);
-			return true;
+	bool preloadTexture(sol::variadic_args va) {
+		if (!driver) return false;
+		bool all = true;
+		for (sol::stack_object v : va) {
+			sol::optional<std::string_view> s = v.as<sol::optional<std::string_view>>();
+			if (!s) return false;
+			all = all && (driver->getTexture(std::string(*s).c_str()) != nullptr);
 		}
-		return false;
+		return all;
+	}
+
+	bool unloadMesh(sol::variadic_args va) {
+		if (!driver) return false;
+		bool all = true;
+		for (sol::stack_object v : va) {
+			sol::optional<std::string_view> s = v.as<sol::optional<std::string_view>>();
+			if (!s) return false;
+
+			irr::scene::IMesh* mesh = smgr->getMesh(std::string(*s).c_str());
+			if (mesh)
+				smgr->getMeshCache()->removeMesh(mesh);
+
+			all = all && (mesh == nullptr);
+		}
+		return all;
+	}
+
+	bool unloadTexture(sol::variadic_args va) {
+		if (!driver) return false;
+		bool all = true;
+		for (sol::stack_object v : va) {
+			sol::optional<std::string_view> s = v.as<sol::optional<std::string_view>>();
+			if (!s) return false;
+
+			irr::video::ITexture* texture = driver->getTexture(std::string(*s).c_str());
+			if (texture)
+				driver->removeTexture(texture);
+
+			all = all && (texture == nullptr);
+		}
+		return all;
 	}
 
 	void setLightManagementMode(int i) {
@@ -407,6 +433,12 @@ namespace Bind {
 	bool queryFeature(int i) {
 		return driver->queryFeature((irr::video::E_VIDEO_DRIVER_FEATURE)i);
 	}
+
+	bool addArchive(const std::string& path) {
+		if (device)
+			return device->getFileSystem()->addFileArchive(path.c_str(), true, false, irr::io::EFAT_UNKNOWN);
+		return false;
+	}
 }
 
 void bindWorld() {
@@ -432,6 +464,7 @@ void bindWorld() {
 	world["Clear"] = &Bind::clearScene;
 	world["PreloadMesh"] = &Bind::preloadMesh;
 	world["PreloadTexture"] = &Bind::preloadTexture;
+	world["LoadArchive"] = &Bind::addArchive;
 	world["UnloadMesh"] = &Bind::unloadMesh;
 	world["UnloadTexture"] = &Bind::unloadTexture;
 	world["SetShadowColor"] = &Bind::setShadowColor;
