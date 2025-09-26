@@ -546,5 +546,8 @@
     <ClInclude Include="include\PerlinHeader.h">
       <Filter>Header Files\Core\Other</Filter>
     </ClInclude>
+    <ClInclude Include="include\Preloader.h">
+      <Filter>Header Files\Core\Other</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

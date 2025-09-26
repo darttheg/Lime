@@ -23,6 +23,7 @@
 #include <GLFW/glfw3native.h>
 
 #include "FrameLimiter.h"
+#include "Preloader.h"
 
 struct PacketToSend {
 public:
@@ -143,4 +144,7 @@ public:
 
 	bool useHighLevelShaders = false;
 	bool useCGShaders = false;
+
+	// Preloader
+	Preloader preload;
 };

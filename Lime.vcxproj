@@ -156,6 +156,7 @@
     <ClInclude Include="include\PerlinNoise.h" />
     <ClInclude Include="include\PhysicsHandler.h" />
     <ClInclude Include="include\PhysicsObject.h" />
+    <ClInclude Include="include\Preloader.h" />
     <ClInclude Include="include\ReceiverCompatible.h" />
     <ClInclude Include="include\RigidBody3D.h" />
     <ClInclude Include="include\ShaderCallback.h" />

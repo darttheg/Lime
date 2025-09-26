@@ -277,6 +277,8 @@ namespace Bind {
 
 	bool preloadMesh(sol::variadic_args va) {
 		if (!driver || !smgr) return false;
+		return irrHandler->preload.enqueueMeshes(va);
+		/*
 		bool all = true;
 		for (sol::stack_object v : va) {
 			sol::optional<std::string_view> s = v.as<sol::optional<std::string_view>>();
@@ -284,10 +286,13 @@ namespace Bind {
 			all = all && (smgr->getMesh(std::string(*s).c_str()) != nullptr);
 		}
 		return all;
+		*/
 	}
 
 	bool preloadTexture(sol::variadic_args va) {
 		if (!driver) return false;
+		return irrHandler->preload.enqueueTextures(va);
+		/*
 		bool all = true;
 		for (sol::stack_object v : va) {
 			sol::optional<std::string_view> s = v.as<sol::optional<std::string_view>>();
@@ -295,6 +300,7 @@ namespace Bind {
 			all = all && (driver->getTexture(std::string(*s).c_str()) != nullptr);
 		}
 		return all;
+		*/
 	}
 
 	bool unloadMesh(sol::variadic_args va) {
@@ -327,6 +333,21 @@ namespace Bind {
 			all = all && (texture == nullptr);
 		}
 		return all;
+	}
+
+	bool getAreTexturesPreloading() {
+		if (!driver) return false;
+		return irrHandler->preload.texturesActive();
+	}
+
+	bool getAreMeshesPreloading() {
+		if (!driver) return false;
+		return irrHandler->preload.meshesActive();
+	}
+
+	bool getIsPreloading() {
+		if (!driver) return false;
+		return irrHandler->preload.texturesActive() || irrHandler->preload.meshesActive();
 	}
 
 	void setLightManagementMode(int i) {
@@ -464,6 +485,9 @@ void bindWorld() {
 	world["Clear"] = &Bind::clearScene;
 	world["PreloadMesh"] = &Bind::preloadMesh;
 	world["PreloadTexture"] = &Bind::preloadTexture;
+	world["IsPreloadingMeshes"] = &Bind::getAreMeshesPreloading;
+	world["IsPreloadingTextures"] = &Bind::getAreTexturesPreloading;
+	world["IsPreloading"] = &Bind::getIsPreloading;
 	world["AddArchive"] = &Bind::addArchive;
 	world["UnloadMesh"] = &Bind::unloadMesh;
 	world["UnloadTexture"] = &Bind::unloadTexture;

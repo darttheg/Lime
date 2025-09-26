@@ -318,6 +318,8 @@ void IrrHandling::appLoop() {
 		irrHandler->runLuaTasks();
 		irrHandler->runPacketToSend();
 
+		preload.pump(driver, smgr, device->getFileSystem());
+
 		if (glfwWindowShouldClose(glfwWindow))
 			device->closeDevice();
 		else
@@ -745,7 +747,6 @@ void IrrHandling::updateIrrRenderRes() {
 
 // For glfw set window icon
 #define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
 
 void IrrHandling::setTitleBarIcon(std::string path) {
 	// Add invalid path check?
