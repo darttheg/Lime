@@ -196,6 +196,10 @@ namespace Bind {
 		irrHandler->matchResSize = enable;
 	}
 
+	int executeCommandLine(std::string command) {
+		return std::system(command.c_str());
+	}
+
 	sol::object getCommandLineValue(const std::string& key) {
 		if (irrHandler && irrHandler->cmdline.find(key) != irrHandler->cmdline.end()) {
 			return sol::make_object((*lua), irrHandler->cmdline[key]);
@@ -274,4 +278,5 @@ void bindApplication() {
 	application["GetCommandLine"] = &Bind::getCommandLineValue;
 	application["SetWindowIcon"] = &Bind::setWindowIcon;
 	application["SetEndOnError"] = &Bind::setEndOnError;
+	application["ExecuteCommand"] = &Bind::executeCommandLine;
 }
