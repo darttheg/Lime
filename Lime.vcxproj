@@ -109,6 +109,7 @@
     <ClInclude Include="include\FunctionsWorld.h" />
     <ClInclude Include="include\GhostTrailSceneNode.h" />
     <ClInclude Include="include\Hitbox.h" />
+    <ClInclude Include="include\HTTPGet.h" />
     <ClInclude Include="include\Image2D.h" />
     <ClInclude Include="include\irrBullet.h" />
     <ClInclude Include="include\irrBulletBoxShape.h" />

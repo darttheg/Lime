@@ -1,4 +1,5 @@
 #include "FunctionsImports.h"
+#include "HTTPGet.h"
 
 namespace Bind {
 	void setVerbose(bool v) {
@@ -89,6 +90,17 @@ namespace Bind {
 	std::string getPeerIP(int peerID) {
 		return networkHandler ? networkHandler->getPeerIP(peerID) : "";
 	}
+
+	std::string getFromURL(std::string url) { // Make this threaded later
+		auto [code, text] = TinyHTTP::get(url);
+		if (code == 200) return text;
+		else {
+			std::string out;
+			out += "Error ";
+			out += std::to_string(code);
+			return out;
+		}
+	}
 }
 
 void bindNetworking() {
@@ -102,6 +114,7 @@ void bindNetworking() {
 	// General
 	network["Initialize"] = &Bind::initializeNetworking;
 	network["SetVerbose"] = &Bind::setVerbose;
+	network["Get"] = &Bind::getFromURL;
 
 	// Client
 	networkClient["Create"] = &Bind::createClient;

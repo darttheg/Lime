@@ -24,6 +24,7 @@ public:
 
 	bool load(std::string path, int playbackType = 0, bool doEffects = false); // Starts paused, just loads the sound to be ready for play
 	void play(bool is3D = false, bool startPaused = false);
+	void stop();
 
 	void setPaused(bool v);
 	bool isPaused();

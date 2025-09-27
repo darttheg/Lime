@@ -247,7 +247,10 @@ void IrrHandling::appLoop() {
 	// Call start in main
 	Events::Lime::OnStart.get()->engineRun();
 
+	bool tempMatch = matchResSize;
+	matchResSize = true;
 	updateIrrRenderRes();
+	matchResSize = tempMatch;
 
 	bool ranHandlers = false;
 

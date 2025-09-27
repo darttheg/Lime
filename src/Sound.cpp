@@ -14,9 +14,7 @@ Sound::Sound(std::string nPath, int playbackType, bool doLoop) {
 
 bool Sound::load(std::string nPath, int playbackType, bool doEffects) {
     path = nPath;
-    if (playbackType == 0) { // Static
-        soundSrc = soundManager->preloadSound(path);
-    }
+    soundSrc = soundManager->getEngine()->addSoundSourceFromFile(path.c_str(), playbackType == 0 ? E_STREAM_MODE::ESM_NO_STREAMING : E_STREAM_MODE::ESM_STREAMING, playbackType == 0);
     doSFX = doEffects;
 
     return soundSrc != nullptr;
@@ -29,6 +27,11 @@ void Sound::play(bool is3D, bool startPaused) {
         mySound = soundManager->getEngine()->play3D(soundSrc, playPos3D, loops, startPaused, true, doSFX);
     else
         mySound = soundManager->getEngine()->play2D(soundSrc, loops, startPaused, true, doSFX);
+}
+
+void Sound::stop() {
+    if (!soundSrc || !mySound) return;
+    mySound->stop();
 }
 
 void Sound::setPaused(bool v) {
@@ -189,6 +192,7 @@ void bindSound() {
 
     bindType["play"] = &Sound::play;
     bindType["load"] = &Sound::load;
+    bindType["stop"] = &Sound::stop;
     bindType["isPlaying"] = &Sound::isPlaying;
     bindType["getPlayLength"] = &Sound::getPlayLength;
 

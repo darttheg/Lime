@@ -71,6 +71,7 @@ namespace Bind {
 
 	bool setWindowSize(const Vector2D& sizes) {
 		if (sizes.x > 0 && sizes.y > 0 && irrHandler->glfwWindow) {
+			if (sizes.x == irrHandler->width && sizes.y == irrHandler->height) return true;
 			int winX, winY;
 			glfwGetWindowPos(irrHandler->glfwWindow, &winX, &winY);
 

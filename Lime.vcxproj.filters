@@ -549,5 +549,8 @@
     <ClInclude Include="include\Preloader.h">
       <Filter>Header Files\Core\Other</Filter>
     </ClInclude>
+    <ClInclude Include="include\HTTPGet.h">
+      <Filter>Header Files\Core\Other</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
