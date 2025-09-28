@@ -34,12 +34,17 @@ void SoundManager::update() {
 	// Set attached node positions, check if sound is finished and remove it if so.
 	attachedToObjs.erase(
 		std::remove_if(attachedToObjs.begin(), attachedToObjs.end(),
-			[](const SoundAttachedToPos& e) { return !e.posSrc || !e.src; }),
+			[](const SoundAttachedToPos& e) { return !e.src; }),
 		attachedToObjs.end()
 	);
 
-	for (auto& entry : attachedToObjs)
+	for (auto& entry : attachedToObjs) {
+		if (!entry.posSrc) continue;
+
 		entry.src->setPosition(entry.posSrc->getAbsolutePosition());
+		if (entry.debug)
+			entry.debug->setPosition(entry.posSrc->getAbsolutePosition());
+	}
 }
 
 int SoundManager::getMainVolume() {
@@ -97,14 +102,14 @@ void SoundManager::setDopplerEffectParameters(float dopplerFactor, float distanc
 	soundEngine->setDopplerEffectParameters(dopplerFactor, distanceFactor);
 }
 
-void SoundManager::pushSoundPosEntry(ISound* key, ISceneNode* srcPos) {
+void SoundManager::pushSoundPosEntry(ISound* key, ISceneNode* srcPos, ISceneNode* debug) {
 	auto it = std::find_if(attachedToObjs.begin(), attachedToObjs.end(),
 		[key](const SoundAttachedToPos& entry) {
 			return entry.src == key;
 		});
 
 	if (it == attachedToObjs.end())
-		attachedToObjs.emplace_back(key, srcPos);
+		attachedToObjs.emplace_back(key, srcPos, debug);
 	else
 		it->posSrc = srcPos;
 }

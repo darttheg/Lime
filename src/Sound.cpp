@@ -17,6 +17,8 @@ bool Sound::load(std::string nPath, int playbackType, bool doEffects) {
     soundSrc = soundManager->getEngine()->addSoundSourceFromFile(path.c_str(), playbackType == 0 ? E_STREAM_MODE::ESM_NO_STREAMING : E_STREAM_MODE::ESM_STREAMING, playbackType == 0);
     doSFX = doEffects;
 
+    if (d && soundSrc) d->text = soundSrc->getName();
+
     return soundSrc != nullptr;
 }
 
@@ -27,6 +29,8 @@ void Sound::play(bool is3D, bool startPaused) {
         mySound = soundManager->getEngine()->play3D(soundSrc, playPos3D, loops, startPaused, true, doSFX);
     else
         mySound = soundManager->getEngine()->play2D(soundSrc, loops, startPaused, true, doSFX);
+
+    if (!startPaused && is3D) doDebugVisual();
 }
 
 void Sound::stop() {
@@ -108,6 +112,9 @@ Vector3D Sound::getVelocity() {
 
 void Sound::setPosition(const Vector3D& pos) {
     playPos3D = vec3df(pos.x, pos.y, pos.z);
+
+    if (!attached && d)
+        d->setPosition(vector3df(playPos3D.X, playPos3D.Y, playPos3D.Z));
 }
 
 Vector3D Sound::getPosition() {
@@ -147,7 +154,7 @@ void Sound::setSourceStreamMode(int mode) {
 }
 
 void Sound::attachToObject(const Compatible3D& obj) {
-    soundManager->pushSoundPosEntry(mySound, obj.getNode());
+    soundManager->pushSoundPosEntry(mySound, obj.getNode(), dHolder);
 }
 
 void Sound::detach() {
@@ -155,12 +162,16 @@ void Sound::detach() {
 
     soundManager->removeSoundPosEntry(mySound);
     attached = false;
+
+    if (d) d->setPosition(vector3df(playPos3D.X, playPos3D.Y, playPos3D.Z));
 }
 
 void Sound::destroy() {
     detach();
     if (mySound) mySound->drop();
     if (soundSrc) soundSrc->drop();
+    if (d) d->drop();
+    if (dHolder) dHolder->drop();
     attached = false;
 }
 
@@ -168,11 +179,34 @@ std::string Sound::toStr() {
     return mySound ? path : "";
 }
 
+bool Sound::getDebug() {
+    return doDebug;
+}
+
+void Sound::setDebug(bool v) {
+    doDebug = v;
+    doDebugVisual();
+}
+
+void Sound::doDebugVisual() {
+    if (!d && doDebug && mySound) {
+        dHolder = smgr->addEmptySceneNode();
+        d = new DebugSceneNode(dHolder, smgr, 0, DebugType::SOUND);
+        vector3df pos = vector3df(playPos3D.X, playPos3D.Y, playPos3D.Z);
+        d->setPosition(pos);
+        if (soundSrc) d->text = soundSrc->getName();
+    }
+    else if (!doDebug && d) {
+        d->drop();
+        dHolder->drop();
+    }
+}
 
 void bindSound() {
     sol::usertype<Sound> bindType = lua->new_usertype<Sound>("Sound",
         sol::constructors<Sound(std::string path), Sound(std::string path, int playbackType), Sound(std::string path, int playbackType, bool loops)>(),
         
+        "debug", sol::property(&Sound::getDebug, &Sound::setDebug),
         "paused", sol::property(&Sound::isPaused, &Sound::setPaused),
         "loops", sol::property(&Sound::getLoops, &Sound::setLoops),
         "volume", sol::property(&Sound::getVolume, &Sound::setVolume),

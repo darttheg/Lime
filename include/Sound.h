@@ -4,6 +4,7 @@
 #pragma comment(lib, "irrKlang.lib")
 
 class Compatible3D;
+#include "DebugVisual.h"
 
 class Sound {
 private:
@@ -17,10 +18,18 @@ private:
 	bool attached = false;
 
 public:
+	DebugSceneNode* d = nullptr;
+	ISceneNode* dHolder = nullptr;
+
 	// Sound();
 	Sound(std::string path, int playbackType);
 	Sound(std::string path, int playbackType, bool loops);
 	Sound(std::string path);
+
+	bool getDebug();
+	void setDebug(bool visible);
+	void doDebugVisual();
+	bool doDebug = false;
 
 	bool load(std::string path, int playbackType = 0, bool doEffects = false); // Starts paused, just loads the sound to be ready for play
 	void play(bool is3D = false, bool startPaused = false);

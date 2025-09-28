@@ -17,7 +17,8 @@ enum class DebugType {
     RAY_PICK,
     LIGHT,
     PARTICLE_SYSTEM,
-    EMPTY
+    EMPTY,
+    SOUND
 };
 
 class DebugSceneNode : public ISceneNode {
@@ -48,6 +49,9 @@ public:
             break;
         case DebugType::EMPTY:
             renderEmptyDebug();
+            break;
+        case DebugType::SOUND:
+            renderSoundDebug();
             break;
         }
     }
@@ -84,6 +88,8 @@ public:
     int val1;
     int val2;
     SColor col;
+
+    std::string text = "None";
 
 private:
     void renderCameraDebug() {
@@ -204,5 +210,32 @@ private:
         );
 
         driver->draw3DBox(box, SColor(255, 255, 255, 255));
+    }
+
+    void renderSoundDebug() {
+        SMaterial m;
+        m.Lighting = false;
+        m.ZBuffer = E_COMPARISON_FUNC::ECFN_ALWAYS;
+        driver->setMaterial(m);
+        driver->setTransform(video::ETS_WORLD, core::matrix4());
+
+        float boxSize = 0.25;
+
+        vector3df nodePosition = getAbsolutePosition();
+
+        const aabbox3d<f32> box(
+            nodePosition - vector3df(boxSize, boxSize, boxSize),
+            nodePosition + vector3df(boxSize, boxSize, boxSize)
+        );
+
+        driver->draw3DBox(box, SColor(255, 255, 135, 0));
+
+        nodePosition.Y += boxSize * 3.5;
+
+        auto* cam = smgr->getActiveCamera();
+        auto screenPt = smgr->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(nodePosition, cam);
+
+        core::rect<s32> r(screenPt.X, screenPt.Y, screenPt.X + 200, screenPt.Y + 18);
+        guienv->getBuiltInFont()->draw(text.c_str(), r, video::SColor(255, 255, 135, 0), false, false);
     }
 };

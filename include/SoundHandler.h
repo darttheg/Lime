@@ -17,8 +17,9 @@ using namespace core;
 struct SoundAttachedToPos {
 	irrklang::ISound* src = nullptr;
 	irr::scene::ISceneNode* posSrc = nullptr;
+	irr::scene::ISceneNode* debug = nullptr;
 
-	SoundAttachedToPos(irrklang::ISound* s, irr::scene::ISceneNode* p) : src(s), posSrc(p) {};
+	SoundAttachedToPos(irrklang::ISound* s, irr::scene::ISceneNode* p, irr::scene::ISceneNode* d) : src(s), posSrc(p), debug(d) {};
 };
 
 class SoundManager {
@@ -54,6 +55,6 @@ public:
 	void setDefaultVolumeRange(const Vector2D& minMax); // setDefaultMinDistance etc.
 	void setDopplerEffectParameters(float dopplerFactor, float distanceFactor);
 
-	void pushSoundPosEntry(irrklang::ISound* key, irr::scene::ISceneNode * srcPos);
+	void pushSoundPosEntry(irrklang::ISound* key, irr::scene::ISceneNode * srcPos, irr::scene::ISceneNode* debug);
 	void removeSoundPosEntry(irrklang::ISound* key);
 };
