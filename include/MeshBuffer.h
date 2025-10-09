@@ -5,7 +5,7 @@
 #include "Vector3D.h"
 #include "Vector2D.h"
 #include "Vector4D.h"
-#include "DrawSphere.h"
+#include "DrawGeometry.h"
 
 class MeshBuffer {
 public:
@@ -21,6 +21,8 @@ public:
 	void recalculateBoundingBox();
 	int getVertexCount() const;
 	void createCapsule(float radius, float height, int rings, int sectors);
+	void createCube(float sizeX, float sizeY, float sizeZ);
+	void createPlane(float sizeX, float sizeZ, float segX = 1, float segZ = 1);
 
 	irr::scene::SMeshBuffer* getBuffer() const;
 

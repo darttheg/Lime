@@ -21,7 +21,7 @@ StaticMesh::StaticMesh(const StaticMesh& other) : StaticMesh() {
 }
 
 StaticMesh::StaticMesh(const MeshBuffer& m) {
-    meshPath = "capsule";
+    meshPath = "via MeshBuffer";
     loadMeshViaBuffer(m);
 }
 

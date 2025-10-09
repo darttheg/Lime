@@ -216,9 +216,83 @@ inline SMeshBuffer* genCapsule(vector3df center, float radius, float height, u32
     }
 
     meshBuffer->BoundingBox.reset(meshBuffer->Vertices[0].Pos);
-    for (u32 i = 1; i < meshBuffer->Vertices.size(); ++i) {
+    for (u32 i = 1; i < meshBuffer->Vertices.size(); ++i)
         meshBuffer->BoundingBox.addInternalPoint(meshBuffer->Vertices[i].Pos);
-    }
 
     return meshBuffer;
+}
+
+inline SMeshBuffer* genPlane(const vector3df& center, f32 width, f32 depth, u32 nx = 1, u32 ny = 1) {
+    nx = std::max<u32>(1, nx);
+    ny = std::max<u32>(1, ny);
+
+    SMeshBuffer* mb = new SMeshBuffer();
+    const f32 hx = width * 0.5f, hz = depth * 0.5f;
+    const u32 base = (u32)mb->Vertices.size();
+    const u32 vx = nx + 1, vy = ny + 1;
+
+    for (u32 y = 0; y < vy; ++y) {
+        const f32 v = (f32)y / ny;
+        const f32 z = -hz + v * depth;
+        for (u32 x = 0; x < vx; ++x) {
+            const f32 u = (f32)x / nx;
+            const f32 px = -hx + u * width;
+            vector3df pos = vector3df(px, 0.f, z) + center;
+            mb->Vertices.push_back(S3DVertex(
+                pos,
+                vector3df(0, 1, 0),
+                SColor(255, 255, 255, 255),
+                vector2df(u, 1.f - v)
+            ));
+        }
+    }
+
+    for (u32 y = 0; y < ny; ++y) {
+        for (u32 x = 0; x < nx; ++x) {
+            const u32 i0 = base + y * vx + x;
+            const u32 i1 = base + y * vx + x + 1;
+            const u32 i2 = base + (y + 1) * vx + x;
+            const u32 i3 = base + (y + 1) * vx + x + 1;
+
+            mb->Indices.push_back((u16)i0); mb->Indices.push_back((u16)i2); mb->Indices.push_back((u16)i1);
+            mb->Indices.push_back((u16)i1); mb->Indices.push_back((u16)i2); mb->Indices.push_back((u16)i3);
+        }
+    }
+
+    mb->BoundingBox.reset(mb->Vertices[0].Pos);
+    for (u32 i = 1; i < mb->Vertices.size(); ++i)
+        mb->BoundingBox.addInternalPoint(mb->Vertices[i].Pos);
+
+    return mb;
+}
+
+inline SMeshBuffer* genCube(const vector3df& center, f32 sx, f32 sy, f32 sz) {
+    SMeshBuffer* mb = new SMeshBuffer();
+    const f32 hx = sx * 0.5f, hy = sy * 0.5f, hz = sz * 0.5f;
+
+    struct Face { vector3df n; vector3df a, b, c, d; } faces[6] = {
+        { { 0, 1, 0}, { -hx, hy, -hz}, {  hx, hy, -hz}, {  hx, hy,  hz}, { -hx, hy,  hz} }, // +Y top
+        { { 0,-1, 0}, { -hx,-hy,  hz}, {  hx,-hy,  hz}, {  hx,-hy, -hz}, { -hx,-hy, -hz} }, // -Y bottom
+        { { 0, 0, 1}, { -hx, hy,  hz}, {  hx, hy,  hz}, {  hx,-hy,  hz}, { -hx,-hy,  hz} }, // +Z front
+        { { 0, 0,-1}, {  hx, hy, -hz}, { -hx, hy, -hz}, { -hx,-hy, -hz}, {  hx,-hy, -hz} }, // -Z back
+        { { 1, 0, 0}, {  hx, hy,  hz}, {  hx, hy, -hz}, {  hx,-hy, -hz}, {  hx,-hy,  hz} }, // +X right
+        { {-1, 0, 0}, { -hx, hy, -hz}, { -hx, hy,  hz}, { -hx,-hy,  hz}, { -hx,-hy, -hz} }, // -X left
+    };
+
+    const vector2df uv[4] = { {0,0}, {1,0}, {1,1}, {0,1} };
+    const u32 base = mb->Vertices.size();
+
+    for (u32 f = 0; f < 6; ++f) {
+        const Face& F = faces[f];
+        const vector3df pts[4] = { F.a + center, F.b + center, F.c + center, F.d + center };
+        for (u32 k = 0; k < 4; ++k)
+            mb->Vertices.push_back(S3DVertex(pts[k], F.n, SColor(255, 255, 255, 255), uv[k]));
+        u16 i = (u16)(base + f * 4);
+        mb->Indices.push_back(i + 0); mb->Indices.push_back(i + 1); mb->Indices.push_back(i + 2);
+        mb->Indices.push_back(i + 0); mb->Indices.push_back(i + 2); mb->Indices.push_back(i + 3);
+    }
+
+    mb->BoundingBox.reset(mb->Vertices[0].Pos);
+    for (u32 i = 1; i < mb->Vertices.size(); ++i) mb->BoundingBox.addInternalPoint(mb->Vertices[i].Pos);
+    return mb;
 }

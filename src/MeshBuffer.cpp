@@ -85,6 +85,24 @@ void MeshBuffer::createCapsule(float radius, float height, int rings, int sector
     buffer = genCapsule(vector3df(0,-height/2, 0), radius, height, rings, sectors);
 }
 
+void MeshBuffer::createCube(float sizeX, float sizeY, float sizeZ) {
+    if (buffer) {
+        buffer->drop();
+        buffer = new irr::scene::SMeshBuffer();
+    }
+
+    buffer = genCube(vector3df(0), sizeX, sizeY, sizeZ);
+}
+
+void MeshBuffer::createPlane(float sizeX, float sizeZ, float segX, float segZ) {
+    if (buffer) {
+        buffer->drop();
+        buffer = new irr::scene::SMeshBuffer();
+    }
+
+    buffer = genPlane(vector3df(0), sizeX, sizeZ, segX, segZ);
+}
+
 irr::scene::SMeshBuffer* MeshBuffer::getBuffer() const {
 	return buffer;
 }
@@ -99,4 +117,6 @@ void bindMeshBuffer() {
     bindType["clear"] = &MeshBuffer::clear;
     bindType["getVertexCount"] = &MeshBuffer::getVertexCount;
     bindType["createCapsule"] = &MeshBuffer::createCapsule;
+    bindType["createCube"] = &MeshBuffer::createCube;
+    bindType["createPlane"] = &MeshBuffer::createPlane;
 }

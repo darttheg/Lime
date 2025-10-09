@@ -10,7 +10,7 @@
 #include <vector>
 
 #include "Compatible3D.h"
-#include "DrawSphere.h"
+#include "DrawGeometry.h"
 
 class Hitbox : public Compatible3D {
 public:

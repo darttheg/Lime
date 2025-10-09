@@ -69,6 +69,7 @@
     <ClCompile Include="src\os.cpp" />
     <ClCompile Include="src\Packet.cpp" />
     <ClCompile Include="src\ParticleSystem.cpp" />
+    <ClCompile Include="src\PhysicsConstraint.cpp" />
     <ClCompile Include="src\PhysicsHandler.cpp" />
     <ClCompile Include="src\PhysicsObject.cpp" />
     <ClCompile Include="src\RigidBody3D.cpp" />
@@ -94,7 +95,7 @@
     <ClInclude Include="include\Compatible3D.h" />
     <ClInclude Include="include\DebugConsole.h" />
     <ClInclude Include="include\DebugVisual.h" />
-    <ClInclude Include="include\DrawSphere.h" />
+    <ClInclude Include="include\DrawGeometry.h" />
     <ClInclude Include="include\EditBox.h" />
     <ClInclude Include="include\Empty.h" />
     <ClInclude Include="include\Event.h" />
@@ -155,6 +156,7 @@
     <ClInclude Include="include\ParticleSystem.h" />
     <ClInclude Include="include\PerlinHeader.h" />
     <ClInclude Include="include\PerlinNoise.h" />
+    <ClInclude Include="include\PhysicsConstraint.h" />
     <ClInclude Include="include\PhysicsHandler.h" />
     <ClInclude Include="include\PhysicsObject.h" />
     <ClInclude Include="include\Preloader.h" />

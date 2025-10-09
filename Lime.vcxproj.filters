@@ -280,6 +280,7 @@
     <ClCompile Include="src\SoundHandler.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
+    <ClCompile Include="src\PhysicsConstraint.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Billboard.h">
@@ -396,7 +397,7 @@
     <ClInclude Include="include\TextArea.h">
       <Filter>Header Files\Graphics\Text</Filter>
     </ClInclude>
-    <ClInclude Include="include\DrawSphere.h">
+    <ClInclude Include="include\DrawGeometry.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="include\ParseCmd.h">
@@ -552,5 +553,6 @@
     <ClInclude Include="include\HTTPGet.h">
       <Filter>Header Files\Core\Other</Filter>
     </ClInclude>
+    <ClInclude Include="include\PhysicsConstraint.h" />
   </ItemGroup>
 </Project>

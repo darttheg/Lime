@@ -2,7 +2,7 @@
 
 #include "irrlicht.h"
 #include "IrrManagers.h"
-#include "DrawSphere.h"
+#include "DrawGeometry.h"
 #include <string>
 #include <vector>
 
