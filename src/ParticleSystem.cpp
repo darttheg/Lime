@@ -266,7 +266,7 @@ void ParticleSystem::setDebug(bool visible) {
 void ParticleSystem::destroy() {
 	if (ps) {
 		destroyEntry();
-		ps->remove();
+		smgr->addToDeletionQueue(ps);
 	}
 }
 
@@ -280,7 +280,6 @@ void bindParticleSystem() {
 		"active", sol::property(&ParticleSystem::getActive, &ParticleSystem::setActive)
 	);
 
-	bindType["destroy"] = &ParticleSystem::destroy;
 	bindType["setDoAbsoluteTracking"] = &ParticleSystem::setParticleGlobalBehavior;
 	bindType["setEmitter"] = &ParticleSystem::setEmitter;
 	bindType["addAffector"] = &ParticleSystem::addAffector;

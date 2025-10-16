@@ -28,7 +28,7 @@ public:
     //~Camera3D() { destroy(); }
 
     irr::scene::ICameraSceneNode* createCamera();
-    void destroy();
+    void destroy() override;
 
     void setTargetBind(bool val);
 

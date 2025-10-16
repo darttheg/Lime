@@ -142,7 +142,6 @@ void bindText2D() {
 		"drawBorder", sol::property(&Text2D::getDrawBorder, &Text2D::setDrawBorder)
 	);
 
-	bindType["destroy"] = &Text2D::destroy;
 	bindType["setFont"] = &Text2D::setFont;
 	bindType["setBorderAlignment"] = &Text2D::setBorderAlignment;
 	bindType["setTextAlignment"] = &Text2D::setTextAlignment;

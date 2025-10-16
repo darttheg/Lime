@@ -14,6 +14,8 @@ public:
     virtual ~Compatible2D() = default;
 
     virtual irr::gui::IGUIElement* getNode() const = 0;
+    virtual void destroy() = 0;
+    sol::object boundDestroy();
     void setParent(sol::optional<Compatible2D*> parent);
     Vector2D getPosition();
     void setPosition(const Vector2D& pos);

@@ -25,8 +25,8 @@ void Trail::make() {
 void Trail::destroy() {
 	if (t) {
 		destroyEntry();
-		t->remove();
-		empty->remove();
+		smgr->addToDeletionQueue(t);
+		smgr->addToDeletionQueue(empty);
 	}
 }
 
@@ -134,7 +134,6 @@ void bindTrail() {
 		"segmentLength", sol::property(&Trail::getFixedSize, &Trail::setFixedSize)
 	);
 
-	bindType["destroy"] = &Trail::destroy;
 	bindType["setParent"] = &Trail::setParent;
 	bindType["loadMaterial"] = &Trail::loadMaterial;
 	bindType["updateNormals"] = &Trail::setUpdateNormals;

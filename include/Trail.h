@@ -22,7 +22,7 @@ public:
     Trail();
 
     void make();
-    void destroy();
+    void destroy() override;
 
     float getWidth();
     void setWidth(float w);

@@ -122,6 +122,11 @@ void Compatible3D::setID(int i) {
     }
 }
 
+sol::object Compatible3D::boundDestroy() {
+    destroy();
+    return sol::make_object((*lua), sol::nil);
+}
+
 void bindCompatible3D() {
     sol::usertype<Compatible3D> bindType = lua->new_usertype<Compatible3D>("Compatible3D",
         "attributes", sol::property(&Compatible3D::getEntry, &Compatible3D::setEntry),
@@ -142,6 +147,8 @@ void bindCompatible3D() {
         "visible", sol::property(&Compatible3D::getVisibility, &Compatible3D::setVisibility),
         "ID", sol::property(&Compatible3D::getID, &Compatible3D::setID)
     );
+
+    bindType["destroy"] = &Compatible3D::boundDestroy;
 
     bindType["setParent"] = &Compatible3D::setParent;
     bindType["getAbsolutePosition"] = &Compatible3D::getAbsPos;

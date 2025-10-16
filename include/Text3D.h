@@ -34,7 +34,7 @@ public:
 
     bool setFont(const std::string& fontName);
 
-    void destroy();
+    void destroy() override;
 
     irr::scene::ISceneNode* getNode() const override { return text; }
 };

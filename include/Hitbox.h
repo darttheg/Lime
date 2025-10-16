@@ -53,7 +53,7 @@ public:
     void construct();
     bool overlaps(const Hitbox& other);
     bool pointInside(const Vector3D& point);
-    void destroy();
+    void destroy() override;
 };
 
 void bindHitbox();

@@ -35,16 +35,13 @@ RigidBody3D::RigidBody3D(const StaticMesh& m, const StaticMesh& colliderMesh) {
     physicsHandler->colliderPair[out] = this;
 }
 
-bool RigidBody3D::destroy() {
+void RigidBody3D::destroy() {
     if (physicsHandler && physicsHandler->world) {
         physicsHandler->world->removeCollisionObject(rigidBody);
 
         if (getCollisionObject())
             physicsHandler->colliderPair.erase(getCollisionObject());
-
-        return true;
     }
-    return false;
 }
 
 Vector3D RigidBody3D::getPosition() {

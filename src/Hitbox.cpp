@@ -85,8 +85,8 @@ void Hitbox::setActive(bool a) {
 
 void Hitbox::destroy() {
 	if (node) destroyEntry();
-	if (node) node->remove();
-	if (holder) holder->remove();
+	if (node) smgr->addToDeletionQueue(node);
+	if (holder) smgr->addToDeletionQueue(holder);
 }
 
 void Hitbox::updateMaterial(bool updateOpacity, bool updateColor) {
@@ -292,7 +292,6 @@ void bindHitbox() {
 		)
 	);
 
-	bindType["destroy"] = &Hitbox::destroy;
 	bindType["overlaps"] = &Hitbox::overlaps;
 	bindType["pointInside"] = &Hitbox::pointInside;
 }

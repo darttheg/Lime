@@ -40,7 +40,7 @@ public:
     unsigned int getVertexCount() const;
     unsigned int getMaterialCount() const;
 
-    void deload();
+    void destroy() override;
     bool loadMaterial(const Material& material, int slot);
 
     bool getCollision() const;

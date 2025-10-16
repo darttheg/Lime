@@ -40,7 +40,7 @@ public:
     void setAttenuation(const Vector3D& a);
     float getFalloff();
     void setFalloff(float f);
-    void destroy();
+    void destroy() override;
     bool getDebug();
     void setDebug(bool visible);
 };

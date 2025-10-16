@@ -19,7 +19,7 @@ public:
 
     RigidBody3D(const StaticMesh& m, float mass); // Basic testing constructor if you just want to get something in real quick
 
-    bool destroy();
+    void destroy() override;
 
     // General
 

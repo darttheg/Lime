@@ -171,6 +171,11 @@ void Compatible2D::setToolTip(std::string tip) {
 	button->setToolTipText(out.c_str());
 }
 
+sol::object Compatible2D::boundDestroy() {
+	destroy();
+	return sol::make_object((*lua), sol::nil);
+}
+
 void bindCompatible2D() {
 	sol::usertype<Compatible2D> bindType = lua->new_usertype<Compatible2D>("Compatible2D",
 
@@ -194,6 +199,8 @@ void bindCompatible2D() {
 		"hovered", &Compatible2D::hovered,
 		"pressed", &Compatible2D::pressed
 	);
+
+	bindType["destroy"] = &Compatible2D::boundDestroy;
 
 	bindType["OnHover"] = sol::property([](Compatible2D& self) { return self.getHoverEvent(); });
 	bindType["OnPressed"] = sol::property([](Compatible2D& self) { return self.getPressedEvent(); });

@@ -33,7 +33,7 @@ public:
 
     void refreshMesh();
     void createRaw();
-    void destroy();
+    void destroy() override;
 
     float getHeight();
     void setHeight(float i);

@@ -33,7 +33,7 @@ public:
     void setSize(const Vector2D& size);
 
     void setImage(const Texture& tex);
-    void destroy();
+    void destroy() override;
 
     void bringToFront();
     void sendToBack();

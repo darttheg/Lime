@@ -60,7 +60,7 @@ void Water::createRaw() {
 void Water::destroy() {
     if (water) {
         destroyEntry();
-        water->remove();
+        smgr->addToDeletionQueue(water);
     }
 }
 
@@ -149,7 +149,6 @@ void bindWater() {
         )
     );
 
-    bindType["destroy"] = &Water::destroy;
     bindType["loadMaterial"] = &Water::loadMaterial;
     bindType["setParent"] = &Water::setParent;
 }

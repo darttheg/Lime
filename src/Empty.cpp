@@ -44,9 +44,10 @@ sol::table Empty::getBoundingBox() {
 }
 
 void Empty::destroy() {
+	if (d) d->remove();
 	if (emp) {
 		destroyEntry();
-		emp->remove();
+		smgr->addToDeletionQueue(emp); // Replace all destroys with this!
 	}
 }
 
@@ -59,6 +60,5 @@ void bindEmpty() {
 		"debug", sol::property(&Empty::getDebug, &Empty::setDebug)
 	);
 
-	bindType["destroy"] = &Empty::destroy;
 	bindType["getBoundingBox"] = &Empty::getBoundingBox;
 }

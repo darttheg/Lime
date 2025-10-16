@@ -47,7 +47,7 @@ public:
     bool setFont(const std::string& fontName);
     void setParent(const Image2D& other);
 
-    void destroy();
+    void destroy() override;
 
     irr::gui::IGUIElement* getNode() const override { return text; }
 };

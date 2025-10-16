@@ -74,12 +74,11 @@ bool StaticMesh::fullLoadMesh(const std::string& filePath, bool doTangents) {
     return true;
 }
 
-void StaticMesh::deload() {
+void StaticMesh::destroy() {
     if (meshNode) {
         // Should entries be on pause if deloaded? Loading a new mesh when one is loaded does that.
         destroyEntry();
-        meshNode->remove();
-        meshNode = nullptr;
+        smgr->addToDeletionQueue(meshNode);
         meshPath.clear();
     }
 }
@@ -121,8 +120,6 @@ bool StaticMesh::loadMaterial(const Material& material, int slot) {
     if (!meshNode || slot < 0 || slot >= meshNode->getMaterialCount()) return false;
 
     meshNode->getMaterial(slot) = material.mat;
-    //meshNode->getMaterial(slot).Lighting = false;
-
     return true;
 }
 
@@ -294,7 +291,6 @@ void bindStaticMesh() {
     bindType["loadWithTangents"] = &StaticMesh::loadMeshWithTangents;
     bindType["loadFromBuffer"] = &StaticMesh::loadMeshViaBuffer;
     bindType["loadMaterial"] = &StaticMesh::loadMaterial;
-    bindType["destroy"] = &StaticMesh::deload;
     bindType["getVertexCount"] = &StaticMesh::getVertexCount;
     bindType["getMaterialCount"] = &StaticMesh::getMaterialCount;
     bindType["toStr"] = &StaticMesh::getMesh;

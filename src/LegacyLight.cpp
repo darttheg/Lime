@@ -119,7 +119,7 @@ void LegacyLight::setFalloff(float f) {
 void LegacyLight::destroy() {
 	if (light) {
 		destroyEntry();
-		light->remove();
+		smgr->addToDeletionQueue(light);
 	}
 }
 
@@ -173,6 +173,4 @@ void bindLegacyLight() {
 		"radius", sol::property(&LegacyLight::getRadius, &LegacyLight::setRadius),
 		"falloff", sol::property(&LegacyLight::getFalloff, &LegacyLight::setFalloff)
 	);
-
-	bindType["destroy"] = &LegacyLight::destroy;
 }

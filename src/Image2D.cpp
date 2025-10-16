@@ -85,7 +85,6 @@ void bindImage2D() {
 		)
 	);
 
-	bindType["destroy"] = &Image2D::destroy;
 	bindType["load"] = &Image2D::setImage;
 	bindType["setBorderAlignment"] = &Image2D::setBorderAlignment;
 }

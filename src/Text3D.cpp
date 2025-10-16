@@ -13,6 +13,7 @@ Text3D::Text3D(const std::string& tx, const Vector3D& pos, const Vector4D& col, 
 	myText = tx;
 	setColor(col);
 	setPosition(pos);
+	setText(myText);
 	text->grab();
 }
 
@@ -24,7 +25,7 @@ Text3D::Text3D(const std::string& tx, const std::string& fontName) : Text3D(tx, 
 
 void Text3D::destroy() {
 	destroyEntry();
-	text->remove();
+	smgr->addToDeletionQueue(text);
 }
 
 std::string Text3D::getText() {
@@ -92,7 +93,6 @@ void bindText3D() {
 		"text", sol::property(&Text3D::getText, &Text3D::setText)
 	);
 
-	bindType["destroy"] = &Text3D::destroy;
 	bindType["setParent"] = &Text3D::setParent;
 	bindType["setFont"] = &Text3D::setFont;
 }

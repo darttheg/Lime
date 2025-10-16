@@ -30,7 +30,7 @@ public:
 
     sol::table getBoundingBox();
 
-    void destroy();
+    void destroy() override;
 
     irr::scene::ISceneNode* getNode() const override { return emp; }
 };

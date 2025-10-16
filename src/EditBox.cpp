@@ -196,11 +196,15 @@ void bindEditBox() {
         "autoScroll", sol::property(&EditBox::getAutoScroll, &EditBox::setAutoScroll)
     );
 
-    bindType["destroy"] = &EditBox::destroy;
     bindType["setFont"] = &EditBox::setFont;
     bindType["setMaxSize"] = &EditBox::setMaxSize;
     bindType["toFront"] = &EditBox::bringToFront;
     bindType["toBack"] = &EditBox::sendToBack;
     bindType["setBorderAlignment"] = &EditBox::setBorderAlignment;
     bindType["setTextAlignment"] = &EditBox::setTextAlignment;
+
+    bindType["destroy"] = sol::property([](EditBox& self) {
+        self.destroy();
+        return sol::make_object((*lua), sol::nil);
+    });
 }

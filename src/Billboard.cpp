@@ -50,9 +50,8 @@ void Billboard::setYPivot(float y) {
 }
 
 void Billboard::destroy() {
-    if (bb) {
-        bb->remove();
-    }
+    if (bb)
+        smgr->addToDeletionQueue(bb);
 }
 
 void bindBillboard() {
@@ -71,6 +70,5 @@ void bindBillboard() {
     );
 
     bindType["loadMaterial"] = &Billboard::loadMaterial;
-    bindType["destroy"] = &Billboard::destroy;
     bindType["setParent"] = &Billboard::setParent;
 }

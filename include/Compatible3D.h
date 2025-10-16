@@ -12,6 +12,7 @@ public:
     bool hasEntry = false;
 
     virtual irr::scene::ISceneNode* getNode() const = 0;
+    virtual void destroy() = 0;
     void setParent(sol::optional<Compatible3D*> parent);
     Vector3D getAbsPos();
     Vector3D getAbsRot();
@@ -34,6 +35,8 @@ public:
 
     int getID();
     void setID(int i);
+
+    sol::object boundDestroy();
 };
 
 void bindCompatible3D();

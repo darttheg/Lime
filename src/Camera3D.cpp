@@ -49,7 +49,7 @@ void Camera3D::destroy() {
     if (leftChild) leftChild->remove();
     // if (d) d->remove();
 
-    if (camera) camera->remove();
+    if (camera) smgr->addToDeletionQueue(camera);
     camera = nullptr;
 }
 
@@ -192,6 +192,5 @@ void bindCamera3D() {
     bindType["getForward"] = &Camera3D::getForward;
     bindType["getLeft"] = &Camera3D::getLeft;
     bindType["setActive"] = &Camera3D::setActive;
-    bindType["destroy"] = &Camera3D::destroy;
     bindType["queue"] = &Camera3D::addToRenderQueue;
 }

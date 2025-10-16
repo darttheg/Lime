@@ -30,7 +30,7 @@ public:
     irr::f32 getYPivot();
     void setYPivot(float y);
 
-    void destroy();
+    void destroy() override;
 
     irr::scene::ISceneNode* getNode() const override { return bb; }
 };

@@ -750,6 +750,7 @@ void IrrHandling::updateIrrRenderRes() {
 
 // For glfw set window icon
 #define STB_IMAGE_IMPLEMENTATION
+#include <stb_image.h>
 
 void IrrHandling::setTitleBarIcon(std::string path) {
 	// Add invalid path check?
