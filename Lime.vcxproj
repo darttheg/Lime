@@ -85,6 +85,7 @@
     <ClCompile Include="src\Vector2D.cpp" />
     <ClCompile Include="src\Vector3D.cpp" />
     <ClCompile Include="src\Vector4D.cpp" />
+    <ClCompile Include="src\VolumeLight.cpp" />
     <ClCompile Include="src\WaterMesh.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -177,6 +178,7 @@
     <ClInclude Include="include\Vector2D.h" />
     <ClInclude Include="include\Vector3D.h" />
     <ClInclude Include="include\Vector4D.h" />
+    <ClInclude Include="include\VolumeLight.h" />
     <ClInclude Include="include\Warden.h" />
     <ClInclude Include="include\WaterMesh.h" />
   </ItemGroup>

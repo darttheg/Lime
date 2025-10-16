@@ -24,6 +24,7 @@
 #include "Event.h"
 #include "PhysicsObject.h"
 #include "RigidBody3D.h"
+#include "VolumeLight.h"
 
 #include "Sound.h"
 
@@ -72,6 +73,7 @@ int LuaLime::initLua(irr::scene::ISceneManager* smgr, irr::video::IVideoDriver* 
 	bindPhysicsObject();
 	bindRigidBody3D();
 	bindSound();
+	bindVolumeLight();
 
 	initEvents();
 
