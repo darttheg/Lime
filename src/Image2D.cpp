@@ -10,7 +10,7 @@ Image2D::Image2D(const Texture& tex, const Vector2D& pos) : Image2D(tex, pos, Ve
 }
 
 Image2D::Image2D(const Texture& tex, const Vector2D& pos, const Vector2D& dimensions) {
-	img = guienv->addImage(tex.texture, irr::core::vector2di(pos.x, pos.y));
+	img = guienv->addImage(tex.texture, irr::core::vector2di(pos.getX(), pos.getY()));
 }
 
 Image2D::Image2D(const Image2D& other) {
@@ -23,7 +23,7 @@ Vector4D Image2D::getColor() {
 
 void Image2D::setColor(const Vector4D& color) {
 	if (img)
-		img->setColor(irr::video::SColor(color.w, color.x, color.y, color.z));
+		img->setColor(irr::video::SColor(color.getW(), color.getX(), color.getY(), color.getZ()));
 }
 
 void Image2D::setImage(const Texture& tex) {

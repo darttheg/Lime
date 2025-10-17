@@ -75,7 +75,7 @@ Vector2D Compatible2D::getPosition() {
 
 void Compatible2D::setPosition(const Vector2D& pos) {
 	if (getNode())
-		getNode()->setRelativePosition(irr::core::position2di(pos.x, pos.y));
+		getNode()->setRelativePosition(irr::core::position2di(pos.getX(), pos.getY()));
 }
 
 Vector2D Compatible2D::getPositionProportional() {
@@ -90,7 +90,7 @@ Vector2D Compatible2D::getPositionProportional() {
 
 void Compatible2D::setPositionProportional(const Vector2D& pos) {
 	if (getNode())
-		getNode()->setRelativePositionProportional(irr::core::rectf(0, 0, pos.x, pos.y));
+		getNode()->setRelativePositionProportional(irr::core::rectf(0, 0, pos.getX(), pos.getY()));
 }
 
 bool Compatible2D::getVisible() {
@@ -123,8 +123,8 @@ Vector2D Compatible2D::getSize() {
 void Compatible2D::setSize(const Vector2D& size) {
 	if (getNode()) {
 		irr::core::recti r = getNode()->getRelativePosition();
-		r.LowerRightCorner.X = r.UpperLeftCorner.X + size.x;
-		r.LowerRightCorner.Y = r.UpperLeftCorner.Y + size.y;
+		r.LowerRightCorner.X = r.UpperLeftCorner.X + size.getX();
+		r.LowerRightCorner.Y = r.UpperLeftCorner.Y + size.getY();
 		getNode()->setRelativePosition(r);
 
 		if (button)
@@ -134,8 +134,8 @@ void Compatible2D::setSize(const Vector2D& size) {
 
 void Compatible2D::setMinMaxDimensions(const Vector2D& dimMin, const Vector2D& dimMax) {
 	if (getNode()) {
-		getNode()->setMinSize(irr::core::dimension2du(dimMin.x, dimMin.y));
-		getNode()->setMaxSize(irr::core::dimension2du(dimMax.x, dimMax.y));
+		getNode()->setMinSize(irr::core::dimension2du(dimMin.getX(), dimMin.getY()));
+		getNode()->setMaxSize(irr::core::dimension2du(dimMax.getX(), dimMax.getY()));
 	}
 }
 

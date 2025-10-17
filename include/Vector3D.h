@@ -6,8 +6,8 @@
 #define PI 3.14159265358979323846
 
 class Vector3D {
-public:
     float x, y, z;
+public:
 
     Vector3D();
     Vector3D(float x, float y, float z);

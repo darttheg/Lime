@@ -5,8 +5,8 @@
 #define PI 3.14159265358979323846
 
 class Vector2D {
-public:
     float x, y;
+public:
 
     Vector2D();
     Vector2D(float x, float y);

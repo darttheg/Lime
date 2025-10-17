@@ -62,7 +62,7 @@ void Trail::setWind(const Vector3D& w) {
 		return;
 
 	wind = w;
-	t->setWind(irr::core::vector3df(wind.x, wind.y, wind.z));
+	t->setWind(irr::core::vector3df(wind.getX(), wind.getY(), wind.getZ()));
 }
 
 bool Trail::getDebug() {

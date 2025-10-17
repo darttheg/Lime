@@ -5,15 +5,15 @@ Empty::Empty() {
 }
 
 Empty::Empty(const Vector3D& pos) : Empty() {
-	emp->setPosition(irr::core::vector3df(pos.x, pos.y, pos.z));
+	setPosition(pos);
 }
 
 Empty::Empty(const Vector3D& pos, const Vector3D& rot) : Empty(pos) {
-	emp->setRotation(irr::core::vector3df(rot.x, rot.y, rot.z));
+	setRotation(rot);
 }
 
 Empty::Empty(const Vector3D& pos, const Vector3D& rot, const Vector3D& scale) : Empty(pos, rot) {
-	emp->setScale(irr::core::vector3df(scale.x, scale.y, scale.z));
+	setScale(scale);
 }
 
 bool Empty::getDebug() {

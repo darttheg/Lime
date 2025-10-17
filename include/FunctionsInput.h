@@ -53,9 +53,9 @@ namespace Bind {
 	// Move cursor
 	void setCursorPosition(Vector2D pos) {
 		if (device) {
-			device->getCursorControl()->setPosition(irr::core::vector2di(pos.x, pos.y));
-			receiver->mouseX = pos.x - 1;
-			receiver->mouseY = pos.y - 1;
+			device->getCursorControl()->setPosition(irr::core::vector2di(pos.getX(), pos.getY()));
+			receiver->mouseX = pos.getX() - 1;
+			receiver->mouseY = pos.getY() - 1;
 		}
 	}
 

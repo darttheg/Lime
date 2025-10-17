@@ -79,7 +79,7 @@ Vector3D Compatible3D::getPosition() {
 
 void Compatible3D::setPosition(const Vector3D& pos) {
     if (getNode())
-        getNode()->setPosition(irr::core::vector3df(pos.x, pos.y, pos.z));
+        getNode()->setPosition(irr::core::vector3df(pos.getX(), pos.getY(), pos.getZ()));
 }
 
 Vector3D Compatible3D::getRotation() {
@@ -88,10 +88,10 @@ Vector3D Compatible3D::getRotation() {
 }
 
 void Compatible3D::setRotation(const Vector3D& rot) {
-    // float clampedX = std::clamp(rot.x, -89.0f, 89.0f); From Camera
-    // getNode()->setRotation(irr::core::vector3df(clampedX, rot.y, rot.z));
+    // float clampedX = std::clam.xetX(), -89.0f, 89.0f); From Camera
+    // getNode()->setRotation(irr::core::vector3df(clampedX.yetY(), rot.getZ()));
     if (getNode())
-        getNode()->setRotation(irr::core::vector3df(rot.x, rot.y, rot.z));
+        getNode()->setRotation(irr::core::vector3df(rot.getX(), rot.getY(), rot.getZ()));
 }
 
 Vector3D Compatible3D::getScale() {
@@ -101,7 +101,7 @@ Vector3D Compatible3D::getScale() {
 
 void Compatible3D::setScale(const Vector3D& scale) {
     if (getNode())
-        getNode()->setScale(irr::core::vector3df(scale.x, scale.y, scale.z));
+        getNode()->setScale(irr::core::vector3df(scale.getX(), scale.getY(), scale.getZ()));
 }
 
 bool Compatible3D::getVisibility() const {

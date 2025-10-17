@@ -155,7 +155,7 @@ sol::table StaticMesh::getBoneData(irr::scene::IBoneSceneNode* bone) {
         boneInfo["rotation"] = Vector3D(bone->getRotation().X, bone->getRotation().Y, bone->getRotation().Z);
         boneInfo["headPosition"] = head;
         boneInfo["tailPosition"] = tail;
-        boneInfo["length"] = sqrt(pow(tail.x - head.x, 2) + pow(tail.y - head.y, 2) + pow(tail.z - head.z, 2));
+        boneInfo["length"] = sqrt(pow(tail.getX() - head.getY(), 2) + pow(tail.getY() - head.getY(), 2) + pow(tail.getZ() - head.getZ(), 2));
     }
 
     return boneInfo;
@@ -229,7 +229,7 @@ Vector4D StaticMesh::getVColor() {
 }
 
 void StaticMesh::setVColor(const Vector4D& col) {
-    vColor = irr::video::SColor(col.w, col.x, col.y, col.z);
+    vColor = irr::video::SColor(col.getW(), col.getX(), col.getY(), col.getZ());
     if (meshNode) {
         irr::scene::IMeshManipulator* meshManipulator = device->getSceneManager()->getMeshManipulator();
         meshManipulator->setVertexColors(meshNode->getMesh(), vColor);

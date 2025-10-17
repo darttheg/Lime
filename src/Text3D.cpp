@@ -50,7 +50,7 @@ Vector4D Text3D::getColor() {
 
 void Text3D::setColor(const Vector4D& col) {
 	if (text) {
-		color = irr::video::SColor(col.w, col.x, col.y, col.z);
+		color = irr::video::SColor(col.getW(), col.getX(), col.getY(), col.getZ());
 		updateColor();
 	}
 }

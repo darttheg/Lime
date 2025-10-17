@@ -13,8 +13,8 @@ EditBox::EditBox(std::string tx, const Vector2D& pos) : EditBox(tx, pos, Vector2
 
 EditBox::EditBox(std::string tx, const Vector2D& pos, const Vector2D& dimensions) {
     box = guienv->addEditBox(charToWchar(tx.c_str()), irr::core::recti(
-        irr::core::vector2di(pos.x, pos.y),
-        irr::core::vector2di(pos.x + dimensions.x, pos.y + dimensions.y)
+        irr::core::vector2di(pos.getX(), pos.getY()),
+        irr::core::vector2di(pos.getX() + dimensions.getX(), pos.getY() + dimensions.getY())
     ));
     border = false;
 }
@@ -71,8 +71,8 @@ Vector2D EditBox::getSize() {
 void EditBox::setSize(const Vector2D& size) {
     if (box) {
         irr::core::recti r = box->getRelativePosition();
-        r.LowerRightCorner.X = r.UpperLeftCorner.X + size.x;
-        r.LowerRightCorner.Y = r.UpperLeftCorner.Y + size.y;
+        r.LowerRightCorner.X = r.UpperLeftCorner.X + size.getX();
+        r.LowerRightCorner.Y = r.UpperLeftCorner.Y + size.getY();
         box->setRelativePosition(r);
     }
 }
@@ -85,12 +85,12 @@ void EditBox::setBorderAlignment(int a, int b, int c, int d) {
 
 void EditBox::setTextAlignment(const Vector2D& align) {
     if (box) {
-        box->setTextAlignment((irr::gui::EGUI_ALIGNMENT)align.x, (irr::gui::EGUI_ALIGNMENT)align.y);
+        box->setTextAlignment((irr::gui::EGUI_ALIGNMENT)align.getX(), (irr::gui::EGUI_ALIGNMENT)align.getY());
     }
 }
 
 void EditBox::setMaxSize(const Vector2D& max) {
-    if (box) box->setMaxSize(irr::core::dimension2du(max.x, max.y));
+    if (box) box->setMaxSize(irr::core::dimension2du(max.getX(), max.getY()));
 }
 
 bool EditBox::getWrap() {
@@ -107,7 +107,7 @@ Vector4D EditBox::getTextColor() {
 
 void EditBox::setTextColor(const Vector4D& col) {
     if (box) {
-        box->setOverrideColor(irr::video::SColor(col.w, col.x, col.y, col.z));
+        box->setOverrideColor(irr::video::SColor(col.getW(), col.getX(), col.getY(), col.getZ()));
     }
 }
 
@@ -129,7 +129,7 @@ Vector2D EditBox::getPosition() {
 }
 
 void EditBox::setPosition(const Vector2D& pos) {
-    if (box) box->setRelativePosition(irr::core::position2di(pos.x, pos.y));
+    if (box) box->setRelativePosition(irr::core::position2di(pos.getX(), pos.getY()));
 }
 
 bool EditBox::getDrawBorder() {

@@ -78,8 +78,8 @@ Vector2D Camera3D::getPlanes() {
 }
 
 void Camera3D::setPlanes(const Vector2D& planes) {
-    camera->setNearValue(planes.x);
-    camera->setFarValue(planes.y);
+    camera->setNearValue(planes.getX());
+    camera->setFarValue(planes.getY());
 }
 
 float Camera3D::getFOV() {
@@ -116,7 +116,7 @@ Vector3D Camera3D::getUp() {
 }
 
 void Camera3D::setUp(const Vector3D& up) {
-    camera->setUpVector(irr::core::vector3df(up.x, up.y, up.z));
+    camera->setUpVector(irr::core::vector3df(up.getX(), up.getY(), up.getZ()));
 }
 
 void Camera3D::setActive() {

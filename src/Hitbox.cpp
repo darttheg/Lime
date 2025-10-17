@@ -177,9 +177,9 @@ Vector2D Hitbox::getAttributes() {
 void Hitbox::setAttributes(const Vector2D& att) {
 	if (!node) return;
 
-	if (att.x != radius || att.y != height) {
-		radius = att.x;
-		height = att.y;
+	if (att.getX() != radius || att.getY() != height) {
+		radius = att.getX();
+		height = att.getY();
 		construct();
 	}
 }
@@ -243,7 +243,7 @@ bool Hitbox::overlaps(const Hitbox& other) {
 }
 
 bool Hitbox::pointInside(const Vector3D& point) {
-	vector3df p = vector3df(point.x, point.y, point.z);
+	vector3df p = vector3df(point.getX(), point.getY(), point.getZ());
 
 	if (!node->getTransformedBoundingBox().isPointInside(p)) return false;
 

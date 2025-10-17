@@ -87,7 +87,7 @@ Vector4D Material::getDiffuseColor() {
 }
 
 void Material::setDiffuseColor(Vector4D& color) {
-    mat.DiffuseColor.set(color.w, color.x, color.y, color.z);
+    mat.DiffuseColor.set(color.getW(), color.getX(), color.getY(), color.getZ());
 }
 
 Vector4D Material::getAmbientColor() {
@@ -95,7 +95,7 @@ Vector4D Material::getAmbientColor() {
 }
 
 void Material::setAmbientColor(Vector4D& color) {
-    mat.AmbientColor.set(color.w, color.x, color.y, color.z);
+    mat.AmbientColor.set(color.getW(), color.getX(), color.getY(), color.getZ());
 }
 
 Vector4D Material::getEmissiveColor() {
@@ -103,7 +103,7 @@ Vector4D Material::getEmissiveColor() {
 }
 
 void Material::setEmissiveColor(Vector4D& color) {
-    mat.EmissiveColor.set(color.w, color.x, color.y, color.z);
+    mat.EmissiveColor.set(color.getW(), color.getX(), color.getY(), color.getZ());
 }
 
 Vector4D Material::getSpecularColor() {
@@ -111,7 +111,7 @@ Vector4D Material::getSpecularColor() {
 }
 
 void Material::setSpecularColor(Vector4D& color) {
-    mat.SpecularColor.set(color.w, color.x, color.y, color.z);
+    mat.SpecularColor.set(color.getW(), color.getX(), color.getY(), color.getZ());
 }
 
 int Material::getID() {
@@ -197,7 +197,7 @@ Vector2D Material::getPan(int i) {
 void Material::setPan(Vector2D scroll, int i) {
     if (i < 0 || i >= irr::video::MATERIAL_MAX_TEXTURES) return;
     irr::core::matrix4 matT = mat.getTextureMatrix(i);
-    matT.setTextureTranslate(scroll.x, scroll.y);
+    matT.setTextureTranslate(scroll.getX(), scroll.getY());
     mat.setTextureMatrix(i, matT);
 }
 
@@ -267,7 +267,7 @@ void Material::setTexture(Texture& tex, int slot) {
 void Material::setTextureScale(Vector2D scale, int i) {
     if (i < 0 || i >= irr::video::MATERIAL_MAX_TEXTURES) return;
     irr::core::matrix4 matT = mat.getTextureMatrix(i);
-    matT.setTextureScale(scale.x, scale.y);
+    matT.setTextureScale(scale.getX(), scale.getY());
     mat.setTextureMatrix(i, matT);
 }
 

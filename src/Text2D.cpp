@@ -7,7 +7,7 @@ Text2D::Text2D(std::string tx) : Text2D(tx, Vector2D(0, 0), Vector2D(256, 16)) {
 Text2D::Text2D(std::string tx, const Vector2D& pos) : Text2D(tx, pos, Vector2D(256, 16)) {}
 
 Text2D::Text2D(std::string tx, const Vector2D& pos, const Vector2D& dimensions) {
-	text = guienv->addStaticText(charToWchar(tx.c_str()), irr::core::recti(irr::core::vector2di(pos.x, pos.y), irr::core::vector2di(pos.x + dimensions.x, pos.y + dimensions.y)));
+	text = guienv->addStaticText(charToWchar(tx.c_str()), irr::core::recti(irr::core::vector2di(pos.getX(), pos.getY()), irr::core::vector2di(pos.getX() + dimensions.getX(), pos.getY() + dimensions.getY())));
 	text->setBackgroundColor(irr::video::SColor(0, 180, 180, 180));
 }
 
@@ -49,7 +49,7 @@ void Text2D::setBorderAlignment(int a, int b, int c, int d) {
 
 void Text2D::setTextAlignment(const Vector2D& align) {
 	if (text)
-		text->setTextAlignment((irr::gui::EGUI_ALIGNMENT)align.x, (irr::gui::EGUI_ALIGNMENT)align.y);
+		text->setTextAlignment((irr::gui::EGUI_ALIGNMENT)align.getX(), (irr::gui::EGUI_ALIGNMENT)align.getY());
 }
 
 bool Text2D::getWrap() {
@@ -76,7 +76,7 @@ Vector4D Text2D::getBackgroundColor() {
 
 void Text2D::setBackgroundColor(const Vector4D& col) {
 	if (text)
-		text->setBackgroundColor(irr::video::SColor(col.w, col.x, col.y, col.z));
+		text->setBackgroundColor(irr::video::SColor(col.getW(), col.getX(), col.getY(), col.getZ()));
 }
 
 Vector4D Text2D::getTextColor() {
@@ -85,7 +85,7 @@ Vector4D Text2D::getTextColor() {
 
 void Text2D::setTextColor(const Vector4D& col) {
 	if (text)
-		text->setOverrideColor(irr::video::SColor(col.w, col.x, col.y, col.z));
+		text->setOverrideColor(irr::video::SColor(col.getW(), col.getX(), col.getY(), col.getZ()));
 }
 
 bool Text2D::setFont(const std::string& fontName) {

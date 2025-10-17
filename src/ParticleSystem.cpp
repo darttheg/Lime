@@ -14,7 +14,7 @@ void ParticleSystem::setEmitter(int i, sol::table params) {
 
 	if (params["position"]) {
 		Vector3D p = TblFrom3D(params["position"]);
-		pos = irr::core::vector3df(p.x, p.y, p.z);
+		pos = irr::core::vector3df(p.getX(), p.getY(), p.getZ());
 	}
 
 	switch (i) {
@@ -32,11 +32,11 @@ void ParticleSystem::setEmitter(int i, sol::table params) {
 
 		if (params["minEdge"]) {
 			Vector3D p = TblFrom3D(params["minEdge"]);
-			minEdge = irr::core::vector3df(p.x, p.y, p.z);
+			minEdge = irr::core::vector3df(p.getX(), p.getY(), p.getZ());
 		}
 		if (params["maxEdge"]) {
 			Vector3D p = TblFrom3D(params["maxEdge"]);
-			maxEdge = irr::core::vector3df(p.x, p.y, p.z);
+			maxEdge = irr::core::vector3df(p.getX(), p.getY(), p.getZ());
 		}
 
 		em = ps->createBoxEmitter(irr::core::aabbox3df(minEdge + pos, maxEdge + pos));
@@ -72,7 +72,7 @@ void ParticleSystem::setEmitter(int i, sol::table params) {
 
 	if (params["velocity"]) {
 		Vector3D p = TblFrom3D(params["velocity"]);
-		em->setDirection(irr::core::vector3df(p.x, p.y, p.z));
+		em->setDirection(irr::core::vector3df(p.getX(), p.getY(), p.getZ()));
 	}
 
 	em->setMaxAngleDegrees(params["maxAngle"] ? params["maxAngle"] : 25.0f);
@@ -81,8 +81,8 @@ void ParticleSystem::setEmitter(int i, sol::table params) {
 	float max = 250.0f;
 	if (params["lifeTime"]) {
 		Vector2D p = TblFrom2D(params["lifeTime"]);
-		min = p.x;
-		max = p.y;
+		min = p.getX();
+		max = p.getY();
 	}
 	em->setMinLifeTime(min);
 	em->setMaxLifeTime(max);
@@ -91,8 +91,8 @@ void ParticleSystem::setEmitter(int i, sol::table params) {
 	max = 15.0f;
 	if (params["particlesPerSecond"]) {
 		Vector2D p = TblFrom2D(params["particlesPerSecond"]);
-		min = p.x;
-		max = p.y;
+		min = p.getX();
+		max = p.getY();
 	}
 	em->setMinParticlesPerSecond(min);
 	em->setMaxParticlesPerSecond(max);
@@ -101,11 +101,11 @@ void ParticleSystem::setEmitter(int i, sol::table params) {
 	irr::video::SColor endCol = irr::video::SColor(255, 255, 255, 255);
 	if (params["minStartingColor"]) {
 		Vector4D c = TblFrom4D(params["minStartingColor"]);
-		startCol = irr::video::SColor(c.w, c.x, c.y, c.z);
+		startCol = irr::video::SColor(c.getW(), c.getX(), c.getY(), c.getZ());
 	}
 	if (params["maxStartingColor"]) {
 		Vector4D c = TblFrom4D(params["maxStartingColor"]);
-		endCol = irr::video::SColor(c.w, c.x, c.y, c.z);
+		endCol = irr::video::SColor(c.getW(), c.getX(), c.getY(), c.getZ());
 	}
 	em->setMinStartColor(startCol);
 	em->setMaxStartColor(endCol);
@@ -114,8 +114,8 @@ void ParticleSystem::setEmitter(int i, sol::table params) {
 	max = 1.2f;
 	if (params["startSize"]) {
 		Vector2D p = TblFrom2D(params["startSize"]);
-		min = p.x;
-		max = p.y;
+		min = p.getX();
+		max = p.getY();
 	}
 	em->setMinStartSize(irr::core::dimension2df(min, min));
 	em->setMaxStartSize(irr::core::dimension2df(max, max));
@@ -141,12 +141,12 @@ void ParticleSystem::addAffector(int i, sol::table params) {
 
 		if (params["attractPosition"]) {
 			Vector3D c = TblFrom3D(params["attractPosition"]);
-			pos = irr::core::vector3df(c.x, c.y, c.z);
+			pos = irr::core::vector3df(c.getX(), c.getY(), c.getZ());
 		}
 
 		if (params["attractAxis"]) {
 			Vector3D c = TblFrom3D(params["attractAxis"]);
-			aX, aY, aZ = c.x, c.y, c.z;
+			aX, aY, aZ = c.getX(), c.getY(), c.getZ();
 		}
 
 		pa = ps->createAttractionAffector(pos, spd, attract, aX, aY, aZ);
@@ -159,7 +159,7 @@ void ParticleSystem::addAffector(int i, sol::table params) {
 
 		if (params["targetColor"]) {
 			Vector4D c = TblFrom4D(params["targetColor"]);
-			targetColor = irr::video::SColor(c.w, c.x, c.y, c.z);
+			targetColor = irr::video::SColor(c.getW(), c.getX(), c.getY(), c.getZ());
 		}
 
 		if (params["time"]) {
@@ -176,7 +176,7 @@ void ParticleSystem::addAffector(int i, sol::table params) {
 
 		if (params["gravity"]) {
 			Vector3D c = TblFrom3D(params["gravity"]);
-			grav = irr::core::vector3df(c.x, c.y, c.z);
+			grav = irr::core::vector3df(c.getX(), c.getY(), c.getZ());
 		}
 
 		if (params["timeToTakeOver"]) {
@@ -192,7 +192,7 @@ void ParticleSystem::addAffector(int i, sol::table params) {
 
 		if (params["rotationSpeed"]) {
 			Vector3D r = TblFrom3D(params["rotationSpeed"]);
-			rotor = irr::core::vector3df(r.x, r.y, r.z);
+			rotor = irr::core::vector3df(r.getX(), r.getY(), r.getZ());
 		}
 
 		pa = ps->createRotationAffector(rotor);
@@ -204,7 +204,7 @@ void ParticleSystem::addAffector(int i, sol::table params) {
 
 		if (params["scalar"]) {
 			Vector2D s = TblFrom2D(params["scalar"]);
-			d = irr::core::dimension2df(s.x, s.y);
+			d = irr::core::dimension2df(s.getX(), s.getY());
 		}
 
 		pa = ps->createScaleParticleAffector(d);

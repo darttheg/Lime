@@ -56,7 +56,7 @@ namespace Bind {
 
 	void setWindowPosition(const Vector2D& position) {
 		if (irrHandler->glfwWindow) {
-			glfwSetWindowPos(irrHandler->glfwWindow, static_cast<int>(position.x), static_cast<int>(position.y));
+			glfwSetWindowPos(irrHandler->glfwWindow, static_cast<int>(position.getX()), static_cast<int>(position.getY()));
 		}
 	}
 
@@ -70,21 +70,21 @@ namespace Bind {
 	}
 
 	bool setWindowSize(const Vector2D& sizes) {
-		if (sizes.x > 0 && sizes.y > 0 && irrHandler->glfwWindow) {
-			if (sizes.x == irrHandler->width && sizes.y == irrHandler->height) return true;
+		if (sizes.getX() > 0 && sizes.getY() > 0 && irrHandler->glfwWindow) {
+			if (sizes.getX() == irrHandler->width && sizes.getY() == irrHandler->height) return true;
 			int winX, winY;
 			glfwGetWindowPos(irrHandler->glfwWindow, &winX, &winY);
 
 			int oldW, oldH;
 			glfwGetWindowSize(irrHandler->glfwWindow, &oldW, &oldH);
-			glfwSetWindowSize(irrHandler->glfwWindow, static_cast<int>(sizes.x), static_cast<int>(sizes.y));
+			glfwSetWindowSize(irrHandler->glfwWindow, static_cast<int>(sizes.getX()), static_cast<int>(sizes.getY()));
 
-			int deltaW = static_cast<int>(sizes.x) - oldW;
-			int deltaH = static_cast<int>(sizes.y) - oldH;
+			int deltaW = static_cast<int>(sizes.getX()) - oldW;
+			int deltaH = static_cast<int>(sizes.getY()) - oldH;
 			glfwSetWindowPos(irrHandler->glfwWindow, winX - deltaW / 2, winY - deltaH / 2);
 
-			irrHandler->width = sizes.x;
-			irrHandler->height = sizes.y;
+			irrHandler->width = sizes.getX();
+			irrHandler->height = sizes.getY();
 
 			irrHandler->updateIrrRenderRes();
 
@@ -95,9 +95,9 @@ namespace Bind {
 
 			return true;
 		}
-		else if (sizes.x > 0 && sizes.y > 0) {
-			irrHandler->width = sizes.x;
-			irrHandler->height = sizes.y;
+		else if (sizes.getX() > 0 && sizes.getY() > 0) {
+			irrHandler->width = sizes.getX();
+			irrHandler->height = sizes.getY();
 		}
 		return false;
 	}

@@ -1,7 +1,7 @@
 #include "WaterMesh.h"
 
 Water::Water(float h, float s, float l, const Vector2D& ts, const Vector2D& tc, const Vector2D& tr, const Material& m)
-    : height(h), speed(s), length(l), tileSize(ts.x, ts.y), tileCount(tc.x, tc.y), texRepeat(tr.x, tr.y), material(m.mat), water(nullptr), rawMesh(nullptr) {
+    : height(h), speed(s), length(l), tileSize(ts.getX(), ts.getY()), tileCount(tc.getX(), tc.getY()), texRepeat(tr.getX(), tr.getY()), material(m.mat), water(nullptr), rawMesh(nullptr) {
     createRaw();
     refreshMesh();
 }
@@ -18,18 +18,18 @@ Water::Water(sol::table tbl) : Water() {
     if (tbl["length"]) length = tbl["length"];
 
     if (tbl["tileSize"]) {
-        tileSize.X = TblFrom2D(tbl["tileSize"]).x;
-        tileSize.Y = TblFrom2D(tbl["tileSize"]).y;
+        tileSize.X = TblFrom2D(tbl["tileSize"]).getX();
+        tileSize.Y = TblFrom2D(tbl["tileSize"]).getY();
     }
 
     if (tbl["tileCount"]) {
-        tileCount.X = TblFrom2D(tbl["tileCount"]).x;
-        tileCount.Y = TblFrom2D(tbl["tileCount"]).y;
+        tileCount.X = TblFrom2D(tbl["tileCount"]).getX();
+        tileCount.Y = TblFrom2D(tbl["tileCount"]).getY();
     }
 
     if (tbl["textureRepeat"]) {
-        texRepeat.X = TblFrom2D(tbl["textureRepeat"]).x;
-        texRepeat.Y = TblFrom2D(tbl["textureRepeat"]).y;
+        texRepeat.X = TblFrom2D(tbl["textureRepeat"]).getX();
+        texRepeat.Y = TblFrom2D(tbl["textureRepeat"]).getY();
     }
 
     if (tbl["material"]) material = tbl["material"];
@@ -101,7 +101,7 @@ Vector2D Water::getTileSize() {
 }
 
 void Water::setTileSize(const Vector2D& other) {
-    tileSize = irr::core::vector2df(other.x, other.y);
+    tileSize = irr::core::vector2df(other.getX(), other.getY());
 }
 
 Vector2D Water::getTileCount() {
@@ -109,7 +109,7 @@ Vector2D Water::getTileCount() {
 }
 
 void Water::setTileCount(const Vector2D& other) {
-    tileCount = irr::core::vector2df(other.x, other.y);
+    tileCount = irr::core::vector2df(other.getX(), other.getY());
 }
 
 Vector2D Water::getTexRepeat() {
@@ -117,7 +117,7 @@ Vector2D Water::getTexRepeat() {
 }
 
 void Water::setTexRepeat(const Vector2D& other) {
-    texRepeat = irr::core::vector2df(other.x, other.y);
+    texRepeat = irr::core::vector2df(other.getX(), other.getY());
 }
 
 

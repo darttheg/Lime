@@ -5,7 +5,7 @@ Texture::Texture() : path("") {
 }
 
 Texture::Texture(const Vector2D& size) : path("") {
-	texture = driver->addTexture(irr::core::dimension2du(size.x, size.y), "");
+	texture = driver->addTexture(irr::core::dimension2du(size.getX(), size.getY()), "");
 }
 
 Texture::Texture(const std::string imgpath) : path(imgpath) {
@@ -98,7 +98,7 @@ bool Texture::load(const std::string& imgpath) {
 void Texture::createEmpty(const Vector2D& size) {
 	if (texture) texture->drop();
 
-	texture = driver->addTexture(irr::core::dimension2du(size.x, size.y), "");
+	texture = driver->addTexture(irr::core::dimension2du(size.getX(), size.getY()), "");
 }
 
 std::string Texture::getPath() const {
@@ -107,7 +107,7 @@ std::string Texture::getPath() const {
 
 void Texture::keyColor(const Vector2D& pos) {
 	if (texture)
-		driver->makeColorKeyTexture(texture, core::position2d<s32>(pos.x, pos.y));
+		driver->makeColorKeyTexture(texture, core::position2d<s32>(pos.getX(), pos.getY()));
 }
 
 void Texture::saveTexture(std::string path) {
@@ -122,7 +122,7 @@ bool Texture::append(const Texture& tex, const Vector2D& pos) {
 	}
 
 	IImage* img = texToImg(tex.texture);
-	return doAppend(img, vector2di(pos.x, pos.y));
+	return doAppend(img, vector2di(pos.getX(), pos.getY()));
 }
 
 bool Texture::appendFromFile(std::string filePath, const Vector2D& pos) {
@@ -132,7 +132,7 @@ bool Texture::appendFromFile(std::string filePath, const Vector2D& pos) {
 	}
 
 	IImage* img = driver->createImageFromFile(filePath.c_str());
-	return doAppend(img, vector2di(pos.x, pos.y));
+	return doAppend(img, vector2di(pos.getX(), pos.getY()));
 }
 
 Vector4D Texture::getPixel(const Vector2D& pos) {
@@ -141,7 +141,7 @@ Vector4D Texture::getPixel(const Vector2D& pos) {
 	IImage* img = texToImg(texture);
 	if (!img) return Vector4D();
 
-	SColor pCol = img->getPixel(pos.x, pos.y);
+	SColor pCol = img->getPixel(pos.getX(), pos.getY());
 
 	return Vector4D(pCol.getRed(), pCol.getGreen(), pCol.getBlue(), pCol.getAlpha());
 }
@@ -159,10 +159,10 @@ Texture Texture::makeNormalMap(float height) {
 Texture Texture::crop(const Vector2D& topL, const Vector2D& bottomR) {
 	if (!texture) return Texture();
 
-	if (topL.x < 0 || topL.y < 0 || bottomR.x < 0 || bottomR.y < 0) return Texture();
+	if (topL.getX() < 0 || topL.getY() < 0 || bottomR.getX() < 0 || bottomR.getY() < 0) return Texture();
 
-	position2di pos = position2di(topL.x, topL.y);
-	dimension2du dim = dimension2du(bottomR.x - topL.x, bottomR.y - topL.y);
+	position2di pos = position2di(topL.getX(), topL.getY());
+	dimension2du dim = dimension2du(bottomR.getX() - topL.getX(), bottomR.getY() - topL.getY());
 
 	irr::video::IImage* img = driver->createImage(texture, pos, dim);
 

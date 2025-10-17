@@ -35,7 +35,7 @@ namespace Bind {
 
 	void setBackgroundColor(Vector4D& color) {
 		if (driver && irrHandler) {
-			irrHandler->backgroundColor = irr::video::SColor(color.w, color.x, color.y, color.z);
+			irrHandler->backgroundColor = irr::video::SColor(color.getW(), color.getX(), color.getY(), color.getZ());
 		}
 	}
 
@@ -46,9 +46,9 @@ namespace Bind {
 		return smgr->getRootSceneNode()->getChildren().getSize();
 	}
 
-	sol::table fireRaypick(Vector3D start, Vector3D end, float debugLifetime) {
+	sol::table fireRaypick(const Vector3D& start, const Vector3D& end, float debugLifetime) {
 		scene::ISceneCollisionManager* collisionManager = smgr->getSceneCollisionManager();
-		core::line3d<f32> ray(core::vector3df(start.x, start.y, start.z), core::vector3df(end.x, end.y, end.z));
+		core::line3d<f32> ray(core::vector3df(start.getX(), start.getY(), start.getZ()), core::vector3df(end.getX(), end.getY(), end.getZ()));
 
 		core::vector3df hitPosition;
 		core::triangle3df hitTriangle;
@@ -90,13 +90,13 @@ namespace Bind {
 		return result;
 	}
 
-	sol::table fireRaypick2D(Vector2D screenCoord, float length, float debugLifetime) {
+	sol::table fireRaypick2D(const Vector2D& screenCoord, float length, float debugLifetime) {
 		sol::table result = lua->create_table();
 		scene::ISceneCollisionManager* collisionManager = smgr->getSceneCollisionManager();
 		scene::ICameraSceneNode* cam = smgr->getActiveCamera();
 		if (!cam || length == 0.0f) return result;
 
-		core::line3df ray = collisionManager->getRayFromScreenCoordinates(core::position2di(screenCoord.x, screenCoord.y), cam);
+		core::line3df ray = collisionManager->getRayFromScreenCoordinates(core::position2di(screenCoord.getX(), screenCoord.getY()), cam);
 		core::vector3df dir = ray.getVector().normalize();
 		ray.end = ray.start + dir * length;
 
@@ -151,14 +151,14 @@ namespace Bind {
 	}
 
 	void setFogDistances(Vector2D dist) {
-		startDistance = dist.x;
-		endDistance = dist.y;
+		startDistance = dist.getX();
+		endDistance = dist.getY();
 		applyFogSettings();
 	}
 
 	// Set fog color
 	void setFogColor(Vector4D color) {
-		fogColor = video::SColor(static_cast<u32>(color.w), static_cast<u32>(color.x), static_cast<u32>(color.y), static_cast<u32>(color.z));
+		fogColor = video::SColor(static_cast<u32>(color.getW()), static_cast<u32>(color.getX()), static_cast<u32>(color.getY()), static_cast<u32>(color.getZ()));
 		applyFogSettings();
 	}
 
@@ -192,9 +192,9 @@ namespace Bind {
 	}
 
 	void setFogSettings(Vector2D dist, Vector4D color, int i, float density, bool var, bool var1) {
-		startDistance = dist.x;
-		endDistance = dist.y;
-		fogColor = video::SColor(static_cast<u32>(color.w), static_cast<u32>(color.x), static_cast<u32>(color.y), static_cast<u32>(color.z));
+		startDistance = dist.getX();
+		endDistance = dist.getY();
+		fogColor = video::SColor(static_cast<u32>(color.getW()), static_cast<u32>(color.getX()), static_cast<u32>(color.getY()), static_cast<u32>(color.getZ()));
 		switch (i) {
 		case 0: fogType = video::EFT_FOG_LINEAR; break;
 		case 1: fogType = video::EFT_FOG_EXP; break;
@@ -208,7 +208,7 @@ namespace Bind {
 	}
 
 	void setAmbientColor(const Vector4D& color) {
-		smgr->setAmbientLight(video::SColorf(static_cast<u32>(color.x) / 255.0f, static_cast<u32>(color.y) / 255.0f, static_cast<u32>(color.z) / 255.0f, static_cast<u32>(color.w) / 255.0f));
+		smgr->setAmbientLight(video::SColorf(static_cast<u32>(color.getX()) / 255.0f, static_cast<u32>(color.getY()) / 255.0f, static_cast<u32>(color.getZ()) / 255.0f, static_cast<u32>(color.getW()) / 255.0f));
 	}
 
 	void setShadows(bool enable) {
@@ -217,7 +217,7 @@ namespace Bind {
 	}
 
 	void setShadowColor(const Vector4D& color) {
-		smgr->setShadowColor(video::SColor(static_cast<u32>(color.x), static_cast<u32>(color.y), static_cast<u32>(color.z), static_cast<u32>(color.w)));
+		smgr->setShadowColor(video::SColor(static_cast<u32>(color.getX()), static_cast<u32>(color.getY()), static_cast<u32>(color.getZ()), static_cast<u32>(color.getW())));
 	}
 
 	void setShadowOpacity(int opacity) {
@@ -227,7 +227,7 @@ namespace Bind {
 	}
 
 	Vector2D toScreenPosition(const Vector3D& pos) {
-		irr::core::vector3df world = irr::core::vector3df(pos.x, pos.y, pos.z);
+		irr::core::vector3df world = irr::core::vector3df(pos.getX(), pos.getY(), pos.getZ());
 		irr::core::vector2di screen = smgr->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(world, smgr->getActiveCamera());
 
 		return Vector2D(screen.X, screen.Y);
@@ -241,7 +241,7 @@ namespace Bind {
 			cur = mainCamera;
 
 		if (device && cur && driver->queryFeature(video::EVDF_RENDER_TO_TARGET)) {
-			tx = driver->addRenderTargetTexture(core::dimension2d<u32>(size.x, size.y), "RTT1");
+			tx = driver->addRenderTargetTexture(core::dimension2d<u32>(size.getX(), size.getY()), "RTT1");
 
 			driver->beginScene(true, true, irrHandler->backgroundColor);
 
@@ -395,12 +395,12 @@ namespace Bind {
 
 	void drawPixel(const Vector2D& pos, const Vector4D& color) {
 		if (!driver) return;
-		driver->drawPixel(pos.x, pos.y, SColor(color.w, color.x, color.y, color.z));
+		driver->drawPixel(pos.getX(), pos.getY(), SColor(color.getW(), color.getX(), color.getY(), color.getZ()));
 	}
 
 	void drawLine2D(const Vector2D& start, const Vector2D& end, const Vector4D& color) {
 		if (!driver) return;
-		driver->draw2DLine(vector2di(start.x, start.y), vector2di(end.x, end.y), SColor(color.w, color.x, color.y, color.z));
+		driver->draw2DLine(vector2di(start.getX(), start.getY()), vector2di(end.getX(), end.getY()), SColor(color.getW(), color.getX(), color.getY(), color.getZ()));
 	}
 
 	void drawLine3D(const Vector3D& start, const Vector3D& end, const Vector4D& color) {
@@ -411,12 +411,12 @@ namespace Bind {
 		driver->setMaterial(m);
 		driver->setTransform(video::ETS_WORLD, core::matrix4());
 
-		driver->draw3DLine(vector3df(start.x, start.y, start.z), vector3df(end.x, end.y, end.z), SColor(color.w, color.x, color.y, color.z));
+		driver->draw3DLine(vector3df(start.getX(), start.getY(), start.getZ()), vector3df(end.getX(), end.getY(), end.getZ()), SColor(color.getW(), color.getX(), color.getY(), color.getZ()));
 	}
 
 	void drawRectangle2D(const Vector2D& cornerTopLeft, const Vector2D& cornerBottomRight, const Vector4D& color) {
 		if (!driver) return;
-		driver->draw2DRectangleOutline(recti(cornerTopLeft.x, cornerTopLeft.y, cornerBottomRight.x, cornerBottomRight.y), SColor(color.w, color.x, color.y, color.z));
+		driver->draw2DRectangleOutline(recti(cornerTopLeft.getX(), cornerTopLeft.getY(), cornerBottomRight.getX(), cornerBottomRight.getY()), SColor(color.getW(), color.getX(), color.getY(), color.getZ()));
 
 		/*
 		if (outline)
@@ -428,13 +428,13 @@ namespace Bind {
 
 	void drawRectangle3D(const Vector3D& minEdge, const Vector3D& maxEdge, const Vector4D& color) {
 		if (!driver) return;
-		aabbox3df box = aabbox3df(vector3df(minEdge.x, minEdge.y, minEdge.z), vector3df(maxEdge.x, maxEdge.y, maxEdge.z));
-		driver->draw3DBox(box, SColor(color.w, color.x, color.y, color.z));
+		aabbox3df box = aabbox3df(vector3df(minEdge.getX(), minEdge.getY(), minEdge.getZ()), vector3df(maxEdge.getX(), maxEdge.getY(), maxEdge.getZ()));
+		driver->draw3DBox(box, SColor(color.getW(), color.getX(), color.getY(), color.getZ()));
 	}
 
 	void drawPolygon2D(int resolution, const Vector2D& pos, float radius, const Vector4D& color) {
 		if (!driver) return;
-		driver->draw2DPolygon(vector2di(pos.x, pos.y), radius, SColor(color.w, color.x, color.y, color.z), resolution);
+		driver->draw2DPolygon(vector2di(pos.getX(), pos.getY()), radius, SColor(color.getW(), color.getX(), color.getY(), color.getZ()), resolution);
 	}
 
 	void setUseHighLevelShaders(bool v) {

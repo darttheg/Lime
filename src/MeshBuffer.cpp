@@ -23,9 +23,9 @@ void MeshBuffer::pushFace(const Vector3D& v1, const Vector3D& v2, const Vector3D
     buffer->Vertices.reallocate(buffer->Vertices.size() + 3);
     buffer->Vertices.set_used(buffer->Vertices.size() + 3);
 
-    buffer->Vertices[currentIndex] = S3DVertex(vector3df(v1.x, v1.y, v1.z), vector3df(n1.x, n1.y, n1.z), SColor(c1.w, c1.x, c1.y, c1.z), vector2df(uvw1.x, uvw1.y));
-    buffer->Vertices[currentIndex + 1] = S3DVertex(vector3df(v2.x, v2.y, v2.z), vector3df(n2.x, n2.y, n2.z), SColor(c2.w, c2.x, c2.y, c2.z), vector2df(uvw2.x, uvw2.y));
-    buffer->Vertices[currentIndex + 2] = S3DVertex(vector3df(v3.x, v3.y, v3.z), vector3df(n3.x, n3.y, n3.z), SColor(c3.w, c3.x, c3.y, c3.z), vector2df(uvw3.x, uvw3.y));
+    buffer->Vertices[currentIndex] = S3DVertex(vector3df(v1.getX(), v1.getY(), v1.getZ()), vector3df(n1.getX(), n1.getY(), n1.getZ()), SColor(c1.getW(), c1.getX(), c1.getY(), c1.getZ()), vector2df(uvw1.getX(), uvw1.getY()));
+    buffer->Vertices[currentIndex + 1] = S3DVertex(vector3df(v2.getX(), v2.getY(), v2.getZ()), vector3df(n2.getX(), n2.getY(), n2.getZ()), SColor(c2.getW(), c2.getX(), c2.getY(), c2.getZ()), vector2df(uvw2.getX(), uvw2.getY()));
+    buffer->Vertices[currentIndex + 2] = S3DVertex(vector3df(v3.getX(), v3.getY(), v3.getZ()), vector3df(n3.getX(), n3.getY(), n3.getZ()), SColor(c3.getW(), c3.getX(), c3.getY(), c3.getZ()), vector2df(uvw3.getX(), uvw3.getY()));
 
     if (currentIndex == 0)
         bbox.reset(buffer->Vertices[currentIndex].Pos);

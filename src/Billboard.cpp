@@ -24,7 +24,7 @@ Vector2D Billboard::getSize() {
 }
 
 void Billboard::setSize(const Vector2D& size) {
-    bb->setSize(irr::core::vector2df(size.x, size.y));
+    bb->setSize(irr::core::vector2df(size.getX(), size.getY()));
 }
 
 bool Billboard::loadMaterial(const Material& material) {
@@ -38,7 +38,7 @@ Vector3D Billboard::getRotLock() {
 }
 
 void Billboard::setRotLock(const Vector3D& rot) {
-    bb->setRotLock(irr::core::vector3d<bool>(rot.x, rot.y, rot.z));
+    bb->setRotLock(irr::core::vector3d<bool>(rot.getX(), rot.getY(), rot.getZ()));
 }
 
 irr::f32 Billboard::getYPivot() {

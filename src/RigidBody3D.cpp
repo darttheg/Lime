@@ -55,7 +55,7 @@ void RigidBody3D::setPosition(const Vector3D& pos) {
     
     btTransform transform = rigidBody->getPointer()->getWorldTransform();
     transform.getIdentity();
-    transform.setOrigin(btVector3(pos.x, pos.y, pos.z));
+    transform.setOrigin(btVector3(pos.getX(), pos.getY(), pos.getZ()));
 
     rigidBody->getPointer()->setWorldTransform(transform);
     rigidBody->getMotionState()->setWorldTransform(transform);
@@ -77,7 +77,7 @@ void RigidBody3D::setRotation(const Vector3D& rot) {
 
     btTransform transform = rigidBody->getPointer()->getWorldTransform();
     irr::core::matrix4 inMatrix;
-    inMatrix.setRotationDegrees(irr::core::vector3df(rot.x, rot.y, rot.z));
+    inMatrix.setRotationDegrees(irr::core::vector3df(rot.getX(), rot.getY(), rot.getZ()));
 
     const btVector3 ogPos = transform.getOrigin();
 
@@ -106,7 +106,7 @@ float RigidBody3D::getFriction() {
 
 void RigidBody3D::setAnisotropicFriction(const Vector3D& f) {
     if (!rigidBody) return;
-    rigidBody->setAnisotropicFriction(irr::core::vector3df(f.x, f.y, f.z));
+    rigidBody->setAnisotropicFriction(irr::core::vector3df(f.getX(), f.getY(), f.getZ()));
 }
 
 Vector3D RigidBody3D::getAnisotropicFriction() {
@@ -168,27 +168,27 @@ Vector3D RigidBody3D::getCenterOfMass() {
 void RigidBody3D::applyForce(const Vector3D& force, const Vector3D& relPos) {
     if (!rigidBody) return;
 
-    rigidBody->applyForce(irr::core::vector3df(force.x, force.y, force.z), irr::core::vector3df(relPos.x, relPos.y, relPos.z));
+    rigidBody->applyForce(irr::core::vector3df(force.getX(), force.getY(), force.getZ()), irr::core::vector3df(relPos.getX(), relPos.getY(), relPos.getZ()));
 }
 
 void RigidBody3D::applyImpulse(const Vector3D& force, const Vector3D& relPos) {
     if (!rigidBody) return;
 
-    rigidBody->applyImpulse(irr::core::vector3df(force.x, force.y, force.z), irr::core::vector3df(relPos.x, relPos.y, relPos.z));
+    rigidBody->applyImpulse(irr::core::vector3df(force.getX(), force.getY(), force.getZ()), irr::core::vector3df(relPos.getX(), relPos.getY(), relPos.getZ()));
 }
 
 void RigidBody3D::applyTorque(const Vector3D& force, bool impulsive) {
     if (!rigidBody) return;
 
     if (impulsive)
-        rigidBody->applyTorqueImpulse(irr::core::vector3df(force.x, force.y, force.z));
+        rigidBody->applyTorqueImpulse(irr::core::vector3df(force.getX(), force.getY(), force.getZ()));
     else
-        rigidBody->applyTorque(irr::core::vector3df(force.x, force.y, force.z));
+        rigidBody->applyTorque(irr::core::vector3df(force.getX(), force.getY(), force.getZ()));
 }
 
 void RigidBody3D::faceTarget(const Vector3D& pos) {
     if (!rigidBody) return;
-    rigidBody->faceTarget(irr::core::vector3df(pos.x, pos.y, pos.z));
+    rigidBody->faceTarget(irr::core::vector3df(pos.getX(), pos.getY(), pos.getZ()));
 }
 
 void RigidBody3D::wakeUp() {
@@ -211,11 +211,11 @@ void RigidBody3D::applySimpleImpulse(float forceMagnitude, const Vector3D& world
     if (!rigidBody) return;
 
     btVector3 centerMass = rigidBody->getPointer()->getWorldTransform().getOrigin();
-    btVector3 dir = btVector3(worldPos.x, worldPos.y, worldPos.z) - centerMass;
+    btVector3 dir = btVector3(worldPos.getX(), worldPos.getY(), worldPos.getZ()) - centerMass;
     dir.normalize();
 
     btVector3 imp = dir * -1.0 * forceMagnitude;
-    btVector3 rel = btVector3(worldPos.x, worldPos.y, worldPos.z) - centerMass;
+    btVector3 rel = btVector3(worldPos.getX(), worldPos.getY(), worldPos.getZ()) - centerMass;
 
     rigidBody->getPointer()->applyImpulse(imp, rel);
     rigidBody->activate(true);
@@ -225,11 +225,11 @@ void RigidBody3D::applySimpleForce(float forceMagnitude, const Vector3D& worldPo
     if (!rigidBody) return;
 
     btVector3 centerMass = rigidBody->getPointer()->getWorldTransform().getOrigin();
-    btVector3 dir = btVector3(worldPos.x, worldPos.y, worldPos.z) - centerMass;
+    btVector3 dir = btVector3(worldPos.getX(), worldPos.getY(), worldPos.getZ()) - centerMass;
     dir.normalize();
 
     btVector3 imp = dir * -1.0 * forceMagnitude;
-    btVector3 rel = btVector3(worldPos.x, worldPos.y, worldPos.z) - centerMass;
+    btVector3 rel = btVector3(worldPos.getX(), worldPos.getY(), worldPos.getZ()) - centerMass;
 
     rigidBody->getPointer()->applyForce(imp, rel);
     rigidBody->activate(true);
@@ -241,7 +241,7 @@ Vector3D RigidBody3D::getLinearVelocity() {
 
 void RigidBody3D::setLinearVelocity(const Vector3D& vel) {
     if (!rigidBody) return;
-    rigidBody->setLinearVelocity(irr::core::vector3df(vel.x, vel.y, vel.z));
+    rigidBody->setLinearVelocity(irr::core::vector3df(vel.getX(), vel.getY(), vel.getZ()));
 }
 
 Vector3D RigidBody3D::getAngularVelocity() {
@@ -250,7 +250,7 @@ Vector3D RigidBody3D::getAngularVelocity() {
 
 void RigidBody3D::setAngularVelocity(const Vector3D& vel) {
     if (!rigidBody) return;
-    rigidBody->setAngularVelocity(irr::core::vector3df(vel.x, vel.y, vel.z));
+    rigidBody->setAngularVelocity(irr::core::vector3df(vel.getX(), vel.getY(), vel.getZ()));
 }
 
 Vector3D RigidBody3D::getLinearFactor() {
@@ -259,7 +259,7 @@ Vector3D RigidBody3D::getLinearFactor() {
 
 void RigidBody3D::setLinearFactor(const Vector3D& f) {
     if (!rigidBody) return;
-    rigidBody->setLinearFactor(irr::core::vector3df(f.x, f.y, f.z));
+    rigidBody->setLinearFactor(irr::core::vector3df(f.getX(), f.getY(), f.getZ()));
 }
 
 Vector3D RigidBody3D::getAngularFactor() {
@@ -268,7 +268,7 @@ Vector3D RigidBody3D::getAngularFactor() {
 
 void RigidBody3D::setAngularFactor(const Vector3D& f) {
     if (!rigidBody) return;
-    rigidBody->setAngularFactor(irr::core::vector3df(f.x, f.y, f.z));
+    rigidBody->setAngularFactor(irr::core::vector3df(f.getX(), f.getY(), f.getZ()));
 }
 
 Vector3D RigidBody3D::getForward() {

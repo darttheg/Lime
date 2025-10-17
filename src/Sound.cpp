@@ -103,7 +103,7 @@ int Sound::getPlayLength() {
 
 void Sound::setVelocity(const Vector3D& vel) {
     if (mySound)
-        mySound->setVelocity(vec3df(vel.x, vel.y, vel.z));
+        mySound->setVelocity(vec3df(vel.getX(), vel.getY(), vel.getZ()));
 }
 
 Vector3D Sound::getVelocity() {
@@ -111,7 +111,7 @@ Vector3D Sound::getVelocity() {
 }
 
 void Sound::setPosition(const Vector3D& pos) {
-    playPos3D = vec3df(pos.x, pos.y, pos.z);
+    playPos3D = vec3df(pos.getX(), pos.getY(), pos.getZ());
 
     if (!attached && d)
         d->setPosition(vector3df(playPos3D.X, playPos3D.Y, playPos3D.Z));
@@ -143,8 +143,8 @@ void Sound::addReverbEffect(float inputGain, float mix, float time, float freqRa
 
 void Sound::setVolumeDistanceRange(const Vector2D& minMax) {
     if (!mySound) return;
-    mySound->setMinDistance(minMax.x);
-    mySound->setMaxDistance(minMax.y);
+    mySound->setMinDistance(minMax.getX());
+    mySound->setMaxDistance(minMax.getY());
 }
 
 void Sound::setSourceStreamMode(int mode) {

@@ -40,7 +40,7 @@ void PhysicsHandler::setDebugMode(int m) {
 
 void PhysicsHandler::setGravity(const Vector3D& g) {
 	if (world)
-		world->setGravity(irr::core::vector3df(g.x, g.y, g.z));
+		world->setGravity(irr::core::vector3df(g.getX(), g.getY(), g.getZ()));
 }
 
 void PhysicsHandler::setStepFactor(float s) {

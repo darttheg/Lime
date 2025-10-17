@@ -1,9 +1,9 @@
 #include "LegacyLight.h"
 
 LegacyLight::LegacyLight(const Vector3D& pos, const Vector3D& rot, int type, const Vector4D& color) {
-	vector3df p = vector3df(pos.x, pos.y, pos.z);
-	vector3df r = vector3df(rot.x, rot.y, rot.z);
-	SColorf col = SColorf(color.x / 255.0, color.y / 255.0, color.z / 255.0, color.w / 255.0);
+	vector3df p = vector3df(pos.getX(), pos.getY(), pos.getZ());
+	vector3df r = vector3df(rot.getX(), rot.getY(), rot.getZ());
+	SColorf col = SColorf(color.getX() / 255.0, color.getY() / 255.0, color.getZ() / 255.0, color.getW() / 255.0);
 	light = smgr->addLightSceneNode(0, p, col);
 	light->setLightType((E_LIGHT_TYPE)type);
 	light->setRotation(r);
@@ -34,7 +34,7 @@ Vector4D LegacyLight::getLightColor() {
 
 void LegacyLight::setLightColor(const Vector4D& col) {
 	if (light)
-		light->getLightData().DiffuseColor = (SColorf(col.x / 255.0, col.y / 255.0, col.z / 255.0, col.w / 255.0));
+		light->getLightData().DiffuseColor = (SColorf(col.getX() / 255.0, col.getY() / 255.0, col.getZ() / 255.0, col.getW() / 255.0));
 }
 
 Vector4D LegacyLight::getAmbientColor() {
@@ -47,7 +47,7 @@ Vector4D LegacyLight::getAmbientColor() {
 
 void LegacyLight::setAmbientColor(const Vector4D& col) {
 	if (light)
-		light->getLightData().AmbientColor = (SColorf(col.x / 255.0, col.y / 255.0, col.z / 255.0, col.w / 255.0));
+		light->getLightData().AmbientColor = (SColorf(col.getX() / 255.0, col.getY() / 255.0, col.getZ() / 255.0, col.getW() / 255.0));
 }
 
 Vector4D LegacyLight::getSpecColor() {
@@ -60,7 +60,7 @@ Vector4D LegacyLight::getSpecColor() {
 
 void LegacyLight::setSpecColor(const Vector4D& col) {
 	if (light)
-		light->getLightData().SpecularColor = (SColorf(col.x / 255.0, col.y / 255.0, col.z / 255.0, col.w / 255.0));
+		light->getLightData().SpecularColor = (SColorf(col.getX() / 255.0, col.getY() / 255.0, col.getZ() / 255.0, col.getW() / 255.0));
 }
 
 int LegacyLight::getType() {
@@ -81,8 +81,8 @@ Vector2D LegacyLight::getCones() {
 
 void LegacyLight::setCones(const Vector2D& cones) {
 	if (light) {
-		light->getLightData().InnerCone = cones.x;
-		light->getLightData().OuterCone = cones.y;
+		light->getLightData().InnerCone = cones.getX();
+		light->getLightData().OuterCone = cones.getY();
 	}
 }
 
@@ -104,7 +104,7 @@ Vector3D LegacyLight::getAttenuation() {
 
 void LegacyLight::setAttenuation(const Vector3D& a) {
 	if (light)
-		light->getLightData().Attenuation = vector3df(a.x, a.y, a.z);
+		light->getLightData().Attenuation = vector3df(a.getX(), a.getY(), a.getZ());
 }
 
 float LegacyLight::getFalloff() {

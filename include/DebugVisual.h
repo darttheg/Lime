@@ -122,10 +122,10 @@ private:
         driver->setMaterial(m);
         driver->setTransform(video::ETS_WORLD, core::matrix4());
 
-        vector3df end = vector3df(raypick_end.x, raypick_end.y, raypick_end.z);
+        vector3df end = vector3df(raypick_end.getX(), raypick_end.getY(), raypick_end.getZ());
 
         driver->draw3DLine(
-            vector3df(raypick_start.x, raypick_start.y, raypick_start.z),
+            vector3df(raypick_start.getX(), raypick_start.getY(), raypick_start.getZ()),
             end,
             SColor(255, 255 * !raypick_hit, 255 * raypick_hit, 0)
         );

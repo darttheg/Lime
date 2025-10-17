@@ -4,8 +4,8 @@
 #include <functional>
 
 class Vector4D {
-public:
     float x, y, z, w;
+public:
 
     Vector4D();
     Vector4D(float x, float y, float z, float w);

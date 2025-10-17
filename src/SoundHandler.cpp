@@ -57,16 +57,16 @@ void SoundManager::setMainVolume(int f) {
 }
 
 void SoundManager::setListenerVelocity(const Vector3D& vel) {
-	listenerVel = vector3df(vel.x, vel.y, vel.z);
+	listenerVel = vector3df(vel.getX(), vel.getY(), vel.getZ());
 }
 
 void SoundManager::setManualListener(const Vector3D& pos, const Vector3D& forward, const Vector3D& velocity, const Vector3D& up) {
 	manualListenThisFrame = true;
 
-	nonCamPos = vector3df(pos.x, pos.y, pos.z);
-	nonCamForward = vector3df(forward.x, forward.y, forward.z);
-	listenerVel = vector3df(velocity.x, velocity.y, velocity.z);
-	nonCamUp = vector3df(up.x, up.y, up.z);
+	nonCamPos = vector3df(pos.getX(), pos.getY(), pos.getZ());
+	nonCamForward = vector3df(forward.getX(), forward.getY(), forward.getZ());
+	listenerVel = vector3df(velocity.getX(), velocity.getY(), velocity.getZ());
+	nonCamUp = vector3df(up.getX(), up.getY(), up.getZ());
 }
 
 ISoundSource* SoundManager::preloadSound(std::string path) {
@@ -94,8 +94,8 @@ int SoundManager::getLoadedSoundsCount() {
 }
 
 void SoundManager::setDefaultVolumeRange(const Vector2D& minMax) {
-	soundEngine->setDefault3DSoundMinDistance(minMax.x);
-	soundEngine->setDefault3DSoundMaxDistance(minMax.y);
+	soundEngine->setDefault3DSoundMinDistance(minMax.getX());
+	soundEngine->setDefault3DSoundMaxDistance(minMax.getY());
 }
 
 void SoundManager::setDopplerEffectParameters(float dopplerFactor, float distanceFactor) {
