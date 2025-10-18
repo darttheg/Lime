@@ -347,7 +347,7 @@ void bindMaterial() {
     bindType["setTextureUVWrapping"] = &Material::setWrapUV;
     bindType["setTextureUWrapping"] = &Material::setWrapU;
     bindType["setTextureVWrapping"] = &Material::setWrapV;
-    bindType["setTexture"] = &Material::setTexture;
+    bindType["loadTexture"] = &Material::setTexture;
 
     bindType["setTextureScale"] = &Material::setTextureScale;
     bindType["getTextureScale"] = &Material::setTextureScale;

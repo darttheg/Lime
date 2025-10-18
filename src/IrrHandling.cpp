@@ -266,7 +266,7 @@ void IrrHandling::appLoop() {
 		}
 
 		try {
-			Events::Lime::OnUpdate.get()->engineRun(dt);
+			Events::Lime::OnUpdate.get()->engineRun(dt * 60.0);
 		}
 		catch (const sol::error& e) {
 			dConsole.postError(e.what());
