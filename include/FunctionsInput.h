@@ -17,6 +17,20 @@ namespace Bind {
 		return false;
 	}
 
+	bool getMouseDown(int c = 0) {
+		switch (c) {
+		case 1:
+			return receiver->MouseState.MiddleButtonDown;
+			break;
+		case 2:
+			return receiver->MouseState.RightButtonDown;
+			break;
+		default:
+			return receiver->MouseState.LeftButtonDown;
+			break;
+		}
+	}
+
 	Vector2D getCursorPosition() {
 		double currentMouseX, currentMouseY;
 		glfwGetCursorPos(irrHandler->glfwWindow, &currentMouseX, &currentMouseY);
@@ -122,8 +136,9 @@ namespace Bind {
 void bindInput() {
 	sol::table input = lua->create_named_table("Input");
 
-	input["IsKeyPressed"] = &Bind::isKeyPressed;
+	input["IsKeyDown"] = &Bind::isKeyPressed;
 	input["GetMouseState"] = &Bind::getMouseState;
+	input["IsMouseDown"] = &Bind::getMouseDown;
 	input["SetMouseVisible"] = &Bind::showCursor;
 	input["SetMousePosition"] = &Bind::setCursorPosition;
 	input["GetMousePosition"] = &Bind::getCursorPosition;
