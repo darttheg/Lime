@@ -7,6 +7,7 @@ namespace Events {
 		inline std::shared_ptr<Event> OnStart = std::make_shared<Event>();
 		inline std::shared_ptr<Event> OnUpdate = std::make_shared<Event>();
 		inline std::shared_ptr<Event> OnEnd = std::make_shared<Event>();
+		inline std::shared_ptr<Event> OnResize = std::make_shared<Event>();
 	}
 
 	namespace Input {
@@ -37,6 +38,7 @@ inline void initEvents() {
 	(*lua)["Lime"]["OnStart"] = Events::Lime::OnStart;
 	(*lua)["Lime"]["OnUpdate"] = Events::Lime::OnUpdate;
 	(*lua)["Lime"]["OnEnd"] = Events::Lime::OnEnd;
+	(*lua)["Lime"]["OnResize"] = Events::Lime::OnResize;
 
 	(*lua)["Input"]["OnKeyPressed"] = Events::Input::OnKeyPressed;
 	(*lua)["Input"]["OnKeyReleased"] = Events::Input::OnKeyReleased;

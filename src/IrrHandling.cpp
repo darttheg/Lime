@@ -746,6 +746,8 @@ void IrrHandling::updateIrrRenderRes() {
 		auto* root = guienv->getRootGUIElement();
 		root->setRelativePosition(core::rect<s32>(0, 0, (s32)irrHandler->width, (s32)irrHandler->height));
 	}
+
+	Events::Lime::OnResize.get()->engineRun();
 }
 
 // For glfw set window icon
