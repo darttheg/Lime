@@ -30,6 +30,8 @@ public:
     irr::scene::ICameraSceneNode* createCamera();
     void destroy() override;
 
+    bool getIsActive();
+
     void setTargetBind(bool val);
 
     float getNearPlane();
@@ -52,7 +54,7 @@ public:
     Vector3D getUp();
     void setUp(const Vector3D& up);
 
-    void setActive();
+    void setActive(bool v);
 
     float getAspect();
     void setAspect(float a);

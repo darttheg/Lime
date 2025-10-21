@@ -8,12 +8,14 @@ Camera3D::Camera3D(const Vector3D& position) : Camera3D(position, Vector3D(0,0,0
 }
 
 Camera3D::Camera3D(const Vector3D& position, const Vector3D& rotation) {
+    if (!smgr) return;
+
     camera = createCamera();
 
     if (mainCamera)
         smgr->setActiveCamera(mainCamera);
     else
-        setActive();
+        setActive(true);
 
     setPosition(position);
     setRotation(rotation);
@@ -39,6 +41,10 @@ irr::scene::ICameraSceneNode* Camera3D::createCamera() {
     leftChild->setPosition(irr::core::vector3df(-1, 0, 0));
 
     return cam;
+}
+
+bool Camera3D::getIsActive() {
+    return camera ? smgr->getActiveCamera() == camera : false;
 }
 
 void Camera3D::destroy() {
@@ -119,8 +125,8 @@ void Camera3D::setUp(const Vector3D& up) {
     camera->setUpVector(irr::core::vector3df(up.getX(), up.getY(), up.getZ()));
 }
 
-void Camera3D::setActive() {
-    if (!camera->isVisible()) return;
+void Camera3D::setActive(bool v) {
+    if (!camera->isVisible() || !v) return;
 
     smgr->setActiveCamera(camera);
     mainCamera = camera;
@@ -186,11 +192,11 @@ void bindCamera3D() {
         "fieldOfView", sol::property(&Camera3D::getFOV, &Camera3D::setFOV),
         "aspectRatio", sol::property(&Camera3D::getAspect, &Camera3D::setAspect),
         "debug", sol::property(&Camera3D::getDebug, &Camera3D::setDebug),
-        "orthogonal", sol::property(&Camera3D::getOrtho, &Camera3D::setOrtho)
+        "orthogonal", sol::property(&Camera3D::getOrtho, &Camera3D::setOrtho),
+        "active", sol::property(&Camera3D::getIsActive, &Camera3D::setActive)
     );
 
     bindType["getForward"] = &Camera3D::getForward;
     bindType["getLeft"] = &Camera3D::getLeft;
-    bindType["setActive"] = &Camera3D::setActive;
     bindType["queue"] = &Camera3D::addToRenderQueue;
 }
