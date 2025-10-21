@@ -76,6 +76,7 @@ Vector2D Compatible2D::getPosition() {
 void Compatible2D::setPosition(const Vector2D& pos) {
 	if (getNode())
 		getNode()->setRelativePosition(irr::core::position2di(pos.getX(), pos.getY()));
+	posHold = vector2di(pos.getX(), pos.getY());
 }
 
 Vector2D Compatible2D::getPositionProportional() {

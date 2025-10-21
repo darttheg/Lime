@@ -27,10 +27,13 @@ void Image2D::setColor(const Vector4D& color) {
 }
 
 void Image2D::setImage(const Texture& tex) {
-	if (img) {
-		img->setImage(tex.texture);
-		Compatible2D::setSize(Vector2D(tex.texture->getSize().Width, tex.texture->getSize().Height));
-	}
+	if (!img)
+		img = guienv->addImage(tex.texture, irr::core::vector2di(0,0));
+
+	img->setImage(tex.texture);
+
+	img->setRelativePosition(posHold);
+	Compatible2D::setSize(Vector2D(tex.texture->getSize().Width, tex.texture->getSize().Height));
 }
 
 void Image2D::destroy() {
@@ -73,7 +76,7 @@ void Image2D::setParent(const Image2D& other) {
 
 void bindImage2D() {
 	sol::usertype<Image2D> bindType = lua->new_usertype<Image2D>("Image2D",
-		sol::constructors <Image2D(const Texture & tex), Image2D(const Texture & tex, const Vector2D & pos), Image2D(const Texture & tex, const Vector2D & pos), Image2D(const Image2D & other)>(),
+		sol::constructors <Image2D(), Image2D(const Texture & tex), Image2D(const Texture & tex, const Vector2D & pos), Image2D(const Texture & tex, const Vector2D & pos), Image2D(const Image2D & other)>(),
 
 		sol::base_classes, sol::bases<Compatible2D>(),
 

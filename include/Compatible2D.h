@@ -10,6 +10,8 @@
 #include <functional>
 
 class Compatible2D {
+protected:
+    vector2di posHold; // For when an object isn't fully created to store position yet.
 public:
     virtual ~Compatible2D() = default;
 
