@@ -205,6 +205,10 @@ irr::video::IImage* Texture::texToImg(irr::video::ITexture* tex) {
 	return image;
 }
 
+void Texture::destroy() {
+	if (texture) driver->removeTexture(texture);
+}
+
 void bindTexture() {
 	sol::usertype<Texture> bindType = lua->new_usertype<Texture>("Texture",
 		sol::constructors<Texture(), Texture(const Vector2D& size), Texture(std::string imgpath)/*, Texture(std::string imgpath, sol::table options)*/>()
@@ -220,4 +224,5 @@ void bindTexture() {
 	bindType["clear"] = &Texture::createEmpty;
 	bindType["getPixelColor"] = &Texture::getPixel;
 	bindType["createNormalMap"] = &Texture::makeNormalMap;
+	bindType["remove"] = &Texture::destroy;
 }

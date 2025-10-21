@@ -243,11 +243,11 @@ namespace Bind {
 		if (device && cur && driver->queryFeature(video::EVDF_RENDER_TO_TARGET)) {
 			tx = driver->addRenderTargetTexture(core::dimension2d<u32>(size.getX(), size.getY()), "RTT1");
 
-			driver->beginScene(true, true, irrHandler->backgroundColor);
-
-			irrHandler->setCameraMatrix(cur);
-
 			smgr->setActiveCamera(cur);
+			c.camera->updateAbsolutePosition();
+			c.forwardChild->updateAbsolutePosition();
+			c.camera->setTarget(c.forwardChild->getAbsolutePosition());
+			irrHandler->setCameraMatrix(cur);
 
 			driver->setRenderTarget(tx, true, true, irrHandler->backgroundColor);
 			smgr->drawAll();
