@@ -182,8 +182,8 @@ void LimeReceiver::updateDeltaMouse(GLFWwindow* win) {
         lastMouseY = mouseY;
         firstMouse = false;
     } else {
-        deltaX = mouseX - lastMouseX;
-        deltaY = mouseY - lastMouseY;
+        deltaX = std::round(mouseX - lastMouseX);
+        deltaY = std::round(mouseY - lastMouseY);
     }
 }
 
