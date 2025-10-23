@@ -145,7 +145,7 @@ void bindCompatible3D() {
         ),
 
         "visible", sol::property(&Compatible3D::getVisibility, &Compatible3D::setVisibility),
-        "ID", sol::property(&Compatible3D::getID, &Compatible3D::setID)
+        "id", sol::property(&Compatible3D::getID, &Compatible3D::setID)
     );
 
     bindType["destroy"] = &Compatible3D::boundDestroy;
