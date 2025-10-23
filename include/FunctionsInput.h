@@ -73,6 +73,10 @@ namespace Bind {
 		}
 	}
 
+	float getMouseWheelDelta() {
+		return receiver ? receiver->MouseState.WheelDelta : 0.0;
+	}
+
 	// Joystick functions
 	sol::table getJoystickState(int id = 0) {
 		return lua->create_table();
@@ -143,6 +147,7 @@ void bindInput() {
 	input["SetMousePosition"] = &Bind::setCursorPosition;
 	input["GetMousePosition"] = &Bind::getCursorPosition;
 	input["GetMouseDelta"] = &Bind::getMouseDelta;
+	input["GetMouseWheelDelta"] = &Bind::getMouseWheelDelta;
 
 	input["GetJoystickState"] = &Bind::getJoystickState;
 	input["IsJoystickConnected"] = &Bind::isJoystickConnected;
