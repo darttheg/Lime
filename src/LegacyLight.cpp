@@ -6,6 +6,7 @@ LegacyLight::LegacyLight(const Vector3D& pos, const Vector3D& rot, int type, con
 	SColorf col = SColorf(color.getX() / 255.0, color.getY() / 255.0, color.getZ() / 255.0, color.getW() / 255.0);
 	light = smgr->addLightSceneNode(0, p, col);
 	light->setLightType((E_LIGHT_TYPE)type);
+	light->setRadius(10.0f);
 	light->setRotation(r);
 }
 
