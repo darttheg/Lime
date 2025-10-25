@@ -19,6 +19,10 @@ namespace Bind {
 		irrHandler->skydome = smgr->addSkyDomeSceneNode(sky.texture, 16, 8, 0.9, 2.0, 100.0);
 	}
 
+	void clearSkydome() {
+		if (irrHandler && irrHandler->skydome) irrHandler->skydome->remove();
+	}
+
 	void setSkydomeParams(u32 resX, u32 resY, float texPercent, float spherePercent, float radius) {
 		irr::video::ITexture* cur = nullptr;
 		if (!irrHandler || !device)
@@ -267,12 +271,34 @@ namespace Bind {
 		return tex;
 	}
 
-	void clearScene(bool includeModels) {
-		if (smgr && device) {
-			smgr->clear();
-			if (includeModels)
-				smgr->getMeshCache()->clear();
+	void clearScene(bool includeTextures) {
+		if (!smgr) return;
+
+		if (irrHandler->skydome) irrHandler->skydome->remove();
+
+		core::array<ISceneNode*> stack;
+		stack.push_back(smgr->getRootSceneNode());
+		while (!stack.empty()) {
+			ISceneNode* n = stack.getLast();
+			stack.erase(stack.size() - 1);
+			for (auto* c : n->getChildren()) stack.push_back(c);
+			n->remove();
 		}
+
+		IMeshCache* cache = smgr->getMeshCache();
+		for (u32 i = 0; i < cache->getMeshCount(); ++i) {
+			IAnimatedMesh* am = cache->getMeshByIndex(i);
+			if (!am) continue;
+			IMesh* m = am->getMesh(0);
+			if (!m) continue;
+			for (u32 j = 0; j < m->getMeshBufferCount(); ++j)
+				if (auto* mb = m->getMeshBuffer(j))
+					driver->removeHardwareBuffer(mb);
+		}
+		cache->clear();
+
+		if (includeTextures)
+			driver->removeAllTextures();
 	}
 
 	bool preloadMesh(sol::variadic_args va) {
@@ -303,36 +329,32 @@ namespace Bind {
 		*/
 	}
 
-	bool unloadMesh(sol::variadic_args va) {
-		if (!driver) return false;
-		bool all = true;
-		for (sol::stack_object v : va) {
-			sol::optional<std::string_view> s = v.as<sol::optional<std::string_view>>();
-			if (!s) return false;
-
-			irr::scene::IMesh* mesh = smgr->getMesh(std::string(*s).c_str());
-			if (mesh)
-				smgr->getMeshCache()->removeMesh(mesh);
-
-			all = all && (mesh == nullptr);
-		}
-		return all;
+	int getMeshCacheCount() {
+		return (driver && smgr) ? smgr->getMeshCache()->getMeshCount() : 0;
 	}
 
-	bool unloadTexture(sol::variadic_args va) {
-		if (!driver) return false;
-		bool all = true;
-		for (sol::stack_object v : va) {
-			sol::optional<std::string_view> s = v.as<sol::optional<std::string_view>>();
-			if (!s) return false;
+	int getTextureCacheCount() {
+		return (driver) ? driver->getTextureCount() : 0;
+	}
 
-			irr::video::ITexture* texture = driver->getTexture(std::string(*s).c_str());
-			if (texture)
-				driver->removeTexture(texture);
+	void unloadMesh(std::string path) {
+		if (!driver || !smgr) return;
 
-			all = all && (texture == nullptr);
+		IMesh* m = smgr->getMesh(path.c_str());
+		if (m) {
+			smgr->getMeshCache()->removeMesh(m);
+			m->drop();
 		}
-		return all;
+	}
+
+	void unloadTexture(std::string path) {
+		if (!driver || !smgr) return;
+
+		ITexture* t = driver->getTexture(path.c_str());
+		if (t) {
+			driver->removeTexture(t);
+			t->drop();
+		}
 	}
 
 	bool getAreTexturesPreloading() {
@@ -467,6 +489,7 @@ void bindWorld() {
 
 	world["SetSkydome"] = &Bind::setSkydome;
 	world["SetSkydomeParameters"] = &Bind::setSkydomeParams;
+	world["ClearSkydome"] = &Bind::clearSkydome;
 	world["SetBackgroundColor"] = &Bind::setBackgroundColor;
 	world["GetObjectCount"] = &Bind::getObjectCount;
 	world["FireRaypick3D"] = &Bind::fireRaypick;
@@ -489,8 +512,10 @@ void bindWorld() {
 	world["IsPreloadingTextures"] = &Bind::getAreTexturesPreloading;
 	world["IsPreloading"] = &Bind::getIsPreloading;
 	world["AddArchive"] = &Bind::addArchive;
-	world["UnloadMesh"] = &Bind::unloadMesh;
-	world["UnloadTexture"] = &Bind::unloadTexture;
+	world["GetMeshCacheCount"] = &Bind::getMeshCacheCount;
+	world["GetTextureCacheCount"] = &Bind::getTextureCacheCount;
+	world["UnloadMeshByPath"] = &Bind::unloadMesh;
+	world["UnloadTextureByPath"] = &Bind::unloadTexture;
 	world["SetShadowColor"] = &Bind::setShadowColor;
 	world["SetShadowOpacity"] = &Bind::setShadowOpacity;
 	world["SetLightManagementMode"] = &Bind::setLightManagementMode;
