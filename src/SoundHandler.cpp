@@ -12,6 +12,14 @@ SoundManager::SoundManager() {
 SoundManager::~SoundManager() {
 }
 
+void SoundManager::clean() {
+	soundEngine->stopAllSounds();
+	soundEngine->removeAllSoundSources();
+
+	attachedToObjs.clear();
+	manualListenThisFrame = false;
+}
+
 void SoundManager::update() {
 	if (!manualListenThisFrame) {
 		vector3df pos, forward, up;

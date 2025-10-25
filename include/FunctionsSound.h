@@ -44,6 +44,10 @@ namespace Bind {
 	void setDopplerParameters(float d, float di) {
 		soundManager->setDopplerEffectParameters(d, di);
 	}
+
+	void clean() {
+		soundManager->clean();
+	}
 }
 
 void bindAudio() {
@@ -51,6 +55,7 @@ void bindAudio() {
 
 	audio["GetVolume"] = Bind::getVolume;
 	audio["SetVolume"] = Bind::setVolume;
+	audio["clean"] = Bind::clean;
 	audio["SetListenerVelocity"] = Bind::setListenerVelocity;
 	audio["SetManualListener"] = Bind::setManualListener;
 	audio["Unload"] = &Bind::unloadSound;
