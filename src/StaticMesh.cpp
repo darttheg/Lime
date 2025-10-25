@@ -1,13 +1,13 @@
 #include "StaticMesh.h"
 #include <filesystem>
 
-StaticMesh::StaticMesh() : meshNode(nullptr), selector(nullptr), collisionEnabled(false),
+StaticMesh::StaticMesh() : meshNode(nullptr), collisionEnabled(false),
 vColor() {
 }
 
 StaticMesh::StaticMesh(const std::string& filePath) : StaticMesh() {
     meshPath = filePath;
-    loadMesh(meshPath);
+    loadSafe(meshPath);
 }
 
 StaticMesh::StaticMesh(const StaticMesh& other) : StaticMesh() {
@@ -25,12 +25,30 @@ StaticMesh::StaticMesh(const MeshBuffer& m) {
     loadMeshViaBuffer(m);
 }
 
-StaticMesh::StaticMesh(irr::scene::IAnimatedMeshSceneNode* node) : StaticMesh() {
+StaticMesh::StaticMesh(irr::scene::IMeshSceneNode* node) : StaticMesh() {
     meshNode = node;
 }
 
 std::string StaticMesh::getMesh() const {
     return meshPath;
+}
+
+bool StaticMesh::loadSafe(const std::string& filePath) {
+    sol::object temp = sol::nil;
+    if (meshNode)
+        temp = irrHandler->comp3dmap[meshNode];
+
+    IMesh* myMesh = smgr->getMesh(filePath.c_str());
+    if (!myMesh) return false;
+    meshNode = smgr->addMeshSceneNode(myMesh);
+    myMesh->drop();
+
+    meshPath = filePath;
+
+    if (irrHandler->comp3dmap.find(getNode()) == irrHandler->comp3dmap.end())
+        irrHandler->comp3dmap[meshNode] = temp;
+
+    return true;
 }
 
 bool StaticMesh::loadMesh(const std::string& filePath) {
@@ -42,6 +60,7 @@ bool StaticMesh::loadMeshWithTangents(const std::string& filePath) {
 }
 
 bool StaticMesh::fullLoadMesh(const std::string& filePath, bool doTangents) {
+    /*
     irr::scene::IAnimatedMesh* mesh = nullptr;
 
     sol::object temp = sol::nil;
@@ -62,14 +81,13 @@ bool StaticMesh::fullLoadMesh(const std::string& filePath, bool doTangents) {
     meshNode = smgr->addAnimatedMeshSceneNode(mesh);
     if (!meshNode) return false;
 
-    meshNode->grab();
     for (u32 i = 0; i < meshNode->getMaterialCount(); ++i)
         meshNode->getMaterial(i).Lighting = false;
 
     mesh->drop();
 
     if (irrHandler->comp3dmap.find(getNode()) == irrHandler->comp3dmap.end())
-        irrHandler->comp3dmap[meshNode] = temp;
+        irrHandler->comp3dmap[meshNode] = temp;*/
 
     return true;
 }
@@ -88,6 +106,7 @@ bool StaticMesh::getCollision() const {
 }
 
 void StaticMesh::setCollision(bool enable) {
+    /*
     if (enable && meshNode) {
         selector = smgr->createTriangleSelector(meshNode);
         meshNode->setTriangleSelector(selector);
@@ -98,10 +117,22 @@ void StaticMesh::setCollision(bool enable) {
         meshNode->setTriangleSelector(nullptr);
         collisionEnabled = false;
     }
+    */
+
+    if (enable && meshNode) {
+        ITriangleSelector* tri = smgr->createOctreeTriangleSelector(meshNode->getMesh(), meshNode, 128);
+        meshNode->setTriangleSelector(tri);
+        tri->drop();
+    }
+    else if (meshNode) {
+        meshNode->setTriangleSelector(nullptr);
+    }
+    collisionEnabled = enable;
 }
 
 unsigned int StaticMesh::getVertexCount() const {
-    if (!meshNode) return 0;
+    return meshNode ? meshNode->getMesh()->getMeshBuffer(0)->getVertexCount() : 0;
+    /*
     unsigned int vertexCount = 0;
     irr::scene::IAnimatedMesh* mesh = meshNode->getMesh();
     if (mesh) {
@@ -110,6 +141,7 @@ unsigned int StaticMesh::getVertexCount() const {
         }
     }
     return vertexCount;
+    */
 }
 
 unsigned int StaticMesh::getMaterialCount() const {
@@ -123,6 +155,7 @@ bool StaticMesh::loadMaterial(const Material& material, int slot) {
     return true;
 }
 
+/*
 int StaticMesh::getFrame() {
     return meshNode ? meshNode->getFrameNr() : 0;
 }
@@ -175,7 +208,7 @@ sol::table StaticMesh::getBoneInfoByName(const std::string& name) {
         bone = meshNode->getJointNode(name.c_str());
     }
     return getBoneData(bone);
-}
+}*/
 
 void StaticMesh::normalizeNormals(bool enable) {
     if (meshNode) {
@@ -247,7 +280,7 @@ bool StaticMesh::writeToFile(std::string path) {
 }
 
 bool StaticMesh::loadMeshViaBuffer(const MeshBuffer& b) {
-    SMesh* m = new SMesh();
+    /*SMesh* m = new SMesh();
     m->addMeshBuffer(b.getBuffer());
 
     m->recalculateBoundingBox();
@@ -257,7 +290,7 @@ bool StaticMesh::loadMeshViaBuffer(const MeshBuffer& b) {
     meshNode = smgr->addAnimatedMeshSceneNode(meshManipulator->createAnimatedMesh(m));
 
     m->drop();
-
+    */
     if (!meshNode)
         return false;
 
@@ -277,7 +310,7 @@ void bindStaticMesh() {
         sol::meta_function::type, [](const StaticMesh&) { return "Mesh"; },
 
         "collision", sol::property(&StaticMesh::getCollision, &StaticMesh::setCollision),
-        "frame", sol::property(&StaticMesh::getFrame, &StaticMesh::setFrame),
+        // "frame", sol::property(&StaticMesh::getFrame, &StaticMesh::setFrame),
         "debug", sol::property(&StaticMesh::getDebug, &StaticMesh::setDebug),
 
         "vertexColor", sol::property(
@@ -286,16 +319,17 @@ void bindStaticMesh() {
         )
     );
 
-    bindType["load"] = &StaticMesh::loadMesh;
-    bindType["loadWithTangents"] = &StaticMesh::loadMeshWithTangents;
+    bindType["load"] = &StaticMesh::loadSafe;
+    //bindType["load"] = &StaticMesh::loadMesh;
+    //bindType["loadWithTangents"] = &StaticMesh::loadMeshWithTangents;
     bindType["loadFromBuffer"] = &StaticMesh::loadMeshViaBuffer;
     bindType["loadMaterial"] = &StaticMesh::loadMaterial;
     bindType["getVertexCount"] = &StaticMesh::getVertexCount;
     bindType["getMaterialCount"] = &StaticMesh::getMaterialCount;
     bindType["toStr"] = &StaticMesh::getMesh;
-    bindType["getBoneDataByIndex"] = &StaticMesh::getBoneInfoByIndex;
+    /*bindType["getBoneDataByIndex"] = &StaticMesh::getBoneInfoByIndex;
     bindType["getBoneDataByName"] = &StaticMesh::getBoneInfoByName;
-    bindType["getFrameCount"] = &StaticMesh::getFrameCount;
+    bindType["getFrameCount"] = &StaticMesh::getFrameCount;*/
     bindType["normalizeNormals"] = &StaticMesh::normalizeNormals;
     bindType["getBoundingBox"] = &StaticMesh::getBoundingBox;
     bindType["toPlanarMapping"] = &StaticMesh::makePlanarMapping;

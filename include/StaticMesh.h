@@ -18,9 +18,10 @@ using namespace video;
 
 class StaticMesh : public Compatible3D {
 public:
-    irr::scene::IAnimatedMeshSceneNode* meshNode = nullptr;
+    IMeshSceneNode* meshNode = nullptr;
+    // irr::scene::IAnimatedMeshSceneNode* meshNode = nullptr;
     std::string meshPath;
-    irr::scene::ITriangleSelector* selector;
+    // irr::scene::ITriangleSelector* selector;
     bool collisionEnabled;
     irr::video::SColor vColor;
 
@@ -28,10 +29,11 @@ public:
     StaticMesh(const std::string& filePath);
     StaticMesh(const StaticMesh& other);
     StaticMesh(const MeshBuffer& m);
-    StaticMesh(irr::scene::IAnimatedMeshSceneNode* node);
+    StaticMesh(irr::scene::IMeshSceneNode* node);
 
     std::string getMesh() const;
 
+    bool loadSafe(const std::string& filePath);
     bool loadMesh(const std::string& filePath);
     bool loadMeshWithTangents(const std::string& filePath);
     bool fullLoadMesh(const std::string& filePath, bool doTangents);
@@ -46,13 +48,13 @@ public:
     bool getCollision() const;
     void setCollision(bool enable);
 
-    int getFrame();
+    /*int getFrame();
     void setFrame(int i);
     int getFrameCount();
 
     sol::table getBoneData(irr::scene::IBoneSceneNode* bone);
     sol::table getBoneInfoByIndex(int i);
-    sol::table getBoneInfoByName(const std::string& name);
+    sol::table getBoneInfoByName(const std::string& name);*/
 
     void normalizeNormals(bool enable);
     bool getDebug();
