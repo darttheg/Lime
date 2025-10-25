@@ -2,12 +2,10 @@
 
 Billboard::Billboard() {
     bb = smgr->addBillboardSceneNode();
-    bb->grab();
 }
 
 Billboard::Billboard(const Billboard& other) {
     bb = smgr->addBillboardSceneNode();
-    bb->grab();
     bb = other.bb;
     myMaterial = other.myMaterial;
     bb->getMaterial(0) = other.myMaterial;
@@ -15,7 +13,6 @@ Billboard::Billboard(const Billboard& other) {
 
 Billboard::Billboard(const Material& material) {
     bb = smgr->addBillboardSceneNode();
-    bb->grab();
     loadMaterial(material);
 }
 

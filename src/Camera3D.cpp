@@ -19,14 +19,11 @@ Camera3D::Camera3D(const Vector3D& position, const Vector3D& rotation) {
 
     setPosition(position);
     setRotation(rotation);
-
-    camera->grab();
 }
 
 Camera3D::Camera3D(const Camera3D& other) {
     destroy();
     camera = other.camera;
-    camera->grab();
 }
 
 irr::scene::ICameraSceneNode* Camera3D::createCamera() {
