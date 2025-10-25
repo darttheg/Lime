@@ -225,5 +225,5 @@ void bindTexture() {
 	bindType["clear"] = &Texture::createEmpty;
 	bindType["getPixelColor"] = &Texture::getPixel;
 	bindType["createNormalMap"] = &Texture::makeNormalMap;
-	bindType["remove"] = &Texture::destroy;
+	bindType["destroy"] = &Texture::destroy;
 }
