@@ -59,6 +59,7 @@ void bindBillboard() {
         sol::constructors<Billboard(), Billboard(const Material & material)>(),
 
         sol::base_classes, sol::bases<Compatible3D>(),
+        sol::meta_function::type, [](const Billboard&) { return "Billboard"; },
 
         "size", sol::property(
             [](Billboard& c) { return Vector2D{ [&] { return c.getSize(); }, [&](auto v) { c.setSize(v); } }; },

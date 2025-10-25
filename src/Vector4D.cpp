@@ -47,6 +47,7 @@ void bindVector4D() {
         sol::meta_function::multiplication, &Vector4D::operator*,
         sol::meta_function::division, &Vector4D::operator/,
         sol::meta_function::equal_to, &Vector4D::operator==,
+        sol::meta_function::type, [](const Vector4D&) { return "Vector4D"; },
 
         "x", sol::property(&Vector4D::getX, &Vector4D::setX),
         "y", sol::property(&Vector4D::getY, &Vector4D::setY),

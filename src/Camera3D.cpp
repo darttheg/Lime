@@ -179,6 +179,7 @@ void bindCamera3D() {
         sol::constructors<Camera3D(), Camera3D(const Vector3D& position), Camera3D(const Vector3D& position, const Vector3D& rotation)>(),
 
         sol::base_classes, sol::bases<Compatible3D>(),
+        sol::meta_function::type, [](const Camera3D&) { return "Camera"; },
 
         "up", sol::property(
             [](Camera3D& c) { return Vector3D{ [&] { return c.getUp(); }, [&](auto v) { c.setUp(v); } }; },

@@ -7,8 +7,9 @@ Text2D::Text2D(std::string tx) : Text2D(tx, Vector2D(0, 0), Vector2D(256, 16)) {
 Text2D::Text2D(std::string tx, const Vector2D& pos) : Text2D(tx, pos, Vector2D(256, 16)) {}
 
 Text2D::Text2D(std::string tx, const Vector2D& pos, const Vector2D& dimensions) {
-	text = guienv->addStaticText(charToWchar(tx.c_str()), irr::core::recti(irr::core::vector2di(pos.getX(), pos.getY()), irr::core::vector2di(pos.getX() + dimensions.getX(), pos.getY() + dimensions.getY())));
-	text->setBackgroundColor(irr::video::SColor(0, 180, 180, 180));
+	text = addColoredText(guienv, charToWchar(tx.c_str()), irr::core::recti(irr::core::vector2di(pos.getX(), pos.getY()), irr::core::vector2di(pos.getX() + dimensions.getX(), pos.getY() + dimensions.getY())));
+	// text = guienv->addStaticText(charToWchar(tx.c_str()), irr::core::recti(irr::core::vector2di(pos.getX(), pos.getY()), irr::core::vector2di(pos.getX() + dimensions.getX(), pos.getY() + dimensions.getY())));
+	// text->setBackgroundColor(irr::video::SColor(0, 180, 180, 180));
 }
 
 Text2D::Text2D(const Text2D& other) {
@@ -47,12 +48,20 @@ void Text2D::setBorderAlignment(int a, int b, int c, int d) {
 		text->setAlignment((irr::gui::EGUI_ALIGNMENT)a, (irr::gui::EGUI_ALIGNMENT)b, (irr::gui::EGUI_ALIGNMENT)c, (irr::gui::EGUI_ALIGNMENT)d);
 }
 
-void Text2D::setTextAlignment(const Vector2D& align) {
+void Text2D::setTextAlignment(int h, int v) {
 	if (text)
-		text->setTextAlignment((irr::gui::EGUI_ALIGNMENT)align.getX(), (irr::gui::EGUI_ALIGNMENT)align.getY());
+		text->setTextAlignment((irr::gui::EGUI_ALIGNMENT)h, (irr::gui::EGUI_ALIGNMENT)v);
 }
 
-bool Text2D::getWrap() {
+float Text2D::getOpacity() {
+	return text ? text->getOpacity() : 0.0f;
+}
+
+void Text2D::setOpacity(float f) {
+	if (text) text->setOpacity(f);
+}
+
+/*bool Text2D::getWrap() {
 	return text ? text->isWordWrapEnabled() : false;
 }
 
@@ -86,7 +95,7 @@ Vector4D Text2D::getTextColor() {
 void Text2D::setTextColor(const Vector4D& col) {
 	if (text)
 		text->setOverrideColor(irr::video::SColor(col.getW(), col.getX(), col.getY(), col.getZ()));
-}
+}*/
 
 bool Text2D::setFont(const std::string& fontName) {
 	if (!text)
@@ -111,14 +120,14 @@ void Text2D::setParent(const Image2D& other) {
 	}
 }
 
-bool Text2D::getDrawBorder() {
+/*bool Text2D::getDrawBorder() {
 	return text ? text->isDrawBorderEnabled() : false;
 }
 
 void Text2D::setDrawBorder(bool enable) {
 	if (text)
 		text->setDrawBorder(enable);
-}
+}*/
 
 
 void bindText2D() {
@@ -126,8 +135,13 @@ void bindText2D() {
 		sol::constructors <Text2D(), Text2D(std::string tx), Text2D(std::string tx, const Vector2D & pos), Text2D(std::string tx, const Vector2D & pos, const Vector2D & dimensions)>(),
 
 		sol::base_classes, sol::bases<Compatible2D>(),
+		sol::meta_function::type, [](const Text2D&) { return "Text2D"; },
 
-		"wrap", sol::property(&Text2D::getWrap, &Text2D::setWrap),
+		"text", sol::property(&Text2D::getText, &Text2D::setText),
+		"opacity", sol::property(&Text2D::getOpacity, &Text2D::setOpacity),
+		"shadow", sol::property(&Text2D::getShadows, &Text2D::setShadows)
+
+		/*"wrap", sol::property(&Text2D::getWrap, &Text2D::setWrap),
 
 		"backgroundColor", sol::property(
 			[](Text2D& c) { return Vector4D{ [&] { return c.getBackgroundColor(); }, [&](auto v) { c.setBackgroundColor(v); } }; },
@@ -137,12 +151,10 @@ void bindText2D() {
 			[](Text2D& c) { return Vector4D{ [&] { return c.getTextColor(); }, [&](auto v) { c.setTextColor(v); } }; },
 			[](Text2D& c, const Vector4D& v) { c.setTextColor(v); }
 		),
-
-		"text", sol::property(&Text2D::getText, &Text2D::setText),
-		"drawBorder", sol::property(&Text2D::getDrawBorder, &Text2D::setDrawBorder)
+		"drawBorder", sol::property(&Text2D::getDrawBorder, &Text2D::setDrawBorder)*/
 	);
 
 	bindType["setFont"] = &Text2D::setFont;
 	bindType["setBorderAlignment"] = &Text2D::setBorderAlignment;
-	bindType["setTextAlignment"] = &Text2D::setTextAlignment;
+	bindType["setAlignment"] = &Text2D::setTextAlignment; // Use GUI_ALIGNMENT
 }

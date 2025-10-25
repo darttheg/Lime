@@ -120,6 +120,7 @@ void bindTrail() {
 		sol::constructors<Trail()>(),
 
 		sol::base_classes, sol::bases<Compatible3D>(),
+		sol::meta_function::type, [](const Trail&) { return "Trail"; },
 
 		"debug", sol::property(&Trail::getDebug, &Trail::setDebug),
 		"height", sol::property(&Trail::getWidth, &Trail::setWidth),

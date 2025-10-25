@@ -36,9 +36,31 @@
 #include <sol/sol.hpp>
 #include <sstream>
 
+static std::string lua_typeof(sol::object o) {
+	sol::type t = o.get_type();
+	if (t != sol::type::userdata) {
+		return std::string(sol::type_name(o.lua_state(), t));
+	}
+
+	sol::userdata ud = o.as<sol::userdata>();
+
+	sol::optional<sol::table> mt = ud[sol::metatable_key];
+	if (mt && mt->valid()) {
+		if (auto f = mt->get<sol::optional<sol::function>>("__type"); f) {
+			sol::protected_function_result r = (*f)(o);
+			if (r.valid()) return r.get<std::string>();
+		}
+		if (auto n = mt->get<sol::optional<std::string>>("__name"); n) return *n;
+	}
+
+	return "userdata";
+}
+
 int LuaLime::initLua(irr::scene::ISceneManager* smgr, irr::video::IVideoDriver* driver) {
 	lua = new sol::state(); // maybe change heap alloc
 	lua->open_libraries(sol::lib::base, sol::lib::string, sol::lib::os, sol::lib::coroutine, sol::lib::jit, sol::lib::utf8, sol::lib::io, sol::lib::math, sol::lib::table, sol::lib::package, sol::lib::debug);
+
+	lua->set_function("type", &lua_typeof);
 
 	// warden
 	bindWarden();

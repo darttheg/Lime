@@ -211,7 +211,8 @@ void Texture::destroy() {
 
 void bindTexture() {
 	sol::usertype<Texture> bindType = lua->new_usertype<Texture>("Texture",
-		sol::constructors<Texture(), Texture(const Vector2D& size), Texture(std::string imgpath)/*, Texture(std::string imgpath, sol::table options)*/>()
+		sol::constructors<Texture(), Texture(const Vector2D& size), Texture(std::string imgpath)/*, Texture(std::string imgpath, sol::table options)*/>(),
+		sol::meta_function::type, [](const Texture&) { return "Texture"; }
 	);
 
 	bindType["crop"] = &Texture::crop;

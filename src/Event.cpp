@@ -56,7 +56,8 @@ void Event::run() {
 
 void bindEvent() {
 	sol::usertype<Event> bindType = lua->new_usertype<Event>("Event",
-		sol::no_constructor
+		sol::no_constructor,
+		sol::meta_function::type, [](const Event&) { return "Event"; }
 	);
 
 	bindType["hook"] = &Event::hook;
@@ -91,7 +92,8 @@ void Hook::unhook() {
 
 void bindHook() {
 	sol::usertype<Hook> bindType = lua->new_usertype<Hook>("Hook",
-		sol::constructors<Hook()>()
+		sol::constructors<Hook()>(),
+		sol::meta_function::type, [](const Hook&) { return "Hook"; }
 	);
 	// Only receive this object when hooking to an Event so no constructors
 

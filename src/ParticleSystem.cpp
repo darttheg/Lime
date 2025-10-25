@@ -275,6 +275,7 @@ void bindParticleSystem() {
 		sol::constructors <ParticleSystem()>(),
 
 		sol::base_classes, sol::bases<Compatible3D>(),
+		sol::meta_function::type, [](const ParticleSystem&) { return "ParticleSystem"; },
 
 		"debug", sol::property(&ParticleSystem::getDebug, &ParticleSystem::setDebug),
 		"active", sol::property(&ParticleSystem::getActive, &ParticleSystem::setActive)

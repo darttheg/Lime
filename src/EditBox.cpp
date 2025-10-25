@@ -182,6 +182,7 @@ void bindEditBox() {
         EditBox(std::string),
         EditBox(std::string, const Vector2D&),
         EditBox(std::string, const Vector2D&, const Vector2D&)>(),
+        sol::meta_function::type, [](const EditBox&) { return "Editbox"; },
 
         "position", sol::property(&EditBox::getPosition, &EditBox::setPosition),
         "visible", sol::property(&EditBox::getVisible, &EditBox::setVisible),

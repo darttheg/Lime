@@ -277,6 +277,7 @@ void bindHitbox() {
 		sol::constructors<Hitbox(), Hitbox(float radius, float height)>(),
 
 		sol::base_classes, sol::bases<Compatible3D>(),
+		sol::meta_function::type, [](const Hitbox&) { return "Hitbox"; },
 
 		"active", sol::property(&Hitbox::getActive, &Hitbox::setActive),
 		"debug", sol::property(&Hitbox::getVisible, &Hitbox::setVisible),

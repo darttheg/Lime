@@ -91,7 +91,10 @@
   <ItemGroup>
     <ClInclude Include="include\Billboard.h" />
     <ClInclude Include="include\Camera3D.h" />
+    <ClInclude Include="include\CColoredText3DSceneNode.h" />
+    <ClInclude Include="include\CGUIColoredText.h" />
     <ClInclude Include="include\CGUIFont.h" />
+    <ClInclude Include="include\ColoredTextCodes.h" />
     <ClInclude Include="include\Compatible2D.h" />
     <ClInclude Include="include\Compatible3D.h" />
     <ClInclude Include="include\DebugConsole.h" />

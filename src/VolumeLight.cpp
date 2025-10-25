@@ -60,6 +60,7 @@ void bindVolumeLight() {
 		sol::constructors<VolumeLight(), VolumeLight(const Vector4D & footCol, const Vector4D & tailCol), VolumeLight(const Vector4D & footCol, const Vector4D & tailCol, int segmentU, int segmentV)>(),
 
 		sol::base_classes, sol::bases<Compatible3D>(),
+		sol::meta_function::type, [](const VolumeLight&) { return "VolumeLight"; },
 
 		"headColor", sol::property(
 			[](VolumeLight& c) { return Vector4D{ [&] { return c.getFootColor(); }, [&](auto v) { c.setFootColor(v); } }; },

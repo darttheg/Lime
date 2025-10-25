@@ -213,7 +213,8 @@ bool Packet::writeToFile(int bytePos, std::string path) {
 void bindPacket() {
     sol::usertype<Packet> bindType = lua->new_usertype<Packet>("Packet",
         sol::constructors<Packet()>(),
-        
+        sol::meta_function::type, [](const Packet&) { return "Packet"; },
+
         "ID", &Packet::originalID,
         "position", sol::property(&Packet::getPosition, &Packet::setPosition));
 

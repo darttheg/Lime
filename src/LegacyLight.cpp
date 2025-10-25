@@ -146,6 +146,7 @@ void bindLegacyLight() {
 		sol::constructors<LegacyLight(), LegacyLight(int type), LegacyLight(const Vector3D& pos), LegacyLight(const Vector3D & pos, const Vector3D & rot, int type, const Vector4D & color)>(),
 
 		sol::base_classes, sol::bases<Compatible3D>(),
+		sol::meta_function::type, [](const LegacyLight&) { return "Light"; },
 
 		"type", sol::property(&LegacyLight::getType, &LegacyLight::setType),
 

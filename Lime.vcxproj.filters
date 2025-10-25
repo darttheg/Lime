@@ -560,5 +560,14 @@
     <ClInclude Include="include\VolumeLight.h">
       <Filter>Header Files\Compatible3D</Filter>
     </ClInclude>
+    <ClInclude Include="include\CGUIColoredText.h">
+      <Filter>Header Files\Graphics\Text</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CColoredText3DSceneNode.h">
+      <Filter>Header Files\Graphics\Text</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ColoredTextCodes.h">
+      <Filter>Header Files\Graphics\Text</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

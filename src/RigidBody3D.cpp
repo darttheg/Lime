@@ -306,6 +306,7 @@ void bindRigidBody3D() {
         sol::constructors<RigidBody3D(const StaticMesh& m, float mass), RigidBody3D(const StaticMesh& m), RigidBody3D(const StaticMesh& m, const StaticMesh& colliderMesh)>(),
 
         sol::base_classes, sol::bases<Compatible3D>(),
+        sol::meta_function::type, [](const RigidBody3D&) { return "RigidBody3D"; },
 
         "position", sol::property(
             [](RigidBody3D& c) { return Vector3D{ [&] { return c.getPosition(); }, [&](auto v) { c.setPosition(v); } }; },

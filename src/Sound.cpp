@@ -213,6 +213,7 @@ void bindSound() {
         "playbackSpeed", sol::property(&Sound::getPitch, &Sound::setPitch),
         "pan", sol::property(&Sound::getPan, &Sound::setPan),
         "paused", sol::property(&Sound::isPaused, &Sound::setPaused),
+        sol::meta_function::type, [](const Sound&) { return "Sound"; },
 
         "velocity", sol::property(
             [](Sound& c) { return Vector3D{ [&] { return c.getVelocity(); }, [&](auto v) { c.setVelocity(v); } }; },

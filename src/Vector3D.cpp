@@ -140,6 +140,7 @@ void bindVector3D() {
         sol::meta_function::multiplication, &Vector3D::operator*,
         sol::meta_function::division, &Vector3D::operator/,
         sol::meta_function::equal_to, &Vector3D::operator==,
+        sol::meta_function::type, [](const Vector3D&) { return "Vector3D"; },
 
         "x", sol::property(&Vector3D::getX, &Vector3D::setX),
         "y", sol::property(&Vector3D::getY, &Vector3D::setY),

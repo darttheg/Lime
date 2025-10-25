@@ -79,6 +79,7 @@ void bindImage2D() {
 		sol::constructors <Image2D(), Image2D(const Texture & tex), Image2D(const Texture & tex, const Vector2D & pos), Image2D(const Texture & tex, const Vector2D & pos), Image2D(const Image2D & other)>(),
 
 		sol::base_classes, sol::bases<Compatible2D>(),
+		sol::meta_function::type, [](const Image2D&) { return "Image2D"; },
 
 		"useAlpha", sol::property(&Image2D::getUseAlpha, &Image2D::setUseAlpha),
 		"scaleToFit", sol::property(&Image2D::scalesToFit, &Image2D::setScalesToFit),

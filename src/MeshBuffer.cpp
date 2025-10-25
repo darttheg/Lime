@@ -109,7 +109,8 @@ irr::scene::SMeshBuffer* MeshBuffer::getBuffer() const {
 
 void bindMeshBuffer() {
     sol::usertype<MeshBuffer> bindType = lua->new_usertype<MeshBuffer>("MeshBuffer",
-        sol::constructors<MeshBuffer()>()
+        sol::constructors<MeshBuffer()>(),
+        sol::meta_function::type, [](const MeshBuffer&) { return "MeshBuffer"; }
     );
 
     bindType["pushFace"] = &MeshBuffer::pushFace;

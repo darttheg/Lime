@@ -110,6 +110,7 @@ void bindVector2D() {
         sol::meta_function::multiplication, &Vector2D::operator*,
         sol::meta_function::division, &Vector2D::operator/,
         sol::meta_function::equal_to, &Vector2D::operator==,
+        sol::meta_function::type, [](const Vector2D&) { return "Vector2D"; },
 
         "x", sol::property(&Vector2D::getX, &Vector2D::setX),
         "y", sol::property(&Vector2D::getY, &Vector2D::setY),

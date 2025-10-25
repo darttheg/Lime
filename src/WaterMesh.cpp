@@ -128,6 +128,7 @@ void bindWater() {
         Water(const Vector2D & ts, const Vector2D & tc, const Vector2D & tr),
         Water(const Material & m),
         Water(sol::table tbl)>(),
+        sol::meta_function::type, [](const Water&) { return "Water"; },
 
         sol::base_classes, sol::bases<Compatible3D>(),
 

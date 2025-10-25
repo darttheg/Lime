@@ -339,7 +339,8 @@ void bindMaterial() {
         "textureWrap", sol::property(&Material::getWrapUV, &Material::setWrapUV),
         "textureWrapU", sol::property(&Material::getWrapU, &Material::setWrapU),
         "textureWrapV", sol::property(&Material::getWrapV, &Material::setWrapV),
-        "ID", sol::property(&Material::getID, &Material::setID)
+        "ID", sol::property(&Material::getID, &Material::setID),
+        sol::meta_function::type, [](const Material&) { return "Material"; }
     );
 
     bindType["getTextureTranslation"] = &Material::getPan;

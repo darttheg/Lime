@@ -56,6 +56,7 @@ void bindEmpty() {
 		sol::constructors<Empty(), Empty(const Vector3D & pos), Empty(const Vector3D & pos, const Vector3D & rot), Empty(const Vector3D & pos, const Vector3D & rot, const Vector3D & scale)>(),
 
 		sol::base_classes, sol::bases<Compatible3D>(),
+		sol::meta_function::type, [](const Empty&) { return "Empty"; },
 
 		"debug", sol::property(&Empty::getDebug, &Empty::setDebug)
 	);
