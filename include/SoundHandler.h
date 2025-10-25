@@ -41,6 +41,8 @@ public:
 	int getMainVolume();
 	void setMainVolume(int f);
 
+	void clean();
+
 	void setListenerVelocity(const Vector3D& vel);
 	void setManualListener(const Vector3D& pos, const Vector3D& forward, const Vector3D& velocity, const Vector3D& up);
 
