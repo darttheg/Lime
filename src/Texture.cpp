@@ -205,8 +205,9 @@ irr::video::IImage* Texture::texToImg(irr::video::ITexture* tex) {
 	return image;
 }
 
-void Texture::destroy() {
+sol::object Texture::destroy() {
 	if (texture) driver->removeTexture(texture);
+	return sol::make_object((*lua), sol::nil);
 }
 
 void bindTexture() {
