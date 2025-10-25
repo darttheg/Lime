@@ -266,16 +266,15 @@ bool StaticMesh::loadMeshViaBuffer(const MeshBuffer& b) {
 
 void StaticMesh::setAutomaticCulling(bool enable) {
     if (!meshNode) return;
-
     meshNode->setAutomaticCulling(enable ? EAC_BOX : EAC_OFF);
 }
-
 
 void bindStaticMesh() {
     sol::usertype<StaticMesh> bindType = lua->new_usertype<StaticMesh>("Mesh",
         sol::constructors<StaticMesh(), StaticMesh(const std::string & filePath), StaticMesh(const MeshBuffer& m)>(),
 
         sol::base_classes, sol::bases<Compatible3D>(),
+        sol::meta_function::type, [](const StaticMesh&) { return "Mesh"; },
 
         "collision", sol::property(&StaticMesh::getCollision, &StaticMesh::setCollision),
         "frame", sol::property(&StaticMesh::getFrame, &StaticMesh::setFrame),
