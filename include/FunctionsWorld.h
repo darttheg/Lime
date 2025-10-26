@@ -16,7 +16,7 @@ namespace Bind {
 			irrHandler->skydome->remove();
 		}
 
-		irrHandler->skydome = smgr->addSkyDomeSceneNode(sky.texture, 16, 8, 0.9, 2.0, 100.0);
+		irrHandler->skydome = smgr->addSkyDomeSceneNode(sky.texture, 16, 8, 1.0, 2.0, 100.0);
 	}
 
 	void clearSkydome() {
