@@ -21,6 +21,7 @@ namespace Bind {
 
 	void clearSkydome() {
 		if (irrHandler && irrHandler->skydome) {
+			irrHandler->skydome->getMaterial(0).setTexture(0, nullptr);
 			smgr->addToDeletionQueue(irrHandler->skydome);
 		}
 	}
