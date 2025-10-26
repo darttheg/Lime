@@ -337,24 +337,91 @@ namespace Bind {
 		return (driver) ? driver->getTextureCount() : 0;
 	}
 
-	void unloadMesh(std::string path) {
+	static ITexture* getCheckerError() {
+		ITexture* checker = driver->getTexture("limeError");
+		if (!checker) {
+			const SColor L(255, 153, 229, 80), W(255, 255, 255, 255);
+			IImage* img = driver->createImage(ECF_A8R8G8B8, dimension2du(2, 2));
+			img->setPixel(0, 0, L); img->setPixel(1, 0, W);
+			img->setPixel(0, 1, W); img->setPixel(1, 1, L);
+			checker = driver->addTexture("limeError", img);
+			img->drop();
+		}
+		return checker;
+	}
+
+	void unloadMesh(std::string path, bool safe = false) {
 		if (!driver || !smgr) return;
 
 		IMesh* m = smgr->getMesh(path.c_str());
-		if (m) {
-			smgr->getMeshCache()->removeMesh(m);
-			m->drop();
+		if (!m) return;
+
+		if (safe) {
+			IMesh* cube = nullptr;
+			if (auto* gc = smgr->getGeometryCreator())
+				cube = gc->createCubeMesh(irr::core::vector3df(10.f, 10.f, 10.f));
+			if (!cube) return;
+
+			irr::core::array<irr::scene::ISceneNode*> stack;
+			if (ISceneNode* root = smgr->getRootSceneNode()) stack.push_back(root);
+
+			while (!stack.empty()) {
+				auto* node = stack.getLast();
+				stack.erase(stack.size() - 1);
+				for (auto* c : node->getChildren()) stack.push_back(c);
+
+				if (node->getType() != irr::scene::ESNT_MESH) continue;
+
+				IMeshSceneNode* meshNode = static_cast<irr::scene::IMeshSceneNode*>(node);
+				if (meshNode->getMesh() == m)
+					meshNode->setMesh(cube);
+
+				SMaterial& mat = meshNode->getMaterial(0);
+				mat.setTexture(0, getCheckerError());
+				mat.setFlag(E_MATERIAL_FLAG::EMF_BILINEAR_FILTER, false);
+				mat.setFlag(E_MATERIAL_FLAG::EMF_LIGHTING, false);
+				mat.setFlag(E_MATERIAL_FLAG::EMF_FOG_ENABLE, false);
+			}
+
+			cube->drop();
 		}
+
+		smgr->getMeshCache()->removeMesh(m);
 	}
 
-	void unloadTexture(std::string path) {
+	void unloadTexture(std::string path, bool safe = false) {
 		if (!driver || !smgr) return;
 
 		ITexture* t = driver->getTexture(path.c_str());
-		if (t) {
-			driver->removeTexture(t);
-			t->drop();
+		if (!t) return;
+
+		if (safe) {
+			ITexture* checker = getCheckerError();
+
+			core::array<ISceneNode*> stack;
+			if (ISceneNode* root = smgr->getRootSceneNode()) stack.push_back(root);
+
+			while (!stack.empty()) {
+				ISceneNode* node = stack.getLast();
+				stack.erase(stack.size() - 1);
+				for (auto* c : node->getChildren()) stack.push_back(c);
+
+				if (!(node->getType() == ESNT_MESH || node->getType() == ESNT_SKY_DOME)) continue;
+
+				for (u32 i = 0; i < node->getMaterialCount(); ++i) {
+					SMaterial& mat = node->getMaterial(i);
+					for (u32 l = 0; l < MATERIAL_MAX_TEXTURES; ++l) {
+						if (mat.getTexture(l) == t)
+							mat.setTexture(l, checker);
+					}
+					mat.setFlag(E_MATERIAL_FLAG::EMF_BILINEAR_FILTER, false);
+					mat.setFlag(E_MATERIAL_FLAG::EMF_LIGHTING, false);
+					mat.setFlag(E_MATERIAL_FLAG::EMF_FOG_ENABLE, false);
+				}
+			}
 		}
+
+		driver->removeTexture(t);
 	}
 
 	bool getAreTexturesPreloading() {
