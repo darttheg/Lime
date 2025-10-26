@@ -20,7 +20,9 @@ namespace Bind {
 	}
 
 	void clearSkydome() {
-		if (irrHandler && irrHandler->skydome) irrHandler->skydome->remove();
+		if (irrHandler && irrHandler->skydome) {
+			smgr->addToDeletionQueue(irrHandler->skydome);
+		}
 	}
 
 	void setSkydomeParams(u32 resX, u32 resY, float texPercent, float spherePercent, float radius) {
