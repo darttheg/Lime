@@ -29,20 +29,6 @@ void Empty::setDebug(bool visible) {
 	}
 }
 
-sol::table Empty::getBoundingBox() {
-	sol::table result = lua->create_table();
-	result["min"] = Vector3D();
-	result["max"] = Vector3D();
-
-	if (emp) {
-		core::aabbox3d<f32> bb = emp->getTransformedBoundingBox();
-		result["min"] = Vector3D(bb.MinEdge.X, bb.MinEdge.Y, bb.MinEdge.Z);
-		result["max"] = Vector3D(bb.MaxEdge.X, bb.MaxEdge.Y, bb.MaxEdge.Z);
-	}
-
-	return result;
-}
-
 void Empty::destroy() {
 	if (d) d->remove();
 	if (emp) {
@@ -60,6 +46,4 @@ void bindEmpty() {
 
 		"debug", sol::property(&Empty::getDebug, &Empty::setDebug)
 	);
-
-	bindType["getBoundingBox"] = &Empty::getBoundingBox;
 }

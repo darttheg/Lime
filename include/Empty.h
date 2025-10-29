@@ -28,8 +28,6 @@ public:
     bool getDebug();
     void setDebug(bool visible);
 
-    sol::table getBoundingBox();
-
     void destroy() override;
 
     irr::scene::ISceneNode* getNode() const override { return emp; }

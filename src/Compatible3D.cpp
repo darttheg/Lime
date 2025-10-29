@@ -3,6 +3,7 @@
 void Compatible3D::setParent(sol::optional<Compatible3D*> parent) {
     irr::scene::ISceneNode* node = getNode();
     if (!node) return;
+    if (*parent && !(*parent)->getNode()) return;
 
     node->setParent(*parent ? (*parent)->getNode() : nullptr);
 }
@@ -127,6 +128,20 @@ sol::object Compatible3D::boundDestroy() {
     return sol::make_object((*lua), sol::nil);
 }
 
+sol::table Compatible3D::getBoundingBox() {
+    sol::table result = lua->create_table();
+    result["min"] = Vector3D();
+    result["max"] = Vector3D();
+
+    if (getNode()) {
+        core::aabbox3d<f32> bb = getNode()->getTransformedBoundingBox();
+        result["min"] = Vector3D(bb.MinEdge.X, bb.MinEdge.Y, bb.MinEdge.Z);
+        result["max"] = Vector3D(bb.MaxEdge.X, bb.MaxEdge.Y, bb.MaxEdge.Z);
+    }
+
+    return result;
+}
+
 void bindCompatible3D() {
     sol::usertype<Compatible3D> bindType = lua->new_usertype<Compatible3D>("Compatible3D",
         "attributes", sol::property(&Compatible3D::getEntry, &Compatible3D::setEntry),
@@ -155,4 +170,5 @@ void bindCompatible3D() {
     bindType["getAbsoluteRotation"] = &Compatible3D::getAbsRot;
     bindType["getAbsoluteScale"] = &Compatible3D::getAbsScale;
     bindType["updateAbsolutePosition"] = &Compatible3D::updateAbsPos;
+    bindType["getBoundingBox"] = &Compatible3D::getBoundingBox;
 }

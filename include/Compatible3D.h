@@ -37,6 +37,7 @@ public:
     void setID(int i);
 
     sol::object boundDestroy();
+    sol::table getBoundingBox();
 };
 
 void bindCompatible3D();
