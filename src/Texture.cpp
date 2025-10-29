@@ -80,6 +80,11 @@ Texture::Texture(const std::string imgpath, sol::table options) : path(imgpath) 
 	}
 }
 
+Texture::Texture(ITexture* tex) {
+	path = tex->getName().getPath().c_str();
+	texture = tex;
+}
+
 bool Texture::load(const std::string& imgpath) {
 	if (!driver) {
 		// For Lime.SetWindowIcon

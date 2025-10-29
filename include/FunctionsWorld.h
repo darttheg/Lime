@@ -353,6 +353,26 @@ namespace Bind {
 		return checker;
 	}
 
+	static ITexture* getBlankTexture() {
+		ITexture* checker = driver->getTexture("limeBlank");
+		if (!checker) {
+			const SColor L(0, 0, 0, 0);
+			IImage* img = driver->createImage(ECF_A8R8G8B8, dimension2du(1, 1));
+			img->setPixel(0, 0, L);
+			checker = driver->addTexture("limeBlank", img);
+			img->drop();
+		}
+		return checker;
+	}
+
+	Texture getChecker() {
+		return Texture(getCheckerError());
+	}
+
+	Texture getBlank() {
+		return Texture(getBlankTexture());
+	}
+
 	void unloadMesh(std::string path, bool safe = false) {
 		if (!driver || !smgr) return;
 
@@ -518,7 +538,7 @@ namespace Bind {
 		*/
 	}
 
-	void drawRectangle3D(const Vector3D& minEdge, const Vector3D& maxEdge, const Vector4D& color) {
+	void drawRectangle3D(const Vector3D& minEdge, const Vector3D& maxEdge, const Vector4D& color = Vector4D(255,255,255,255)) {
 		if (!driver) return;
 		aabbox3df box = aabbox3df(vector3df(minEdge.getX(), minEdge.getY(), minEdge.getZ()), vector3df(maxEdge.getX(), maxEdge.getY(), maxEdge.getZ()));
 		driver->draw3DBox(box, SColor(color.getW(), color.getX(), color.getY(), color.getZ()));
@@ -590,13 +610,17 @@ void bindWorld() {
 	world["SetShadowOpacity"] = &Bind::setShadowOpacity;
 	world["SetLightManagementMode"] = &Bind::setLightManagementMode;
 	world["SetTextureCreationFlag"] = &Bind::setTextureCreationFlag;
+	/* These do not work as they are called prior to rendering. Queue them?
 	world["DrawLine2D"] = &Bind::drawLine2D;
 	world["DrawLine3D"] = &Bind::drawLine3D;
 	world["DrawPixel"] = &Bind::drawPixel;
 	world["DrawBox2D"] = &Bind::drawRectangle2D;
 	world["DrawBox3D"] = &Bind::drawRectangle3D;
 	world["DrawPolygon2D"] = &Bind::drawPolygon2D;
+	*/
 	world["SetUseHighLevelShaders"] = &Bind::setUseHighLevelShaders;
 	world["SetUseCGShaders"] = &Bind::setUseCGShaders;
 	world["GetFeatureSupported"] = &Bind::queryFeature;
+	world["GetErrorTexture"] = &Bind::getChecker;
+	world["GetBlankTexture"] = &Bind::getBlank;
 }
