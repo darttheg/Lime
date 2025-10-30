@@ -240,6 +240,10 @@ namespace Bind {
 	float getNoiseValue(uint32_t dimension, float x, float y, float z) {
 		return p.getValueAt(dimension, x, y, z);
 	}
+
+	bool isWindowCreated() {
+		return device;
+	}
 }
 
 void bindApplication() {
@@ -280,4 +284,5 @@ void bindApplication() {
 	application["SetWindowIcon"] = &Bind::setWindowIcon;
 	application["SetEndOnError"] = &Bind::setEndOnError;
 	application["ExecuteCommand"] = &Bind::executeCommandLine;
+	application["IsWindowCreated"] = &Bind::isWindowCreated;
 }
