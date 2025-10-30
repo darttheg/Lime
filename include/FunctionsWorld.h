@@ -248,7 +248,7 @@ namespace Bind {
 			cur = mainCamera;
 
 		if (device && cur && driver->queryFeature(video::EVDF_RENDER_TO_TARGET)) {
-			tx = driver->addRenderTargetTexture(core::dimension2d<u32>(size.getX(), size.getY()), "RTT1");
+			tx = driver->addRenderTargetTexture(core::dimension2d<u32>(size.getX(), size.getY()), "renderTexture");
 
 			smgr->setActiveCamera(cur);
 			c.camera->updateAbsolutePosition();
