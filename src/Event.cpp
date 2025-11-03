@@ -79,15 +79,17 @@ void bindEvent() {
 Hook::Hook() {
 }
 
-void Hook::unhook() {
+sol::object Hook::unhook() {
 	if (!hooked)
-		return;
+		return sol::nil;
 
 	if (auto e = myEvent.lock())
 		e->removeRef(ref);
 
 	ref = LUA_NOREF;
 	hooked = false;
+
+	return sol::nil;
 }
 
 void bindHook() {

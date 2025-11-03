@@ -43,7 +43,7 @@ public:
 	Hook();
 	Hook(std::shared_ptr<Event> e, int r) : myEvent(e), ref(r), hooked(true) {}
 
-	void unhook();
+	sol::object unhook();
 	bool isHooked() const { return hooked; }
 };
 
