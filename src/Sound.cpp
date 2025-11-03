@@ -8,6 +8,8 @@ Sound::Sound(std::string path) : Sound(path, 0, false) {}
 Sound::Sound(std::string path, int playbackType) : Sound(path, playbackType, false) {}
 
 Sound::Sound(std::string nPath, int playbackType, bool doLoop) {
+    if (!soundManager) return;
+
     load(nPath, playbackType);
     loops = doLoop;
 }
