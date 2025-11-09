@@ -14,6 +14,7 @@ public:
         setTabStop(false);
         setSubElement(true);
         Font = nullptr;
+        Shadow = false;
         setText(L"");
     }
 
