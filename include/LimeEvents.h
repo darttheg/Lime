@@ -31,6 +31,9 @@ namespace Events {
 		inline std::shared_ptr<Event> ConConnect = std::make_shared<Event>();
 		inline std::shared_ptr<Event> ConDisconnect = std::make_shared<Event>();
 		inline std::shared_ptr<Event> ConPacketReceived = std::make_shared<Event>();
+
+		inline std::shared_ptr<Event> OnHTTPGet = std::make_shared<Event>();
+		inline std::shared_ptr<Event> OnHTTPDownloadComplete = std::make_shared<Event>();
 	}
 }
 
@@ -58,4 +61,7 @@ inline void initEvents() {
 	(*lua)["Network"]["Client"]["OnConnect"] = Events::Networking::ConConnect;
 	(*lua)["Network"]["Client"]["OnDisconnect"] = Events::Networking::ConDisconnect;
 	(*lua)["Network"]["Client"]["OnPacketReceived"] = Events::Networking::ConPacketReceived;
+
+	(*lua)["Network"]["OnGetComplete"] = Events::Networking::OnHTTPGet;
+	(*lua)["Network"]["OnDownloadComplete"] = Events::Networking::OnHTTPDownloadComplete;
 }

@@ -25,6 +25,8 @@
 #include "FrameLimiter.h"
 #include "Preloader.h"
 
+#include "DownloadGet.h"
+
 struct PacketToSend {
 public:
 	PacketToSend(ENetPacket* pack, int chID, int pID, bool t) : p(pack), channel(chID), peerID(pID), tcp(t) {}
@@ -147,4 +149,8 @@ public:
 
 	// Preloader
 	Preloader preload;
+
+	// HTTP
+	DownloadGet httpGetDownload;
+	void drainHTTPEvents();
 };

@@ -1,5 +1,4 @@
 #include "FunctionsImports.h"
-#include "HTTPGet.h"
 
 namespace Bind {
 	void setVerbose(bool v) {
@@ -91,15 +90,39 @@ namespace Bind {
 		return networkHandler ? networkHandler->getPeerIP(peerID) : "";
 	}
 
-	std::string getFromURL(std::string url) { // Make this threaded later
-		auto [code, text] = TinyHTTP::get(url);
-		if (code == 200) return text;
-		else {
-			std::string out;
-			out += "Error ";
-			out += std::to_string(code);
-			return out;
-		}
+	// HTTP
+	
+	void HTTPGet(std::string url) {
+		if (!irrHandler) return;
+		irrHandler->httpGetDownload.get(url);
+	}
+
+	void HTTPDownload(std::string url, std::string outPath) {
+		if (!irrHandler) return;
+		irrHandler->httpGetDownload.downloadFile(url, outPath);
+	}
+
+	float HTTPDownloadGetProgress() {
+		if (!irrHandler) return 0.0f;
+		return irrHandler->httpGetDownload.downloading ? irrHandler->httpGetDownload.getProgress() : 0.0f;
+	}
+
+	float HTTPDownloadGetSpeed() {
+		if (!irrHandler) return 0.0f;
+		return irrHandler->httpGetDownload.downloading ? irrHandler->httpGetDownload.getSpeed() : 0.0f;
+	}
+
+	bool HTTPDownloadIsActive() {
+		return irrHandler ? irrHandler->httpGetDownload.isDownloading() : false;
+	}
+
+	void HTTPSetTimeout(float f) {
+		irrHandler->httpGetDownload.setTimeout(f);
+	}
+
+	void HTTPStop() {
+		if (!irrHandler) return;
+		irrHandler->httpGetDownload.stop();
 	}
 }
 
@@ -114,7 +137,13 @@ void bindNetworking() {
 	// General
 	network["Initialize"] = &Bind::initializeNetworking;
 	network["SetVerbose"] = &Bind::setVerbose;
-	network["Get"] = &Bind::getFromURL;
+	network["Get"] = &Bind::HTTPGet;
+	network["Download"] = &Bind::HTTPDownload;
+	network["IsDownloading"] = &Bind::HTTPDownloadIsActive;
+	network["GetDownloadProgress"] = &Bind::HTTPDownloadGetProgress;
+	network["GetDownloadSpeed"] = &Bind::HTTPDownloadGetSpeed;
+	network["SetTimeout"] = &Bind::HTTPSetTimeout;
+	network["StopDownloadGet"] = &Bind::HTTPStop;
 
 	// Client
 	networkClient["Create"] = &Bind::createClient;

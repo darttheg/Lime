@@ -267,6 +267,7 @@ void IrrHandling::appLoop() {
 
 		try {
 			Events::Lime::OnUpdate.get()->engineRun(dt * 60.0);
+			drainHTTPEvents();
 		}
 		catch (const sol::error& e) {
 			dConsole.postError(e.what());
@@ -274,7 +275,6 @@ void IrrHandling::appLoop() {
 
 		// Update lastMouse
 		receiver->updateLastMouse();
-		receiver->skipDeltaOnResize = false;
 
 		if (mainCamera) {
 			mainCamera->updateAbsolutePosition();
@@ -334,6 +334,8 @@ void IrrHandling::appLoop() {
 		networkHandler->shutdown();
 
 	Events::Lime::OnEnd.get()->engineRun();
+
+	httpGetDownload.stop();
 
 	if (!didEnd)
 		end();
@@ -761,5 +763,17 @@ void IrrHandling::setTitleBarIcon(std::string path) {
 	if (images[0].pixels) {
 		glfwSetWindowIcon(irrHandler->glfwWindow, 1, images);
 		stbi_image_free(images[0].pixels);
+	}
+}
+
+void IrrHandling::drainHTTPEvents() {
+	std::vector<DownloadGet::Item> evs;
+	httpGetDownload.drain(evs);
+
+	for (auto& e : evs) {
+		if (e.isDownload)
+			Events::Networking::OnHTTPDownloadComplete.get()->engineRun(e.code, e.str);
+		else
+			Events::Networking::OnHTTPGet.get()->engineRun(e.code, e.str);
 	}
 }
