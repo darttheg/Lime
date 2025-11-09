@@ -26,6 +26,17 @@ namespace Bind {
 		}
 	}
 
+	Vector3D getSkydomeRotation() {
+		if (!irrHandler || !irrHandler->skydome) return Vector3D();
+		vector3df r = irrHandler->skydome->getRotation();
+		return Vector3D(r.X, r.Y, r.Z);
+	}
+
+	void setSkydomeRotation(const Vector3D& rot) {
+		if (!irrHandler || !irrHandler->skydome) return;
+		irrHandler->skydome->setRotation(vector3df(rot.getX(), rot.getY(), rot.getZ()));
+	}
+
 	void setSkydomeParams(u32 resX, u32 resY, float texPercent, float spherePercent, float radius) {
 		irr::video::ITexture* cur = nullptr;
 		if (!irrHandler || !device)
@@ -578,6 +589,8 @@ void bindWorld() {
 	sol::table world = lua->create_named_table("World");
 
 	world["SetSkydome"] = &Bind::setSkydome;
+	world["GetSkydomeRotation"] = &Bind::getSkydomeRotation;
+	world["SetSkydomeRotation"] = &Bind::setSkydomeRotation;
 	world["SetSkydomeParameters"] = &Bind::setSkydomeParams;
 	world["ClearSkydome"] = &Bind::clearSkydome;
 	world["SetBackgroundColor"] = &Bind::setBackgroundColor;
