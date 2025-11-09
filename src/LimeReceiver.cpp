@@ -172,24 +172,33 @@ updateLastMouse
 
 // Called before Lua is run
 void LimeReceiver::updateDeltaMouse(GLFWwindow* win) {
-    if (skipDeltaOnResize)
-        return;
-
     glfwGetCursorPos(win, &mouseX, &mouseY);
 
-    if (firstMouse) {
-        lastMouseX = mouseX;
-        lastMouseY = mouseY;
-        firstMouse = false;
-    } else {
-        deltaX = std::round(mouseX - lastMouseX);
-        deltaY = std::round(mouseY - lastMouseY);
+    if (skipDeltaOnResize) {
+        skipDeltaOnResize = false;
+        syncMouse(win);
+        return;
     }
+
+    if (firstMouse) {
+        syncMouse(win);
+        return;
+    }
+
+    deltaX = mouseX - lastMouseX;
+    deltaY = mouseY - lastMouseY;
+}
+
+void LimeReceiver::syncMouse(GLFWwindow* win) {
+    glfwGetCursorPos(win, &mouseX, &mouseY);
+    lastMouseX = mouseX;
+    lastMouseY = mouseY;
+    deltaX = deltaY = 0;
+    firstMouse = false;
 }
 
 // Called after Lua is run
 void LimeReceiver::updateLastMouse() {
-    // set mouse x in warden
     lastMouseX = mouseX;
     lastMouseY = mouseY;
 }
