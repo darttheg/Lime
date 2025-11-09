@@ -12,6 +12,8 @@
 class Compatible2D {
 protected:
     vector2di posHold; // For when an object isn't fully created to store position yet.
+    bool showBorders = false;
+    irr::gui::IGUIStaticText* border = nullptr;
 public:
     virtual ~Compatible2D() = default;
 
@@ -30,6 +32,10 @@ public:
     Vector2D getSize();
     void setSize(const Vector2D& size);
     void setMinMaxDimensions(const Vector2D& dimMin, const Vector2D& dimMax);
+    void setShowBorders(bool v);
+    bool getShowBorders();
+    void setZOrder(int z);
+    int getZOrder();
 
     std::string getToolTip();
     void setToolTip(std::string tip);

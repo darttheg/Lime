@@ -130,6 +130,9 @@ void Compatible2D::setSize(const Vector2D& size) {
 
 		if (button)
 			button->setRelativePosition(r);
+
+		if (border)
+			border->setRelativePosition(r);
 	}
 }
 
@@ -138,6 +141,36 @@ void Compatible2D::setMinMaxDimensions(const Vector2D& dimMin, const Vector2D& d
 		getNode()->setMinSize(irr::core::dimension2du(dimMin.getX(), dimMin.getY()));
 		getNode()->setMaxSize(irr::core::dimension2du(dimMax.getX(), dimMax.getY()));
 	}
+}
+
+void Compatible2D::setShowBorders(bool v) {
+	if (v != showBorders) {
+		if (v) {
+			border = guienv->addStaticText(L"", irr::core::recti(0,0,getSize().getX(),getSize().getY()), true, false, getNode());
+			border->bringToFront(border);
+			border->setOverrideColor(SColor(255, 255, 0, 0));
+			border->enableOverrideColor(true);
+			border->setBackgroundColor(SColor(0, 0, 0, 0));
+		}
+		else {
+			border->remove();
+		}
+	}
+
+	showBorders = v;
+}
+
+bool Compatible2D::getShowBorders() {
+	return showBorders;
+}
+
+void Compatible2D::setZOrder(int z) {
+	if (!getNode()) return;
+	getNode()->setZOrder(z);
+}
+
+int Compatible2D::getZOrder() {
+	return getNode() ? getNode()->getZOrder() : -1;
 }
 
 bool Compatible2D::getHovered() {
@@ -173,6 +206,7 @@ void Compatible2D::setToolTip(std::string tip) {
 }
 
 sol::object Compatible2D::boundDestroy() {
+	if (border) border->remove();
 	destroy();
 	return sol::make_object((*lua), sol::nil);
 }
@@ -196,6 +230,8 @@ void bindCompatible2D() {
 
 		"visible", sol::property(&Compatible2D::getVisible, &Compatible2D::setVisible),
 		"toolTip", sol::property(&Compatible2D::getToolTip, &Compatible2D::setToolTip),
+		"border", sol::property(&Compatible2D::getShowBorders, &Compatible2D::setShowBorders),
+		"z", sol::property(&Compatible2D::getZOrder, &Compatible2D::setZOrder),
 
 		"hovered", &Compatible2D::hovered,
 		"pressed", &Compatible2D::pressed
