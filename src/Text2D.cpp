@@ -2,6 +2,10 @@
 
 Text2D::Text2D() : Text2D("Text", Vector2D(0, 0), Vector2D(256, 16)) {}
 
+Text2D::Text2D(std::string tx, std::string fontName) : Text2D(tx, Vector2D(0, 0), Vector2D(256, 16)) {
+	setFont(fontName);
+}
+
 Text2D::Text2D(std::string tx) : Text2D(tx, Vector2D(0, 0), Vector2D(256, 16)) {}
 
 Text2D::Text2D(std::string tx, const Vector2D& pos) : Text2D(tx, pos, Vector2D(256, 16)) {}
@@ -132,7 +136,7 @@ void Text2D::setDrawBorder(bool enable) {
 
 void bindText2D() {
 	sol::usertype<Text2D> bindType = lua->new_usertype<Text2D>("Text2D",
-		sol::constructors <Text2D(), Text2D(std::string tx), Text2D(std::string tx, const Vector2D & pos), Text2D(std::string tx, const Vector2D & pos, const Vector2D & dimensions)>(),
+		sol::constructors <Text2D(), Text2D(std::string tx), Text2D(std::string tx, std::string fontName), Text2D(std::string tx, const Vector2D & pos), Text2D(std::string tx, const Vector2D & pos, const Vector2D & dimensions)>(),
 
 		sol::base_classes, sol::bases<Compatible2D>(),
 		sol::meta_function::type, [](const Text2D&) { return "Text2D"; },

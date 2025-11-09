@@ -17,6 +17,7 @@ private:
     CGUIColoredText* text;
 public:
     Text2D();
+    Text2D(std::string tx, std::string fontName);
     Text2D(std::string tx);
     Text2D(std::string tx, const Vector2D& pos);
     Text2D(std::string tx, const Vector2D& pos, const Vector2D& dimensions);
