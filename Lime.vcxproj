@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="include\miniz.c" />
     <ClCompile Include="src\Billboard.cpp" />
     <ClCompile Include="src\Camera3D.cpp" />
     <ClCompile Include="src\CGUIFont.cpp" />
@@ -26,6 +27,7 @@
     <ClCompile Include="src\Compatible3D.cpp" />
     <ClCompile Include="src\CShaderPre.cpp" />
     <ClCompile Include="src\DebugConsole.cpp" />
+    <ClCompile Include="src\DownloadGet.cpp" />
     <ClCompile Include="src\EditBox.cpp" />
     <ClCompile Include="src\Empty.cpp" />
     <ClCompile Include="src\Event.cpp" />
@@ -99,6 +101,7 @@
     <ClInclude Include="include\Compatible3D.h" />
     <ClInclude Include="include\DebugConsole.h" />
     <ClInclude Include="include\DebugVisual.h" />
+    <ClInclude Include="include\DownloadGet.h" />
     <ClInclude Include="include\DrawGeometry.h" />
     <ClInclude Include="include\EditBox.h" />
     <ClInclude Include="include\Empty.h" />
@@ -114,7 +117,7 @@
     <ClInclude Include="include\FunctionsWorld.h" />
     <ClInclude Include="include\GhostTrailSceneNode.h" />
     <ClInclude Include="include\Hitbox.h" />
-    <ClInclude Include="include\HTTPGet.h" />
+    <ClInclude Include="include\httplib.h" />
     <ClInclude Include="include\Image2D.h" />
     <ClInclude Include="include\irrBullet.h" />
     <ClInclude Include="include\irrBulletBoxShape.h" />
@@ -153,6 +156,7 @@
     <ClInclude Include="include\LuaLime.h" />
     <ClInclude Include="include\Material.h" />
     <ClInclude Include="include\MeshBuffer.h" />
+    <ClInclude Include="include\miniz.h" />
     <ClInclude Include="include\NetworkHandler.h" />
     <ClInclude Include="include\os.h" />
     <ClInclude Include="include\Packet.h" />

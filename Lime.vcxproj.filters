@@ -284,6 +284,12 @@
     <ClCompile Include="src\VolumeLight.cpp">
       <Filter>Source Files\Compatible3D</Filter>
     </ClCompile>
+    <ClCompile Include="src\DownloadGet.cpp">
+      <Filter>Source Files\Core\Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="include\miniz.c">
+      <Filter>Header Files\Core\Other</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Billboard.h">
@@ -553,9 +559,6 @@
     <ClInclude Include="include\Preloader.h">
       <Filter>Header Files\Core\Other</Filter>
     </ClInclude>
-    <ClInclude Include="include\HTTPGet.h">
-      <Filter>Header Files\Core\Other</Filter>
-    </ClInclude>
     <ClInclude Include="include\PhysicsConstraint.h" />
     <ClInclude Include="include\VolumeLight.h">
       <Filter>Header Files\Compatible3D</Filter>
@@ -568,6 +571,15 @@
     </ClInclude>
     <ClInclude Include="include\ColoredTextCodes.h">
       <Filter>Header Files\Graphics\Text</Filter>
+    </ClInclude>
+    <ClInclude Include="include\httplib.h">
+      <Filter>Header Files\Core\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="include\DownloadGet.h">
+      <Filter>Header Files\Core\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="include\miniz.h">
+      <Filter>Header Files\Core\Other</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
