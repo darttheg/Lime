@@ -1,24 +1,24 @@
 #include "FunctionsImports.h"
 
 namespace Bind {
-	bool embedFont(const std::string& fontPath) {
-		if (!device) return false;
+	std::string embedFont(const std::string& fontPath) {
+		if (!device) return "";
 
 		std::filesystem::path p(fontPath);
 		if (p.extension() != ".xml")
-			return false;
+			return "";
 
 		std::string fontName = p.stem().string();
 
 		if (fontCache.find(fontName) != fontCache.end())
-			return true;
+			return fontName;
 
 		gui::IGUIFont* font = guienv->getFont(fontPath.c_str());
 		if (!font)
-			return false;
+			return "";
 
 		fontCache[fontName] = font;
-		return true;
+		return fontName;
 	}
 
 	bool setDefaultFont(const std::string& fontName) {
