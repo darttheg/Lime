@@ -37,6 +37,7 @@ public:
     // Check if a key is currently pressed
     bool isKeyPressed(irr::EKEY_CODE keyCode) const;
     void updateDeltaMouse(GLFWwindow* win);
+    void syncMouse(GLFWwindow* win);
     void updateLastMouse();
 
     double mouseX, mouseY;

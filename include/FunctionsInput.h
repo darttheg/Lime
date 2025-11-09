@@ -70,6 +70,7 @@ namespace Bind {
 			device->getCursorControl()->setPosition(irr::core::vector2di(pos.getX(), pos.getY()));
 			receiver->mouseX = pos.getX() - 1;
 			receiver->mouseY = pos.getY() - 1;
+			receiver->syncMouse(irrHandler->glfwWindow);
 		}
 	}
 
