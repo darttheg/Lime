@@ -83,7 +83,7 @@ bool DownloadGet::extract(const std::string& zipPath, const std::string& outDir)
     std::filesystem::create_directories(outDir, ec);
 
     int extracted = 0;
-
+    extracting.store(true);
     for (int i = 0; i < fileCount; ++i) {
         mz_zip_archive_file_stat st{};
         if (!mz_zip_reader_file_stat(&zip, i, &st))
@@ -126,6 +126,7 @@ bool DownloadGet::extract(const std::string& zipPath, const std::string& outDir)
 
     mz_zip_reader_end(&zip);
     progress = 100.0f;
+    extracting.store(false);
     return extracted > 0;
 }
 
@@ -204,7 +205,40 @@ void DownloadGet::downloadFile(const std::string& url, const std::string& outPat
             return true;
             };
 
-        auto res = cli.Get(path.c_str(), headers, write);
+        size_t totalBytes = 0;
+
+        auto res = cli.Get(
+            path.c_str(),
+            headers,
+            [&](const httplib::Response& response) {
+                auto lenHeader = response.get_header_value("Content-Length");
+                if (!lenHeader.empty())
+                    totalBytes = std::stoull(lenHeader);
+                return true;
+            },
+            [&](const char* data, size_t len) {
+                if (cancelled) return false;
+
+                file.write(data, len);
+                bytesWritten += (unsigned int)len;
+
+                float elapsed = std::chrono::duration<float>(
+                    std::chrono::steady_clock::now() - start
+                ).count();
+
+                if (elapsed > 0.25f)
+                    speed = bytesWritten / elapsed;
+
+                size_t sizeHint = totalSize > 0 ? totalSize.load() : totalBytes;
+                if (sizeHint > 0)
+                    progress = std::min((bytesWritten / (float)sizeHint) * 100.0f, 99.9f);
+                else if (bytesWritten > 0)
+                    progress = std::min((float)progress + 0.5f, 95.0f);
+
+                return true;
+            }
+        );
+
         file.close();
 
         float stallTimeout = 3.0f;

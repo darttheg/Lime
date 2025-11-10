@@ -19,9 +19,11 @@ struct DownloadGet {
 
     std::atomic<bool> downloading{ false };
     std::atomic<bool> cancelled{ false };
+    std::atomic<bool> extracting{ false };
     std::atomic<double> progress{ 0.0 };
     std::atomic<double> speed{ 0.0 };
     std::atomic<int> timeoutMs{ 10000 };
+    std::atomic<int> totalSize{ 0 };
 
     std::mutex mu;
     std::vector<Item> queue;
@@ -38,5 +40,7 @@ struct DownloadGet {
     bool isDownloading() { return downloading.load(); }
     float getProgress() { return std::floor((float)progress * 1000.0) / 1000.0; }
     float getSpeed() { return (float)speed.load(); }
+    bool isExtracting() { return extracting.load(); }
     float setTimeout(float t) { timeoutMs.store((int)t); return t; }
+    int setDownloadSize(int t) { totalSize.store(t); return t; }
 };
