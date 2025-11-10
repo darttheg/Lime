@@ -23,6 +23,9 @@ public:
     Vector4D getColor();
     void setColor(const Vector4D& color);
 
+    int getOpacity();
+    void setOpacity(int o);
+
     bool getVisible();
     void setVisible(bool vis);
 

@@ -26,6 +26,18 @@ void Image2D::setColor(const Vector4D& color) {
 		img->setColor(irr::video::SColor(color.getW(), color.getX(), color.getY(), color.getZ()));
 }
 
+int Image2D::getOpacity() {
+	return img ? img->getColor().getAlpha() : 0;
+}
+
+void Image2D::setOpacity(int o) {
+	if (!img) return;
+	SColor c = img->getColor();
+	c.setAlpha(o);
+
+	img->setColor(c);
+}
+
 void Image2D::setImage(const Texture& tex) {
 	if (!img)
 		img = guienv->addImage(tex.texture, irr::core::vector2di(0,0));
@@ -83,6 +95,7 @@ void bindImage2D() {
 
 		"useAlpha", sol::property(&Image2D::getUseAlpha, &Image2D::setUseAlpha),
 		"scaleToFit", sol::property(&Image2D::scalesToFit, &Image2D::setScalesToFit),
+		"opacity", sol::property(&Image2D::getOpacity, &Image2D::setOpacity),
 		"color", sol::property(
 			[](Image2D& c) { return Vector4D{ [&] { return c.getColor(); }, [&](auto v) { c.setColor(v); } }; },
 			[](Image2D& c, const Vector4D& v) { c.setColor(v); }

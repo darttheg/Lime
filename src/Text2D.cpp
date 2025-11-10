@@ -57,12 +57,12 @@ void Text2D::setTextAlignment(int h, int v) {
 		text->setTextAlignment((irr::gui::EGUI_ALIGNMENT)h, (irr::gui::EGUI_ALIGNMENT)v);
 }
 
-float Text2D::getOpacity() {
-	return text ? text->getOpacity() : 0.0f;
+int Text2D::getOpacity() {
+	return text ? text->getOpacity() * 255 : 0.0f;
 }
 
-void Text2D::setOpacity(float f) {
-	if (text) text->setOpacity(f);
+void Text2D::setOpacity(int i) {
+	if (text) text->setOpacity((float)i/255.0);
 }
 
 /*bool Text2D::getWrap() {

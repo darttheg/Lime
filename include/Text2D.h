@@ -28,8 +28,8 @@ public:
     std::string getText();
     void setText(std::string tx);
 
-    float getOpacity();
-    void setOpacity(float f);
+    int getOpacity();
+    void setOpacity(int f);
 
     bool getShadows() { return text ? text->getShadow() : false; }
     void setShadows(bool v) {
