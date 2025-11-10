@@ -3,6 +3,7 @@
 #include <irrlicht.h>
 #include <sol/sol.hpp>
 #include <stb_image.h>
+#include <irrKlang.h>
 
 #include <thread>
 #include <mutex>
@@ -26,12 +27,28 @@ struct Preloader {
         std::vector<unsigned char> fileBytes;
     };
 
+    struct SoundJob {
+        std::string name;
+    };
+
     mutable std::mutex texMutex;
     mutable std::mutex meshMutex;
+    mutable std::mutex sndMutex;
     std::queue<TextureJob> texQ;
     std::queue<MeshJob> meshQ;
+    std::queue<SoundJob> sndQ;
     std::atomic<int> texInFlight{ 0 };
     std::atomic<int> meshInFlight{ 0 };
+    std::atomic<int> sndInFlight{ 0 };
+
+    std::thread soundThread;
+    std::mutex preloadMutex;
+    std::condition_variable preloadCv;
+    std::queue<std::string> preloadQueue;
+    std::atomic<bool> running{ false };
+    std::mutex soundEngineMutex;
+
+    irrklang::ISoundEngine* soundEngine = nullptr;
 
     bool enqueueTextures(sol::variadic_args va) {
         bool ok = true;
@@ -92,6 +109,65 @@ struct Preloader {
         return ok;
     }
 
+    bool enqueueSounds(sol::variadic_args va) {
+        if (!soundEngine) return false;
+        bool ok = true;
+
+        {
+            std::scoped_lock lk(preloadMutex);
+            for (sol::stack_object v : va) {
+                auto s = v.as<sol::optional<std::string_view>>();
+                if (!s) return false;
+                std::string path(s->data(), s->size());
+                preloadQueue.push(std::move(path));
+            }
+        }
+        preloadCv.notify_one();
+        return ok;
+    }
+
+    void openSoundPreloading() {
+        if (running) return;
+        running = true;
+        soundThread = std::thread([this]() {
+            while (running) {
+                std::unique_lock lk(preloadMutex);
+                preloadCv.wait(lk, [this] { return !preloadQueue.empty() || !running; });
+                if (!running) break;
+
+                std::string path = std::move(preloadQueue.front());
+                preloadQueue.pop();
+                lk.unlock();
+
+                sndInFlight.fetch_add(1, std::memory_order_relaxed);
+
+                irrklang::ISoundSource* src = nullptr;
+                {
+                    std::scoped_lock se(soundEngineMutex);
+                    src = soundEngine->addSoundSourceFromFile(path.c_str(), irrklang::ESM_NO_STREAMING, true);
+                }
+
+                if (src) {
+                    std::scoped_lock ql(sndMutex);
+                    sndQ.push({ path });
+                }
+
+                sndInFlight.fetch_sub(1, std::memory_order_relaxed);
+            }
+            });
+    }
+
+    void endSoundPreloading() {
+        if (!running) return;
+        {
+            std::scoped_lock lk(preloadMutex);
+            running = false;
+        }
+        preloadCv.notify_all();
+        if (soundThread.joinable())
+            soundThread.join();
+    }
+
     void pump(irr::video::IVideoDriver* driver, irr::scene::ISceneManager* smgr, irr::io::IFileSystem* fs) {
         // Texture loading
         {
@@ -108,7 +184,7 @@ struct Preloader {
                 }
             }
         }
-        
+
         // Mesh loading
         {
             std::scoped_lock lk(meshMutex);
@@ -128,6 +204,12 @@ struct Preloader {
                 }
             }
         }
+
+        // Sound loading cleanup
+        {
+            std::scoped_lock lk(sndMutex);
+            while (!sndQ.empty()) sndQ.pop();
+        }
     }
 
     bool texturesActive() const {
@@ -138,5 +220,10 @@ struct Preloader {
     bool meshesActive() const {
         std::scoped_lock lk(meshMutex);
         return meshInFlight.load(std::memory_order_relaxed) > 0 || !meshQ.empty();
+    }
+
+    bool soundsActive() const {
+        std::scoped_lock lk(sndMutex);
+        return sndInFlight.load(std::memory_order_relaxed) > 0 || !sndQ.empty();
     }
 };

@@ -86,6 +86,7 @@ void IrrHandling::initScene()
 
 	receiver = new LimeReceiver();
 	soundManager = new SoundManager();
+	preload.soundEngine = soundManager->getEngine();
 
 	///////////////////////
 	// Create NEW device //
@@ -254,6 +255,8 @@ void IrrHandling::appLoop() {
 
 	bool ranHandlers = false;
 
+	preload.openSoundPreloading();
+
 	while (device->run()) {
 		dt = limiter.beginFrame();
 
@@ -336,6 +339,8 @@ void IrrHandling::appLoop() {
 	Events::Lime::OnEnd.get()->engineRun();
 
 	httpGetDownload.stop();
+
+	preload.endSoundPreloading();
 
 	if (!didEnd)
 		end();

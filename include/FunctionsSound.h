@@ -48,11 +48,23 @@ namespace Bind {
 	void clean() {
 		soundManager->clean();
 	}
+
+	bool preloadSound(sol::variadic_args va) {
+		if (!driver || !smgr) return false;
+		return irrHandler->preload.enqueueSounds(va);
+	}
+
+	bool getIsPreloadingSound() {
+		if (!driver) return false;
+		return irrHandler->preload.soundsActive();
+	}
 }
 
 void bindAudio() {
 	sol::table audio = lua->create_named_table("Audio");
 
+	audio["PreloadSound"] = Bind::preloadSound;
+	audio["IsPreloading"] = Bind::getIsPreloadingSound;
 	audio["GetVolume"] = Bind::getVolume;
 	audio["SetVolume"] = Bind::setVolume;
 	audio["clean"] = Bind::clean;
