@@ -124,6 +124,15 @@ namespace Bind {
 		if (!irrHandler) return;
 		irrHandler->httpGetDownload.stop();
 	}
+
+	void HTTPSetDownloadSize(int bytes) {
+		if (!irrHandler) return;
+		irrHandler->httpGetDownload.setDownloadSize(bytes);
+	}
+
+	bool HTTPIsExtracting() {
+		return irrHandler ? irrHandler->httpGetDownload.isExtracting() : false;
+	}
 }
 
 void bindNetworking() {
@@ -140,10 +149,12 @@ void bindNetworking() {
 	network["Get"] = &Bind::HTTPGet;
 	network["Download"] = &Bind::HTTPDownload;
 	network["IsDownloading"] = &Bind::HTTPDownloadIsActive;
+	network["IsExtractingDownload"] = &Bind::HTTPIsExtracting;
 	network["GetDownloadProgress"] = &Bind::HTTPDownloadGetProgress;
 	network["GetDownloadSpeed"] = &Bind::HTTPDownloadGetSpeed;
 	network["SetTimeout"] = &Bind::HTTPSetTimeout;
 	network["StopDownloadGet"] = &Bind::HTTPStop;
+	network["SetExpectedDownloadSize"] = &Bind::HTTPSetDownloadSize;
 
 	// Client
 	networkClient["Create"] = &Bind::createClient;
