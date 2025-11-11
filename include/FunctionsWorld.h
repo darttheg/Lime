@@ -251,37 +251,51 @@ namespace Bind {
 		return Vector2D(screen.X, screen.Y);
 	}
 
-	Texture renderCameraOutput(const Camera3D& c, const Vector2D& size, bool renderGUI) {
-		irr::video::ITexture* tx = 0;
+	Texture renderCameraOutput(const Camera3D& c, std::string name, const Vector2D& size, bool renderGUI) {
+		irr::video::ITexture* rtt = nullptr;
+		irr::video::ITexture* finalTex = nullptr;
 
-		irr::scene::ICameraSceneNode* cur = c.camera;
-		if (!cur)
-			cur = mainCamera;
+		irr::scene::ICameraSceneNode* cur = c.camera ? c.camera : mainCamera;
+		if (!device || !cur || !driver->queryFeature(video::EVDF_RENDER_TO_TARGET))
+			return {};
 
-		if (device && cur && driver->queryFeature(video::EVDF_RENDER_TO_TARGET)) {
-			tx = driver->addRenderTargetTexture(core::dimension2d<u32>(size.getX(), size.getY()), "renderTexture");
+		bool mipmaps = driver->getTextureCreationFlag(video::ETCF_CREATE_MIP_MAPS);
+		bool spd = driver->getTextureCreationFlag(video::ETCF_OPTIMIZED_FOR_SPEED);
+		driver->setTextureCreationFlag(video::ETCF_CREATE_MIP_MAPS, false);
+		driver->setTextureCreationFlag(video::ETCF_OPTIMIZED_FOR_SPEED, true);
 
-			smgr->setActiveCamera(cur);
-			c.camera->updateAbsolutePosition();
-			c.forwardChild->updateAbsolutePosition();
-			c.camera->setTarget(c.forwardChild->getAbsolutePosition());
-			irrHandler->setCameraMatrix(cur);
+		const core::dimension2du dim(size.getX(), size.getY());
+		rtt = driver->addRenderTargetTexture(dim, "RTT", video::ECF_A8R8G8B8);
 
-			driver->setRenderTarget(tx, true, true, irrHandler->backgroundColor);
-			smgr->drawAll();
+		smgr->setActiveCamera(cur);
+		c.camera->updateAbsolutePosition();
+		c.forwardChild->updateAbsolutePosition();
+		c.camera->setTarget(c.forwardChild->getAbsolutePosition());
+		irrHandler->setCameraMatrix(cur);
 
-			if (renderGUI)
-				guienv->drawAll();
+		driver->setRenderTarget(rtt, true, true, irrHandler->backgroundColor);
+		smgr->drawAll();
+		if (renderGUI)
+			guienv->drawAll();
+
+		driver->setRenderTarget(nullptr);
+		smgr->setActiveCamera(mainCamera);
+
+		video::IImage* img = driver->createImage(rtt, core::position2di(0, 0), dim);
+		if (img) {
+			finalTex = driver->addTexture(name.c_str(), img);
+			img->drop();
 		}
 
-		// Draw scene again, but does not account for queued cameras
-		smgr->setActiveCamera(mainCamera);
-		driver->setRenderTarget(0, true, true, irrHandler->backgroundColor);
+		if (rtt)
+			driver->removeTexture(rtt);
 
-		Texture tex = Texture();
-		tex.texture = tx;
-		tex.path = "Render Target Texture";
+		driver->setTextureCreationFlag(video::ETCF_CREATE_MIP_MAPS, mipmaps);
+		driver->setTextureCreationFlag(video::ETCF_OPTIMIZED_FOR_SPEED, spd);
 
+		Texture tex;
+		tex.texture = finalTex;
+		tex.path = name;
 		return tex;
 	}
 
