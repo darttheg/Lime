@@ -293,8 +293,6 @@ void IrrHandling::appLoop() {
 		if (physicsHandler)
 			physicsHandler->update();
 
-		//HandleTransformQueue();
-
 		HandleCameraQueue();
 
 		if (!renderedGUI)
@@ -401,7 +399,8 @@ void IrrHandling::setCameraMatrix(irr::scene::ICameraSceneNode* c) {
 	}
 	else {
 		irr::core::matrix4 perspectiveMat;
-		float aspectRatio = (float)device->getVideoDriver()->getScreenSize().Width / (float)device->getVideoDriver()->getScreenSize().Height;
+		// float aspectRatio = (float)device->getVideoDriver()->getScreenSize().Width / (float)device->getVideoDriver()->getScreenSize().Height;
+		float aspectRatio = c->getAspectRatio();
 		perspectiveMat.buildProjectionMatrixPerspectiveFovLH(c->getFOV(), aspectRatio, c->getNearValue(), c->getFarValue());
 
 		c->setProjectionMatrix(perspectiveMat, false);
