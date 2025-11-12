@@ -63,7 +63,7 @@ private:
 	int frameCount = 0;
 public:
 	// Version
-	std::string version = "1.0.0-beta.2";
+	std::string version = "1.0.0-beta.3";
 	//
 
 	FrameLimiter limiter = FrameLimiter();
