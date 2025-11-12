@@ -12,12 +12,13 @@ public:
     std::string path;
 
     Texture();
-    Texture(const Vector2D& size);
+    Texture(std::string name, const Vector2D& size);
     Texture(const std::string imgpath);
     Texture(const std::string imgpath, sol::table options);
     Texture(ITexture* tex);
 
     bool load(const std::string& imgpath);
+    Vector2D getSize();
     std::string getPath() const;
     void keyColor(const Vector2D& pos);
     void saveTexture(std::string path);

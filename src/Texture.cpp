@@ -4,8 +4,8 @@ Texture::Texture() : path("") {
 	texture = driver->addTexture(irr::core::dimension2du(16, 16), "");
 }
 
-Texture::Texture(const Vector2D& size) : path("") {
-	texture = driver->addTexture(irr::core::dimension2du(size.getX(), size.getY()), "");
+Texture::Texture(std::string name, const Vector2D& size) : path(name) {
+	texture = driver->addTexture(irr::core::dimension2du(size.getX(), size.getY()), name.c_str());
 }
 
 Texture::Texture(const std::string imgpath) : path(imgpath) {
@@ -182,18 +182,19 @@ Texture Texture::crop(const Vector2D& topL, const Vector2D& bottomR) {
 
 bool Texture::doAppend(irr::video::IImage* img, vector2di pos) {
 	if (!texture || !img) return false;
+	irr::video::IImage* base = texToImg(texture);
+	if (!base) return false;
 
-	IImage* base = texToImg(texture);
 	img->copyTo(base, pos);
-
-	img->drop();
+	irr::io::path path = texture->getName();
 	texture->drop();
-	texture = driver->addTexture("", base);
+	texture = driver->addTexture(path.c_str(), base);
+
 	base->drop();
+	img->drop();
 
 	return texture != nullptr;
 }
-
 irr::video::IImage* Texture::texToImg(irr::video::ITexture* tex) {
 	if (!tex) return nullptr;
 
@@ -210,6 +211,10 @@ irr::video::IImage* Texture::texToImg(irr::video::ITexture* tex) {
 	return image;
 }
 
+Vector2D Texture::getSize() {
+	return texture ? Vector2D(texture->getSize().Width, texture->getSize().Height) : Vector2D();
+}
+
 sol::object Texture::destroy() {
 	if (texture) driver->removeTexture(texture);
 	return sol::make_object((*lua), sol::nil);
@@ -217,10 +222,11 @@ sol::object Texture::destroy() {
 
 void bindTexture() {
 	sol::usertype<Texture> bindType = lua->new_usertype<Texture>("Texture",
-		sol::constructors<Texture(), Texture(const Vector2D& size), Texture(std::string imgpath)/*, Texture(std::string imgpath, sol::table options)*/>(),
+		sol::constructors<Texture(), Texture(std::string name, const Vector2D& size), Texture(std::string imgpath)/*, Texture(std::string imgpath, sol::table options)*/>(),
 		sol::meta_function::type, [](const Texture&) { return "Texture"; }
 	);
 
+	bindType["getSize"] = &Texture::getSize;
 	bindType["crop"] = &Texture::crop;
 	bindType["load"] = &Texture::load;
 	bindType["toStr"] = &Texture::getPath;
