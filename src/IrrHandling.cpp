@@ -222,7 +222,9 @@ int IrrHandling::getMemUsed() {
 	PROCESS_MEMORY_COUNTERS_EX pmc;
 	GetProcessMemoryInfo(GetCurrentProcess(), (PROCESS_MEMORY_COUNTERS*)&pmc, sizeof(pmc));
 	SIZE_T physMemUsedByMe = pmc.WorkingSetSize;
-	int physMemUsedMB = physMemUsedByMe / (1024.0 * 1024.0);
+	int physMemUsedMB = physMemUsedByMe / (1024.0 * 1024.0) - 15;
+
+	if (physMemUsedMB < 0) physMemUsedMB = 0;
 	return physMemUsedMB;
 }
 
