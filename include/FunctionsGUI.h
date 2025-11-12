@@ -36,7 +36,12 @@ namespace Bind {
 
 	std::string getFontList() {
 		std::string result;
+		bool skip = true;
 		for (const auto& pair : fontCache) {
+			if (skip) {
+				skip = false;
+				continue;
+			}
 			result += pair.first + ", ";
 		}
 		if (!result.empty()) {
@@ -44,6 +49,12 @@ namespace Bind {
 			result.pop_back();
 		}
 		return result;
+	}
+
+	bool isFontImported(std::string fontName) {
+		if (!device) return false;
+		auto it = fontCache.find(fontName);
+		return it != fontCache.end() && it->second;
 	}
 
 	void clearGUI() {
@@ -83,8 +94,9 @@ void bindGUI() {
 	sol::table gui = lua->create_named_table("GUI");
 
 	gui["ImportFont"] = &Bind::embedFont;
+	gui["IsFontImported"] = &Bind::isFontImported;
 	gui["SetDefaultFont"] = &Bind::setDefaultFont;
-	gui["GetImportedFontsList"] = &Bind::getFontList;
+	gui["GetFontList"] = &Bind::getFontList;
 	gui["SetBilinearFiltering"] = &Bind::setBilinearFiltering;
 	gui["SetAnisotropicFiltering"] = &Bind::setAnisotropicFiltering;
 	gui["SetTrilinearFiltering"] = &Bind::setTrilinearFiltering;
