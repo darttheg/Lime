@@ -23,20 +23,10 @@ namespace Bind {
 			return true;
 		}
 		return false;
+	}
 
-		/*
-			if (device->isDriverSupported(type)) {
-				if (device) {
-					device->closeDevice();
-					device->drop();
-					device = nullptr;
-				}
-
-				device = irr::createDevice(type, irr::core::dimension2d<u32>(irrHandler->width, irrHandler->height), 16, false, irrHandler->stencil, irrHandler->vSync, receiver);
-			}
-
-			return device != nullptr;
-		*/
+	int getDriverTypeInt() {
+		return irrHandler->driverType;
 	}
 
 	void fullscreenWindow(bool var) {
@@ -244,10 +234,63 @@ namespace Bind {
 	bool isWindowCreated() {
 		return device;
 	}
+
+	bool folderExists(std::string folderPath) {
+		std::error_code ec;
+		return std::filesystem::exists(folderPath, ec) && std::filesystem::is_directory(folderPath, ec);
+	}
+
+	std::vector<std::string> getFilesInDir(std::string directoryPath, std::string extension = "") {
+		std::vector<std::string> files;
+		std::error_code ec;
+
+		if (!std::filesystem::exists(directoryPath, ec) || !std::filesystem::is_directory(directoryPath, ec))
+			return files;
+
+		for (const auto& entry : std::filesystem::directory_iterator(directoryPath, ec)) {
+			if (ec) break;
+			if (!entry.is_regular_file()) continue;
+
+			if (extension.empty() ||
+				entry.path().extension().string() == extension) {
+				files.push_back(entry.path().filename().string());
+			}
+		}
+
+		return files;
+	}
+
+	bool fileExists(std::string path) {
+		std::error_code ec;
+		return std::filesystem::exists(path, ec) && std::filesystem::is_regular_file(path, ec);
+	}
+
+	std::string readFile(std::string path) {
+		std::ifstream file(path, std::ios::in | std::ios::binary);
+		if (!file.is_open()) return "";
+
+		std::ostringstream ss;
+		ss << file.rdbuf();
+		return ss.str();
+	}
+
+
+	bool writeFile(std::string path, std::string data) {
+		std::ofstream file(path, std::ios::out | std::ios::binary);
+		if (!file.is_open()) return false;
+
+		file.write(data.c_str(), data.size());
+		return true;
+	}
+
+	std::string getFileExtension(std::string path) {
+		return std::filesystem::path(path).extension().string();
+	}
 }
 
 void bindApplication() {
 	sol::table application = lua->create_named_table("Lime");
+	sol::table fileOps = lua->create_named_table("File");
 
 	sol::table noise = lua->create_named_table("noise");
 	(*lua)["math"]["noise"] = noise;
@@ -257,6 +300,7 @@ void bindApplication() {
 	(*lua)["math"]["noise"]["get"] = &Bind::getNoiseValue;
 
 	application["SetDriverType"] = &Bind::setDriverType;
+	application["GetDriverType"] = &Bind::getDriverTypeInt;
 	application["SetFullscreen"] = &Bind::fullscreenWindow;
 	application["SetWindowTitle"] = &Bind::setTitle;
 	application["GetWindowTitle"] = &Bind::getTitle;
@@ -285,4 +329,12 @@ void bindApplication() {
 	application["SetEndOnError"] = &Bind::setEndOnError;
 	application["ExecuteCommand"] = &Bind::executeCommandLine;
 	application["IsWindowCreated"] = &Bind::isWindowCreated;
+
+	// File operations
+	fileOps["IsDirectory"] = &Bind::folderExists;
+	fileOps["GetFilesInDirectory"] = &Bind::getFilesInDir;
+	fileOps["IsFile"] = &Bind::fileExists;
+	fileOps["ReadFile"] = &Bind::readFile;
+	fileOps["WriteFile"] = &Bind::writeFile;
+	fileOps["GetFileExtension"] = &Bind::getFileExtension;
 }
