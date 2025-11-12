@@ -286,6 +286,17 @@ namespace Bind {
 	std::string getFileExtension(std::string path) {
 		return std::filesystem::path(path).extension().string();
 	}
+
+	std::string getFileName(std::string path) {
+		return std::filesystem::path(path).filename().string();
+	}
+
+	bool createDir(std::string path) {
+		std::error_code ec;
+		if (std::filesystem::exists(path, ec))
+			return std::filesystem::is_directory(path, ec);
+		return std::filesystem::create_directories(path, ec);
+	}
 }
 
 void bindApplication() {
@@ -337,4 +348,6 @@ void bindApplication() {
 	fileOps["ReadFile"] = &Bind::readFile;
 	fileOps["WriteFile"] = &Bind::writeFile;
 	fileOps["GetFileExtension"] = &Bind::getFileExtension;
+	fileOps["GetFileName"] = &Bind::getFileName;
+	fileOps["CreateDirectory"] = &Bind::createDir;
 }
