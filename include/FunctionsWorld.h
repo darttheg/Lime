@@ -57,11 +57,22 @@ namespace Bind {
 		}
 	}
 
+	int getNumChildren(irr::scene::ISceneNode* node) {
+		if (!node) return 0;
+		int total = 1;
+		for (auto* child : node->getChildren())
+			total += getNumChildren(child);
+		return total;
+	}
+
 	int getObjectCount() {
 		if (!irrHandler || !device)
 			return 0;
 
-		return smgr->getRootSceneNode()->getChildren().getSize();
+		auto* root = smgr->getRootSceneNode();
+		if (!root) return 0;
+
+		return getNumChildren(root) - 1;
 	}
 
 	sol::table fireRaypick(const Vector3D& start, const Vector3D& end, float debugLifetime) {
