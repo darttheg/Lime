@@ -108,6 +108,7 @@
     <ClInclude Include="include\Event.h" />
     <ClInclude Include="include\FrameLimiter.h" />
     <ClInclude Include="include\FunctionsApplication.h" />
+    <ClInclude Include="include\FunctionsExtras.h" />
     <ClInclude Include="include\FunctionsGUI.h" />
     <ClInclude Include="include\FunctionsImports.h" />
     <ClInclude Include="include\FunctionsInput.h" />
@@ -305,7 +306,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;LUAJIT_ENABLE_EXCEPTIONS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\irrlicht-1.8.5\include;..\sol2\include;..\irrKlang-1.6.0\include;..\enet-1.3.18\include;..\bullet3-2.83.7\src;..\glfw-3.4.bin.WIN64\include;$(ProjectDir)include;..\luajit\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\irrlicht-1.8.5\include;..\sol2\include;..\irrKlang-1.6.0\include;..\enet-1.3.18\include;..\bullet3-2.83.7\src;..\glfw-3.4.bin.WIN64\include;$(ProjectDir)include;..\luajit\src;..\SteamworksSDK\public</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -315,8 +316,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\irrlicht-1.8.5\lib\Win64-visualStudio;..\irrKlang-1.6.0\lib\Winx64-visualStudio;..\enet-1.3.18\build\Release;..\glfw-3.4.bin.WIN64\lib-vc2022;..\bullet3-2.83.7\build\lib\Release;..\luajit\src</AdditionalLibraryDirectories>
-      <AdditionalDependencies>$(CoreLibraryDependencies);winmm.lib;ws2_32.lib;enet.lib;glfw3.lib;BulletCollision.lib;BulletDynamics.lib;BulletSoftBody.lib;LinearMath.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\irrlicht-1.8.5\lib\Win64-visualStudio;..\irrKlang-1.6.0\lib\Winx64-visualStudio;..\enet-1.3.18\build\Release;..\glfw-3.4.bin.WIN64\lib-vc2022;..\bullet3-2.83.7\build\lib\Release;..\luajit\src;..\SteamworksSDK\redistributable_bin\win64</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(CoreLibraryDependencies);winmm.lib;ws2_32.lib;enet.lib;glfw3.lib;BulletCollision.lib;BulletDynamics.lib;BulletSoftBody.lib;LinearMath.lib;steam_api64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

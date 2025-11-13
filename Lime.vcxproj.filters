@@ -581,5 +581,8 @@
     <ClInclude Include="include\miniz.h">
       <Filter>Header Files\Core\Other</Filter>
     </ClInclude>
+    <ClInclude Include="include\FunctionsExtras.h">
+      <Filter>Header Files\Core\Static</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

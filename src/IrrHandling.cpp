@@ -147,9 +147,13 @@ void IrrHandling::initScene()
 	params.Stencilbuffer = stencil;
 	params.Vsync = vSync;
 	params.EventReceiver = receiver;
-	params.WindowId = hwnd;
+	//params.WindowId = hwnd;
 
 	device = createDeviceEx(params);
+	HWND hwndIrr = (HWND)device->getVideoDriver()->getExposedVideoData().D3D9.HWnd;
+	SetParent(hwndIrr, hwnd);
+	SetWindowLongPtr(hwndIrr, GWL_STYLE, WS_CHILD | WS_VISIBLE);
+	SetWindowPos(hwndIrr, 0, 0, 0, width, height, SWP_NOZORDER | SWP_FRAMECHANGED);
 
 	limiter.setVSync(vSync);
 
@@ -160,6 +164,9 @@ void IrrHandling::initScene()
 	smgr = device->getSceneManager();
 	guienv = device->getGUIEnvironment();
 	gpu = driver->getGPUProgrammingServices();
+
+	driver->beginScene(true, true, SColor(255, 0, 0, 0));
+	driver->endScene();
 
 	if (useCGShaders && !driver->queryFeature(video::EVDF_CG))
 		useCGShaders = false;
