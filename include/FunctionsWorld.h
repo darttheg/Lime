@@ -380,7 +380,7 @@ namespace Bind {
 		ITexture* checker = driver->getTexture("limeError");
 		if (!checker) {
 			const SColor L(255, 153, 229, 80), W(255, 255, 255, 255);
-			IImage* img = driver->createImage(ECF_A8R8G8B8, dimension2du(2, 2));
+			IImage* img = driver->createImage(ECF_R5G6B5, dimension2du(2, 2));
 			img->setPixel(0, 0, L); img->setPixel(1, 0, W);
 			img->setPixel(0, 1, W); img->setPixel(1, 1, L);
 			checker = driver->addTexture("limeError", img);
@@ -393,7 +393,7 @@ namespace Bind {
 		ITexture* checker = driver->getTexture("limeBlank");
 		if (!checker) {
 			const SColor L(0, 0, 0, 0);
-			IImage* img = driver->createImage(ECF_A8R8G8B8, dimension2du(1, 1));
+			IImage* img = driver->createImage(ECF_A1R5G5B5, dimension2du(1, 1));
 			img->setPixel(0, 0, L);
 			checker = driver->addTexture("limeBlank", img);
 			img->drop();
