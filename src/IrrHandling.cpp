@@ -151,9 +151,11 @@ void IrrHandling::initScene()
 
 	device = createDeviceEx(params);
 	HWND hwndIrr = (HWND)device->getVideoDriver()->getExposedVideoData().D3D9.HWnd;
+	ShowWindow(hwndIrr, SW_HIDE);
+
 	SetParent(hwndIrr, hwnd);
 	SetWindowLongPtr(hwndIrr, GWL_STYLE, WS_CHILD | WS_VISIBLE);
-	SetWindowPos(hwndIrr, 0, 0, 0, width, height, SWP_NOZORDER | SWP_FRAMECHANGED);
+	SetWindowPos(hwndIrr, 0, 0, 0, width, height, SWP_NOZORDER | SWP_FRAMECHANGED | SWP_SHOWWINDOW);
 
 	limiter.setVSync(vSync);
 
@@ -164,6 +166,21 @@ void IrrHandling::initScene()
 	smgr = device->getSceneManager();
 	guienv = device->getGUIEnvironment();
 	gpu = driver->getGPUProgrammingServices();
+
+	glfwSetWindowFocusCallback(glfwWindow, [](GLFWwindow* w, int focused) {
+		HWND hwndIrr = (HWND)driver->getExposedVideoData().D3D9.HWnd;
+
+		if (focused)
+		{
+			SendMessage(hwndIrr, WM_ACTIVATE, WA_ACTIVE, 0);
+			SendMessage(hwndIrr, WM_SETFOCUS, 0, 0);
+		}
+		else
+		{
+			SendMessage(hwndIrr, WM_ACTIVATE, WA_INACTIVE, 0);
+			SendMessage(hwndIrr, WM_KILLFOCUS, 0, 0);
+		}
+	});
 
 	driver->beginScene(true, true, SColor(255, 0, 0, 0));
 	driver->endScene();
