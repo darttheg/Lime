@@ -153,4 +153,7 @@ public:
 	// HTTP
 	DownloadGet httpGetDownload;
 	void drainHTTPEvents();
+
+	// API Registry
+	std::unordered_map<std::string, sol::table> apiRegistry;
 };
