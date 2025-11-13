@@ -297,6 +297,21 @@ namespace Bind {
 			return std::filesystem::is_directory(path, ec);
 		return std::filesystem::create_directories(path, ec);
 	}
+
+	void restartApp(std::string cmd = "") {
+		char path[MAX_PATH];
+		GetModuleFileNameA(NULL, path, MAX_PATH);
+		ShellExecuteA(NULL, "open", path, cmd.empty() ? NULL : cmd.c_str(), NULL, SW_SHOWNORMAL);
+		exit(0);
+	}
+
+	sol::object getAPI(std::string apiName) {
+		auto it = irrHandler->apiRegistry.find(apiName);
+		if (it != irrHandler->apiRegistry.end())
+			return it->second;
+		else
+			return sol::nil;
+	}
 }
 
 void bindApplication() {
@@ -310,6 +325,8 @@ void bindApplication() {
 	(*lua)["math"]["noise"]["setOctaves"] = &Bind::setNoiseOctaves;
 	(*lua)["math"]["noise"]["get"] = &Bind::getNoiseValue;
 
+	application["GetAPI"] = &Bind::getAPI;
+	application["Restart"] = &Bind::restartApp;
 	application["SetDriverType"] = &Bind::setDriverType;
 	application["GetDriverType"] = &Bind::getDriverTypeInt;
 	application["SetFullscreen"] = &Bind::fullscreenWindow;
