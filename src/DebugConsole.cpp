@@ -6,6 +6,13 @@ void DebugConsole::makeConsole() {
     AllocConsole();
     FILE* consoleOut;
     freopen_s(&consoleOut, "CONIN$", "r", stdin);
+
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    if (!out.empty() && hConsole != INVALID_HANDLE_VALUE) {
+        DWORD written;
+        HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+        WriteConsoleA(hConsole, out.c_str(), (DWORD)out.size(), &written, nullptr);
+    }
 }
 
 const char* DebugConsole::getTime() {
@@ -44,7 +51,7 @@ void DebugConsole::postError(std::string err) {
 void DebugConsole::abruptEnd() {
 }
 
-void DebugConsole::sendMsg(const char* msg, MESSAGE_TYPE m) {
+void DebugConsole::sendMsg(const char* msg, MESSAGE_TYPE m = MESSAGE_TYPE::NORMAL) {
     std::string time = getTime();
     std::string full = time + " " + msg;
 
