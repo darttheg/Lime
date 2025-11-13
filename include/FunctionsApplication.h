@@ -240,24 +240,24 @@ namespace Bind {
 		return std::filesystem::exists(folderPath, ec) && std::filesystem::is_directory(folderPath, ec);
 	}
 
-	std::vector<std::string> getFilesInDir(std::string directoryPath, std::string extension = "") {
-		std::vector<std::string> files;
+	sol::table getFilesInDir(std::string directoryPath, std::string extension = "") {
+		sol::table result = (*lua).create_table();
 		std::error_code ec;
 
 		if (!std::filesystem::exists(directoryPath, ec) || !std::filesystem::is_directory(directoryPath, ec))
-			return files;
+			return result;
 
+		int i = 1;
 		for (const auto& entry : std::filesystem::directory_iterator(directoryPath, ec)) {
 			if (ec) break;
 			if (!entry.is_regular_file()) continue;
 
-			if (extension.empty() ||
-				entry.path().extension().string() == extension) {
-				files.push_back(entry.path().filename().string());
+			if (extension.empty() || entry.path().extension().string() == extension) {
+				result[i++] = entry.path().filename().string();
 			}
 		}
 
-		return files;
+		return result;
 	}
 
 	bool fileExists(std::string path) {
