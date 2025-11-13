@@ -160,12 +160,18 @@ void IrrHandling::initScene()
 	limiter.setVSync(vSync);
 
 	setTitleBarIcon(irrHandler->imgIconPath); // Run in case title bar icon was changed before window creation
-	device->setWindowCaption(irr::core::stringw(irrHandler->windowTitle.c_str()).c_str());
+	glfwSetWindowTitle(glfwWindow, windowTitle.c_str());
 
 	driver = device->getVideoDriver();
 	smgr = device->getSceneManager();
 	guienv = device->getGUIEnvironment();
 	gpu = driver->getGPUProgrammingServices();
+
+	ShowWindow(hwnd, SW_RESTORE);
+	SetForegroundWindow(hwnd);
+	SetActiveWindow(hwnd);
+	SendMessage(hwndIrr, WM_ACTIVATE, WA_ACTIVE, 0);
+	SendMessage(hwndIrr, WM_SETFOCUS, 0, 0); // Focus window on init
 
 	glfwSetWindowFocusCallback(glfwWindow, [](GLFWwindow* w, int focused) {
 		HWND hwndIrr = (HWND)driver->getExposedVideoData().D3D9.HWnd;

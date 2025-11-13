@@ -35,8 +35,8 @@ namespace Bind {
 
 	void setTitle(const std::string& title) {
 		irrHandler->windowTitle = title;
-		if (device) {
-			device->setWindowCaption(irr::core::stringw(irrHandler->windowTitle.c_str()).c_str());
+		if (irrHandler->glfwWindow) {
+			glfwSetWindowTitle(irrHandler->glfwWindow, irrHandler->windowTitle.c_str());
 		}
 	}
 
