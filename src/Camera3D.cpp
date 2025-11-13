@@ -128,6 +128,8 @@ void Camera3D::setActive(bool v) {
     smgr->setActiveCamera(camera);
     mainCamera = camera;
     mainCameraForward = forwardChild;
+
+    smgr->getActiveCamera()->setAspectRatio((f32)irrHandler->width / (f32)irrHandler->height);
 }
 
 float Camera3D::getAspect() {
