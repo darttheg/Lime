@@ -222,7 +222,7 @@ int IrrHandling::getMemUsed() {
 	PROCESS_MEMORY_COUNTERS_EX pmc;
 	GetProcessMemoryInfo(GetCurrentProcess(), (PROCESS_MEMORY_COUNTERS*)&pmc, sizeof(pmc));
 	SIZE_T physMemUsedByMe = pmc.WorkingSetSize;
-	int physMemUsedMB = physMemUsedByMe / (1024.0 * 1024.0) - 15;
+	int physMemUsedMB = physMemUsedByMe / (1024.0 * 1024.0) - 10;
 
 	if (physMemUsedMB < 0) physMemUsedMB = 0;
 	return physMemUsedMB;
@@ -704,28 +704,26 @@ void IrrHandling::onMaximizeWindow() {
 	if (!hwnd) return;
 
 	LONG style = GetWindowLongPtr(hwnd, GWL_STYLE);
-	style &= ~(WS_CAPTION | WS_THICKFRAME | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_SYSMENU);
+	style &= ~(WS_CAPTION | WS_THICKFRAME);
 	SetWindowLongPtr(hwnd, GWL_STYLE, style);
 
 	LONG exStyle = GetWindowLongPtr(hwnd, GWL_EXSTYLE);
-	exStyle &= ~(WS_EX_APPWINDOW);
-	exStyle |= WS_EX_TOPMOST | WS_EX_TOOLWINDOW;
+	exStyle &= ~(WS_EX_TOPMOST | WS_EX_TOOLWINDOW);
 	SetWindowLongPtr(hwnd, GWL_EXSTYLE, exStyle);
 
 	HMONITOR hMonitor = MonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST);
 	MONITORINFO mi = { sizeof(mi) };
 	if (GetMonitorInfo(hMonitor, &mi)) {
-		int screenX = mi.rcMonitor.left;
-		int screenY = mi.rcMonitor.top;
-		int screenW = mi.rcMonitor.right - mi.rcMonitor.left;
-		int screenH = mi.rcMonitor.bottom - mi.rcMonitor.top;
+		int x = mi.rcMonitor.left;
+		int y = mi.rcMonitor.top;
+		int w = mi.rcMonitor.right - mi.rcMonitor.left;
+		int h = mi.rcMonitor.bottom - mi.rcMonitor.top;
 
-		SetWindowPos(hwnd, HWND_TOPMOST, screenX, screenY, screenW, screenH,
+		SetWindowPos(hwnd, nullptr, x, y, w, h,
 			SWP_FRAMECHANGED | SWP_SHOWWINDOW);
 
-		irrHandler->width = screenW;
-		irrHandler->height = screenH;
-
+		irrHandler->width = w;
+		irrHandler->height = h;
 		updateIrrRenderRes();
 	}
 }
@@ -754,6 +752,9 @@ void IrrHandling::updateIrrRenderRes() {
 		auto* root = guienv->getRootGUIElement();
 		root->setRelativePosition(core::rect<s32>(0, 0, (s32)irrHandler->width, (s32)irrHandler->height));
 	}
+
+	if (smgr->getActiveCamera())
+		smgr->getActiveCamera()->setAspectRatio((f32)irrHandler->width / (f32)irrHandler->height);
 
 	Events::Lime::OnResize.get()->engineRun();
 }
